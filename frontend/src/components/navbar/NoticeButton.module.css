@@ -23,3 +23,12 @@
 .navButton svg {
     height: 18px;
 }
+
+.link {
+    text-decoration: none;
+    color: inherit;
+
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+}

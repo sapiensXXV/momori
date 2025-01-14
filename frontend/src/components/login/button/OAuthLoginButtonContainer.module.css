@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+
+    row-gap: 8px;
+
+    background-color: #f6f6f6;
+    padding: 20px;
+    width: 260px;
+    height: 300px;
+
+    border-radius: 0 8px 8px 0;
+
+    /*화면을 덮기 위해서 사용. 나중에 모바일 용으로는 지워도 됨.*/
+    margin-left: -30px;
+    padding-left: 50px;
+    z-index: 999;
+}
+
+/*.title {*/
+/*    font-size: 32px;*/
+/*    font-family: Pretendard-ExtraBold;*/
+/*}*/

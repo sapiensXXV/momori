@@ -1,0 +1,19 @@
+.logo {
+    width: 36px;
+    height: 36px;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+
+    display: flex;
+    align-items: center;
+    column-gap: 6px;
+}
+
+.title {
+    font-family: Pretendard-ExtraBold;
+    font-size: 23.5px;
+}
+

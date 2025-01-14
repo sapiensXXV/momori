@@ -134,3 +134,15 @@ body {
   justify-content: center;
   margin: 0px;
 }
+
+.discord {
+  background-color: #7289DA;
+}
+
+.google {
+  background-color: white;
+}
+
+.kakao {
+  background-color: #FEE500;
+}

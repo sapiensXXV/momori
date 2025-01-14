@@ -1,0 +1,21 @@
+.button {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 8px;
+
+    cursor: pointer;
+}
+
+.button img {
+    width: 23px;
+}
+
+.button span {
+    color: #f6f6f6;
+    font-size: 15px;
+    font-family: Pretendard-Bold;
+}
