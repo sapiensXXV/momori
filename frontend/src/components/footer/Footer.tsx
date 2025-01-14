@@ -5,8 +5,7 @@ export default function Footer() {
     <>
       <main className={styles.main}>
         <hr className={styles.footerDivider}/>
-        <span>hello this is footer</span>
-
+        <span className={styles.description}>© poolygo.com</span>
       </main>
     </>
   )
