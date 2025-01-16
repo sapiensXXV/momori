@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: poolygo
+  profiles:
+    include: oauth
+
+url:
+  base:
+    prod: https://poolygo.com
+    dev: http://localhost:5173
+  path:
+    signup: /register
+    auth: /auth
