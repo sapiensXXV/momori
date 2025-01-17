@@ -2,7 +2,9 @@ spring:
   application:
     name: poolygo
   profiles:
-    include: oauth
+    include:
+      - oauth
+      - data
 
 url:
   base:

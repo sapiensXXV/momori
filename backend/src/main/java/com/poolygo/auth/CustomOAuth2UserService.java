@@ -48,10 +48,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private User getUser(String userIdentifier, ProviderInfo providerInfo) {
         Optional<User> optionalUser = userRepository.findByOAuthInfo(userIdentifier, providerInfo);
         if (optionalUser.isEmpty()) {
-            // 가입하지 않은 유저는 손님(GUEST)로 등록한다
+            // 신규 유저 가입(ROLE_USER)
             User newUser = User.builder()
                 .identifier(userIdentifier)
-                .role(Role.ROLE_GUEST)
+                .role(Role.ROLE_USER)
                 .provider(providerInfo)
                 .build();
 

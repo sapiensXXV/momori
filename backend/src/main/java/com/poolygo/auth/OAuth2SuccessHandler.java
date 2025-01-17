@@ -24,7 +24,7 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     public OAuth2SuccessHandler(
         @Value("${url.base.dev}") String BASE_URL,
-        @Value("${url.signup}") String SIGNUP_URL,
+        @Value("${url.path.signup}") String SIGNUP_URL,
         @Value("${url.path.auth}") String AUTH_URL,
         UserRepository userRepository
     ) {

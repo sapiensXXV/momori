@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://master.db.gongnomok.com:3306/pooly?serverTimeZone=Asia/Seoul&characterEncoding=UTF-8
+    username: jh
+    password: jh980101^^
+
+#  data:
+#    mongodb:
+#      uri:
+#      password:

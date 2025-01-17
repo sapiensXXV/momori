@@ -1,4 +1,4 @@
-.button {
+.login_button {
     padding: 8px;
     border: none;
     border-radius: 8px;
@@ -10,12 +10,11 @@
     cursor: pointer;
 }
 
-.button img {
+.login_button img {
     width: 23px;
 }
 
-.button span {
-    color: #f6f6f6;
+.login_button span {
     font-size: 15px;
     font-family: Pretendard-Bold;
 }

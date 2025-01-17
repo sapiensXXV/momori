@@ -22,7 +22,7 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
     private final String REDIRECT_URL;
     private final String ERROR_PARAM_PREFIX = "error";
 
-    public OAuth2FailureHandler(@Value("${url.base}") String REDIRECT_URL) {
+    public OAuth2FailureHandler(@Value("${url.base.dev}") String REDIRECT_URL) {
         this.REDIRECT_URL = REDIRECT_URL;
     }
 
