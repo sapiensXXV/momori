@@ -1,7 +1,5 @@
 package com.poolygo.auth;
 
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-
 import java.util.Map;
 
 public class GithubOAuth2User extends OAuth2UserInfo {
@@ -12,7 +10,7 @@ public class GithubOAuth2User extends OAuth2UserInfo {
 
     @Override
     public String getOAuth2Id() {
-        return (String) attributes.get("registrationId");
+        return Integer.toString((Integer) attributes.get("id"));
     }
 
     @Override

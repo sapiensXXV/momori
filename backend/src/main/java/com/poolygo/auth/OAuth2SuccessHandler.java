@@ -1,11 +1,16 @@
 package com.poolygo.auth;
 
+import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.user.domain.Role;
 import com.poolygo.user.domain.User;
 import com.poolygo.user.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -13,9 +18,15 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @Component
+@Slf4j
 public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final String SIGNUP_URL;
@@ -43,11 +54,24 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         // 로그인이 성공했을 경우
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String identifier = oAuth2User.getName();
-
         User user = userRepository.findByIdentifier(identifier)
             .orElseThrow(() -> new IllegalArgumentException("잘못된 식별자 입니다."));
 
         String redirectUri = getRedirectUriByRole(user.getRole(), identifier);
+        log.info("[{}]로 리다이렉트", redirectUri);
+        String jwtToken = createJwtToken(user);
+        response.setHeader(SecurityConstant.AUTHORIZATION_HEADER, SecurityConstant.BEARER + jwtToken);
+
+        // 쿠키 생성 및 HttpOnly 설정
+        Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+//        jwtCookie.setHttpOnly(true); // HttpOnly 속성 설정
+        jwtCookie.setSecure(false); // HTTPS 환경에서만 전송 (개발 환경에서 HTTPS가 아니라면 false로 설정)
+        jwtCookie.setPath("/"); // 쿠키가 유효한 경로 설정
+        jwtCookie.setMaxAge(60 * 60); // 쿠키 만료 시간 설정 (단위: 초)
+
+        // 쿠키 추가
+        response.addCookie(jwtCookie);
+
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
@@ -59,9 +83,21 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .toUriString();
         }
 
-        return UriComponentsBuilder.fromUriString(AUTH_URL)
-            .queryParam("identifier", identifier)
-            .build()
-            .toUriString();
+        // 그 외 로그인을 완료한 유저는 루트로 리다이렉션
+        return "http://localhost:5173";
     }
+
+    private String createJwtToken(User user) {
+        SecretKey key = Keys.hmacShaKeyFor(SecurityConstant.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
+            .claim("identifier", user.getIdentifier())
+            .claim("provider", user.getProvider())
+            .claim("role", user.getRole())
+            .issuedAt(new Date())
+            .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+            .signWith(key)
+            .compact();
+    }
+
 }

@@ -8,7 +8,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 
 @Component
 public class CustomCorsConfigurationSource implements CorsConfigurationSource {
@@ -26,6 +25,7 @@ public class CustomCorsConfigurationSource implements CorsConfigurationSource {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(ALLOWED_ORIGINS);
         config.setAllowedMethods(ALLOWED_METHODS);
+        config.setExposedHeaders(Collections.singletonList("Authorization"));
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setMaxAge(3000L);
         return config;

@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.identifier = :userIdentifier and u.provider = :providerInfo")
     Optional<User> findByOAuthInfo(
-        @Param("identifier") String userIdentifier,
+        @Param("userIdentifier") String userIdentifier,
         @Param("providerInfo") ProviderInfo providerInfo
     );
 
