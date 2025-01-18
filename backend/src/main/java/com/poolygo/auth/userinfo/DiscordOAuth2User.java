@@ -1,16 +1,16 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import java.util.Map;
 
-public class GithubOAuth2User extends OAuth2UserInfo {
+public class DiscordOAuth2User extends OAuth2UserInfo {
 
-    public GithubOAuth2User(Map<String, Object> attributes) {
+    public DiscordOAuth2User(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
     @Override
     public String getOAuth2Id() {
-        return Integer.toString((Integer) attributes.get("id"));
+        return (String) attributes.get("registrationId");
     }
 
     @Override
@@ -18,3 +18,4 @@ public class GithubOAuth2User extends OAuth2UserInfo {
         return (String) attributes.get("email");
     }
 }
+

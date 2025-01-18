@@ -1,10 +1,10 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import java.util.Map;
 
-public class DiscordOAuth2User extends OAuth2UserInfo {
+public class NaverOAuth2User extends OAuth2UserInfo {
 
-    public DiscordOAuth2User(Map<String, Object> attributes) {
+    public NaverOAuth2User(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 

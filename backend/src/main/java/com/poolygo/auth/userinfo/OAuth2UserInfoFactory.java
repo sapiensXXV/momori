@@ -1,4 +1,4 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import com.poolygo.user.domain.ProviderInfo;
 

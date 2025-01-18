@@ -1,4 +1,4 @@
-package com.poolygo.auth;
+package com.poolygo.auth.handler;
 
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.user.domain.Role;
@@ -83,8 +83,8 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .toUriString();
         }
 
-        // 그 외 로그인을 완료한 유저는 루트로 리다이렉션
-        return "http://localhost:5173";
+        // 그 외 로그인을 완료한 유저는 콜백으로 리다이렉션
+        return "http://localhost:5173/auth/callback";
     }
 
     private String createJwtToken(User user) {

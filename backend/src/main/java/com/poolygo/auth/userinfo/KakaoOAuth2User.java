@@ -1,10 +1,10 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import java.util.Map;
 
-public class NaverOAuth2User extends OAuth2UserInfo {
+public class KakaoOAuth2User extends OAuth2UserInfo {
 
-    public NaverOAuth2User(Map<String, Object> attributes) {
+    public KakaoOAuth2User(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
