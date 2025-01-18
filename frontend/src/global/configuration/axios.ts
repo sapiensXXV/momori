@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 });
 
 export const axiosJwtInstance = axios.create ({
-  baseURL: `${BASE_URI}/api`,
+  baseURL: `${BASE_URI}`,
   withCredentials: true,
   headers: {
     "Authorization": `Bearer ${getCookieValue("jwtToken")}`

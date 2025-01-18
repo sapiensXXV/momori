@@ -1,31 +1,34 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, {createContext, ReactNode, useContext, useState} from "react";
 
 type AuthContextType = {
-  user: string | null;
+  provider: string | null;
   roles: string[];
   isAuthenticated: boolean;
-  updateAuthContext: (user: string, roles: string[]) => void;
+  updateAuthContext: (provider: string, roles: string[], isAuthenticated: boolean) => void;
+};
+
+type AuthProviderProps = {
+  children: ReactNode;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<string | null>(null);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [provider, setProvider] = useState<string | null>(null);
   const [roles, setRoles] = useState<string[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const updateAuthContext = (user: string, roles: string[]) => {
-    setUser(user);
+  const updateAuthContext = (provider: string, roles: string[], isAuthenticated: boolean) => {
+    setProvider(provider);
     setRoles(roles);
-    setIsAuthenticated(true);
+    setIsAuthenticated(isAuthenticated);
   };
 
   return (
-    <AuthContext.Provider value={{ user, roles, isAuthenticated, updateAuthContext }}>
-  {children}
-  </AuthContext.Provider>
-);
+    <AuthContext.Provider value={{provider, roles, isAuthenticated, updateAuthContext}}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

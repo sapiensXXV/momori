@@ -1,0 +1,13 @@
+.callbackPage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.callbackPage span {
+    font-size: 4rem;
+    font-family: Pretendard-SemiBold;
+}
