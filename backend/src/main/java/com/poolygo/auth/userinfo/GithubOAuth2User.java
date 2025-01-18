@@ -1,16 +1,16 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import java.util.Map;
 
-public class KakaoOAuth2User extends OAuth2UserInfo {
+public class GithubOAuth2User extends OAuth2UserInfo {
 
-    public KakaoOAuth2User(Map<String, Object> attributes) {
+    public GithubOAuth2User(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
     @Override
     public String getOAuth2Id() {
-        return (String) attributes.get("registrationId");
+        return Integer.toString((Integer) attributes.get("id"));
     }
 
     @Override
@@ -18,4 +18,3 @@ public class KakaoOAuth2User extends OAuth2UserInfo {
         return (String) attributes.get("email");
     }
 }
-

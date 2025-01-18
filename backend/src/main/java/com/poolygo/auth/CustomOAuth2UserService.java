@@ -1,5 +1,7 @@
 package com.poolygo.auth;
 
+import com.poolygo.auth.userinfo.OAuth2UserInfo;
+import com.poolygo.auth.userinfo.OAuth2UserInfoFactory;
 import com.poolygo.user.domain.ProviderInfo;
 import com.poolygo.user.domain.Role;
 import com.poolygo.user.domain.User;

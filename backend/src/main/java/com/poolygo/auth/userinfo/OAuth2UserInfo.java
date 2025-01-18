@@ -1,4 +1,4 @@
-package com.poolygo.auth;
+package com.poolygo.auth.userinfo;
 
 import java.util.Map;
 
