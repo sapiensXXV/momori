@@ -1,10 +1,15 @@
 import styles from "./Navbar.module.css"
-import NavLoginButton from "./NavTextButton.tsx";
+import NavLoginButton from "./NavLoginButton.tsx";
 import NoticeButton from "./NoticeButton.tsx";
 import NavbarTitle from "./NavbarTitle.tsx";
 import ContactButton from "./ContactButton.tsx";
+import {useAuth} from "../../context/AuthContext.tsx";
+import NavLogoutButton from "./NavLogoutButton.tsx";
 
 export default function Navbar() {
+
+  const auth = useAuth();
+
   return (
     <>
       <nav className={styles.main}>
@@ -14,7 +19,9 @@ export default function Navbar() {
         <section className={styles.buttons}>
           <ContactButton />
           <NoticeButton />
-          <NavLoginButton />
+          {
+            auth.isAuthenticated ? <NavLogoutButton /> : <NavLoginButton />
+          }
         </section>
       </nav>
     </>
