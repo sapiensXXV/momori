@@ -1,6 +1,7 @@
 package com.poolygo.auth.filter;
 
 import com.poolygo.global.config.security.SecurityConstant;
+import com.poolygo.global.token.JwtConfiguration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -8,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +21,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
+
+    private final JwtConfiguration jwtConfiguration;
 
     @Override
     protected void doFilterInternal(
@@ -32,7 +37,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         if (null != bearerKey) {
             try {
                 String jwt = bearerKey.substring(SecurityConstant.BEARER.length());
-                SecretKey key = Keys.hmacShaKeyFor(SecurityConstant.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+                SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes(StandardCharsets.UTF_8));
                 Claims claims = Jwts.parser()
                     .verifyWith(key)
                     .build()

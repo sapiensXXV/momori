@@ -1,6 +1,7 @@
 package com.poolygo.auth.handler;
 
 import com.poolygo.global.config.security.SecurityConstant;
+import com.poolygo.global.token.JwtConfiguration;
 import com.poolygo.user.domain.Role;
 import com.poolygo.user.domain.User;
 import com.poolygo.user.repository.UserRepository;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -27,21 +29,25 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@EnableConfigurationProperties(JwtConfiguration.class)
 public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final String SIGNUP_URL;
     private final String AUTH_URL;
     private final UserRepository userRepository;
+    private final JwtConfiguration jwtConfiguration;
 
     public OAuth2SuccessHandler(
         @Value("${url.base.dev}") String BASE_URL,
         @Value("${url.path.signup}") String SIGNUP_URL,
         @Value("${url.path.auth}") String AUTH_URL,
-        UserRepository userRepository
+        UserRepository userRepository,
+        JwtConfiguration jwtConfiguration
     ) {
         this.userRepository = userRepository;
         this.SIGNUP_URL = BASE_URL + SIGNUP_URL;
         this.AUTH_URL = BASE_URL + AUTH_URL;
+        this.jwtConfiguration = jwtConfiguration;
     }
 
     @Override
@@ -88,7 +94,7 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
 
     private String createJwtToken(User user) {
-        SecretKey key = Keys.hmacShaKeyFor(SecurityConstant.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+        SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
             .claim("identifier", user.getIdentifier())
