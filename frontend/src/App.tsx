@@ -29,9 +29,9 @@ function App() {
               <Route path="/auth/callback" element={<OAuth2Callback/>}/>
             </Routes>
             <Footer/>
-            <LinkButton link={`${BASE_URI}/api/admin`} message='ADMIN Button'/>
-            <LinkButton link={`${BASE_URI}/api/user`} message='USER Button'/>
-            <LinkButton link={`${BASE_URI}/api/everyone`} message='EVERYONE Button'/>
+            {/*<LinkButton link={`${BASE_URI}/api/admin`} message='ADMIN Button'/>*/}
+            {/*<LinkButton link={`${BASE_URI}/api/user`} message='USER Button'/>*/}
+            {/*<LinkButton link={`${BASE_URI}/api/everyone`} message='EVERYONE Button'/>*/}
           </BrowserRouter>
         </main>
       </AuthProvider>

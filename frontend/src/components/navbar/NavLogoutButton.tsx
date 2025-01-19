@@ -1,5 +1,4 @@
 import styles from "./NavLogoutButton.module.css"
-import {Link} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext.tsx";
 import {deleteCookie} from "../../global/cookie/cookie.ts";
 import {jwtTokenName} from "../../global/constant/jwt.ts";
