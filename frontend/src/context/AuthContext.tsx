@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [roles, setRoles] = useState<string[]>([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const updateAuthContext = (provider: string, roles: string[], isAuthenticated: boolean) => {
+  const updateAuthContext = (provider: string | null, roles: string[], isAuthenticated: boolean) => {
     setProvider(provider);
     setRoles(roles);
     setIsAuthenticated(isAuthenticated);
