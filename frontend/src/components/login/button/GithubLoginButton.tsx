@@ -3,7 +3,7 @@ import {BASE_URI} from "../../../uri.ts";
 export default function GithubLoginButton() {
 
   function handleLoginClick() {
-    console.log(`${BASE_URI}/oauth2/authorization/github 으로 리다이렉션 합니다.`)
+    console.log(`${BASE_URI}/oauth2/authorization/github redirect`)
     window.location.href = BASE_URI + "/oauth2/authorization/github";
   }
 

@@ -23,6 +23,9 @@ public class OAuth2UserInfoFactory {
             case KAKAO -> {
                 return new KakaoOAuth2User(attributes);
             }
+            case DISCORD -> {
+                return new DiscordOAuth2User(attributes);
+            }
         }
         throw new IllegalArgumentException("Invalid Provider Type");
     }

@@ -5,9 +5,9 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: ${MASTER_DATASOURCE}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: ${datasource.address.master}
+    username: ${datasource.username}
+    password: ${datasource.password}
 
 #  data:
 #    mongodb:

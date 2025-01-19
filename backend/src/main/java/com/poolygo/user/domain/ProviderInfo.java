@@ -13,7 +13,8 @@ public enum ProviderInfo {
     GITHUB(null, "id", "login"),
     KAKAO("kakao_account", "id", "email"),
     NAVER("response", "id", "email"),
-    GOOGLE(null, "sub", "email");
+    GOOGLE(null, "sub", "email"),
+    DISCORD("id", "id", "email");
 
     private final String attributeKey;
     private final String providerCode;
