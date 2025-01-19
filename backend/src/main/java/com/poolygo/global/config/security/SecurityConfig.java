@@ -1,6 +1,6 @@
 package com.poolygo.global.config.security;
 
-import com.poolygo.auth.CustomOAuth2UserService;
+import com.poolygo.auth.service.CustomOAuth2UserService;
 import com.poolygo.auth.handler.OAuth2FailureHandler;
 import com.poolygo.auth.handler.OAuth2SuccessHandler;
 import com.poolygo.auth.filter.JwtTokenValidatorFilter;
