@@ -1,4 +1,4 @@
-import styles from "./NavTextButton.module.css";
+import styles from "./NavLoginButton.module.css";
 import {Link} from "react-router-dom";
 
 export default function NoticeButton() {

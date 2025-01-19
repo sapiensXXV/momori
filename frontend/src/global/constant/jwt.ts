@@ -1,0 +1,1 @@
+export const jwtTokenName: string = "jwtToken"

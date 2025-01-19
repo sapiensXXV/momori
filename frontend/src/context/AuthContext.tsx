@@ -4,7 +4,7 @@ type AuthContextType = {
   provider: string | null;
   roles: string[];
   isAuthenticated: boolean;
-  updateAuthContext: (provider: string, roles: string[], isAuthenticated: boolean) => void;
+  updateAuthContext: (provider: string | null, roles: string[], isAuthenticated: boolean) => void;
 };
 
 type AuthProviderProps = {
@@ -31,6 +31,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within a AuthProvider");
+  }
+  return context;
 };

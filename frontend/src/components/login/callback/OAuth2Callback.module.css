@@ -1,6 +1,7 @@
+/* 1200px 이상의 화면에서만 동작. 나중에 반응형으로 */
 .callbackPage {
-    width: 100%;
-    height: 100%;
+    width: 1200px;
+    height: 80vh;
     display: flex;
     align-items: center;
     text-align: center;
@@ -8,6 +9,7 @@
 }
 
 .callbackPage span {
-    font-size: 4rem;
+    font-size: 2rem;
     font-family: Pretendard-SemiBold;
+    color: #9a9a9a;
 }
