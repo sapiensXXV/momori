@@ -51,10 +51,10 @@ public class RandomNameGenerator implements NameGenerator {
         StringBuilder sb = new StringBuilder();
         return sb.append(firstWords.get(random.nextInt(firstWords.size())))
             .append(" ")
-            .append(firstWords.get(random.nextInt(firstWords.size())))
+            .append(secondWords.get(random.nextInt(secondWords.size())))
             .append(" ")
             .append(Integer.toString(random.nextInt(100) + 1))
-            .toString();backend/src/main/java/com/poolygo/global/util/RandomNameGenerator.java
+            .toString();
 
     }
 }
