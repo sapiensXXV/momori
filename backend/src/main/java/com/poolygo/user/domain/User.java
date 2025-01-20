@@ -26,6 +26,9 @@ public class User {
     private String identifier;
 
     @NotNull
+    private String name;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
