@@ -35,10 +35,12 @@ public class User {
     @Builder
     public User(
         final String identifier,
+        final String name,
         final Role role,
         final ProviderInfo provider
     ) {
         this.identifier = identifier;
+        this.name = name;
         this.role = role;
         this.provider = provider;
     }

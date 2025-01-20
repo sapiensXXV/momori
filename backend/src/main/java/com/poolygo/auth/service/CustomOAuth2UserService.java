@@ -3,6 +3,7 @@ package com.poolygo.auth.service;
 import com.poolygo.auth.UserPrincipal;
 import com.poolygo.auth.userinfo.OAuth2UserInfo;
 import com.poolygo.auth.userinfo.OAuth2UserInfoFactory;
+import com.poolygo.global.util.RandomNameGenerator;
 import com.poolygo.user.domain.ProviderInfo;
 import com.poolygo.user.domain.Role;
 import com.poolygo.user.domain.User;
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
+    private final RandomNameGenerator randomNameGenerator;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -52,8 +54,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Optional<User> optionalUser = userRepository.findByOAuthInfo(userIdentifier, providerInfo);
         if (optionalUser.isEmpty()) {
             // 신규 유저 가입(ROLE_USER)
+            String name = randomNameGenerator.generateName();
             User newUser = User.builder()
                 .identifier(userIdentifier)
+                .name(name)
                 .role(Role.ROLE_USER)
                 .provider(providerInfo)
                 .build();
