@@ -10,5 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AuthInfoDto {
     private String provider;
+    private String name;
     private List<String> roles;
 }

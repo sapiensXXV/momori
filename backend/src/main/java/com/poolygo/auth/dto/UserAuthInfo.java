@@ -11,6 +11,7 @@ public class UserAuthInfo {
 
     private String identifier;
     private String provider;
+    private String name;
     private List<String> roles;
 
 }

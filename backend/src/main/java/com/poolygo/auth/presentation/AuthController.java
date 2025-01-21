@@ -32,7 +32,7 @@ public class AuthController {
         }
 
         UserAuthInfo userAuthInfo = authService.decodeJwtWithoutIdentifier(bearerToken);
-        AuthInfoDto authInfoDto = new AuthInfoDto(userAuthInfo.getProvider(), userAuthInfo.getRoles());
+        AuthInfoDto authInfoDto = new AuthInfoDto(userAuthInfo.getProvider(), userAuthInfo.getName(), userAuthInfo.getRoles());
 
         return ResponseEntity.ok(authInfoDto);
     }

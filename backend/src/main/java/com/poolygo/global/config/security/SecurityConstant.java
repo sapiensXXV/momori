@@ -6,6 +6,7 @@ public class SecurityConstant {
     public static final String BEARER = "BEARER ";
 
     public static final String IDENTIFIER = "identifier";
+    public static final String NAME = "NAME";
     public static final String PROVIDER = "provider";
     public static final String ROLE = "role";
 
