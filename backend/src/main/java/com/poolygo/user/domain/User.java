@@ -1,11 +1,15 @@
 package com.poolygo.user.domain;
 
+import com.poolygo.comment.domain.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,16 +30,24 @@ public class User {
     private String identifier;
 
     @NotNull
+    private String name;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(
         final String identifier,
+        final String name,
         final Role role,
         final ProviderInfo provider
     ) {
         this.identifier = identifier;
+        this.name = name;
         this.role = role;
         this.provider = provider;
     }

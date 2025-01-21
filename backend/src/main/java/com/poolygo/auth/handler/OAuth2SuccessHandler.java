@@ -96,6 +96,7 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
             .claim("identifier", user.getIdentifier())
+            .claim("name", user.getName())
             .claim("provider", user.getProvider())
             .claim("role", user.getRole())
             .issuedAt(new Date())

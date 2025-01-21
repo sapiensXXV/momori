@@ -35,9 +35,10 @@ public class AuthJwtTokenUtil {
                 .getPayload();
 
             String provider = (String) claims.get(PROVIDER);
+            String name = (String) claims.get(NAME);
             String[] roles = ((String) claims.get(ROLE)).split(",");
 
-            return Optional.of(new UserAuthInfo(null, provider, Arrays.asList(roles)));
+            return Optional.of(new UserAuthInfo(null, provider, name, Arrays.asList(roles)));
         } catch (Exception e) {
             throw new JwtException("토큰을 해석하는데 문제가 발생했습니다.", e);
         }

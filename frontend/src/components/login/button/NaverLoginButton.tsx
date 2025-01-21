@@ -3,7 +3,7 @@ import {BASE_URI} from "../../../uri.ts";
 export default function NaverLoginButton() {
 
   function handleLoginClick() {
-    console.log(`${BASE_URI}/oauth2/authorization/naver 으로 리다이렉션 합니다.`)
+    console.log(`${BASE_URI}/oauth2/authorization/naver redirect`)
     window.location.href = BASE_URI + "/oauth2/authorization/naver";
   }
 

@@ -10,7 +10,7 @@ public class DiscordOAuth2User extends OAuth2UserInfo {
 
     @Override
     public String getOAuth2Id() {
-        return (String) attributes.get("registrationId");
+        return (String) attributes.get("id");
     }
 
     @Override
