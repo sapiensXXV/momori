@@ -18,8 +18,8 @@ export default function OAuth2Callback() {
         }
         const { updateAuthContext } = authContext;
         const response = await axiosJwtInstance.get(`/api/auth/check`)
-        const { provider, roles } = response.data;
-        updateAuthContext(provider, roles, true);
+        const { provider, name, roles } = response.data;
+        updateAuthContext(provider, roles, name, true);
         navigate("/");
       } catch (error) {
         console.log("Fail to fetch auth info", error);
