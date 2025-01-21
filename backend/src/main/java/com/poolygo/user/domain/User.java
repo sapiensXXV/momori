@@ -1,11 +1,15 @@
 package com.poolygo.user.domain;
 
+import com.poolygo.comment.domain.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +35,9 @@ public class User {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public User(

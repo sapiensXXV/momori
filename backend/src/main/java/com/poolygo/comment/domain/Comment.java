@@ -20,9 +20,8 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    //TODO: JPA 1:N 관계 다시 공부
-    @ManyToOne()
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true) // 익명댓글에는 유저 정보가 없음.
     private User user;
 
     @Column(nullable = false)
@@ -40,4 +39,5 @@ public class Comment {
 
     @Column(name = "ip_address", nullable = false)
     private String ip;
+
 }
