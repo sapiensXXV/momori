@@ -8,9 +8,9 @@ public class QuizCreateResponse {
 
     private static String CREATE_SUCCESS_MSG = "Quiz created successfully";
 
-    private String message;
-    private String quizId;
-    private String title;
+    private final String message;
+    private final String quizId;
+    private final String title;
 
     public QuizCreateResponse(
         final String quizId,

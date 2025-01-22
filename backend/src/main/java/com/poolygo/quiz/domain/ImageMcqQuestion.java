@@ -10,4 +10,12 @@ import java.util.List;
 public class ImageMcqQuestion extends Question {
     private String imageUrl;
     private List<Integer> answers;
+
+    public ImageMcqQuestion(
+        final String imageUrl,
+        final List<Integer> answers
+    ) {
+        this.imageUrl = imageUrl;
+        this.answers = answers;
+    }
 }

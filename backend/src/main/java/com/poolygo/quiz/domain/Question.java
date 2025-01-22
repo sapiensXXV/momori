@@ -10,4 +10,9 @@ public abstract class Question {
     private String questionId;
     private int tryCount;
     private int correctCount;
+
+    public Question() {
+        this.tryCount = 0;
+        this.correctCount = 0;
+    }
 }

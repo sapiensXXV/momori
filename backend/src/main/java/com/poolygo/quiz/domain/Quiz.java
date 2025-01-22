@@ -35,7 +35,7 @@ public class Quiz {
     private int tries;
     private int likes;
 
-    private List<Question> questions;
+    private List<? extends Question> questions;
 
     public void addView() {
         this.views++;
