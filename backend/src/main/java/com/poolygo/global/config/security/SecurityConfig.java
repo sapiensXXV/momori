@@ -51,6 +51,9 @@ public class SecurityConfig {
                 request.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .requestMatchers("/api/admin").hasRole("ADMIN")
                     .requestMatchers("/api/user").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/api/quiz/mcq/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/api/quiz/subjective/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/api/quiz/binary/**").hasAnyRole("ADMIN", "USER")
                     .anyRequest().hasAnyRole(PERMITTED_ROLES);
             })
             .oauth2Login(customConfigurer -> {
