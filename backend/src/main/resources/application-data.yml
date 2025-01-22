@@ -9,7 +9,7 @@ spring:
     username: ${datasource.username}
     password: ${datasource.password}
 
-#  data:
-#    mongodb:
-#      uri:
-#      password:
+  data:
+    mongodb:
+      uri: ${datasource.mongodb.url}
+      database: ${datasource.mongodb.database}
