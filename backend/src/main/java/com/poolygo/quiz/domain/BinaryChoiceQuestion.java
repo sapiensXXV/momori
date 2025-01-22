@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BinaryChoiceQuestion extends Question {
-    private String imageUrl;
-    private int firstCount;
-    private int secondCount;
+    private ChoiceItem first;
+    private ChoiceItem second;
 }
