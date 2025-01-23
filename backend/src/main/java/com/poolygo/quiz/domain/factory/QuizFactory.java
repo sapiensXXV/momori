@@ -1,11 +1,14 @@
 package com.poolygo.quiz.domain.factory;
 
 
+import com.poolygo.auth.dto.UserAuthInfo;
 import com.poolygo.quiz.domain.ImageMcqQuestion;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.QuizType;
+import com.poolygo.quiz.domain.UserInfo;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubjectiveQuizCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +19,9 @@ import java.util.List;
 public class QuizFactory {
 
     private final QuestionFactory questionFactory;
+    private final UserInfoFactory userInfoFactory;
 
-    public Quiz from(ImageMcqQuizCreateRequest request) {
+    public Quiz from(ImageMcqQuizCreateRequest request, UserAuthInfo auth) {
         String title = request.getTitle();
         String thumbnailUrl = request.getThumbnailUrl();
         String description = request.getDescription();
@@ -28,8 +32,11 @@ public class QuizFactory {
             .map(questionFactory::from)
             .toList();
 
+        UserInfo userInfo = userInfoFactory.from(auth);
+
         // TODO: 유저 정보 필요
         return Quiz.builder()
+            .userInfo(userInfo)
             .title(title)
             .description(description)
             .thumbnailUrl(thumbnailUrl)
@@ -39,6 +46,10 @@ public class QuizFactory {
             .likes(0)
             .questions(questions)
             .build();
+    }
+
+    public Quiz from(ImageSubjectiveQuizCreateRequest request) {
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.poolygo.quiz.service;
 
+import com.poolygo.auth.dto.UserAuthInfo;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
@@ -23,30 +24,30 @@ public class QuizServiceImpl implements QuizService {
     private final QuizFactory quizFactory;
 
     @Override
-    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request) {
-        Quiz newQuiz = quizFactory.from(request);
+    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthInfo auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle()); // id 값이 null
     }
 
     @Override
-    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request) {
+    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
         return null;
     }
 
     @Override
-    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request) {
+    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthInfo auth) {
         return null;
     }
 
     @Override
-    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request) {
+    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
         return null;
     }
 
     @Override
-    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request) {
+    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthInfo auth) {
         return null;
     }
 
