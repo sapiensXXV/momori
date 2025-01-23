@@ -7,8 +7,7 @@ import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.UserInfo;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
-import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
-import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubjectiveQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +47,20 @@ public class QuizFactory {
             .build();
     }
 
-    public Quiz from(ImageSubjectiveQuizCreateRequest request) {
+
+    public Quiz from(ImageSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
         return null;
     }
 
+    public Quiz from(AudioMcqQuizCreateRequest request, UserAuthInfo auth) {
+        return null;
+    }
+
+    public Quiz from(AudioSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
+        return null;
+    }
+
+    public Quiz from(BinaryChoiceQuizCreateRequest request, UserAuthInfo auth) {
+        return null;
+    }
 }

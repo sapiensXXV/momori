@@ -28,27 +28,39 @@ public class QuizServiceImpl implements QuizService {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
-        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle()); // id 값이 null
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
     public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
-        return null;
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
     public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthInfo auth) {
-        return null;
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
     public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
-        return null;
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
     public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthInfo auth) {
-        return null;
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
@@ -58,6 +70,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void deleteQuiz(String quizId) {
-
+        
     }
 }
