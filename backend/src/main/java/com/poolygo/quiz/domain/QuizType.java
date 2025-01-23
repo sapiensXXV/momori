@@ -1,5 +1,8 @@
 package com.poolygo.quiz.domain;
 
+import com.poolygo.global.exception.ExceptionCode;
+import com.poolygo.global.exception.QuizException;
+
 import java.util.Arrays;
 
 public enum QuizType {
@@ -10,9 +13,9 @@ public enum QuizType {
     AUDIO_SUBJECTIVE;
 
     public static QuizType from(String find) {
-        Arrays.stream(QuizType.values())
+        return Arrays.stream(QuizType.values())
             .filter(type -> type.name().equals(find.toUpperCase()))
             .findFirst()
-            .orElseThrow()
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_TYPE));
     }
 }
