@@ -1,16 +1,25 @@
 package com.poolygo.test;
 
 
+import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.service.QuizService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/test")
+@RequiredArgsConstructor
 @Slf4j
 public class TestController {
+
+    private final QuizService quizService;
 
     @GetMapping("/admin")
     public String admin(HttpServletRequest request) {
@@ -28,5 +37,20 @@ public class TestController {
     public String everyone(HttpServletRequest request) {
         log.info("request={}", request);
         return "this is for everyone";
+    }
+
+    @PostMapping("/quiz")
+    public ResponseEntity<String> createQuizTestEndpoint(
+        @RequestBody ImageMcqQuizCreateRequest createRequest
+    ) {
+        QuizCreateResponse createdQuiz = quizService.createImageMcqQuiz(createRequest);
+        URI createdUri = UriComponentsBuilder
+            .fromUriString("http://localhost:8080/quiz/" + createdQuiz.getQuizId())
+            .build()
+            .toUri();
+        log.info("create quiz endpoint: {}", createdUri);
+        return ResponseEntity
+            .created(createdUri)
+            .build();
     }
 }

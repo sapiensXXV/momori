@@ -4,14 +4,19 @@ import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 @RequiredArgsConstructor
+@Slf4j
 public class QuizController {
 
     private final QuizService quizService;
@@ -20,7 +25,6 @@ public class QuizController {
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
         @RequestBody ImageMcqQuizCreateRequest createRequest
     ) {
-
         quizService.createImageMcqQuiz(createRequest);
 
         return ResponseEntity
@@ -30,6 +34,8 @@ public class QuizController {
 
     @PostMapping("/quiz/mcq/audio")
     public ResponseEntity<QuizCreateResponse> createAudioMcqQuiz() {
+
+
         return null;
     }
 
@@ -47,4 +53,6 @@ public class QuizController {
     public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
         return null;
     }
+
+
 }

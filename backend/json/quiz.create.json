@@ -1,0 +1,29 @@
+{
+    "title": "test name",
+    "thumbnailUrl": null,
+    "description": "테스트 퀴즈 설명입니다.",
+    "type": "IMAGE_MCQ",
+    "questions": [
+        {
+            "imageUrl": null,
+            "answers": [1]
+        },
+        {
+            "imageUrl": null,
+            "answers": [1]
+        },
+        {
+            "imageUrl": null,
+            "answers": [3]
+        },
+        {
+            "imageUrl": null,
+            "answers": [1,2]
+        },
+        {
+            "imageUrl": null,
+            "answers": [1,2,3]
+        },
+
+    ]
+}

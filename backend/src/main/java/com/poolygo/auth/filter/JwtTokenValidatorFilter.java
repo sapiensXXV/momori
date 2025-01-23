@@ -57,8 +57,9 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 filterChain.doFilter(request, response);
             } catch (Exception e) {
-
+                throw new ServletException(e);
             }
         }
+        filterChain.doFilter(request, response);
     }
 }
