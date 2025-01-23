@@ -1,6 +1,6 @@
 package com.poolygo.quiz.service;
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
@@ -24,7 +24,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizFactory quizFactory;
 
     @Override
-    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthInfo auth) {
+    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
@@ -32,7 +32,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
+    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
@@ -40,7 +40,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthInfo auth) {
+    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
@@ -48,7 +48,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
+    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
@@ -56,7 +56,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthInfo auth) {
+    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
@@ -69,7 +69,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void deleteQuiz(String quizId) {
+    public void deleteQuiz(String quizId, UserAuthDto auth) {
         quizRepository.deleteById(quizId);
     }
 }

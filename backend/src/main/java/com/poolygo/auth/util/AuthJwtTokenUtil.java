@@ -1,7 +1,7 @@
 package com.poolygo.auth.util;
 
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.token.JwtConfiguration;
@@ -23,7 +23,7 @@ public class AuthJwtTokenUtil {
 
     private final JwtConfiguration jwtConfiguration;
 
-    public Optional<UserAuthInfo> decodeWithoutIdentifier(String token) {
+    public Optional<UserAuthDto> decodeWithoutIdentifier(String token) {
 
         try {
             String removeBearer = token.substring(BEARER.length());
@@ -39,14 +39,14 @@ public class AuthJwtTokenUtil {
             String name = (String) claims.get(NAME);
             String[] roles = ((String) claims.get(ROLE)).split(",");
 
-            return Optional.of(new UserAuthInfo(null, provider, name, Arrays.asList(roles)));
+            return Optional.of(new UserAuthDto(null, provider, name, Arrays.asList(roles)));
         } catch (Exception e) {
             throw new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL);
         }
 
     }
 
-    public Optional<UserAuthInfo> decode(String token) {
+    public Optional<UserAuthDto> decode(String token) {
         try {
             SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes());
 
@@ -61,7 +61,7 @@ public class AuthJwtTokenUtil {
             String name = (String) claims.get(NAME);
             String[] roles = ((String) claims.get(ROLE)).split(",");
 
-            return Optional.of(new UserAuthInfo(identifier, provider, name, Arrays.asList(roles)));
+            return Optional.of(new UserAuthDto(identifier, provider, name, Arrays.asList(roles)));
         } catch (Exception e) {
             throw new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL);
         }

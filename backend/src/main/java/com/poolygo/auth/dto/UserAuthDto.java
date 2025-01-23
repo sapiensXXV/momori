@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class UserAuthInfo {
+public class UserAuthDto {
 
     private String identifier;
     private String provider;

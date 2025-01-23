@@ -1,6 +1,6 @@
 package com.poolygo.quiz.resolver;
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.auth.util.AuthJwtTokenUtil;
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.global.exception.AuthException;
@@ -26,7 +26,7 @@ public class JwtAuthenticateResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public UserAuthInfo resolveArgument(
+    public UserAuthDto resolveArgument(
         final MethodParameter parameter,
         final ModelAndViewContainer mavContainer,
         final NativeWebRequest webRequest,
@@ -36,7 +36,7 @@ public class JwtAuthenticateResolver implements HandlerMethodArgumentResolver {
         String token = extractToken(request);
         if (token == null) return null;
 
-        UserAuthInfo auth = jwtTokenUtil.decode(token)
+        UserAuthDto auth = jwtTokenUtil.decode(token)
             .orElseThrow(() -> new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL));
 
         return auth;

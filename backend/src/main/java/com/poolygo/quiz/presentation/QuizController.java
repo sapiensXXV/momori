@@ -1,6 +1,6 @@
 package com.poolygo.quiz.presentation;
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
@@ -29,7 +29,7 @@ public class QuizController {
     @PostMapping("/quiz/mcq/image")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
         @RequestBody ImageMcqQuizCreateRequest createRequest,
-        @AuthenticateUser UserAuthInfo auth
+        @AuthenticateUser UserAuthDto auth
     ) {
         QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest, auth);
         URI quizUri = UriComponentsBuilder

@@ -1,7 +1,7 @@
 package com.poolygo.auth.presentation;
 
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.auth.presentation.dto.AuthInfoDto;
 import com.poolygo.auth.service.AuthService;
 import com.poolygo.global.config.security.SecurityConstant;
@@ -31,8 +31,8 @@ public class AuthController {
             throw new NoJwtTokenException("[ERROR] 인증 토큰을 찾을 수 없습니다.");
         }
 
-        UserAuthInfo userAuthInfo = authService.decodeJwtWithoutIdentifier(bearerToken);
-        AuthInfoDto authInfoDto = new AuthInfoDto(userAuthInfo.getProvider(), userAuthInfo.getName(), userAuthInfo.getRoles());
+        UserAuthDto userAuthDto = authService.decodeJwtWithoutIdentifier(bearerToken);
+        AuthInfoDto authInfoDto = new AuthInfoDto(userAuthDto.getProvider(), userAuthDto.getName(), userAuthDto.getRoles());
 
         return ResponseEntity.ok(authInfoDto);
     }

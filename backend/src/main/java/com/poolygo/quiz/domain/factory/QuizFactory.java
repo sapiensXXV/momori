@@ -1,7 +1,7 @@
 package com.poolygo.quiz.domain.factory;
 
 
-import com.poolygo.auth.dto.UserAuthInfo;
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.ImageMcqQuestion;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.QuizType;
@@ -20,7 +20,7 @@ public class QuizFactory {
     private final QuestionFactory questionFactory;
     private final UserInfoFactory userInfoFactory;
 
-    public Quiz from(ImageMcqQuizCreateRequest request, UserAuthInfo auth) {
+    public Quiz from(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
         String title = request.getTitle();
         String thumbnailUrl = request.getThumbnailUrl();
         String description = request.getDescription();
@@ -48,19 +48,19 @@ public class QuizFactory {
     }
 
 
-    public Quiz from(ImageSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
+    public Quiz from(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
         return null;
     }
 
-    public Quiz from(AudioMcqQuizCreateRequest request, UserAuthInfo auth) {
+    public Quiz from(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
         return null;
     }
 
-    public Quiz from(AudioSubjectiveQuizCreateRequest request, UserAuthInfo auth) {
+    public Quiz from(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
         return null;
     }
 
-    public Quiz from(BinaryChoiceQuizCreateRequest request, UserAuthInfo auth) {
+    public Quiz from(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
         return null;
     }
 }
