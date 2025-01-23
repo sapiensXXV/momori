@@ -1,10 +1,10 @@
 package com.poolygo.quiz.domain;
 
 
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class Quiz {
     @Id
-    @Field(name = "quiz_id")
+    @Field(name = "_id")
     private String id;
 
     @CreatedDate

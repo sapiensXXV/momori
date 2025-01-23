@@ -24,15 +24,10 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request) {
-        log.info("create quiz with title: {}", request.getTitle());
-
         Quiz newQuiz = quizFactory.from(request);
-        log.info("saving quiz: {}", newQuiz);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
 
-        quizRepository.save(newQuiz);
-        log.info("Quiz save successfully with ID: {}", newQuiz.getId());
-
-        return new QuizCreateResponse(newQuiz.getId(), newQuiz.getTitle());
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle()); // id 값이 null
     }
 
     @Override

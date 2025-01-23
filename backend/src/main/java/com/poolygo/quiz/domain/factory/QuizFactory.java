@@ -29,7 +29,6 @@ public class QuizFactory {
             .toList();
 
         // TODO: 유저 정보 필요
-
         return Quiz.builder()
             .title(title)
             .description(description)
