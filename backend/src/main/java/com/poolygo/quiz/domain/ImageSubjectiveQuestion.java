@@ -10,4 +10,12 @@ import java.util.List;
 public class ImageSubjectiveQuestion extends Question {
     private String imageUrl;
     private List<String> answers;
+
+    public ImageSubjectiveQuestion(
+        final String imageUrl,
+        final List<String> answers
+    ) {
+        this.imageUrl = imageUrl;
+        this.answers = answers;
+    }
 }

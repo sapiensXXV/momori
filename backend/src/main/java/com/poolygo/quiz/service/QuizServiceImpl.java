@@ -1,5 +1,6 @@
 package com.poolygo.quiz.service;
 
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
@@ -23,31 +24,43 @@ public class QuizServiceImpl implements QuizService {
     private final QuizFactory quizFactory;
 
     @Override
-    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request) {
-        Quiz newQuiz = quizFactory.from(request);
+    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
-        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle()); // id 값이 null
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
-    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request) {
-        return null;
+    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
-    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request) {
-        return null;
+    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
-    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request) {
-        return null;
+    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
-    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request) {
-        return null;
+    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
+        Quiz newQuiz = quizFactory.from(request, auth);
+        Quiz createdQuiz = quizRepository.save(newQuiz);
+
+        return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
     @Override
@@ -56,7 +69,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public void deleteQuiz(String quizId) {
-
+    public void deleteQuiz(String quizId, UserAuthDto auth) {
+        quizRepository.deleteById(quizId);
     }
 }

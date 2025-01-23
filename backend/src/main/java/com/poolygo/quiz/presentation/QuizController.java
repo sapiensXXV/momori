@@ -1,8 +1,10 @@
 package com.poolygo.quiz.presentation;
 
+import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.resolver.AuthenticateUser;
 import com.poolygo.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +28,10 @@ public class QuizController {
 
     @PostMapping("/quiz/mcq/image")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
-        @RequestBody ImageMcqQuizCreateRequest createRequest
+        @RequestBody ImageMcqQuizCreateRequest createRequest,
+        @AuthenticateUser UserAuthDto auth
     ) {
-        QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest);
+        QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest, auth);
         URI quizUri = UriComponentsBuilder
             .fromUriString(domainResolver.baseUrl() + "/quiz/" + createResponse.getQuizId())
             .build()
