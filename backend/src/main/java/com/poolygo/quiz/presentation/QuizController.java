@@ -1,5 +1,6 @@
 package com.poolygo.quiz.presentation;
 
+import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.service.QuizService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
@@ -20,21 +22,25 @@ import java.net.URI;
 public class QuizController {
 
     private final QuizService quizService;
+    private final DomainResolver domainResolver;
 
     @PostMapping("/quiz/mcq/image")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
         @RequestBody ImageMcqQuizCreateRequest createRequest
     ) {
-        quizService.createImageMcqQuiz(createRequest);
+        QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainResolver.baseUrl() + "/quiz/" + createResponse.getQuizId())
+            .build()
+            .toUri();
 
         return ResponseEntity
-            .created(URI.create(""))
+            .created(quizUri)
             .build();
     }
 
     @PostMapping("/quiz/mcq/audio")
     public ResponseEntity<QuizCreateResponse> createAudioMcqQuiz() {
-
 
         return null;
     }
