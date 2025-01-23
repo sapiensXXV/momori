@@ -70,6 +70,6 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void deleteQuiz(String quizId) {
-        
+        quizRepository.deleteById(quizId);
     }
 }
