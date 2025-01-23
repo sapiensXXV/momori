@@ -3,10 +3,9 @@ package com.poolygo.quiz.domain.factory;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.ImageMcqQuestion;
+import com.poolygo.quiz.domain.ImageSubjectiveQuestion;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.QuizType;
-import com.poolygo.quiz.domain.UserInfo;
-import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,25 +20,17 @@ public class QuizFactory {
     private final UserInfoFactory userInfoFactory;
 
     public Quiz from(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
-        String title = request.getTitle();
-        String thumbnailUrl = request.getThumbnailUrl();
-        String description = request.getDescription();
-        QuizType type = QuizType.from(request.getType());
 
-        List<ImageMcqQuestionCreateRequest> questionRequests = request.getQuestions();
-        List<ImageMcqQuestion> questions = questionRequests.stream()
+        List<ImageMcqQuestion> questions = request.getQuestions().stream()
             .map(questionFactory::from)
             .toList();
 
-        UserInfo userInfo = userInfoFactory.from(auth);
-
-        // TODO: 유저 정보 필요
         return Quiz.builder()
-            .userInfo(userInfo)
-            .title(title)
-            .description(description)
-            .thumbnailUrl(thumbnailUrl)
-            .type(type)
+            .userInfo(userInfoFactory.from(auth))
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .type(QuizType.from(request.getType()))
             .views(0)
             .tries(0)
             .likes(0)
@@ -49,7 +40,21 @@ public class QuizFactory {
 
 
     public Quiz from(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
-        return null;
+        List<ImageSubjectiveQuestion> questions = request.getQuestions().stream()
+            .map(questionFactory::from)
+            .toList();
+
+        return Quiz.builder()
+            .userInfo(userInfoFactory.from(auth))
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .type(QuizType.from(request.getType()))
+            .views(0)
+            .tries(0)
+            .likes(0)
+            .questions(questions)
+            .build();
     }
 
     public Quiz from(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
