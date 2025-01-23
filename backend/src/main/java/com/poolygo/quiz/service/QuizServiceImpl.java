@@ -7,12 +7,16 @@ import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepository quizRepository;
@@ -20,8 +24,13 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request) {
+        log.info("create quiz with title: {}", request.getTitle());
+
         Quiz newQuiz = quizFactory.from(request);
+        log.info("saving quiz: {}", newQuiz);
+
         quizRepository.save(newQuiz);
+        log.info("Quiz save successfully with ID: {}", newQuiz.getId());
 
         return new QuizCreateResponse(newQuiz.getId(), newQuiz.getTitle());
     }

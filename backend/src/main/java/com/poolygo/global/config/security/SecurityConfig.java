@@ -1,9 +1,9 @@
 package com.poolygo.global.config.security;
 
-import com.poolygo.auth.service.CustomOAuth2UserService;
+import com.poolygo.auth.filter.JwtTokenValidatorFilter;
 import com.poolygo.auth.handler.OAuth2FailureHandler;
 import com.poolygo.auth.handler.OAuth2SuccessHandler;
-import com.poolygo.auth.filter.JwtTokenValidatorFilter;
+import com.poolygo.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/quiz/mcq/**").hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/api/quiz/subjective/**").hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/api/quiz/binary/**").hasAnyRole("ADMIN", "USER")
-                    .anyRequest().hasAnyRole(PERMITTED_ROLES);
+                    .anyRequest().permitAll();
             })
             .oauth2Login(customConfigurer -> {
                 customConfigurer
