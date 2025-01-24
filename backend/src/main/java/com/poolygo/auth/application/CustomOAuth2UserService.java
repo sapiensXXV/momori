@@ -1,4 +1,4 @@
-package com.poolygo.auth.service;
+package com.poolygo.auth.application;
 
 import com.poolygo.auth.UserPrincipal;
 import com.poolygo.auth.userinfo.OAuth2UserInfo;

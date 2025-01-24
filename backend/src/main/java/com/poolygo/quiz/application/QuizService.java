@@ -1,4 +1,4 @@
-package com.poolygo.quiz.service;
+package com.poolygo.quiz.application;
 
 
 import com.poolygo.auth.dto.UserAuthDto;

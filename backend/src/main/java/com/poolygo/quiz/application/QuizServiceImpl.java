@@ -1,9 +1,9 @@
-package com.poolygo.quiz.service;
+package com.poolygo.quiz.application;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
-import com.poolygo.quiz.domain.repository.QuizRepository;
+import com.poolygo.quiz.infrastructure.QuizRepository;
 import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;

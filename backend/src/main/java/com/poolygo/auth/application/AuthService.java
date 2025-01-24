@@ -1,8 +1,8 @@
-package com.poolygo.auth.service;
+package com.poolygo.auth.application;
 
 
 import com.poolygo.auth.dto.UserAuthDto;
-import com.poolygo.auth.util.AuthJwtTokenUtil;
+import com.poolygo.global.util.AuthJwtTokenUtil;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
 package com.poolygo.global.config.security;
 
-import com.poolygo.auth.filter.JwtTokenValidatorFilter;
-import com.poolygo.auth.handler.OAuth2FailureHandler;
-import com.poolygo.auth.handler.OAuth2SuccessHandler;
-import com.poolygo.auth.service.CustomOAuth2UserService;
+import com.poolygo.auth.infrastructure.filter.JwtTokenValidatorFilter;
+import com.poolygo.auth.infrastructure.handler.OAuth2FailureHandler;
+import com.poolygo.auth.infrastructure.handler.OAuth2SuccessHandler;
+import com.poolygo.auth.application.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

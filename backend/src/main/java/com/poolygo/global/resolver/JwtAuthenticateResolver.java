@@ -1,7 +1,7 @@
-package com.poolygo.quiz.resolver;
+package com.poolygo.global.resolver;
 
 import com.poolygo.auth.dto.UserAuthDto;
-import com.poolygo.auth.util.AuthJwtTokenUtil;
+import com.poolygo.global.util.AuthJwtTokenUtil;
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ExceptionCode;

@@ -1,4 +1,4 @@
-package com.poolygo.quiz.resolver;
+package com.poolygo.global.resolver;
 
 import java.lang.annotation.*;
 

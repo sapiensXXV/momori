@@ -1,4 +1,4 @@
-package com.poolygo.auth.filter;
+package com.poolygo.auth.infrastructure.filter;
 
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.global.token.JwtConfiguration;
