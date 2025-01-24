@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 public class QuizController {
@@ -39,7 +39,7 @@ public class QuizController {
 
         return ResponseEntity
             .created(quizUri)
-            .build();
+            .body(createResponse);
     }
 
     @PostMapping("/quiz/mcq/audio")

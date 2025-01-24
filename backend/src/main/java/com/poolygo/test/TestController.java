@@ -43,7 +43,7 @@ public class TestController {
     public ResponseEntity<String> createQuizTestEndpoint(
         @RequestBody ImageMcqQuizCreateRequest createRequest
     ) {
-        QuizCreateResponse createdQuiz = quizService.createImageMcqQuiz(createRequest);
+        QuizCreateResponse createdQuiz = quizService.createImageMcqQuiz(createRequest, null);
         URI createdUri = UriComponentsBuilder
             .fromUriString("http://localhost:8080/quiz/" + createdQuiz.getQuizId())
             .build()
