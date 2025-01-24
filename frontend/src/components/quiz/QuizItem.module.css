@@ -18,10 +18,29 @@
     z-index: 1; /* 확대 시 다른 아이템 위로 올라오게 */
 }
 
+.thumbnailContainer {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25); /* 투명도 조절 (0.5 = 50%) */
+    transition: background 0.3s ease; /* 부드러운 변화 */
+    pointer-events: none; /* 추가: 오버레이가 호버 방해하지 않음 */
+}
+
 .thumbnailImage {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    filter: brightness(50%);
 }
 
 .textContainer {
