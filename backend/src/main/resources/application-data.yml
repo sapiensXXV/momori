@@ -1,9 +1,9 @@
 spring:
   config:
     import: optional:file:.env[.properties]
-  jpa:
-    hibernate:
-      ddl-auto: create
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
   datasource:
     url: ${datasource.address.master}
     username: ${datasource.username}

@@ -68,4 +68,5 @@ public class QuizFactory {
     public Quiz from(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
         return null;
     }
+
 }
