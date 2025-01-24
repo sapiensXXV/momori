@@ -1,0 +1,57 @@
+.item {
+    background-color: white;
+    height: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* 애니메이션 추가 */
+}
+
+.item:hover {
+    transform: scale(1.04); /* 3% 확대 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    position: relative; /* z-index 작동을 위해 */
+    z-index: 1; /* 확대 시 다른 아이템 위로 올라오게 */
+}
+
+.thumbnailImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.textContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    row-gap: 5px;
+}
+
+.title {
+    color: black;
+    font-size: 15px;
+    font-family: Pretendard-SemiBold, serif;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.description {
+    color: #bababa;
+    font-size: 11px;
+    font-family: Pretendard-Regular, serif;
+
+    /* 3줄 말줄임 */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4; /* 가독성 향상 */
+}
