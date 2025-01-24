@@ -1,4 +1,5 @@
 import { useAuth } from "../../context/AuthContext"
+import QuizGrid from "../quiz/QuizGrid.tsx";
 
 export default function Home() {
 
@@ -8,7 +9,7 @@ console.log(`provider=${auth.provider}, roles=${auth.roles}, name=${auth.name}, 
 
   return (
     <>
-      this is home page
+      <QuizGrid />
     </>
   )
 }

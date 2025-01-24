@@ -1,6 +1,11 @@
+/*반응형으로 만들기 위해 크기 별로 그리드 아이템의 크기를 조절할 필요가 있음.*/
+
 .gridContainer {
     display: grid;
-    background-color: #717171;
-    width: 100%;
-    height: 80vh;
+    padding: 1rem;
+
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 1fr; /* 핵심 설정 */
+    row-gap: 30px;
+    column-gap: 40px;
 }
