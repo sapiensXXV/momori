@@ -3,7 +3,7 @@ package com.poolygo.test;
 
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.service.QuizService;
+import com.poolygo.quiz.application.QuizService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.poolygo.auth.handler;
+package com.poolygo.auth.infrastructure.handler;
 
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.global.token.JwtConfiguration;

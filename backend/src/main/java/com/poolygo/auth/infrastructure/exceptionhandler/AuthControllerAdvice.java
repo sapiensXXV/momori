@@ -1,4 +1,4 @@
-package com.poolygo.auth.exceptionhandler;
+package com.poolygo.auth.infrastructure.exceptionhandler;
 
 
 import com.poolygo.global.exception.ErrorResult;

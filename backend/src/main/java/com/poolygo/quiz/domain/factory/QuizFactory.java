@@ -73,11 +73,38 @@ public class QuizFactory {
     }
 
     public Quiz from(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
-        return null;
+        List<AudioSubjectiveQuestion> questions = request.getQuestions().stream()
+            .map(questionFactory::from)
+            .toList();
+
+        return Quiz.builder()
+            .userInfo(userInfoFactory.from(auth))
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .type(QuizType.from(request.getType()))
+            .views(0)
+            .tries(0)
+            .likes(0)
+            .questions(questions)
+            .build();
     }
 
     public Quiz from(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
-        return null;
+        List<BinaryChoiceQuestion> questions = request.getQuestions().stream()
+            .map(questionFactory::from)
+            .toList();
+
+        return Quiz.builder()
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .type(QuizType.from(request.getType()))
+            .views(0)
+            .tries(0)
+            .likes(0)
+            .questions(questions)
+            .build();
     }
 
 }

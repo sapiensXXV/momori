@@ -3,7 +3,7 @@ package com.poolygo.auth.presentation;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.auth.presentation.dto.AuthInfoDto;
-import com.poolygo.auth.service.AuthService;
+import com.poolygo.auth.application.AuthService;
 import com.poolygo.global.config.security.SecurityConstant;
 import com.poolygo.global.exception.NoJwtTokenException;
 import jakarta.servlet.http.HttpServletRequest;

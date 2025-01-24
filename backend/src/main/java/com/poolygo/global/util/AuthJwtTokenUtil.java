@@ -1,4 +1,4 @@
-package com.poolygo.auth.util;
+package com.poolygo.global.util;
 
 
 import com.poolygo.auth.dto.UserAuthDto;

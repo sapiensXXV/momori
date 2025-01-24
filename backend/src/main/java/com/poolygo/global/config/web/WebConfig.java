@@ -1,6 +1,6 @@
 package com.poolygo.global.config.web;
 
-import com.poolygo.quiz.resolver.JwtAuthenticateResolver;
+import com.poolygo.global.resolver.JwtAuthenticateResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

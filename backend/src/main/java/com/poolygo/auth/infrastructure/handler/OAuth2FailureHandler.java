@@ -1,4 +1,4 @@
-package com.poolygo.auth.handler;
+package com.poolygo.auth.infrastructure.handler;
 
 
 import jakarta.servlet.ServletException;
