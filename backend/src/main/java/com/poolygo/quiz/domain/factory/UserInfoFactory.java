@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class UserInfoFactory {
 
     public UserInfo from(UserAuthDto auth) {
-//        return new UserInfo(auth.getIdentifier(), auth.getProvider())
-        return null;
+        return new UserInfo(auth.getIdentifier(), auth.getProvider());
     }
 }
