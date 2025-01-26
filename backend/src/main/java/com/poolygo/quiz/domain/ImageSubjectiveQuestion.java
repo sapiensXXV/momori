@@ -1,11 +1,11 @@
 package com.poolygo.quiz.domain;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class ImageSubjectiveQuestion extends Question {
     private String imageUrl;

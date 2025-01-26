@@ -5,6 +5,7 @@ import NavbarTitle from "./NavbarTitle.tsx";
 import ContactButton from "./ContactButton.tsx";
 import {useAuth} from "../../context/AuthContext.tsx";
 import NavLogoutButton from "./NavLogoutButton.tsx";
+import NavCreateQuizButton from "./NavCreateQuizButton.tsx";
 
 export default function Navbar() {
 
@@ -17,6 +18,11 @@ export default function Navbar() {
           <NavbarTitle />
         </section>
         <section className={styles.buttons}>
+          {
+            auth.isAuthenticated ? <NavCreateQuizButton/> : null
+          }
+
+          {/*<NavCreateQuizButton />*/}
           <ContactButton />
           <NoticeButton />
           {
