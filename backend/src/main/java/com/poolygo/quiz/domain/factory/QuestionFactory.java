@@ -11,13 +11,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionFactory {
 
-    private final ChoiceItemFactory choiceItemFactory;
+    private final ChoiceFactory choiceFactory;
 
     public ImageMcqQuestion from(final ImageMcqQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
-        List<Integer> choices = request.getChoices();
+        List<ImageMcqChoiceCreateRequest> choices = request.getChoices();
 
-        return new ImageMcqQuestion(imageUrl, choices);
+        return ImageMcqQuestion.of(imageUrl, choices);
     }
 
     public ImageSubjectiveQuestion from(final ImageSubjectiveQuestionCreateRequest request) {
@@ -42,8 +42,8 @@ public class QuestionFactory {
     }
 
     public BinaryChoiceQuestion from(final BinaryChoiceQuestionCreateRequest request) {
-        ChoiceItem firstChoice = choiceItemFactory.from(request.getFirst());
-        ChoiceItem secondChoice = choiceItemFactory.from(request.getSecond());
+        BinaryChoiceItem firstChoice = choiceFactory.from(request.getFirst());
+        BinaryChoiceItem secondChoice = choiceFactory.from(request.getSecond());
 
         return new BinaryChoiceQuestion(firstChoice, secondChoice);
     }

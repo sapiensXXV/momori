@@ -9,11 +9,11 @@ import java.util.List;
 public class ImageMcqQuestionDraft extends QuestionDraft {
 
     private String imageUrl;
-    private List<? extends ChoiceDraft> choices;
+    private List<? extends McqChoiceDraft> choices;
 
     private ImageMcqQuestionDraft(
         final String imageUrl,
-        final List<? extends ChoiceDraft> choices
+        final List<? extends McqChoiceDraft> choices
     ) {
         this.imageUrl = imageUrl;
         this.choices = choices;
@@ -21,7 +21,7 @@ public class ImageMcqQuestionDraft extends QuestionDraft {
 
     public static ImageMcqQuestionDraft of(
         final String imageUrl,
-        final List<? extends ChoiceDraft> choices
+        final List<? extends McqChoiceDraft> choices
     ) {
         return new ImageMcqQuestionDraft(imageUrl, choices);
     }

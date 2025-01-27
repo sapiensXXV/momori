@@ -1,12 +1,10 @@
 package com.poolygo.quizdraft.domain;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
-public class ImageMcqChoiceDraft extends ChoiceDraft {
+public class ImageMcqChoiceDraft extends McqChoiceDraft {
 
     private String content;
     private boolean isAnswer;

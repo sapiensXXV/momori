@@ -1,4 +1,4 @@
 package com.poolygo.quizdraft.domain;
 
-public abstract class ChoiceDraft {
+public abstract class McqChoiceDraft {
 }

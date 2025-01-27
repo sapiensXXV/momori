@@ -16,7 +16,6 @@
 /* 호버 효과 */
 .navQuizCreateButton:hover {
     background-color: #2d2d2d;
-    /*background-color: #3b82f6;*/
     color: #ffc935; /* 텍스트 & 아이콘 노란색 유지 */
     transform: scale(1.05); /* 5% 확대 */
 }

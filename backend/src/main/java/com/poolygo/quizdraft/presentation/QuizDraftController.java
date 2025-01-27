@@ -42,4 +42,9 @@ public class QuizDraftController {
     public ResponseEntity<DraftResponse> draftAudioSub() {
         return null;
     }
+
+    @PostMapping("/draft/binary")
+    public ResponseEntity<DraftResponse> draftBinary() {
+        return null;
+    }
 }

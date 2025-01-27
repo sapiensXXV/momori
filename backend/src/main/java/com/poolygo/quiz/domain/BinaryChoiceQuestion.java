@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BinaryChoiceQuestion extends Question {
-    private ChoiceItem first;
-    private ChoiceItem second;
+    private BinaryChoiceItem first;
+    private BinaryChoiceItem second;
 }

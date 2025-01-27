@@ -1,0 +1,168 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f6f6;
+    padding: 10px 10px 10px 10px;
+
+    width: 100%;
+    row-gap: 5px;
+
+    border-radius: 5px;
+}
+
+.questionAddButton {
+    display: flex;
+    border: none;
+    padding: 5px 10px 5px 10px;
+
+    /*width: 105px;*/
+    height: 35px;
+
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    background-color: #ffc935;
+    border-radius: 3px;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}
+
+.questionAddButton img {
+    height: 100%
+}
+
+.questionAddButton span {
+    font-family: Pretendard-Bold;
+    font-size: 14px;
+}
+
+.questionAddButton:hover {
+    transform: scale(1.03); /* 5% 확대 */
+}
+
+/*퀴즈 선택부*/
+.question {
+    display: flex;
+    column-gap: 5px;
+    align-items: flex-start;
+}
+
+/* 파일 선택 부분 */
+
+.fileInputContainer {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+}
+
+/* 기본 파일 입력 숨기기 */
+.hiddenInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 커스텀 업로드 박스 */
+.customUploadBox {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+/* 호버 & 포커스 효과 */
+.customUploadBox:hover,
+.hiddenInput:focus + .customUploadBox {
+    transform: scale(1.08);
+    border-color: #ffd66d;
+    background-color: #ffc935;
+}
+
+/* 업로드 아이콘을 SVG 이미지로 대체 */
+.uploadIcon {
+    color: inherit;
+}
+
+.uploadIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* 아이콘 크기 조정 */
+    height: 80%;
+    pointer-events: none; /* 이미지 클릭 방지 */
+    transition: filter 0.3s ease; /* 색상 변화 애니메이션 */
+}
+
+/* 파일 이름 표시 숨기기 */
+input[type="file"]::file-selector-button {
+    display: none;
+}
+
+/* Chrome/Safari에서 파일 이름 숨기기 */
+.hiddenInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+/* Firefox에서 파일 이름 숨기기 */
+.hiddenInput::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+.choice {
+    display: flex;
+    flex-direction: row;
+}
+
+.choice span {
+    width: 25px;
+}
+
+.choice input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    border: none;
+}
+
+/*선택지 추가*/
+.choiceAddButton {
+    border: none;
+    width: 100px;
+    height: 80px;
+
+    border-radius: 5px;
+    background-color: #ffe6a6;
+    cursor: pointer;
+
+    font-family: Pretendard-Bold;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}
+
+.choiceAddButton:hover {
+    transform: scale(1.08);
+}
+
+/*선택지*/
+.choiceContainer {
+    display: flex;
+    flex-direction: column;
+    column-gap: 5px;
+    row-gap: 4px;
+}
+
+
+

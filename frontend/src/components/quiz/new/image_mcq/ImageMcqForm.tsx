@@ -4,6 +4,7 @@ import axios from "axios";
 import {BASE_URI} from "../../../../uri.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
+import styles from "./ImageMcqForm.module.css"
 
 export default function ImageMcqForm() {
   const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
@@ -39,12 +40,11 @@ export default function ImageMcqForm() {
       );
       const data: ImageUrlResponse = response.data;
       const imageUrl = data.imageUrl;
-      console.log(response);
-
       const copy: ImageMcqQuestion[] = [...questions];
       copy[index].imageUrl = imageUrl;
       setQuestions(copy);
-      console.log(`questions: ${JSON.stringify(copy)}`);
+
+      console.log('image upload success');
     } catch (error) {
       console.error("Upload failed: ", error);
     } finally {
@@ -56,74 +56,114 @@ export default function ImageMcqForm() {
     e.preventDefault();
     const newQuestion: ImageMcqQuestion = {
       imageUrl: null,
-      choices: [],
+      choices: [{content: '', isAnswer: false}],
       answers: [],
     }
     setQuestions([...questions, newQuestion]);
   }
 
-  const handleAddChoice = (
-    e: React.MouseEvent,
+  const addChoice = (
     index: number
   ) => {
-    e.preventDefault();
-    const copyQuestions = [...questions];
-    const newChoice = { content: "", isAnswer: false };
-    copyQuestions[index].choices.push(newChoice); // 새로운 선택지 값 추가
-    setQuestions(copyQuestions);
+    setQuestions(prev =>
+      prev.map((question, qi) => {
+        return index !== qi ? question : {
+          ...question,
+          choices: [...question.choices, { content: "", isAnswer: false }]
+        }
+      })
+    )
   }
 
-  const handleChoiceValueChange = (
+  const choiceInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     qi: number,
     ci: number
   ) => {
-    e.preventDefault();
-    const copyQuestions = [...questions];
-    copyQuestions[qi].choices[ci] = { content: e.target.value, isAnswer: false }
-    setQuestions(copyQuestions);
+    // e.preventDefault()
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : { content: e.target.value, isAnswer: choice.isAnswer }
+          ),
+        }
+      })
+    );
   }
 
-  const handleChoiceAnswerCheck = (
-    e: React.ChangeEvent<HTMLInputElement>,
+  const choiceAnswerCheck = (
     qi: number,
     ci: number
   ) => {
-    e.preventDefault();
-    const copyQuestions = [...questions];
-    copyQuestions[qi].choices[ci].isAnswer = !copyQuestions[qi].choices[ci].isAnswer;
-    setQuestions(copyQuestions);
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : {...choice, isAnswer: !choice.isAnswer}
+          )
+        };
+      })
+    );
   }
 
   return (
-    <section>
-      <button onClick={(e) => handleAddQuestion(e)}>문제 추가하기</button>
-      {questions.map((question, qi) => (
-        <div key={`question_${qi}`}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => imageUploader(e, qi)}
-          />
-          <button onClick={(e) => handleAddChoice(e, qi)}>선택지 추가</button>
+    <section className={styles.main}>
 
-          {question.choices.map((choice, ci) => (
-            <div key={`choice_${qi}_${ci}`}>
-              <input
-                type="checkbox"
-                checked={question.choices[ci].isAnswer}
-                onChange={(e) => handleChoiceAnswerCheck(e, qi, ci)}
+      {questions.map((question, qi) => (
+        <div className={styles.question} key={`question_${qi}`}>
+          <div className={styles.fileInputContainer}>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => imageUploader(e, qi)}
+              id="file-upload"
+              className={styles.hiddenInput}
+            />
+            <label htmlFor="file-upload" className={styles.customUploadBox}>
+              <img
+                src="/img/icon/add.svg"
+                alt="파일 추가"
+                className={styles.uploadIcon}
               />
-              <input
-                type="text"
-                placeholder="선택지를 입력하세요"
-                value={choice.content}
-                onChange={(e) => handleChoiceValueChange(e, qi, ci)}
-              />
-            </div>
-          ))}
+            </label>
+            <button
+              className={styles.choiceAddButton}
+              onClick={() => addChoice(qi)}>
+              선택지 추가
+            </button>
+          </div>
+
+          <div className={styles.choiceContainer}>
+            {question.choices.map((choice, ci) => (
+              <div className={styles.choice} key={`${qi}_${ci}_choice`}>
+                <input
+                  type="checkbox"
+                  checked={question.choices[ci].isAnswer}
+                  onChange={() => choiceAnswerCheck(qi, ci)}
+                  className={styles.answerCheckbox}
+                />
+                <span>{ci + 1}. </span>
+                <input
+                  type="text"
+                  placeholder="선택지를 입력하세요"
+                  value={choice.content}
+                  onChange={(e) => choiceInputChange(e, qi, ci)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       ))}
+      <button
+        className={styles.questionAddButton}
+        onClick={(e) => handleAddQuestion(e)}
+      >
+        <img src={"/img/icon/add.svg"} alt="Add image"/>
+        <span>문제 추가</span>
+      </button>
     </section>
   )
 }
