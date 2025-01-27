@@ -9,13 +9,13 @@ import java.util.List;
 @NoArgsConstructor
 public class ImageMcqQuestion extends Question {
     private String imageUrl;
-    private List<Integer> answers;
+    private List<ImageMcqChoice> choices;
 
     public ImageMcqQuestion(
         final String imageUrl,
-        final List<Integer> answers
+        final List<ImageMcqChoice> choices
     ) {
         this.imageUrl = imageUrl;
-        this.answers = answers;
+        this.choices = choices;
     }
 }

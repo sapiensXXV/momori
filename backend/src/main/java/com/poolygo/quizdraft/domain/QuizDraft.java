@@ -1,7 +1,6 @@
 package com.poolygo.quizdraft.domain;
 
 
-import com.poolygo.quiz.domain.Question;
 import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.UserInfo;
 import lombok.Builder;
@@ -28,5 +27,5 @@ public class QuizDraft {
     private String description;
     private QuizType type;
 
-    private List<? extends Question> questions;
+    private List<? extends QuestionDraft> questions;
 }

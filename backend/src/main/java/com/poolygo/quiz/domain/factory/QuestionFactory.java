@@ -15,9 +15,9 @@ public class QuestionFactory {
 
     public ImageMcqQuestion from(final ImageMcqQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
-        List<Integer> answers = request.getAnswers();
+        List<Integer> choices = request.getChoices();
 
-        return new ImageMcqQuestion(imageUrl, answers);
+        return new ImageMcqQuestion(imageUrl, choices);
     }
 
     public ImageSubjectiveQuestion from(final ImageSubjectiveQuestionCreateRequest request) {

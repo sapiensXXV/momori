@@ -7,5 +7,5 @@ import java.util.List;
 @Getter
 public class ImageMcqQuestionCreateRequest {
     private String imageUrl;
-    private List<Integer> answers;
+    private List<ImageMcqChoiceCreateRequest> choices;
 }
