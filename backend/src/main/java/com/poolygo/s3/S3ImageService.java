@@ -20,13 +20,14 @@ public class S3ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String save(final MultipartFile file) throws IOException {
+    public String saveDraftImage(final MultipartFile file) throws IOException {
         // 고유 파일명 생성
-        String fileName = "temp/quiz/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = "draft/quiz/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         // 메타데이터 설정 image/webp
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("image/webp");
+        metadata.setContentLength(file.getSize());
 
         // S3에 업로드
         amazonS3.putObject(

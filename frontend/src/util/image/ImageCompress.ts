@@ -30,7 +30,6 @@ export const compressImage = async (
       alert('파일을 충분히 압축하지 못했습니다.')
       throw new Error('파일을 충분히 압축하지 못했습니다');
     }
-
     return compressedFile;
   } catch (error) {
     alert('이미지 압축 실패')

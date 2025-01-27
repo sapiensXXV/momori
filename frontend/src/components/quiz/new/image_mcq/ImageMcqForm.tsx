@@ -29,7 +29,7 @@ export default function ImageMcqForm() {
 
       //서버측에 이미지 전달
       const response = await axios.post<{ imageUrl: string; }>(
-        `${BASE_URI}/api/image/temp`,
+        `${BASE_URI}/api/quiz/draft/image`,
         formData,
         {
           headers: {
@@ -39,10 +39,12 @@ export default function ImageMcqForm() {
       );
       const data: ImageUrlResponse = response.data;
       const imageUrl = data.imageUrl;
+      console.log(response);
 
       const copy: ImageMcqQuestion[] = [...questions];
       copy[index].imageUrl = imageUrl;
       setQuestions(copy);
+      console.log(`questions: ${JSON.stringify(copy)}`);
     } catch (error) {
       console.error("Upload failed: ", error);
     } finally {
@@ -92,9 +94,6 @@ export default function ImageMcqForm() {
     copyQuestions[qi].choices[ci].isAnswer = !copyQuestions[qi].choices[ci].isAnswer;
     setQuestions(copyQuestions);
   }
-
-  console.log(questions);
-  console.log(isLoading);
 
   return (
     <section>
