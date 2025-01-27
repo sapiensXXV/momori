@@ -1,4 +1,4 @@
-package com.poolygo.quiztemp.presentation;
+package com.poolygo.quizdraft.presentation;
 
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 @Slf4j
-public class QuizTempController {
+public class QuizDraftController {
 
     private final AmazonS3 amazonS3;
     private final ImageUtil imageUtil;
@@ -30,15 +30,15 @@ public class QuizTempController {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @PostMapping("/image/temp")
+    @PostMapping("/draft/image-mcq")
     public ResponseEntity<?> tempQuiz(
         @RequestParam("image") MultipartFile file
     ) throws IOException {
-        log.info("파일 사이즈={}", file.getSize());
+        log.info("파일 사이즈={}KB", file.getSize() / 1024);
         log.info("파일 이름={}", file.getOriginalFilename());
         log.info("파일 타입={}", file.getContentType());
         // 고유 파일명 생성
-        String fileName = "temp/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = "temp/quiz/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         // 메타데이터 설정 image/webp
         ObjectMetadata metadata = new ObjectMetadata();
@@ -55,6 +55,6 @@ public class QuizTempController {
         // 파일 URL 생성
         String fileUrl = amazonS3.getUrl(bucket, fileName).toString();
 
-        return ResponseEntity.ok().body(Map.of("url", fileUrl));
+        return ResponseEntity.ok().body(Map.of("imageUrl", fileUrl));
     }
 }

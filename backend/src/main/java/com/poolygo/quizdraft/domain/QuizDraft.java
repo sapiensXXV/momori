@@ -1,4 +1,4 @@
-package com.poolygo.quiztemp.domain;
+package com.poolygo.quizdraft.domain;
 
 
 import com.poolygo.quiz.domain.Question;
@@ -16,7 +16,7 @@ import java.util.List;
 @Document
 @Getter
 @Builder
-public class QuizTemp {
+public class QuizDraft {
     @Id
     private String id;
 
