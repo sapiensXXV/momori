@@ -1,14 +1,44 @@
-.main {
-    display: flex;
-    flex-direction: column;
+.questionContainer {
     background-color: #f6f6f6;
     padding: 10px 10px 10px 10px;
-
-    width: 100%;
-    row-gap: 5px;
-
     border-radius: 5px;
 }
+
+/*메타데이터*/
+.metaDataContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
+    background-color: #f6f6f6;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+}
+
+.titleAndDraftButtonContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+}
+
+.quizTitleInput {
+    flex: 1;
+    font-family: Pretendard-Regular, serif;
+    font-size: 14px;
+}
+
+.draftButton {
+    background-color: #ffe6a6;
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+}
+
+.quizDescriptionInput {
+    font-family: Pretendard-Regular, serif;
+    font-size: 14px;
+}
+
+/* 문제 입력부분 */
 
 .questionAddButton {
     display: flex;
@@ -25,7 +55,37 @@
     background-color: #ffc935;
     border-radius: 3px;
 
-    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+    /*transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; !* 트랜지션 추가 *!*/
+}
+
+.questionAddButton:hover {
+    transform: scale(1.01); /* 5% 확대 */
+}
+
+.deleteButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.quizDeleteButton {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    background-color: #ffd4d4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.quizDeleteButton:hover {
+    background-color: #ff6767;
+    color: white;
+
 }
 
 .questionAddButton img {
@@ -37,9 +97,7 @@
     font-size: 14px;
 }
 
-.questionAddButton:hover {
-    transform: scale(1.03); /* 5% 확대 */
-}
+
 
 /*퀴즈 선택부*/
 .question {
@@ -125,16 +183,28 @@ input[type="file"]::file-selector-button {
 .choice {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+    width: 100%;
 }
 
-.choice span {
-    width: 25px;
-}
-
-.choice input[type="checkbox"] {
+.choiceNumber {
     width: 15px;
-    height: 15px;
-    border: none;
+    font-size: 18px;
+    font-family: Pretendard-Regular, serif;
+
+}
+
+.choiceInput {
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    /* 기존 스타일 유지 */
+    border-radius: 4px; /* 둥근 모서리 */
+
+    font-size: 15px;
 }
 
 /*선택지 추가*/
@@ -142,13 +212,10 @@ input[type="file"]::file-selector-button {
     border: none;
     width: 100px;
     height: 80px;
-
     border-radius: 5px;
     background-color: #ffe6a6;
     cursor: pointer;
-
-    font-family: Pretendard-Bold;
-
+    font-family: Pretendard-Bold, serif;
     transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
 }
 
@@ -162,6 +229,65 @@ input[type="file"]::file-selector-button {
     flex-direction: column;
     column-gap: 5px;
     row-gap: 4px;
+
+    width: 100%;
+}
+
+/*체크박스*/
+.hiddenCheckbox {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.customCheckbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+    border: none; /* 테두리 제거 */
+}
+
+/* 체크 상태 스타일 */
+.hiddenCheckbox:checked + .customCheckbox {
+    background: #ffc935; /* 푸른색 배경 */
+    animation: scaleUp 0.2s ease;
+}
+
+/* 체크 마크 스타일 */
+.hiddenCheckbox:checked + .customCheckbox::after {
+    content: "✓";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    animation: fadeIn 0.2s ease;
+}
+
+/* 애니메이션 효과 */
+@keyframes scaleUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 

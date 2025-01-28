@@ -1,14 +1,19 @@
 import React, {useState} from "react";
-import {ImageMcqQuestion} from "../../types/ImageMcqQuestion.types.ts";
+import {ImageMcqQuestion} from "../../types/ImageMcq.types.ts";
 import axios from "axios";
 import {BASE_URI} from "../../../../uri.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
 import styles from "./ImageMcqForm.module.css"
+import ImageMcqQuestionForm from "./ImageMcqQuestionForm.tsx";
+import {ImageMcqMetadata, imageMcqMetadataInit} from "./types/ImageMcq.types.ts";
+import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 
 export default function ImageMcqForm() {
   const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
+  const [metadata, setMetadata] = useState<ImageMcqMetadata>(imageMcqMetadataInit);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [draftCount, setDraftCount] = useState<number>(0);
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
@@ -21,7 +26,6 @@ export default function ImageMcqForm() {
     }
 
     try {
-
       const compressedFile = await compressImage(e.target.files[0]);
 
       setIsLoading(true);
@@ -52,28 +56,36 @@ export default function ImageMcqForm() {
     }
   };
 
-  const handleAddQuestion = (e: React.MouseEvent) => {
+  const deleteQuestion = (qi: number) => {
+    setQuestions(prev =>
+      prev.filter((_, qIdx) => qIdx !== qi)
+    );
+  }
+
+  const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
     const newQuestion: ImageMcqQuestion = {
       imageUrl: null,
-      choices: [{content: '', isAnswer: false}],
-      answers: [],
+      choices: [ {content: '', isAnswer: false} ],
     }
     setQuestions([...questions, newQuestion]);
   }
 
-  const addChoice = (
-    index: number
-  ) => {
+  const addChoice = (index: number) => {
     setQuestions(prev =>
       prev.map((question, qi) => {
-        return index !== qi ? question : {
+        if (index !== qi) return question;
+        if (question.choices.length >= 7) {
+          alert("선택지는 최대 7개까지 만들 수 있습니다");
+          return question;
+        }
+        return {
           ...question,
           choices: [...question.choices, { content: "", isAnswer: false }]
-        }
+        };
       })
-    )
-  }
+    );
+  };
 
   const choiceInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -97,6 +109,7 @@ export default function ImageMcqForm() {
     qi: number,
     ci: number
   ) => {
+    console.log('checkbox is checked!')
     setQuestions(prev =>
       prev.map((question, qIdx) => {
         return qIdx !== qi ? question : {
@@ -109,61 +122,53 @@ export default function ImageMcqForm() {
     );
   }
 
+  const editTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setMetadata(prev => {
+      return { title: newTitle, description: prev.description }
+    })
+  }
+
+  const editDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMetadata(prev => {
+      return { title: prev.title, description: e.target.value }
+    })
+  }
+
+  const clickDraftButton = () => {
+    console.log('draft button clicked!')
+  }
+
+
   return (
-    <section className={styles.main}>
+    <>
+      <ImageMcqMetadataForm
+        editTitle={editTitle}
+        editDescription={editDescription}
+        clickDraftButton={clickDraftButton}
+        draftCount={draftCount}
+      />
+      <section className={`${styles.questionContainer} common-flex-column`}>
+        {questions.map((question, qi) => (
+          <ImageMcqQuestionForm
+            question={question}
+            imageUploader={imageUploader}
+            deleteQuestion={deleteQuestion}
+            addChoice={addChoice}
+            choiceAnswerCheck={choiceAnswerCheck}
+            choiceInputChange={choiceInputChange}
+            qi={qi}
+          />
+        ))}
+        <button
+          className={styles.questionAddButton}
+          onClick={(e) => addQuestion(e)}
+        >
+          <img src={"/img/icon/add.svg"} alt="Add image"/>
+          <span>문제 추가</span>
+        </button>
+      </section>
+    </>
 
-      {questions.map((question, qi) => (
-        <div className={styles.question} key={`question_${qi}`}>
-          <div className={styles.fileInputContainer}>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => imageUploader(e, qi)}
-              id="file-upload"
-              className={styles.hiddenInput}
-            />
-            <label htmlFor="file-upload" className={styles.customUploadBox}>
-              <img
-                src="/img/icon/add.svg"
-                alt="파일 추가"
-                className={styles.uploadIcon}
-              />
-            </label>
-            <button
-              className={styles.choiceAddButton}
-              onClick={() => addChoice(qi)}>
-              선택지 추가
-            </button>
-          </div>
-
-          <div className={styles.choiceContainer}>
-            {question.choices.map((choice, ci) => (
-              <div className={styles.choice} key={`${qi}_${ci}_choice`}>
-                <input
-                  type="checkbox"
-                  checked={question.choices[ci].isAnswer}
-                  onChange={() => choiceAnswerCheck(qi, ci)}
-                  className={styles.answerCheckbox}
-                />
-                <span>{ci + 1}. </span>
-                <input
-                  type="text"
-                  placeholder="선택지를 입력하세요"
-                  value={choice.content}
-                  onChange={(e) => choiceInputChange(e, qi, ci)}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-      <button
-        className={styles.questionAddButton}
-        onClick={(e) => handleAddQuestion(e)}
-      >
-        <img src={"/img/icon/add.svg"} alt="Add image"/>
-        <span>문제 추가</span>
-      </button>
-    </section>
   )
 }
