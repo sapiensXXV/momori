@@ -9,3 +9,8 @@
     row-gap: 30px;
     column-gap: 40px;
 }
+
+.gridContainer > :first-child {
+    grid-column: 1 / 3; /* 1번 열부터 3번 열 전까지 (2열 차지) */
+    grid-row: 1 / 2;    /* 1번 행부터 3번 행 전까지 (2행 차지) */
+}

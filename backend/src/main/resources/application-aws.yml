@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+cloud:
+  aws:
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+    credentials:
+      access-key: ${AWS_IAM_ACCESS_KEY}
+      secret-key: ${AWS_IAM_SECRET_KEY}
+    region:
+      static: ${S3_REGION}

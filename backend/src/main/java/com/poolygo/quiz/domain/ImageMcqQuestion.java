@@ -1,21 +1,28 @@
 package com.poolygo.quiz.domain;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class ImageMcqQuestion extends Question {
     private String imageUrl;
-    private List<Integer> answers;
+    private List<? extends McqChoice> choices;
 
-    public ImageMcqQuestion(
+    private ImageMcqQuestion(
         final String imageUrl,
-        final List<Integer> answers
+        final List<? extends McqChoice> choices
     ) {
         this.imageUrl = imageUrl;
-        this.answers = answers;
+        this.choices = choices;
+    }
+
+    public static ImageMcqQuestion of(
+        final String imageUrl,
+        final List<? extends McqChoice> choices
+    ) {
+        return new ImageMcqQuestion(imageUrl, choices);
     }
 }

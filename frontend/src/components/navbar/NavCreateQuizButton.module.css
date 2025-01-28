@@ -1,0 +1,38 @@
+.navQuizCreateButton {
+    padding: 0.25rem 0.5rem; /* 상하/좌우 통합 */
+    border-radius: 0.25rem;
+    height: 36px;
+    font-size: 0.875rem;
+    background-color: #ffc935;
+    color: black;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* column-gap → gap으로 통합 */
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}
+
+/* 호버 효과 */
+.navQuizCreateButton:hover {
+    background-color: #2d2d2d;
+    color: #ffc935; /* 텍스트 & 아이콘 노란색 유지 */
+    transform: scale(1.05); /* 5% 확대 */
+}
+
+/* 나머지 스타일은 유지 */
+.navQuizCreateButton span {
+    font-size: 14px;
+}
+
+.navQuizCreateButton svg {
+    height: 18px;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

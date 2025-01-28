@@ -21,10 +21,10 @@ public class Quiz {
     private String id;
 
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedAt;
 
     private UserInfo userInfo;
     private String title;
