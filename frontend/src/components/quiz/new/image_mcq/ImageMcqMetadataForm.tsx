@@ -13,7 +13,7 @@ const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
     <div className={styles.metaDataContainer}>
       <div className={styles.titleAndDraftButtonContainer}>
         <input
-          className={`${styles.quizTitleInput} common-input`}
+          className={`${styles.quizTitleInput} common-input-md`}
           type={"text"}
           placeholder={"제목을 입력하세요"}
           onChange={(e) => editTitle(e)}
