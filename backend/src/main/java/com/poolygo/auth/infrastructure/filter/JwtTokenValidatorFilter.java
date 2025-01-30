@@ -59,7 +59,8 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 throw new ServletException(e);
             }
+        } else {
+            filterChain.doFilter(request, response);
         }
-        filterChain.doFilter(request, response);
     }
 }
