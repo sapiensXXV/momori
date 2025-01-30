@@ -22,7 +22,6 @@ const QuestionImage: FC<QuestionImageProps> = ({
         return <img className={"link-shadow-image"} src={imageUrl} alt={"uploaded image"}></img>;
     }
   }
-
   return (
     <>
       { getImage() }

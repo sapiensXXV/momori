@@ -1,22 +1,80 @@
 import React, {useState} from "react";
-import { ImageMcqQuestion } from "./types/ImageMcq.types.ts";
-import axios from "axios";
-import {BASE_URI} from "../../../../uri.ts";
+import {ImageMcqMetadata, imageMcqMetadataInit, ImageMcqQuestion} from "./types/ImageMcq.types.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
 import styles from "./ImageMcqForm.module.css"
 import ImageMcqQuestionForm from "./ImageMcqQuestionForm.tsx";
-import {ImageMcqMetadata, imageMcqMetadataInit} from "./types/ImageMcq.types.ts";
 import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
+import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+
+interface ImageMcqDraftRequest {
+  title: string;
+  description: string;
+  type: string;
+  questions: ImageMcqDraftQuestionRequest[];
+}
+
+interface ImageMcqDraftQuestionRequest {
+  imageUrl: string;
+  choices: ImageMcqDraftChoiceRequest[];
+}
+
+interface ImageMcqDraftChoiceRequest {
+  content: string;
+  isAnswer: boolean;
+}
 
 export default function ImageMcqForm() {
   const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
   const [metadata, setMetadata] = useState<ImageMcqMetadata>(imageMcqMetadataInit);
   const [draftCount, setDraftCount] = useState<number>(0);
 
+  const pushDraftQuiz = async () => {
+    console.log('draft quiz button clicked')
+    const request = makeDraftRequest();
+    console.log(request);
+    try {
+      const response = await axiosJwtInstance.post<{ imageUrl: string; }>(
+        `/api/quizzes/draft/image-mcq`,
+        request
+      );
+      alert('임시저장 성공');
+    } catch (error) {
+      alert('임시저장에 실패하였습니다.');
+    }
+  }
+
+  const pullDraftQuiz = async () => {
+    console.log('pull draft quiz');
+  }
+
+  const makeDraftRequest = () => {
+    const request: ImageMcqDraftRequest = {
+      title: metadata.title,
+      description: metadata.description,
+      type: "IMAGE_MCQ",
+      questions: makeDraftQuestionRequest(),
+    }
+    return request;
+  }
+
+  const makeDraftQuestionRequest = () => {
+    return questions.map((question) => {
+      return {
+        imageUrl: question.imageUrl,
+        choices: makeDraftChoiceRequest(question),
+      }
+    })
+  }
+
+  const makeDraftChoiceRequest = (question: ImageMcqQuestion) => {
+    return question.choices.map((choice) => {
+      return {content: choice.content, isAnswer: choice.isAnswer}
+    });
+  }
+
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
-    console.log(`image uploader run with index=${index}`)
     if (!e.target.value) return;
 
     // 1. 파일 존재 여부 체크 (안전한 접근)
@@ -24,7 +82,7 @@ export default function ImageMcqForm() {
       console.log("No file selected");
       return;
     }
-    
+
     changeImageUploadStatus("pending", index);
     try {
       const compressedFile = await compressImage(e.target.files[0]);
@@ -33,8 +91,8 @@ export default function ImageMcqForm() {
       formData.append("prevImageUrl", questions[index].imageUrl)
 
       //서버측에 이미지 전달
-      const response = await axios.post<{ imageUrl: string; }>(
-        `${BASE_URI}/api/quiz/draft/image`,
+      const response = await axiosJwtInstance.post<{ imageUrl: string; }>(
+        `/api/quiz/draft/image`,
         formData,
         {
           headers: {
@@ -57,10 +115,9 @@ export default function ImageMcqForm() {
   };
 
   const changeImageUploadStatus = (status: string, qi: number) => {
-    console.log(`changeImage Status: status=${status}, question_index=${qi}`);
-    setQuestions(prev => 
-      prev.map((question, index) => 
-        qi !== index ? question : { ...question, imageStatus: status }
+    setQuestions(prev =>
+      prev.map((question, index) =>
+        qi !== index ? question : {...question, imageStatus: status}
       )
     );
   };
@@ -75,7 +132,7 @@ export default function ImageMcqForm() {
     e.preventDefault();
     setQuestions(prev => [
       ...prev,
-      { imageStatus: "not_uploaded", imageUrl: null, choices: [{ content: "", isAnswer: false }] }
+      {imageStatus: "not_uploaded", imageUrl: null, choices: [{content: "", isAnswer: false}]}
     ])
   }
 
@@ -89,7 +146,7 @@ export default function ImageMcqForm() {
         }
         return {
           ...question,
-          choices: [...question.choices, { content: "", isAnswer: false }]
+          choices: [...question.choices, {content: "", isAnswer: false}]
         };
       })
     );
@@ -106,7 +163,7 @@ export default function ImageMcqForm() {
         return qIdx !== qi ? question : {
           ...question,
           choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : { content: e.target.value, isAnswer: choice.isAnswer }
+            cIdx !== ci ? choice : {content: e.target.value, isAnswer: choice.isAnswer}
           ),
         }
       })
@@ -130,24 +187,20 @@ export default function ImageMcqForm() {
   }
 
   const editTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMetadata(prev => ({ ...prev, title: e.target.value }));
+    setMetadata(prev => ({...prev, title: e.target.value}));
   }
 
   const editDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMetadata(prev => ({ ...prev, description: e.target.value }));
+    setMetadata(prev => ({...prev, description: e.target.value}));
   }
-
-  const clickDraftButton = () => {
-    console.log('draft button clicked!')
-  }
-
 
   return (
     <>
       <ImageMcqMetadataForm
         editTitle={editTitle}
         editDescription={editDescription}
-        clickDraftButton={clickDraftButton}
+        pushDraft={pushDraftQuiz}
+        pullDraft={pullDraftQuiz}
         draftCount={draftCount}
       />
       <section className={`${styles.questionContainer} common-flex-column`}>

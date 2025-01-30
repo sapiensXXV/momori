@@ -3,7 +3,6 @@ import {BASE_URI} from "../../../uri.ts";
 export default function DiscordLoginButton() {
 
   function handleLoginClick() {
-    console.log(`${BASE_URI}/oauth2/authorization/discord redirect`)
     window.location.href = BASE_URI + "/oauth2/authorization/discord";
   }
 
