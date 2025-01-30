@@ -26,12 +26,15 @@ public class S3Controller {
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ImageUrlDto> tempQuiz(
-        @RequestParam("image") MultipartFile file
+        @RequestParam("image") MultipartFile file,
+        @RequestParam("prevImageUrl") String prevImageUrl
     ) throws IOException {
         log.info("파일 사이즈={}KB", file.getSize() / 1024);
         log.info("파일 이름={}", file.getOriginalFilename());
         log.info("파일 타입={}", file.getContentType());
+        log.info("이전 이미지 URL={}", prevImageUrl);
         try {
+
             String fileUrl = s3ImageService.saveDraftImage(file);
             return ResponseEntity.ok().body(new ImageUrlDto(fileUrl));
         } catch (AmazonS3Exception e) {

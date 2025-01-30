@@ -40,4 +40,10 @@ public class S3ImageService {
         // 파일 URL 생성
         return amazonS3.getUrl(bucket, fileName).toString();
     }
+
+    public void deleteObject(final String url) {
+        if (url != null) {
+            amazonS3.deleteObject(bucket, url);
+        }
+    }
 }
