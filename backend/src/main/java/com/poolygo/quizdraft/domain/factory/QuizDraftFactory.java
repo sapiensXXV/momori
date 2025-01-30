@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class QuizDraftFactory {
-    
+
     private final QuestionDraftFactory questionDraftFactory;
     private final UserInfoFactory userInfoFactory;
 

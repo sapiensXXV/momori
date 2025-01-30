@@ -6,6 +6,8 @@ import styles from "./ImageMcqForm.module.css"
 import ImageMcqQuestionForm from "./ImageMcqQuestionForm.tsx";
 import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+import axios from "axios";
+import {getCookieValue} from "../../../../global/cookie/cookie.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -75,6 +77,7 @@ export default function ImageMcqForm() {
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
+    console.log('imageUploader call')
     if (!e.target.value) return;
 
     // 1. 파일 존재 여부 체크 (안전한 접근)
@@ -107,17 +110,17 @@ export default function ImageMcqForm() {
       setQuestions(copy);
 
       console.log('image upload success');
-    } catch (error) {
-      console.error("Upload failed: ", error);
-    } finally {
       changeImageUploadStatus("uploaded", index);
+    } catch (error) {
+      changeImageUploadStatus("not_uploaded", index);
+      alert("이미지 업로드에 실패하였습니다.")
     }
   };
 
   const changeImageUploadStatus = (status: string, qi: number) => {
     setQuestions(prev =>
       prev.map((question, index) =>
-        qi !== index ? question : {...question, imageStatus: status}
+        qi === index ? { ...question, imageStatus: status } : question
       )
     );
   };
