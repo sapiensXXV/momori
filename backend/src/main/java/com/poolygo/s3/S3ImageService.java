@@ -20,7 +20,7 @@ public class S3ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String saveDraftImage(final MultipartFile file) throws IOException {
+    public String saveImage(final MultipartFile file) throws IOException {
         // 고유 파일명 생성
         String fileName = "draft/quiz/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
@@ -39,5 +39,11 @@ public class S3ImageService {
 
         // 파일 URL 생성
         return amazonS3.getUrl(bucket, fileName).toString();
+    }
+
+    public void deleteObject(final String url) {
+        if (url != null) {
+            amazonS3.deleteObject(bucket, url);
+        }
     }
 }

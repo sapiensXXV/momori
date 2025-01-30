@@ -10,4 +10,8 @@ public class UserInfoFactory {
     public UserInfo from(UserAuthDto auth) {
         return new UserInfo(auth.getIdentifier(), auth.getProvider());
     }
+
+    public UserInfo from(String identifier, String provider) {
+        return new UserInfo(identifier, provider);
+    }
 }

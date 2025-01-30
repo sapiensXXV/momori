@@ -13,7 +13,6 @@ const ImageMcqQuestionForm: FC<ImageMcqQuestionFormProps> = (
     choiceInputChange,
     qi
   }) => {
-  console.log(qi);
   return (
     <>
       <hr className={`common-hr`}/>

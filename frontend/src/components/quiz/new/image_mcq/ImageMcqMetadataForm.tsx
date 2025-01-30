@@ -1,12 +1,21 @@
 import React, {FC} from "react";
-import {ImageMcqMetadataFormProps} from "./types/ImageMcqProps.types.ts";
 import styles from "./ImageMcqForm.module.css";
+import DraftButton from "../../common/DraftButton.tsx";
+
+type ImageMcqMetadataFormProps = {
+  editTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  editDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  pullDraft: () => void;
+  pushDraft: () => void;
+  draftCount: number;
+}
 
 const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
   {
     editTitle,
     editDescription,
-    clickDraftButton,
+    pullDraft,
+    pushDraft,
     draftCount
   }) => {
   return (
@@ -18,10 +27,7 @@ const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
           placeholder={"제목을 입력하세요"}
           onChange={(e) => editTitle(e)}
         />
-        <button
-          className={`${styles.draftButton} common-button`}
-          onClick={() => clickDraftButton()}
-        >임시저장 {draftCount}</button>
+        <DraftButton pushDraft={pushDraft} pullDraft={pullDraft} count={draftCount}/>
       </div>
       <textarea
         className={`common-textarea`}

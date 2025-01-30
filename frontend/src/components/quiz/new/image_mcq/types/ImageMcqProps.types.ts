@@ -11,9 +11,9 @@ export type ImageMcqQuestionFormProps = {
   qi: number;
 }
 
-export type ImageMcqMetadataFormProps = {
-  editTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  clickDraftButton: () => void;
-  draftCount: number;
-}
+// export type ImageMcqMetadataFormProps = {
+//   editTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+//   editDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+//   clickDraftButton: () => void;
+//   draftCount: number;
+// }
