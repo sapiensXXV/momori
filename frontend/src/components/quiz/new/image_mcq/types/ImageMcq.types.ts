@@ -6,6 +6,7 @@ export type ImageMcqMetadata = {
 export const imageMcqMetadataInit: ImageMcqMetadata = {title: '', description: ''};
 
 export type ImageMcqQuestion = {
+  imageStatus: "not_uploaded" | "pending" | "uploaded";
   imageUrl: string | null;
   choices: ImageMcqChoice[];
 }

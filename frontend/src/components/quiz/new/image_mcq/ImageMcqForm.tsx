@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ImageMcqQuestion} from "../../types/ImageMcq.types.ts";
+import { ImageMcqQuestion } from "./types/ImageMcq.types.ts";
 import axios from "axios";
 import {BASE_URI} from "../../../../uri.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
@@ -12,11 +12,11 @@ import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 export default function ImageMcqForm() {
   const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
   const [metadata, setMetadata] = useState<ImageMcqMetadata>(imageMcqMetadataInit);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [draftCount, setDraftCount] = useState<number>(0);
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
+    console.log(`image uploader run with index=${index}`)
     if (!e.target.value) return;
 
     // 1. 파일 존재 여부 체크 (안전한 접근)
@@ -24,13 +24,13 @@ export default function ImageMcqForm() {
       console.log("No file selected");
       return;
     }
-
+    
+    changeImageUploadStatus("pending", index);
     try {
       const compressedFile = await compressImage(e.target.files[0]);
-
-      setIsLoading(true);
       const formData = new FormData();
       formData.append("image", compressedFile);
+      formData.append("prevImageUrl", questions[index].imageUrl)
 
       //서버측에 이미지 전달
       const response = await axios.post<{ imageUrl: string; }>(
@@ -52,23 +52,31 @@ export default function ImageMcqForm() {
     } catch (error) {
       console.error("Upload failed: ", error);
     } finally {
-      setIsLoading(false);
+      changeImageUploadStatus("uploaded", index);
     }
+  };
+
+  const changeImageUploadStatus = (status: string, qi: number) => {
+    console.log(`changeImage Status: status=${status}, question_index=${qi}`);
+    setQuestions(prev => 
+      prev.map((question, index) => 
+        qi !== index ? question : { ...question, imageStatus: status }
+      )
+    );
   };
 
   const deleteQuestion = (qi: number) => {
     setQuestions(prev =>
-      prev.filter((_, qIdx) => qIdx !== qi)
+      prev.filter((_, index) => index !== qi)
     );
   }
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
-    const newQuestion: ImageMcqQuestion = {
-      imageUrl: null,
-      choices: [ {content: '', isAnswer: false} ],
-    }
-    setQuestions([...questions, newQuestion]);
+    setQuestions(prev => [
+      ...prev,
+      { imageStatus: "not_uploaded", imageUrl: null, choices: [{ content: "", isAnswer: false }] }
+    ])
   }
 
   const addChoice = (index: number) => {
@@ -109,7 +117,6 @@ export default function ImageMcqForm() {
     qi: number,
     ci: number
   ) => {
-    console.log('checkbox is checked!')
     setQuestions(prev =>
       prev.map((question, qIdx) => {
         return qIdx !== qi ? question : {
@@ -123,16 +130,11 @@ export default function ImageMcqForm() {
   }
 
   const editTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    setMetadata(prev => {
-      return { title: newTitle, description: prev.description }
-    })
+    setMetadata(prev => ({ ...prev, title: e.target.value }));
   }
 
   const editDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMetadata(prev => {
-      return { title: prev.title, description: e.target.value }
-    })
+    setMetadata(prev => ({ ...prev, description: e.target.value }));
   }
 
   const clickDraftButton = () => {
@@ -151,6 +153,7 @@ export default function ImageMcqForm() {
       <section className={`${styles.questionContainer} common-flex-column`}>
         {questions.map((question, qi) => (
           <ImageMcqQuestionForm
+            key={`question_${qi}`}
             question={question}
             imageUploader={imageUploader}
             deleteQuestion={deleteQuestion}
