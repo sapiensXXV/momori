@@ -35,7 +35,7 @@ public class S3Controller {
         log.info("이전 이미지 URL={}", prevImageUrl);
         try {
 
-            String fileUrl = s3ImageService.saveDraftImage(file);
+            String fileUrl = s3ImageService.saveImage(file);
             return ResponseEntity.ok().body(new ImageUrlDto(fileUrl));
         } catch (AmazonS3Exception e) {
             log.info("s3 exception={}", e.getMessage());

@@ -1,6 +1,8 @@
 package com.poolygo.quizdraft.presentation;
 
 
+import com.poolygo.auth.dto.UserAuthDto;
+import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.quizdraft.application.QuizDraftService;
 import com.poolygo.quizdraft.presentation.dto.DraftImageMcqQuizRequest;
 import com.poolygo.quizdraft.presentation.dto.DraftResponse;
@@ -22,9 +24,14 @@ public class QuizDraftController {
 
     @PostMapping("/draft/image-mcq")
     public ResponseEntity<DraftResponse> draftImageMcq(
-        @RequestBody DraftImageMcqQuizRequest request
-    ) {
-        quizDraftService.createImageMcqDraft(request);
+        @RequestBody DraftImageMcqQuizRequest request,
+        @AuthenticateUser UserAuthDto userInfo
+        ) {
+        quizDraftService.createImageMcqDraft(
+            request,
+            userInfo.getIdentifier(),
+            userInfo.getProvider()
+        );
         return ResponseEntity.ok(DraftResponse.success());
     }
 

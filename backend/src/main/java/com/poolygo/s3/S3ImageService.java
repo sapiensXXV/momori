@@ -20,7 +20,7 @@ public class S3ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String saveDraftImage(final MultipartFile file) throws IOException {
+    public String saveImage(final MultipartFile file) throws IOException {
         // 고유 파일명 생성
         String fileName = "draft/quiz/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
