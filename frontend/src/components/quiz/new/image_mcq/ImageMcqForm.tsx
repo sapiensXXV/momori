@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 import {ImageMcqMetadata, imageMcqMetadataInit, ImageMcqQuestion} from "./types/ImageMcq.types.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
@@ -9,6 +9,7 @@ import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {PushDraftResponse} from "../../types/draft.ts";
+import {QuestionTypes} from "../../../../types/question.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -28,8 +29,17 @@ interface ImageMcqDraftChoiceRequest {
   isAnswer: boolean;
 }
 
-export default function ImageMcqForm() {
-  const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
+type ImageMcqFormProps = {
+  questions: ImageMcqQuestion[];
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionTypes[]>>;
+}
+
+const ImageMcqForm: FC<ImageMcqFormProps> = ({
+  questions,
+  setQuestions
+}) => {
+  // const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
+
   const [metadata, setMetadata] = useState<ImageMcqMetadata>(imageMcqMetadataInit);
   const [draftCount, setDraftCount] = useState<number>(0);
 
@@ -237,3 +247,5 @@ export default function ImageMcqForm() {
 
   )
 }
+
+export default ImageMcqForm;

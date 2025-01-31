@@ -9,6 +9,7 @@ import ContactPage from "./components/contact/ContactPage.tsx";
 import {AuthProvider} from "./context/AuthContext.tsx";
 import OAuth2Callback from "./components/login/callback/OAuth2Callback.tsx";
 import NewQuiz from "./components/quiz/new/NewQuiz.tsx";
+import {QuizProvider} from "./context/QuizContext.tsx";
 
 
 function App() {
@@ -26,7 +27,10 @@ function App() {
               <Route path="/notices" element={<NoticesPage/>}/>
               <Route path="/contact" element={<ContactPage/>}/>
               <Route path="/auth/callback" element={<OAuth2Callback/>}/>
-              <Route path="/quiz/new" element={<NewQuiz />}/>
+              <Route
+                path="/quiz/new"
+                element={<QuizProvider><NewQuiz /></QuizProvider>}
+              />
             </Routes>
             <Footer/>
           </BrowserRouter>
