@@ -1,6 +1,6 @@
 package com.poolygo.quizdraft.application;
 
-import com.poolygo.auth.dto.UserAuthDto;
+import com.poolygo.quizdraft.domain.QuizDraft;
 import com.poolygo.quizdraft.domain.factory.QuizDraftFactory;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.quizdraft.presentation.dto.DraftImageMcqQuizRequest;
@@ -14,12 +14,13 @@ public class QuizDraftService {
     private final QuizDraftFactory draftFactory;
     private final QuizDraftRepository quizDraftRepository;
 
-    public void createImageMcqDraft(
+    public String createImageMcqDraft(
         final DraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {
-        quizDraftRepository.save(draftFactory.from(request, userIdentifier, userProvider));
+        QuizDraft savedDraft = quizDraftRepository.save(draftFactory.from(request, userIdentifier, userProvider));
+        return savedDraft.getId();
     }
 
 

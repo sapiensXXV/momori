@@ -27,12 +27,12 @@ public class QuizDraftController {
         @RequestBody DraftImageMcqQuizRequest request,
         @AuthenticateUser UserAuthDto userInfo
         ) {
-        quizDraftService.createImageMcqDraft(
+        String id = quizDraftService.createImageMcqDraft(
             request,
             userInfo.getIdentifier(),
             userInfo.getProvider()
         );
-        return ResponseEntity.ok(DraftResponse.success());
+        return ResponseEntity.ok(DraftResponse.success(id));
     }
 
     @PostMapping("/draft/image-sub")
