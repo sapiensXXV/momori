@@ -23,5 +23,30 @@ public class QuizDraftService {
         return savedDraft.getId();
     }
 
+    public String updateImageMcqDraft(
+        final String id,
+        final DraftImageMcqQuizRequest request,
+        final String userIdentifier,
+        final String userProvider
+    ) {
+        QuizDraft updatedDraft = draftFactory.from(id, request, userIdentifier, userProvider);
+        quizDraftRepository.save(updatedDraft);
+        return updatedDraft.getId();
+    }
+
+    public String saveOrUpdateDraft(
+        final DraftImageMcqQuizRequest request,
+        final String userIdentifier,
+        final String userProvider
+    ) {
+        String formerId = request.getFormerDraftId();
+        if (formerId == null) {
+            // 기존의 draft_id가 없는 경우 새로운 도큐먼트 생성
+            return createImageMcqDraft(request, userIdentifier, userProvider);
+        } else {
+            return updateImageMcqDraft(formerId, request, userIdentifier, userProvider);
+        }
+    }
+
 
 }

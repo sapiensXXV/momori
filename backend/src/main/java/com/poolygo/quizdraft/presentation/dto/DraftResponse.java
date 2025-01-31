@@ -14,7 +14,7 @@ public class DraftResponse {
     }
 
     public static DraftResponse success(final String draftId) {
-        return new DraftResponse("draft create success", draftId);
+        return new DraftResponse("draft request success", draftId);
     }
 
     public static DraftResponse failure() {

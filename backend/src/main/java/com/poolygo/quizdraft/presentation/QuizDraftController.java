@@ -27,11 +27,7 @@ public class QuizDraftController {
         @RequestBody DraftImageMcqQuizRequest request,
         @AuthenticateUser UserAuthDto userInfo
         ) {
-        String id = quizDraftService.createImageMcqDraft(
-            request,
-            userInfo.getIdentifier(),
-            userInfo.getProvider()
-        );
+        String id = quizDraftService.saveOrUpdateDraft(request, userInfo.getIdentifier(), userInfo.getProvider());
         return ResponseEntity.ok(DraftResponse.success(id));
     }
 
