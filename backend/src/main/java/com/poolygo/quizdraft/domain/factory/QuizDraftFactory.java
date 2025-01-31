@@ -37,4 +37,24 @@ public class QuizDraftFactory {
             .build();
     }
 
+    public QuizDraft from(
+        final String id,
+        final DraftImageMcqQuizRequest request,
+        final String userIdentifier,
+        final String userProvider
+    ) {
+        List<QuestionDraft> questions = request.getQuestions().stream()
+            .map(questionDraftFactory::from)
+            .toList();
+
+        return QuizDraft.builder()
+            .id(id)
+            .title(request.getTitle())
+            .description(request.getDescription())
+            .userInfo(userInfoFactory.from(userIdentifier, userProvider))
+            .type(QuizType.from(request.getType()))
+            .questions(questions)
+            .build();
+    }
+
 }

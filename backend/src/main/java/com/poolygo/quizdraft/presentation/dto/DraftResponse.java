@@ -6,16 +6,18 @@ import lombok.Getter;
 @Getter
 public class DraftResponse {
     private final String message;
+    private final String draftId;
 
-    private DraftResponse(String message) {
+    private DraftResponse(final String message, final String draftId) {
         this.message = message;
+        this.draftId = draftId;
     }
 
-    public static DraftResponse success() {
-        return new DraftResponse("draft create success");
+    public static DraftResponse success(final String draftId) {
+        return new DraftResponse("draft request success", draftId);
     }
 
     public static DraftResponse failure() {
-        return new DraftResponse("draft create failure");
+        return new DraftResponse("draft create failure", null);
     }
 }

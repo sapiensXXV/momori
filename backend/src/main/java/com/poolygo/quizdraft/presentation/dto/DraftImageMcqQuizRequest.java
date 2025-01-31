@@ -11,6 +11,7 @@ public class DraftImageMcqQuizRequest {
 
     private String title;
     private String description;
+    private String formerDraftId;
     private String type;
 
     private List<DraftImageMcqQuestionRequest> questions;

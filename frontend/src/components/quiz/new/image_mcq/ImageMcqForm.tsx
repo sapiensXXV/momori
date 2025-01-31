@@ -6,13 +6,15 @@ import styles from "./ImageMcqForm.module.css"
 import ImageMcqQuestionForm from "./ImageMcqQuestionForm.tsx";
 import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
-import axios from "axios";
-import {getCookieValue} from "../../../../global/cookie/cookie.ts";
+import {QuizTypes} from "../../types/Quiz.types.ts";
+import {handleError} from "../../../../global/error/error.ts";
+import {PushDraftResponse} from "../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
   description: string;
-  type: string;
+  type: QuizTypes;
+  formerDraftId: string | null;
   questions: ImageMcqDraftQuestionRequest[];
 }
 
@@ -36,13 +38,16 @@ export default function ImageMcqForm() {
     const request = makeDraftRequest();
     console.log(request);
     try {
-      const response = await axiosJwtInstance.post<{ imageUrl: string; }>(
+      // 이미지 임시 저장 요청
+      const response = await axiosJwtInstance.post<PushDraftResponse>(
         `/api/quizzes/draft/image-mcq`,
         request
       );
+      setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
+      console.log(response);
       alert('임시저장 성공');
     } catch (error) {
-      alert('임시저장에 실패하였습니다.');
+      handleError(error);
     }
   }
 
@@ -52,9 +57,10 @@ export default function ImageMcqForm() {
 
   const makeDraftRequest = () => {
     const request: ImageMcqDraftRequest = {
-      title: metadata.title,
-      description: metadata.description,
-      type: "IMAGE_MCQ",
+      title: metadata.title ?? "제목 없음",
+      description: metadata.description ?? "설명 없음",
+      formerDraftId: metadata.formerDraftId,
+      type: QuizTypes.IMAGE_MCQ,
       questions: makeDraftQuestionRequest(),
     }
     return request;
