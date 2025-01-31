@@ -6,6 +6,7 @@ import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.quizdraft.presentation.dto.DraftImageMcqQuizRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class QuizDraftService {
         final String userProvider
     ) {
         String formerId = request.getFormerDraftId();
-        if (formerId == null) {
+        if (!StringUtils.hasText(formerId)) {
             // 기존의 draft_id가 없는 경우 새로운 도큐먼트 생성
             return createImageMcqDraft(request, userIdentifier, userProvider);
         } else {
