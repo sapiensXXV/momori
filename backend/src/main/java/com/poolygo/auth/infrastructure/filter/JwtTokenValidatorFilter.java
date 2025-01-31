@@ -45,7 +45,6 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                     .getPayload();
 
                 String identifier = (String) claims.get("identifier");
-//                String provider = (String) claims.get("provider");
                 String role = (String) claims.get("role");
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
