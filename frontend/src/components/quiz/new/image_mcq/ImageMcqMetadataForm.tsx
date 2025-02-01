@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./ImageMcqForm.module.css";
-import DraftButton from "../../common/DraftButton.tsx";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {ImageMcqQuestion} from "../../../../types/question.ts";
+import DraftButton from "../common/DraftButton.tsx";
+import QuizCreateButton from "../common/QuizCreateButton.tsx";
 
 
 const ImageMcqMetadataForm = () => {
@@ -26,7 +27,8 @@ const ImageMcqMetadataForm = () => {
           placeholder={"제목을 입력하세요"}
           onChange={(e) => editTitle(e)}
         />
-        <DraftButton count={draftCount}/>
+        <QuizCreateButton/>
+        <DraftButton/>
       </div>
       <textarea
         className={`common-textarea`}

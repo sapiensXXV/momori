@@ -1,5 +1,3 @@
-import {ImageMcqQuestion} from "./question.ts";
-
 export interface NewQuizMetadata {
   title: string;
   description: string;

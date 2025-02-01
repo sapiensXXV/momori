@@ -1,6 +1,5 @@
 import styles from "./ImageMcqForm.module.css";
 import React from "react";
-import QuestionImage from "../../common/QuestionImage.tsx";
 import {ImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
@@ -9,6 +8,7 @@ import {handleError} from "../../../../global/error/error.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {ImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
+import QuestionImage from "../common/QuestionImage.tsx";
 
 const ImageMcqQuestionForm = () => {
 

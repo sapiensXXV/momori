@@ -1,6 +1,6 @@
 import {FC} from "react";
 import classes from './QuestionImage.module.css'
-import {ImageUploadStatus} from "../../../types/question.ts";
+import {ImageUploadStatus} from "../../../../types/question.ts";
 
 type QuestionImageProps = {
   status: ImageUploadStatus;

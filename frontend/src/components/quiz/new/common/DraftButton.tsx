@@ -1,15 +1,11 @@
 import classes from "./DraftButton.module.css"
-import { FC } from "react";
-import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
-import {PushDraftResponse} from "../../../types/draft.ts";
-import {handleError} from "../../../global/error/error.ts";
-import {QuizTypes} from "../types/Quiz.types.ts";
-import {ImageMcqQuestion} from "../../../types/question.ts";
-import {useQuizContext} from "../../../context/QuizContext.tsx";
-
-interface DraftButtonProps {
-  count: number;
-}
+import {FC, useEffect} from "react";
+import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+import {handleError} from "../../../../global/error/error.ts";
+import {QuizTypes} from "../../types/Quiz.types.ts";
+import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {ImageMcqQuestion} from "../../../../types/question.ts";
+import {PushDraftResponse} from "../../../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -29,11 +25,20 @@ interface ImageMcqDraftChoiceRequest {
   isAnswer: boolean;
 }
 
-const DraftButton: FC<DraftButtonProps> = ({
-  count
-}) => {
+const DraftButton: FC<DraftButtonProps> = () => {
 
-  const { questions, metadata, setMetadata } = useQuizContext<ImageMcqQuestion>()
+  const { questions, metadata, setMetadata, draftCount, setDraftCount } = useQuizContext<ImageMcqQuestion>()
+
+  useEffect(() => {
+    getDraftList();
+  }, [])
+
+  const getDraftList = async () => {
+    const response = await axiosJwtInstance.get('/api/quizzes/draft');
+    console.log(response);
+    setDraftCount(response.data.length);
+  }
+
 
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
@@ -54,6 +59,7 @@ const DraftButton: FC<DraftButtonProps> = ({
     }
   }
 
+  //TODO: pullDraft 구현
   const pullDraft = async () => {
     console.log('pull draft quiz');
   }
@@ -89,9 +95,8 @@ const DraftButton: FC<DraftButtonProps> = ({
       <div className={classes.draftButtonContainer}>
         <div className={classes.draftPushButton} onClick={() => pushDraft()}>임시저장</div>
         <div className={classes.draftButtonDivider}></div>
-        <div className={classes.draftPullButton} onClick={() => pullDraft()}>{count}</div>
+        <div className={classes.draftPullButton} onClick={() => pullDraft()}>{draftCount}</div>
       </div>
-
     </>
   )
 }
