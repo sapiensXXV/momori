@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 public class DraftInfoResponse {
     private final String draftId;
     private final String title;
-    private final LocalDateTime lastModified;
+    private final LocalDateTime createdAt;
 
     private DraftInfoResponse(
         final String draftId,
         final String title,
-        final LocalDateTime lastModified
+        final LocalDateTime createdAt
     ) {
         this.draftId = draftId;
         this.title = title;
-        this.lastModified = lastModified;
+        this.createdAt = createdAt;
     }
 
     public static DraftInfoResponse of(
