@@ -1,52 +1,50 @@
 import {ImageBinaryChoice, ImageMcqChoice, VideoBinaryChoice, VideoMcqChoice} from "./choice.ts";
 
-enum ImageUploadStatus {
+export enum ImageUploadStatus {
   NOT_UPLOADED = "not_uploaded",
   UPLOADED = "uploaded",
   PENDING = "pending"
 }
 
-enum VideoUploadStatus {
+export enum VideoUploadStatus {
   NOT_UPLOADED = "not_uploaded",
   UPLOADED = "uploaded",
   PENDING = "pending"
 }
 
 interface BaseQuestion {
-  title: string;
-  description: string;
 }
 
-interface ImageMcqQuestion extends BaseQuestion {
+export interface ImageMcqQuestion extends BaseQuestion {
   imageStatus: ImageUploadStatus;
   imageUrl: string;
   choices: ImageMcqChoice[];
 }
 
-interface ImageSubjectiveQuestion extends BaseQuestion {
+export interface ImageSubjectiveQuestion extends BaseQuestion {
   imageStatus: ImageUploadStatus;
   imageUrl: string;
   answers: string[];
 }
 
-interface VideoMcqQuestion extends BaseQuestion {
+export interface VideoMcqQuestion extends BaseQuestion {
   videoStatus: VideoUploadStatus;
   videoUrl: string;
   choices: VideoMcqChoice[];
 }
 
-interface VideoSubjectiveQudstion extends BaseQuestion {
+export interface VideoSubjectiveQuestion extends BaseQuestion {
   videoStatus: VideoUploadStatus;
   videoUrl: string;
   answers: string[];
 }
 
-interface ImageBinaryQuestion extends BaseQuestion {
+export interface ImageBinaryQuestion extends BaseQuestion {
   first: ImageBinaryChoice;
   second: ImageBinaryChoice;
 }
 
-interface VideoBinaryQuestion extends BaseQuestion {
+export interface VideoBinaryQuestion extends BaseQuestion {
   first: VideoBinaryChoice;
   second: VideoBinaryChoice;
 }
@@ -55,7 +53,7 @@ export type QuestionTypes =
   | ImageMcqQuestion
   | ImageSubjectiveQuestion
   | VideoMcqQuestion
-  | VideoSubjectiveQudstion
+  | VideoSubjectiveQuestion
   | ImageBinaryQuestion
   | VideoBinaryQuestion
 

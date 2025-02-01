@@ -1,5 +1,5 @@
 import classes from "./DraftButton.module.css"
-import { React, FC, useState } from "react";
+import { FC } from "react";
 
 interface DraftButtonProps {
   pushDraft: () => void; // 임시 null

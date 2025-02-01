@@ -1,5 +1,4 @@
 import React, {FC, useState} from "react";
-import {ImageMcqMetadata, imageMcqMetadataInit, ImageMcqQuestion} from "./types/ImageMcq.types.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {compressImage} from "../../../../util/image/ImageCompress.ts";
 import styles from "./ImageMcqForm.module.css"
@@ -8,8 +7,9 @@ import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {handleError} from "../../../../global/error/error.ts";
-import {PushDraftResponse} from "../../types/draft.ts";
-import {QuestionTypes} from "../../../../types/question.ts";
+import {ImageMcqQuestion, ImageUploadStatus } from "../../../../types/question.ts";
+import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {PushDraftResponse} from "../../../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -31,16 +31,11 @@ interface ImageMcqDraftChoiceRequest {
 
 type ImageMcqFormProps = {
   questions: ImageMcqQuestion[];
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionTypes[]>>;
+  setQuestions: React.Dispatch<React.SetStateAction<ImageMcqQuestion[]>>;
 }
 
-const ImageMcqForm: FC<ImageMcqFormProps> = ({
-  questions,
-  setQuestions
-}) => {
-  // const [questions, setQuestions] = useState<ImageMcqQuestion[]>([]);
-
-  const [metadata, setMetadata] = useState<ImageMcqMetadata>(imageMcqMetadataInit);
+const ImageMcqForm: FC<ImageMcqFormProps> = ({ questions, setQuestions }) => {
+  const { metadata, setMetadata } = useQuizContext();
   const [draftCount, setDraftCount] = useState<number>(0);
 
   const pushDraftQuiz = async () => {
@@ -53,7 +48,11 @@ const ImageMcqForm: FC<ImageMcqFormProps> = ({
         `/api/quizzes/draft/image-mcq`,
         request
       );
-      setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
+
+      setQuestions(prev => {
+        return { ...prev, formerDraftId: response.data.draftId }
+      })
+      // setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
       console.log(response);
       alert('임시저장 성공');
     } catch (error) {
@@ -102,7 +101,7 @@ const ImageMcqForm: FC<ImageMcqFormProps> = ({
       return;
     }
 
-    changeImageUploadStatus("pending", index);
+    changeImageUploadStatus(ImageUploadStatus.PENDING, index);
     try {
       const compressedFile = await compressImage(e.target.files[0]);
       const formData = new FormData();
@@ -126,19 +125,20 @@ const ImageMcqForm: FC<ImageMcqFormProps> = ({
       setQuestions(copy);
 
       console.log('image upload success');
-      changeImageUploadStatus("uploaded", index);
+      changeImageUploadStatus(ImageUploadStatus.UPLOADED, index);
     } catch (error) {
-      changeImageUploadStatus("not_uploaded", index);
+      handleError(error);
+      changeImageUploadStatus(ImageUploadStatus.NOT_UPLOADED, index);
       alert("이미지 업로드에 실패하였습니다.")
     }
   };
 
-  const changeImageUploadStatus = (status: string, qi: number) => {
-    setQuestions(prev =>
-      prev.map((question, index) =>
-        qi === index ? { ...question, imageStatus: status } : question
-      )
-    );
+  const changeImageUploadStatus = (status: ImageUploadStatus, qi: number) => {
+    setQuestions(prev => {
+      return prev.map((question, index) =>
+        qi === index ? {...question, imageStatus: status} : question
+      );
+    });
   };
 
   const deleteQuestion = (qi: number) => {
@@ -149,10 +149,14 @@ const ImageMcqForm: FC<ImageMcqFormProps> = ({
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
-    setQuestions(prev => [
-      ...prev,
-      {imageStatus: "not_uploaded", imageUrl: null, choices: [{content: "", isAnswer: false}]}
-    ])
+    setQuestions(prev => {
+      return [...prev, {
+        imageStatus: ImageUploadStatus.NOT_UPLOADED,
+        imageUrl: "",
+        choices: [{content: "", isAnswer: false}]
+      }]
+    });
+
   }
 
   const addChoice = (index: number) => {

@@ -1,8 +1,9 @@
 import {FC} from "react";
 import classes from './QuestionImage.module.css'
+import {ImageUploadStatus} from "../../../types/question.ts";
 
 type QuestionImageProps = {
-  status: "not_uploaded" | "pending" | "uploaded";
+  status: ImageUploadStatus;
   imageUrl: string | null;
 }
 
@@ -13,11 +14,11 @@ const QuestionImage: FC<QuestionImageProps> = ({
 
   const getImage = () => {
     switch(status) {
-      case "not_uploaded":
+      case ImageUploadStatus.NOT_UPLOADED:
         return <img className={classes.imageAddIcon} src={"/img/icon/add.svg"} alt={"default add image"} ></img>;
-      case "pending":
+      case ImageUploadStatus.PENDING:
         return <img className={classes.imageAddIcon} src={"/img/icon/loading.gif"} alt={"pending animation"}></img>;
-      case "uploaded":
+      case ImageUploadStatus.UPLOADED:
         if (imageUrl === null) return;
         return <img className={"link-shadow-image"} src={imageUrl} alt={"uploaded image"}></img>;
     }
