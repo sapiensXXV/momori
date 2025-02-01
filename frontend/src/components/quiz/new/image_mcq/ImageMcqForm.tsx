@@ -29,14 +29,12 @@ interface ImageMcqDraftChoiceRequest {
   isAnswer: boolean;
 }
 
-type ImageMcqFormProps = {
-  questions: ImageMcqQuestion[];
-  setQuestions: React.Dispatch<React.SetStateAction<ImageMcqQuestion[]>>;
-}
-
-const ImageMcqForm: FC<ImageMcqFormProps> = ({ questions, setQuestions }) => {
-  const { metadata, setMetadata } = useQuizContext();
+const ImageMcqForm = () => {
+  const { questions, setQuestions, metadata, setMetadata } = useQuizContext<ImageMcqQuestion>();
   const [draftCount, setDraftCount] = useState<number>(0);
+
+  console.log(questions);
+  console.log(metadata);
 
   const pushDraftQuiz = async () => {
     console.log('draft quiz button clicked')
@@ -49,10 +47,7 @@ const ImageMcqForm: FC<ImageMcqFormProps> = ({ questions, setQuestions }) => {
         request
       );
 
-      setQuestions(prev => {
-        return { ...prev, formerDraftId: response.data.draftId }
-      })
-      // setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
+      setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
       console.log(response);
       alert('임시저장 성공');
     } catch (error) {

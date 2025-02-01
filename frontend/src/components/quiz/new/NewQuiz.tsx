@@ -1,5 +1,5 @@
 import styles from "./NewQuiz.module.css"
-import React, { useState } from "react";
+import React  from "react";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqForm from "./image_mcq/ImageMcqForm.tsx";
 import ImageSubjectiveForm from "./image_subjective/ImageSubjectiveForm.tsx";
@@ -7,18 +7,17 @@ import AudioMcqForm from "./audio_mcq/AudioMcqForm.tsx";
 import AudioSubjectiveForm from "./audio_subjective/AudioSubjectiveForm.tsx";
 import BinaryChoiceForm from "./binary_choice/BinaryChoiceForm.tsx";
 import {useQuizContext} from "../../../context/QuizContext.tsx";
-import {ImageMcqQuestion, ImageSubjectiveQuestion} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { quizType, setQuizType, questions, setQuestions } = useQuizContext();
+  const { quizType, setQuizType } = useQuizContext();
 
   const getQuizForm = () => {
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
-        return <ImageMcqForm questions={questions as ImageMcqQuestion[]} setQuestions={setQuestions}/>;
+        return <ImageMcqForm/>;
       case QuizTypes.IMAGE_SUBJECTIVE:
-        return <ImageSubjectiveForm questions={questions as ImageSubjectiveQuestion[]}/>;
+        return <ImageSubjectiveForm />;
       case QuizTypes.AUDIO_MCQ:
         return <AudioMcqForm/>
       case QuizTypes.AUDIO_SUBJECTIVE:
