@@ -1,23 +1,22 @@
-import React, {FC} from "react";
+import React from "react";
 import styles from "./ImageMcqForm.module.css";
 import DraftButton from "../../common/DraftButton.tsx";
+import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {ImageMcqQuestion} from "../../../../types/question.ts";
 
-type ImageMcqMetadataFormProps = {
-  editTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  pullDraft: () => void;
-  pushDraft: () => void;
-  draftCount: number;
-}
 
-const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
-  {
-    editTitle,
-    editDescription,
-    pullDraft,
-    pushDraft,
-    draftCount
-  }) => {
+const ImageMcqMetadataForm = () => {
+
+  const { setMetadata, draftCount } = useQuizContext<ImageMcqQuestion>()
+
+  const editTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMetadata(prev => ({...prev, title: e.target.value}));
+  }
+
+  const editDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMetadata(prev => ({...prev, description: e.target.value}));
+  }
+
   return (
     <div className={styles.metaDataContainer}>
       <div className={styles.titleAndDraftButtonContainer}>
@@ -27,7 +26,7 @@ const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
           placeholder={"제목을 입력하세요"}
           onChange={(e) => editTitle(e)}
         />
-        <DraftButton pushDraft={pushDraft} pullDraft={pullDraft} count={draftCount}/>
+        <DraftButton count={draftCount}/>
       </div>
       <textarea
         className={`common-textarea`}

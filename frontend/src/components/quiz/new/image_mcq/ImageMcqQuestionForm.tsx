@@ -1,80 +1,190 @@
 import styles from "./ImageMcqForm.module.css";
-import React, {FC} from "react";
-import {ImageMcqQuestionFormProps} from "./types/ImageMcqProps.types.ts";
+import React from "react";
 import QuestionImage from "../../common/QuestionImage.tsx";
+import {ImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
+import {compressImage} from "../../../../util/image/ImageCompress.ts";
+import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
+import {handleError} from "../../../../global/error/error.ts";
+import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {ImageMcqChoice} from "../../../../types/choice.ts";
+import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
 
-const ImageMcqQuestionForm: FC<ImageMcqQuestionFormProps> = (
-  {
-    question,
-    imageUploader,
-    deleteQuestion,
-    addChoice,
-    choiceAnswerCheck,
-    choiceInputChange,
-    qi
-  }) => {
+const ImageMcqQuestionForm = () => {
+
+  const { questions, setQuestions } = useQuizContext<ImageMcqQuestion>();
+
+  const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    e.preventDefault();
+    console.log('imageUploader call')
+    if (!e.target.value) return;
+
+    // 1. 파일 존재 여부 체크 (안전한 접근)
+    if (!e.target.files || e.target.files.length === 0) {
+      console.log("No file selected");
+      return;
+    }
+
+    changeImageUploadStatus(ImageUploadStatus.PENDING, index);
+    try {
+      const compressedFile = await compressImage(e.target.files[0]);
+      const formData = new FormData();
+      formData.append("image", compressedFile);
+      formData.append("prevImageUrl", questions[index].imageUrl)
+
+      //서버측에 이미지 전달
+      const response = await axiosJwtInstance.post<{ imageUrl: string; }>(
+        `/api/quiz/draft/image`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        }
+      );
+      const data: ImageUrlResponse = response.data;
+      const imageUrl = data.imageUrl;
+      const copy: ImageMcqQuestion[] = [...questions];
+      copy[index].imageUrl = imageUrl;
+      setQuestions(copy);
+
+      console.log('image upload success');
+      changeImageUploadStatus(ImageUploadStatus.UPLOADED, index);
+    } catch (error) {
+      handleError(error);
+      changeImageUploadStatus(ImageUploadStatus.NOT_UPLOADED, index);
+      alert("이미지 업로드에 실패하였습니다.")
+    }
+  };
+
+  const changeImageUploadStatus = (status: ImageUploadStatus, qi: number) => {
+    setQuestions(prev => {
+      return prev.map((question, index) =>
+        qi === index ? {...question, imageStatus: status} : question
+      );
+    });
+  };
+
+  const deleteQuestion = (qi: number) => {
+    setQuestions(prev =>
+      prev.filter((_, index) => index !== qi)
+    );
+  }
+
+  const addChoice = (index: number) => {
+    setQuestions(prev =>
+      prev.map((question, qi) => {
+        if (index !== qi) return question;
+        if (question.choices.length >= 7) {
+          alert("선택지는 최대 7개까지 만들 수 있습니다");
+          return question;
+        }
+        return {
+          ...question,
+          choices: [...question.choices, {content: "", isAnswer: false}]
+        };
+      })
+    );
+  };
+
+  const choiceInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    qi: number,
+    ci: number
+  ) => {
+    // e.preventDefault()
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : {content: e.target.value, isAnswer: choice.isAnswer}
+          ),
+        }
+      })
+    );
+  }
+
+  const choiceAnswerCheck = (
+    qi: number,
+    ci: number
+  ) => {
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : {...choice, isAnswer: !choice.isAnswer}
+          )
+        };
+      })
+    );
+  }
+
   return (
     <>
-      <hr className={`common-hr`}/>
-      <div className={styles.question} key={`question_${qi}`}>
-        <div className={styles.deleteButtonContainer}>
-          <button className={styles.quizDeleteButton} onClick={() => deleteQuestion(qi)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" className="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-            </svg>
-          </button>
-        </div>
-        <div className={styles.fileInputContainer}>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => imageUploader(e, qi)}
-            id={`file-upload-${qi}`}
-            className={styles.hiddenInput}
-          />
-          <label htmlFor={`file-upload-${qi}`} className={styles.customUploadBox}>
-            <QuestionImage
-              status={question.imageStatus}
-              imageUrl={question.imageUrl}
-            />
-          </label>
-          <button
-            className={styles.choiceAddButton}
-            onClick={() => addChoice(qi)}>
-            선택지 추가
-          </button>
-        </div>
 
-        {/*선택지*/}
-
-        <div className={styles.choiceContainer}>
-          {question.choices.map((choice, ci) => (
-            <div className={styles.choice} key={`${qi}_${ci}_choice`}>
-              {/*체크박스 레이블*/}
-              <label className={styles.checkboxContainer}>
+      <section className={`${styles.questionContainer} common-flex-column`}>
+        {questions?.map((question, qi) => (
+          <React.Fragment key={`question_${qi}`}>
+            <hr className="common-hr"/>
+            <div className={styles.question}>
+              <div className={styles.deleteButtonContainer}>
+                <button
+                  className={styles.quizDeleteButton}
+                  onClick={() => deleteQuestion(qi)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                  </svg>
+                </button>
+              </div>
+              <div className={styles.fileInputContainer}>
                 <input
-                  type="checkbox"
-                  checked={question.choices[ci].isAnswer}
-                  onChange={() => choiceAnswerCheck(qi, ci)}
-                  className={styles.hiddenCheckbox}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => imageUploader(e, qi)}
+                  id={`file-upload-${qi}`}
+                  className={styles.hiddenInput}
                 />
-                <span className={styles.customCheckbox}></span>
-              </label>
+                <label htmlFor={`file-upload-${qi}`} className={styles.customUploadBox}>
+                  <QuestionImage status={question.imageStatus} imageUrl={question.imageUrl}/>
+                </label>
+                <button className={styles.choiceAddButton} onClick={() => addChoice(qi)}>
+                  선택지 추가
+                </button>
+              </div>
 
-              <span className={styles.choiceNumber}>{ci + 1}. </span>
-              <input
-                className={`${styles.choiceInput} common-input-sm`}
-                type="text"
-                placeholder="선택지를 입력하세요"
-                value={choice.content}
-                onChange={(e) => choiceInputChange(e, qi, ci)}
-              />
+              {/* 선택지 */}
+              <div className={styles.choiceContainer}>
+                {question.choices.map((choice: ImageMcqChoice, ci: number) => (
+                  <div className={styles.choice} key={`${qi}_${ci}_choice`}>
+                    {/* 체크박스 레이블 */}
+                    <label className={styles.checkboxContainer}>
+                      <input
+                        type="checkbox"
+                        checked={question.choices[ci].isAnswer}
+                        onChange={() => choiceAnswerCheck(qi, ci)}
+                        className={styles.hiddenCheckbox}
+                      />
+                      <span className={styles.customCheckbox}></span>
+                    </label>
+                    <span className={styles.choiceNumber}>{ci + 1}. </span>
+                    <input
+                      className={`${styles.choiceInput} common-input-sm`}
+                      type="text"
+                      placeholder="선택지를 입력하세요"
+                      value={choice.content}
+                      onChange={(e) => choiceInputChange(e, qi, ci)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </React.Fragment>
+        ))}
+        <AddImageMcqQuestionButton/>
+      </section>
     </>
   )
 }
