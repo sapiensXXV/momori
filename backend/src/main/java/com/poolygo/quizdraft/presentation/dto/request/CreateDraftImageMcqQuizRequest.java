@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto;
+package com.poolygo.quizdraft.presentation.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class DraftImageMcqQuizRequest {
+public class CreateDraftImageMcqQuizRequest {
 
     private String title;
     private String description;

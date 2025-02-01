@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto;
+package com.poolygo.quizdraft.presentation.dto.request;
 
 
 import lombok.AllArgsConstructor;

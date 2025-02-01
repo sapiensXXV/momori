@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserInfo {
 
-    private String userId;
+    private String identifier;
     private String provider;
 }
