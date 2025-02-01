@@ -32,7 +32,7 @@ public class S3Controller {
         log.info("파일 사이즈={}KB", file.getSize() / 1024);
         log.info("파일 이름={}", file.getOriginalFilename());
         log.info("파일 타입={}", file.getContentType());
-        log.info("이전 이미지 URL={}", prevImageUrl);
+        log.info("이전 이미지 URL=[{}]", prevImageUrl);
         try {
             s3ImageService.deleteObject(prevImageUrl);
             String fileUrl = s3ImageService.saveImage(file);
