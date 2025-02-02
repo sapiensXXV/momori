@@ -1,9 +1,9 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="128" height="128" rx="12" fill="#3F6FAD"/>
-<circle cx="108" cy="76" r="13" stroke="#F6F6F6" stroke-width="4"/>
-<circle cx="78" cy="102" r="13" stroke="#F6F6F6" stroke-width="4"/>
-<circle cx="21" cy="67" r="13" stroke="#F6F6F6" stroke-width="4"/>
-<line x1="97.4142" y1="84.4142" x2="87.4142" y2="94.4142" stroke="#F6F6F6" stroke-width="4"/>
-<line x1="65.971" y1="96.715" x2="30.971" y2="75.715" stroke="#F6F6F6" stroke-width="4"/>
-<circle cx="66.5" cy="41.5" r="30.5" stroke="#F6F6F6" stroke-width="4"/>
+<circle cx="108" cy="76" r="13" stroke="#F6F6F6" strokeWidth="4"/>
+<circle cx="78" cy="102" r="13" stroke="#F6F6F6" strokeWidth="4"/>
+<circle cx="21" cy="67" r="13" stroke="#F6F6F6" strokeWidth="4"/>
+<line x1="97.4142" y1="84.4142" x2="87.4142" y2="94.4142" stroke="#F6F6F6" strokeWidth="4"/>
+<line x1="65.971" y1="96.715" x2="30.971" y2="75.715" stroke="#F6F6F6" strokeWidth="4"/>
+<circle cx="66.5" cy="41.5" r="30.5" stroke="#F6F6F6" strokeWidth="4"/>
 </svg>
