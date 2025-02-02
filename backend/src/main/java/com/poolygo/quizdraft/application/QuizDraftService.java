@@ -69,7 +69,7 @@ public class QuizDraftService {
         return Optional.of(DraftImageMcqChoiceResponse.of(choice.getContent(), choice.isAnswer()));
     }
 
-    public List<DraftInfoResponse> findAllByAuth(
+    public List<DraftInfoResponse> findSimpleByAuth(
         final String identifier,
         final String provider
     ) {

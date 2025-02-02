@@ -29,7 +29,7 @@ public class QuizDraftController {
         @AuthenticateUser UserAuthDto auth
     ) {
         log.info("불러오기를 시도한 유저 id={}, provider={}", auth.getIdentifier(), auth.getProvider());
-        List<DraftInfoResponse> findList = quizDraftService.findAllByAuth(auth.getIdentifier(), auth.getProvider());
+        List<DraftInfoResponse> findList = quizDraftService.findSimpleByAuth(auth.getIdentifier(), auth.getProvider());
         log.info("불러오기 결과={}", findList);
         return ResponseEntity.ok(findList);
     }
