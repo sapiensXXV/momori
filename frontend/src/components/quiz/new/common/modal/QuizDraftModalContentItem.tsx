@@ -13,6 +13,7 @@ import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 import {formatDateTime} from "../../../../../global/util/date/date.ts";
 import {axiosJwtInstance} from "../../../../../global/configuration/axios.ts";
 import {getQuizTypeFrom, QuizTypes} from "../../../types/Quiz.types.ts";
+import {AudioUploadStatus, ImageUploadStatus} from "../../../../../types/question.ts";
 
 type QuizDraftModalContentItem = {
   draft: DraftSimpleInfo;
@@ -41,22 +42,33 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const response = await axiosJwtInstance.get(
       `${loadDraftApi(draft.quizType)}?draftId=${draft.draftId}`
       );
-    console.log(response.data);
     const data: BaseDraft = response.data as BaseDraft;
 
     switch (getQuizTypeFrom(data.quizType)) {
-      case QuizTypes.IMAGE_MCQ:
-        setQuestions((data as ImageMcqDraftData).questions);
+      case QuizTypes.IMAGE_MCQ: {
+        const questions = (data as ImageMcqDraftData).questions;
+        const result = questions.map(prev => ( {...prev, imageStatus: ImageUploadStatus.UPLOADED} ));
+        setQuestions(result);
         break;
-      case QuizTypes.IMAGE_SUBJECTIVE:
-        setQuestions((data as ImageSubjectiveDraftData).questions);
+      }
+      case QuizTypes.IMAGE_SUBJECTIVE: {
+        const questions = (data as ImageSubjectiveDraftData).questions;
+        const result = questions.map(prev => ( {...prev, imageStatus: ImageUploadStatus.UPLOADED} ));
+        setQuestions(result);
         break;
-      case QuizTypes.AUDIO_MCQ:
-        setQuestions((data as AudioMcqDraftData).questions);
+      }
+      case QuizTypes.AUDIO_MCQ: {
+        const questions = (data as AudioMcqDraftData).questions;
+        const result = questions.map(prev => ( {...prev, audioStatus: AudioUploadStatus.UPLOADED} ));
+        setQuestions(result);
         break;
-      case QuizTypes.AUDIO_SUBJECTIVE:
-        setQuestions((data as AudioSubjectiveDraftData).questions);
+      }
+      case QuizTypes.AUDIO_SUBJECTIVE: {
+        const questions = (data as AudioSubjectiveDraftData).questions;
+        const result = questions.map(prev => ( {...prev, audioStatus: AudioUploadStatus.UPLOADED} ));
+        setQuestions(result);
         break;
+      }
       case QuizTypes.BINARY_CHOICE:
         setQuestions((data as ImageBinaryDraftData).questions);
         break;

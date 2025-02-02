@@ -32,7 +32,6 @@ const DraftButton: FC<DraftButtonProps> = () => {
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
     const request = makeDraftRequest();
-    console.log(request);
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
@@ -41,7 +40,6 @@ const DraftButton: FC<DraftButtonProps> = () => {
       );
 
       setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
-      console.log(response);
       alert('임시저장 성공');
     } catch (error) {
       handleError(error);

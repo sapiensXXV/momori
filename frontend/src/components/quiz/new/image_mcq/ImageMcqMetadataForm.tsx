@@ -11,7 +11,7 @@ import QuizDraftModal from "../common/modal/QuizDraftModal.tsx";
 
 const ImageMcqMetadataForm = () => {
 
-  const { setMetadata, setDraftCount } = useQuizContext<ImageMcqQuestion>()
+  const { metadata, setMetadata, setDraftCount } = useQuizContext<ImageMcqQuestion>()
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
   useEffect(() => {
@@ -41,6 +41,7 @@ const ImageMcqMetadataForm = () => {
             className={`${styles.quizTitleInput} common-input-md`}
             type={"text"}
             placeholder={"제목을 입력하세요"}
+            value={metadata?.title}
             onChange={(e) => editTitle(e)}
           />
           <QuizCreateButton/>
@@ -49,6 +50,7 @@ const ImageMcqMetadataForm = () => {
         <textarea
           className={`common-textarea`}
           placeholder={"설명을 입력하세요"}
+          value={metadata?.description}
           onChange={(e) => editDescription(e)}
         />
       </div>

@@ -11,7 +11,6 @@ const QuestionImage: FC<QuestionImageProps> = ({
   status,
   imageUrl
 }) => {
-
   const getImage = () => {
     switch(status) {
       case ImageUploadStatus.NOT_UPLOADED:

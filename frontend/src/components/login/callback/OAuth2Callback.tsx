@@ -22,7 +22,6 @@ export default function OAuth2Callback() {
         updateAuthContext(provider, roles, name, true);
         navigate("/");
       } catch (error) {
-        console.log("Fail to fetch auth info", error);
         navigate("/login");
       }
     }
