@@ -1,0 +1,157 @@
+.modalLayer {
+    z-index: 1200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(213, 213, 213, 0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    max-width: 558px;
+    height: 100vw;
+    max-height: 543px;
+
+    background-color: var(--color-google);
+
+    overflow: hidden;
+    border-radius: 15px;
+
+    position: relative;
+}
+
+.headerLayer {
+    font-family: Pretendard-Bold, serif;
+    width: 100%;
+    padding: 20.5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contentLayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 28px 32px;
+
+    row-gap: 15px;
+
+    overflow: auto;             /* 내용이 넘칠 때 스크롤 가능 */
+    -ms-overflow-style: none;   /* IE, Edge에서 스크롤바 숨김 */
+    scrollbar-width: none;      /* Firefox에서 스크롤바 숨김 */
+}
+
+.contentLayer::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari, Opera에서 스크롤바 숨김 */
+}
+
+.contentDescription {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contentDescription > span{
+    font-family: Pretendard-Regular, serif;
+    color: var(--color-gray);
+    font-size: 13px;
+}
+
+.contentDescription > button {
+    background-color: var(--color-main-button-light);
+    font-family: Pretendard-Bold, serif;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.contentList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    column-gap: 3px;
+}
+
+.contentItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0px;
+
+    cursor: pointer;
+}
+
+.contentItem > .itemTitle {
+    font-family: Pretendard-Regular, serif;
+    font-size: 16px;
+}
+
+.dateAndDeleteButton {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    align-items: center;
+}
+
+.dateInfo {
+    color: var(--color-gray);
+    font-family: Pretendard-Regular, serif;
+    font-size: 12px;
+}
+
+.deleteButton {
+    background-color: var(--color-danger-background);
+    color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
+
+.deleteButton:hover {
+    background-color: var(--color-danger-hover);
+    color: white;
+}
+
+.deleteButton > img {
+    width: 23px;
+    height: 23px;
+}
+
+.contentItemDivider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-shallow-gray);
+    margin-top: 3px;
+}
+.closeLayer {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1500;
+    width: 30px;
+    height: 30px;
+    border: none;
+
+    cursor: pointer;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-shallow-gray);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}

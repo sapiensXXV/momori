@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class S3ImageService {
     }
 
     public void deleteObject(final String url) {
-        if (url != null) {
+        if (StringUtils.hasText(url)) {
             amazonS3.deleteObject(bucket, url);
         }
     }

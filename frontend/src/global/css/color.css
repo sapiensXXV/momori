@@ -1,25 +1,44 @@
+:root {
+    --color-google: #FFFFFF;
+    --color-naver: #2DB400;
+    --color-kakao: #FEE500;
+    --color-discord: #7289DA;
+    --color-github-dark: #24292e;
+    --color-gitbub-light: #fafbfc;
+
+    --color-main-button-light: #ffe6a6;
+    --color-main-button-dark: #837463;
+
+    --color-shallow-gray: #d8d8d8;
+    --color-gray: #808080;
+
+    --color-danger-background: #ffd4d4;
+    --color-danger-hover: #ff6767;
+
+}
+
 .discord {
-    background-color: #7289DA;
+    background-color: var(--color-discord);
 }
 
 .google {
-    background-color: white;
+    background-color: var(--color-google);
 }
 
 .kakao {
-    background-color: #FEE500;
+    background-color: var(--color-kakao);
 }
 
 .naver {
-    background-color: #2DB400;
+    background-color: var(--color-naver);
 }
 
 .github_dark {
-    background-color: #24292e;
+    background-color: var(--color-github-dark);
 }
 
 .github_light {
-    background-color: #fafbfc;
+    background-color: var(--color-gitbub-light);
 }
 
 .text_white {
@@ -29,3 +48,4 @@
 .text_black {
     color: black
 }
+

@@ -1,40 +1,59 @@
-import React, {FC} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./ImageMcqForm.module.css";
-import DraftButton from "../../common/DraftButton.tsx";
+import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {ImageMcqQuestion} from "../../../../types/question.ts";
+import DraftButton from "../common/DraftButton.tsx";
+import QuizCreateButton from "../common/QuizCreateButton.tsx";
+import {DraftSimpleInfo} from "../../../../types/draft.ts";
+import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+import QuizDraftModal from "../common/modal/QuizDraftModal.tsx";
 
-type ImageMcqMetadataFormProps = {
-  editTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  pullDraft: () => void;
-  pushDraft: () => void;
-  draftCount: number;
-}
 
-const ImageMcqMetadataForm: FC<ImageMcqMetadataFormProps> = (
-  {
-    editTitle,
-    editDescription,
-    pullDraft,
-    pushDraft,
-    draftCount
-  }) => {
+const ImageMcqMetadataForm = () => {
+
+  const { setMetadata, setDraftCount } = useQuizContext<ImageMcqQuestion>()
+  const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
+
+  useEffect(() => {
+    getDraftList();
+  }, [])
+
+  const getDraftList = async () => {
+    const response = await axiosJwtInstance.get('/api/quizzes/draft');
+    setDraftCount(response.data.length);
+    setDrafts(response.data);
+  }
+
+  const editTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMetadata(prev => ({...prev, title: e.target.value}));
+  }
+
+  const editDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMetadata(prev => ({...prev, description: e.target.value}));
+  }
+
   return (
-    <div className={styles.metaDataContainer}>
-      <div className={styles.titleAndDraftButtonContainer}>
-        <input
-          className={`${styles.quizTitleInput} common-input-md`}
-          type={"text"}
-          placeholder={"제목을 입력하세요"}
-          onChange={(e) => editTitle(e)}
+    <>
+      <QuizDraftModal  drafts={drafts}/>
+      <div className={styles.metaDataContainer}>
+        <div className={styles.titleAndDraftButtonContainer}>
+          <input
+            className={`${styles.quizTitleInput} common-input-md`}
+            type={"text"}
+            placeholder={"제목을 입력하세요"}
+            onChange={(e) => editTitle(e)}
+          />
+          <QuizCreateButton/>
+          <DraftButton/>
+        </div>
+        <textarea
+          className={`common-textarea`}
+          placeholder={"설명을 입력하세요"}
+          onChange={(e) => editDescription(e)}
         />
-        <DraftButton pushDraft={pushDraft} pullDraft={pullDraft} count={draftCount}/>
       </div>
-      <textarea
-        className={`common-textarea`}
-        placeholder={"설명을 입력하세요"}
-        onChange={(e) => editDescription(e)}
-      />
-    </div>
+    </>
+
   )
 }
 

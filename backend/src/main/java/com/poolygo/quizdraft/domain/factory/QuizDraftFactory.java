@@ -4,7 +4,7 @@ import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.factory.UserInfoFactory;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
-import com.poolygo.quizdraft.presentation.dto.DraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class QuizDraftFactory {
     private final UserInfoFactory userInfoFactory;
 
     public QuizDraft from(
-        final DraftImageMcqQuizRequest request,
+        final CreateDraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {
@@ -39,7 +39,7 @@ public class QuizDraftFactory {
 
     public QuizDraft from(
         final String id,
-        final DraftImageMcqQuizRequest request,
+        final CreateDraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {

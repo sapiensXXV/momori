@@ -1,0 +1,30 @@
+.questionAddButton {
+    display: flex;
+    border: none;
+    padding: 5px 10px 5px 10px;
+
+    /*width: 105px;*/
+    height: 35px;
+
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    background-color: #ffe6a6;
+    border-radius: 3px;
+
+    /*transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; !* 트랜지션 추가 *!*/
+}
+
+.questionAddButton:hover {
+    transform: scale(1.01); /* 5% 확대 */
+}
+
+.questionAddButton img {
+    height: 100%
+}
+
+.questionAddButton span {
+    font-family: Pretendard-Bold;
+    font-size: 14px;
+}
