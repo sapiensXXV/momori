@@ -7,6 +7,8 @@ interface QuizContextType<T extends QuestionTypes = QuestionTypes> {
   quizType: QuizTypes;
   setQuizType: React.Dispatch<React.SetStateAction<QuizTypes>>;
   draftCount: number;
+  draftModal: boolean;
+  setDraftModal: React.Dispatch<React.SetStateAction<boolean>>;
   setDraftCount: React.Dispatch<React.SetStateAction<number>>;
   metadata: NewQuizMetadata;
   setMetadata: React.Dispatch<React.SetStateAction<NewQuizMetadata>>;
@@ -19,6 +21,7 @@ const QuizContext = createContext<QuizContextType<QuestionTypes> | undefined>(un
 export const QuizProvider = <T extends QuestionTypes = QuestionTypes>({ children }: { children: React.ReactNode }) => {
   const [quizType, setQuizType] = useState<QuizTypes>(QuizTypes.IMAGE_MCQ);
   const [draftCount, setDraftCount] = useState(0);
+  const [draftModal, setDraftModal] = useState(false);
   const [metadata, setMetadata] = useState<NewQuizMetadata>(initNewQuizMetadata);
   const [questions, setQuestions] = useState<T[]>([]);
 
@@ -28,6 +31,8 @@ export const QuizProvider = <T extends QuestionTypes = QuestionTypes>({ children
       setQuizType,
       draftCount,
       setDraftCount,
+      draftModal,
+      setDraftModal,
       metadata,
       setMetadata,
       questions,

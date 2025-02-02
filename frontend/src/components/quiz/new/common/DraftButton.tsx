@@ -1,11 +1,11 @@
 import classes from "./DraftButton.module.css"
-import {FC, useEffect} from "react";
+import {FC, useEffect, useState} from "react";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {ImageMcqQuestion} from "../../../../types/question.ts";
-import {PushDraftResponse} from "../../../../types/draft.ts";
+import {DraftSimpleInfo, PushDraftResponse} from "../../../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -27,18 +27,7 @@ interface ImageMcqDraftChoiceRequest {
 
 const DraftButton: FC<DraftButtonProps> = () => {
 
-  const { questions, metadata, setMetadata, draftCount, setDraftCount } = useQuizContext<ImageMcqQuestion>()
-
-  useEffect(() => {
-    getDraftList();
-  }, [])
-
-  const getDraftList = async () => {
-    const response = await axiosJwtInstance.get('/api/quizzes/draft');
-    console.log(response);
-    setDraftCount(response.data.length);
-  }
-
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<ImageMcqQuestion>()
 
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
@@ -59,9 +48,8 @@ const DraftButton: FC<DraftButtonProps> = () => {
     }
   }
 
-  //TODO: pullDraft 구현
-  const pullDraft = async () => {
-    console.log('pull draft quiz');
+  const showDraftList = async () => {
+    setDraftModal(true);
   }
 
   const makeDraftRequest = () => {
@@ -95,7 +83,7 @@ const DraftButton: FC<DraftButtonProps> = () => {
       <div className={classes.draftButtonContainer}>
         <div className={classes.draftPushButton} onClick={() => pushDraft()}>임시저장</div>
         <div className={classes.draftButtonDivider}></div>
-        <div className={classes.draftPullButton} onClick={() => pullDraft()}>{draftCount}</div>
+        <div className={classes.draftPullButton} onClick={() => showDraftList()}>{draftCount}</div>
       </div>
     </>
   )
