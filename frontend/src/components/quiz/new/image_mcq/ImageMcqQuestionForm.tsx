@@ -16,7 +16,6 @@ const ImageMcqQuestionForm = () => {
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
-    console.log('imageUploader call')
     if (!e.target.value) return;
 
     // 1. 파일 존재 여부 체크 (안전한 접근)
@@ -163,7 +162,7 @@ const ImageMcqQuestionForm = () => {
                     <label className={styles.checkboxContainer}>
                       <input
                         type="checkbox"
-                        checked={question.choices[ci].isAnswer}
+                        checked={choice.isAnswer}
                         onChange={() => choiceAnswerCheck(qi, ci)}
                         className={styles.hiddenCheckbox}
                       />

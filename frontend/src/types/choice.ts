@@ -1,3 +1,5 @@
+import {AudioUploadStatus, ImageUploadStatus} from "./question.ts";
+
 export interface ImageMcqChoice {
   content: string;
   isAnswer: boolean;
@@ -11,12 +13,14 @@ export interface VideoMcqChoice {
 export interface ImageBinaryChoice {
   description: string;
   imageUrl: string;
+  imageStatus: ImageUploadStatus;
   isAnswer: boolean;
 }
 
-export interface VideoBinaryChoice {
+export interface AudioBinaryChoice {
   description: string;
-  videoUrl: string;
+  audioUrl: string;
+  audioStatus: AudioUploadStatus;
   isAnswer: boolean;
 }
 
