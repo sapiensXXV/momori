@@ -1,5 +1,6 @@
 package com.poolygo.quizdraft.presentation.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.List;
@@ -59,9 +60,12 @@ public class DraftImageMcqResponse {
         }
     }
 
-    @Getter
+//    @Getter
     public static class DraftImageMcqChoiceResponse {
+        @JsonProperty("content")
         private final String content;
+
+        @JsonProperty("isAnswer")
         private final boolean isAnswer;
 
         private DraftImageMcqChoiceResponse(
