@@ -44,6 +44,7 @@ public class QuizDraftService {
 
         return DraftImageMcqResponse.of(
             findDraft.getId(),
+            findDraft.getType().name(),
             findDraft.getTitle(),
             findDraft.getDescription(),
             questions
@@ -75,7 +76,7 @@ public class QuizDraftService {
     ) {
         List<QuizDraft> findByAuth = quizDraftRepository.findAllByUserInfo(identifier, provider);
         return findByAuth.stream()
-            .map(draft -> DraftInfoResponse.of(draft.getId(), draft.getTitle(), draft.getCreatedAt()))
+            .map(draft -> DraftInfoResponse.of(draft.getId(), draft.getType().name() ,  draft.getTitle(),  draft.getCreatedAt()))
             .toList();
     }
 

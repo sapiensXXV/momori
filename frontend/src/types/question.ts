@@ -6,7 +6,7 @@ export enum ImageUploadStatus {
   PENDING = "pending"
 }
 
-export enum VideoUploadStatus {
+export enum AudioUploadStatus {
   NOT_UPLOADED = "not_uploaded",
   UPLOADED = "uploaded",
   PENDING = "pending"
@@ -27,14 +27,14 @@ export interface ImageSubjectiveQuestion extends BaseQuestion {
   answers: string[];
 }
 
-export interface VideoMcqQuestion extends BaseQuestion {
-  videoStatus: VideoUploadStatus;
+export interface AudioMcqQuestion extends BaseQuestion {
+  videoStatus: AudioUploadStatus;
   videoUrl: string;
   choices: VideoMcqChoice[];
 }
 
-export interface VideoSubjectiveQuestion extends BaseQuestion {
-  videoStatus: VideoUploadStatus;
+export interface AudioSubjectiveQuestion extends BaseQuestion {
+  videoStatus: AudioUploadStatus;
   videoUrl: string;
   answers: string[];
 }
@@ -44,7 +44,7 @@ export interface ImageBinaryQuestion extends BaseQuestion {
   second: ImageBinaryChoice;
 }
 
-export interface VideoBinaryQuestion extends BaseQuestion {
+export interface AudioBinaryQuestion extends BaseQuestion {
   first: VideoBinaryChoice;
   second: VideoBinaryChoice;
 }
@@ -52,9 +52,9 @@ export interface VideoBinaryQuestion extends BaseQuestion {
 export type QuestionTypes =
   | ImageMcqQuestion
   | ImageSubjectiveQuestion
-  | VideoMcqQuestion
-  | VideoSubjectiveQuestion
+  | AudioMcqQuestion
+  | AudioSubjectiveQuestion
   | ImageBinaryQuestion
-  | VideoBinaryQuestion
+  | AudioBinaryQuestion
 
 

@@ -8,17 +8,20 @@ import java.util.List;
 @Getter
 public class DraftImageMcqResponse {
     private final String draftId;
+    private final String quizType;
     private final String title;
     private final String description;
     private final List<DraftImageMcqQuestionResponse> questions;
 
     private DraftImageMcqResponse(
         final String draftId,
+        final String quizType,
         final String title,
         final String description,
         final List<DraftImageMcqQuestionResponse> questions
     ) {
         this.draftId = draftId;
+        this.quizType = quizType;
         this.title = title;
         this.description = description;
         this.questions = questions;
@@ -26,11 +29,13 @@ public class DraftImageMcqResponse {
 
     public static DraftImageMcqResponse of(
         final String draftId,
+        final String quizType,
         final String title,
         final String description,
         final List<DraftImageMcqQuestionResponse> questions
     ) {
-        return new DraftImageMcqResponse(draftId, title, description, questions);
+
+        return new DraftImageMcqResponse(draftId, quizType, title, description, questions);
     }
 
     @Getter

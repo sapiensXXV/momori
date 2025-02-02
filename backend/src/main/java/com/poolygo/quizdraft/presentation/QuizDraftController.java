@@ -5,7 +5,6 @@ import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.quizdraft.application.QuizDraftService;
 import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
-import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqRequest;
 import com.poolygo.quizdraft.presentation.dto.response.CreateDraftResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftInfoResponse;
@@ -25,12 +24,10 @@ public class QuizDraftController {
     private final QuizDraftService quizDraftService;
 
     @GetMapping("/draft")
-    public ResponseEntity<List<DraftInfoResponse>> draftInfo(
+    public ResponseEntity<List<DraftInfoResponse>> simpleDraftInfo(
         @AuthenticateUser UserAuthDto auth
     ) {
-        log.info("불러오기를 시도한 유저 id={}, provider={}", auth.getIdentifier(), auth.getProvider());
         List<DraftInfoResponse> findList = quizDraftService.findSimpleByAuth(auth.getIdentifier(), auth.getProvider());
-        log.info("불러오기 결과={}", findList);
         return ResponseEntity.ok(findList);
     }
 
@@ -45,11 +42,11 @@ public class QuizDraftController {
 
     @GetMapping("/draft/image-mcq")
     public ResponseEntity<DraftImageMcqResponse> imageMcqDraft(
-        @RequestBody DraftImageMcqRequest request,
+        @RequestParam("draftId") String draftId,
         @AuthenticateUser UserAuthDto userInfo
     ) {
         DraftImageMcqResponse findDraft = quizDraftService.findOneImageMcqDraft(
-            request.getDraftId(),
+            draftId,
             userInfo.getIdentifier(),
             userInfo.getProvider()
         );
