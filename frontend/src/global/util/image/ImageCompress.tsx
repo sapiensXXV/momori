@@ -1,4 +1,6 @@
 import imageCompression from 'browser-image-compression';
+import classes from "../../../components/quiz/new/common/QuestionImage.module.css";
+import {ImageUploadStatus} from "../../../types/question.ts";
 
 export interface CompressionOptions {
   maxSizeMB?: number;    // 최대 파일 크기 (MB)

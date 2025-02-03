@@ -13,7 +13,7 @@ import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 import {formatDateTime} from "../../../../../global/util/date/date.ts";
 import {axiosJwtInstance} from "../../../../../global/configuration/axios.ts";
 import {getQuizTypeFrom, QuizTypes} from "../../../types/Quiz.types.ts";
-import {AudioUploadStatus, ImageUploadStatus} from "../../../../../types/question.ts";
+import {ImageUploadStatus} from "../../../../../types/question.ts";
 
 type QuizDraftModalContentItem = {
   draft: DraftSimpleInfo;
@@ -38,34 +38,42 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     }
   }
 
+  const isUrlExists = (url: string) => {
+    if (url !== null || url !== undefined || url !== '') {
+      return true;
+    }
+    return false;
+  }
+
   const loadDraftItem = async () => {
     const response = await axiosJwtInstance.get(
       `${loadDraftApi(draft.quizType)}?draftId=${draft.draftId}`
       );
     const data: BaseDraft = response.data as BaseDraft;
-
     switch (getQuizTypeFrom(data.quizType)) {
       case QuizTypes.IMAGE_MCQ: {
+        console.log(data);
         const questions = (data as ImageMcqDraftData).questions;
-        const result = questions.map(prev => ( {...prev, imageStatus: ImageUploadStatus.UPLOADED} ));
+        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.imageUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
         setQuestions(result);
+
         break;
       }
       case QuizTypes.IMAGE_SUBJECTIVE: {
         const questions = (data as ImageSubjectiveDraftData).questions;
-        const result = questions.map(prev => ( {...prev, imageStatus: ImageUploadStatus.UPLOADED} ));
+        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.imageUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
         setQuestions(result);
         break;
       }
       case QuizTypes.AUDIO_MCQ: {
         const questions = (data as AudioMcqDraftData).questions;
-        const result = questions.map(prev => ( {...prev, audioStatus: AudioUploadStatus.UPLOADED} ));
+        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
         setQuestions(result);
         break;
       }
       case QuizTypes.AUDIO_SUBJECTIVE: {
         const questions = (data as AudioSubjectiveDraftData).questions;
-        const result = questions.map(prev => ( {...prev, audioStatus: AudioUploadStatus.UPLOADED} ));
+        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
         setQuestions(result);
         break;
       }
@@ -76,10 +84,19 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
 
     const draftId = data.draftId;
     const title = data.title;
+    const thumbnailUrl = data.thumbnailUrl;
     const description = data.description
     const quizType = getQuizTypeFrom(data.quizType);
 
-    setMetadata({title: title, description: description, formerDraftId: draftId});
+    // setMetadata(prev => { return {...prev, thumbnailUrl: data.thumbnailUrl, thumbnailImageUploadStatus: isUrlExists(data.thumbnailUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED } })
+    setMetadata({
+      title: title,
+      thumbnailUrl: thumbnailUrl,
+      thumbnailImageUploadStatus: isUrlExists(data.thumbnailUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED,
+      description: description,
+      formerDraftId: draftId
+    });
+
     setQuizType(quizType);
     setDraftModal(false);
   }

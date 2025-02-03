@@ -8,7 +8,7 @@ import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {ImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
 import QuestionImage from "../common/QuestionImage.tsx";
-import {compressImage} from "../../../../global/util/image/ImageCompress.ts";
+import {compressImage} from "../../../../global/util/image/ImageCompress.tsx";
 
 const ImageMcqQuestionForm = () => {
 

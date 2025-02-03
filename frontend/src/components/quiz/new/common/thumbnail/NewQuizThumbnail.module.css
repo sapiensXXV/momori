@@ -1,0 +1,100 @@
+.thumbnailContainer {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.hiddenInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.thumbnailUploadBox {
+
+    max-width: 500px;
+    width: 100vw;
+    height: 250px;
+
+    /*display: inline-block;*/
+    display: flex;
+    flex-direction: row;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /*position: relative;*/
+    text-align: center;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.thumbnailUploadBox:active {
+    border: 2px dashed #ccc;
+    /*background-color: #f8f9fa;*/
+    background-color: var(--color-main-button-light);
+}
+
+.thumbnailUploadBox:hover {
+    border: 2px dashed #ccc;
+    /*background-color: #f8f9fa;*/
+    background-color: var(--color-main-button-light);
+}
+
+/* 파일 이름 표시 숨기기 */
+input[type="file"]::file-selector-button {
+    display: none;
+}
+
+/* Chrome/Safari에서 파일 이름 숨기기 */
+.hiddenInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+/* Firefox에서 파일 이름 숨기기 */
+.hiddenInput::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/* 업로드 아이콘을 SVG 이미지로 대체 */
+.imageAddIcon {
+    color: inherit;
+}
+
+/*.imageAddIcon {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    width: 40%; !* 아이콘 크기 조정 *!*/
+/*    height: 40%;*/
+/*    pointer-events: none; !* 이미지 클릭 방지 *!*/
+/*    transition: filter 0.3s ease; !* 색상 변화 애니메이션 *!*/
+/*}*/
+
+.thumbnailAddContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 3px;
+}
+
+.imageAddIcon {
+    width: 30px;
+    height: 30px;
+}
+
+.addDescription {
+    font-family: Pretendard-Bold, serif;
+    font-size: 14px;
+}

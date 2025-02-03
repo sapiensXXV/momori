@@ -29,13 +29,13 @@ export interface ImageSubjectiveQuestion extends BaseQuestion {
 
 export interface AudioMcqQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
-  videoUrl: string;
+  audioUrl: string;
   choices: VideoMcqChoice[];
 }
 
 export interface AudioSubjectiveQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
-  videoUrl: string;
+  audioUrl: string;
   answers: string[];
 }
 

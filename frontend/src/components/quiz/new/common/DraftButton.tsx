@@ -10,6 +10,7 @@ import {DraftSimpleInfo, PushDraftResponse} from "../../../../types/draft.ts";
 interface ImageMcqDraftRequest {
   title: string;
   description: string;
+  thumbnailUrl: string;
   type: QuizTypes;
   formerDraftId: string | null;
   questions: ImageMcqDraftQuestionRequest[];
@@ -25,13 +26,14 @@ interface ImageMcqDraftChoiceRequest {
   isAnswer: boolean;
 }
 
-const DraftButton: FC<DraftButtonProps> = () => {
+const DraftButton = () => {
 
   const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<ImageMcqQuestion>()
 
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
     const request = makeDraftRequest();
+    console.log(request);
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
@@ -53,6 +55,7 @@ const DraftButton: FC<DraftButtonProps> = () => {
   const makeDraftRequest = () => {
     const request: ImageMcqDraftRequest = {
       title: metadata.title ?? "제목 없음",
+      thumbnailUrl: metadata.thumbnailUrl,
       description: metadata.description ?? "설명 없음",
       formerDraftId: metadata.formerDraftId,
       type: QuizTypes.IMAGE_MCQ,

@@ -30,6 +30,7 @@ export interface pullDraftResponse {
 export interface BaseDraft {
   draftId: string;
   quizType: string;
+  thumbnailUrl: string;
   title: string;
   description: string;
 }
