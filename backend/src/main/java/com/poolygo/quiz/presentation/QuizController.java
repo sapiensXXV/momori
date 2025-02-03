@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 @Slf4j
 public class QuizController {
@@ -26,7 +26,7 @@ public class QuizController {
     private final QuizService quizService;
     private final DomainResolver domainResolver;
 
-    @PostMapping("/quiz/mcq/image")
+    @PostMapping("/mcq-img")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
         @RequestBody ImageMcqQuizCreateRequest createRequest,
         @AuthenticateUser UserAuthDto auth
@@ -42,23 +42,23 @@ public class QuizController {
             .body(createResponse);
     }
 
-    @PostMapping("/quiz/mcq/audio")
+    @PostMapping("/mcq-audio")
     public ResponseEntity<QuizCreateResponse> createAudioMcqQuiz() {
 
         return null;
     }
 
-    @PostMapping("/quiz/subjective/image")
+    @PostMapping("/sub-img")
     public ResponseEntity<QuizCreateResponse> createImageSubjectiveQuiz() {
         return null;
     }
 
-    @PostMapping("/quiz/subjective/audio")
+    @PostMapping("/sub-audio")
     public ResponseEntity<QuizCreateResponse> createAudioSubjectiveQuiz() {
         return null;
     }
 
-    @PostMapping("/quiz/binary/image")
+    @PostMapping("/bin-img")
     public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
         return null;
     }

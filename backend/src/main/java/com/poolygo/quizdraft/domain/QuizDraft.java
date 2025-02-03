@@ -26,6 +26,7 @@ public class QuizDraft {
     private String title;
     private String description;
     private QuizType type;
+    private String thumbnailUrl;
 
     private List<? extends QuestionDraft> questions;
 }

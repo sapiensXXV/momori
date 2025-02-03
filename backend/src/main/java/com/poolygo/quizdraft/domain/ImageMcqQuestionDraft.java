@@ -8,8 +8,8 @@ import java.util.List;
 @Getter
 public class ImageMcqQuestionDraft extends QuestionDraft {
 
-    private String imageUrl;
-    private List<? extends McqChoiceDraft> choices;
+    private final String imageUrl;
+    private final List<? extends McqChoiceDraft> choices;
 
     private ImageMcqQuestionDraft(
         final String imageUrl,
