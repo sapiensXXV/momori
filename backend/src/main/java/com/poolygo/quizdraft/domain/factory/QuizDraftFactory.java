@@ -37,7 +37,7 @@ public class QuizDraftFactory {
             .questions(questions)
             .build();
     }
-    
+
     public QuizDraft from(
         final String id,
         final CreateDraftImageMcqQuizRequest request,

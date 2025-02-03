@@ -45,6 +45,7 @@ public class QuizDraftService {
         return DraftImageMcqResponse.of(
             findDraft.getId(),
             findDraft.getType().name(),
+            findDraft.getThumbnailUrl(),
             findDraft.getTitle(),
             findDraft.getDescription(),
             questions
