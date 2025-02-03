@@ -1,6 +1,6 @@
 import styles from "./ImageMcqForm.module.css";
 import React from "react";
-import {ImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
+import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {handleError} from "../../../../global/error/error.ts";
@@ -12,7 +12,7 @@ import {compressImage} from "../../../../global/util/image/ImageCompress.tsx";
 
 const ImageMcqQuestionForm = () => {
 
-  const { questions, setQuestions } = useQuizContext<ImageMcqQuestion>();
+  const { questions, setQuestions } = useQuizContext<NewImageMcqQuestion>();
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const ImageMcqQuestionForm = () => {
       );
       const data: ImageUrlResponse = response.data;
       const imageUrl = data.imageUrl;
-      const copy: ImageMcqQuestion[] = [...questions];
+      const copy: NewImageMcqQuestion[] = [...questions];
       copy[index].imageUrl = imageUrl;
       setQuestions(copy);
 

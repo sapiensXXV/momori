@@ -15,46 +15,46 @@ export enum AudioUploadStatus {
 interface BaseQuestion {
 }
 
-export interface ImageMcqQuestion extends BaseQuestion {
+export interface NewImageMcqQuestion extends BaseQuestion {
   imageStatus: ImageUploadStatus;
   imageUrl: string;
   choices: ImageMcqChoice[];
 }
 
-export interface ImageSubjectiveQuestion extends BaseQuestion {
+export interface NewImageSubjectiveQuestion extends BaseQuestion {
   imageStatus: ImageUploadStatus;
   imageUrl: string;
   answers: string[];
 }
 
-export interface AudioMcqQuestion extends BaseQuestion {
+export interface NewAudioMcqQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
   audioUrl: string;
   choices: VideoMcqChoice[];
 }
 
-export interface AudioSubjectiveQuestion extends BaseQuestion {
+export interface NewAudioSubjectiveQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
   audioUrl: string;
   answers: string[];
 }
 
-export interface ImageBinaryQuestion extends BaseQuestion {
+export interface NewImageBinaryQuestion extends BaseQuestion {
   first: ImageBinaryChoice;
   second: ImageBinaryChoice;
 }
 
-export interface AudioBinaryQuestion extends BaseQuestion {
+export interface NewAudioBinaryQuestion extends BaseQuestion {
   first: AudioBinaryChoice;
   second: AudioBinaryChoice;
 }
 
 export type QuestionTypes =
-  | ImageMcqQuestion
-  | ImageSubjectiveQuestion
-  | AudioMcqQuestion
-  | AudioSubjectiveQuestion
-  | ImageBinaryQuestion
-  | AudioBinaryQuestion
+  | NewImageMcqQuestion
+  | NewImageSubjectiveQuestion
+  | NewAudioMcqQuestion
+  | NewAudioSubjectiveQuestion
+  | NewImageBinaryQuestion
+  | NewAudioBinaryQuestion
 
 

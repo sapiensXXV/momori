@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ImageMcqForm.module.css";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqQuestion} from "../../../../types/question.ts";
+import {NewImageMcqQuestion} from "../../../../types/question.ts";
 import DraftButton from "../common/DraftButton.tsx";
 import QuizCreateButton from "../common/QuizCreateButton.tsx";
 import {DraftSimpleInfo} from "../../../../types/draft.ts";
@@ -12,7 +12,7 @@ import NewQuizThumbnail from "../common/thumbnail/NewQuizThumbnail.tsx";
 
 const ImageMcqMetadataForm = () => {
 
-  const {metadata, setMetadata, setDraftCount} = useQuizContext<ImageMcqQuestion>()
+  const {metadata, setMetadata, setDraftCount} = useQuizContext<NewImageMcqQuestion>()
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
   useEffect(() => {

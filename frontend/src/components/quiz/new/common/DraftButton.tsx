@@ -1,11 +1,10 @@
 import classes from "./DraftButton.module.css"
-import {FC, useEffect, useState} from "react";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqQuestion} from "../../../../types/question.ts";
-import {DraftSimpleInfo, PushDraftResponse} from "../../../../types/draft.ts";
+import {NewImageMcqQuestion} from "../../../../types/question.ts";
+import {PushDraftResponse} from "../../../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
@@ -28,7 +27,7 @@ interface ImageMcqDraftChoiceRequest {
 
 const DraftButton = () => {
 
-  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<ImageMcqQuestion>()
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewImageMcqQuestion>()
 
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
@@ -73,7 +72,7 @@ const DraftButton = () => {
     })
   }
 
-  const makeDraftChoiceRequest = (question: ImageMcqQuestion) => {
+  const makeDraftChoiceRequest = (question: NewImageMcqQuestion) => {
     return question.choices.map((choice) => {
       return {content: choice.content, isAnswer: choice.isAnswer}
     });

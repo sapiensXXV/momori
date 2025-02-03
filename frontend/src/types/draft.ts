@@ -1,10 +1,10 @@
 import {
-  AudioBinaryQuestion,
-  AudioMcqQuestion,
-  AudioSubjectiveQuestion,
-  ImageBinaryQuestion,
-  ImageMcqQuestion,
-  ImageSubjectiveQuestion
+  NewAudioBinaryQuestion,
+  NewAudioMcqQuestion,
+  NewAudioSubjectiveQuestion,
+  NewImageBinaryQuestion,
+  NewImageMcqQuestion,
+  NewImageSubjectiveQuestion
 } from "./question.ts";
 import {QuizTypes} from "../components/quiz/types/Quiz.types.ts";
 
@@ -36,25 +36,25 @@ export interface BaseDraft {
 }
 
 export interface ImageMcqDraftData extends BaseDraft {
-  questions: ImageMcqQuestion[]
+  questions: NewImageMcqQuestion[]
 }
 
 export interface ImageSubjectiveDraftData extends BaseDraft {
-  questions: ImageSubjectiveQuestion[];
+  questions: NewImageSubjectiveQuestion[];
 }
 
 export interface AudioMcqDraftData extends BaseDraft {
-  questions: AudioMcqQuestion[];
+  questions: NewAudioMcqQuestion[];
 }
 
 export interface AudioSubjectiveDraftData extends BaseDraft {
-  questions: AudioSubjectiveQuestion[];
+  questions: NewAudioSubjectiveQuestion[];
 }
 
 export interface ImageBinaryDraftData extends BaseDraft {
-  questions: ImageBinaryQuestion[];
+  questions: NewImageBinaryQuestion[];
 }
 
 export interface AudioBinaryDraftData extends BaseDraft {
-  questions: AudioBinaryQuestion[];
+  questions: NewAudioBinaryQuestion[];
 }

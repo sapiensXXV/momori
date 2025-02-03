@@ -88,7 +88,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const description = data.description
     const quizType = getQuizTypeFrom(data.quizType);
 
-    // setMetadata(prev => { return {...prev, thumbnailUrl: data.thumbnailUrl, thumbnailImageUploadStatus: isUrlExists(data.thumbnailUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED } })
     setMetadata({
       title: title,
       thumbnailUrl: thumbnailUrl,

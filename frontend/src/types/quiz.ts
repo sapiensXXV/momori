@@ -1,4 +1,5 @@
-import {ImageUploadStatus} from "./question.ts";
+import {NewImageMcqQuestion, ImageUploadStatus} from "./question.ts";
+import {QuizTypes} from "../components/quiz/types/Quiz.types.ts";
 
 export interface NewQuizMetadata {
   title: string;
@@ -15,3 +16,11 @@ export const initNewQuizMetadata: NewQuizMetadata = {
   description: "",
   formerDraftId: null,
 };
+
+export interface CreateImageMcqRequest {
+  title: string;
+  description: string;
+  type: QuizTypes;
+  thumbnailUrl: string;
+  questions: NewImageMcqQuestion[];
+}
