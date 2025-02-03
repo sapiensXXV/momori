@@ -10,6 +10,7 @@ import java.util.List;
 public class CreateDraftImageMcqQuizRequest {
 
     private String title;
+    private String thumbnailUrl;
     private String description;
     private String formerDraftId;
     private String type;

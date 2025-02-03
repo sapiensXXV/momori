@@ -30,13 +30,14 @@ public class QuizDraftFactory {
 
         return QuizDraft.builder()
             .title(request.getTitle())
+            .thumbnailUrl(request.getThumbnailUrl())
             .description(request.getDescription())
             .userInfo(userInfoFactory.from(userIdentifier, userProvider))
             .type(QuizType.from(request.getType()))
             .questions(questions)
             .build();
     }
-
+    
     public QuizDraft from(
         final String id,
         final CreateDraftImageMcqQuizRequest request,
