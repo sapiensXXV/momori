@@ -22,5 +22,5 @@ export interface CreateImageMcqRequest {
   description: string;
   type: QuizTypes;
   thumbnailUrl: string;
-  questions: NewImageMcqQuestion[];
+  questions: ImageMcqQuestion[];
 }

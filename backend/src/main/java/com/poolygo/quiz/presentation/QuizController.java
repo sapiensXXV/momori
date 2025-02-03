@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/quizzes")
+@RequestMapping("/api/quiz")
 @RequiredArgsConstructor
 @Slf4j
 public class QuizController {

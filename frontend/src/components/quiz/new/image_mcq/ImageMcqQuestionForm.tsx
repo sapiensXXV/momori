@@ -5,7 +5,7 @@ import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqChoice} from "../../../../types/choice.ts";
+import {NewImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
 import QuestionImage from "../common/QuestionImage.tsx";
 import {compressImage} from "../../../../global/util/image/ImageCompress.tsx";
@@ -156,7 +156,7 @@ const ImageMcqQuestionForm = () => {
 
               {/* 선택지 */}
               <div className={styles.choiceContainer}>
-                {question.choices.map((choice: ImageMcqChoice, ci: number) => (
+                {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
                   <div className={styles.choice} key={`${qi}_${ci}_choice`}>
                     {/* 체크박스 레이블 */}
                     <label className={styles.checkboxContainer}>
