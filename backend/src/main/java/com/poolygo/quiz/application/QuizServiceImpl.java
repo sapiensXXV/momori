@@ -44,10 +44,14 @@ public class QuizServiceImpl implements QuizService {
             })
             .toList();
 
+        // 썸네일 복사
+        String permanentThumbnailUrl = s3ImageService.copyDraftToPermanent(request.getThumbnailUrl());
+        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
+
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
             request.getTitle(),
             request.getDraftId(),
-            request.getThumbnailUrl(),
+            permanentThumbnailUrl,
             request.getDescription(),
             request.getType(),
             newQuestions

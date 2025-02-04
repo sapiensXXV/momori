@@ -17,5 +17,4 @@ public class ImageMcqQuizCreateRequest {
     private String description;
     private String type;
     private List<ImageMcqQuestionCreateRequest> questions;
-
 }
