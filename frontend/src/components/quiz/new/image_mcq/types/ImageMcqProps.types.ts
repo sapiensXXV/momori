@@ -1,6 +1,6 @@
-import {ImageMcqQuestion} from "../../../../../types/question.ts";
+import {NewImageMcqQuestion} from "../../../../../types/question.ts";
 
 export type ImageMcqQuestionFormProps = {
-  question: ImageMcqQuestion;
+  question: NewImageMcqQuestion;
   qi: number;
 }

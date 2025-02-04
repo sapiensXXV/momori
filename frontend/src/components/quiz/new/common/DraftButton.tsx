@@ -1,15 +1,15 @@
 import classes from "./DraftButton.module.css"
-import {FC, useEffect, useState} from "react";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqQuestion} from "../../../../types/question.ts";
-import {DraftSimpleInfo, PushDraftResponse} from "../../../../types/draft.ts";
+import {NewImageMcqQuestion} from "../../../../types/question.ts";
+import {PushDraftResponse} from "../../../../types/draft.ts";
 
 interface ImageMcqDraftRequest {
   title: string;
   description: string;
+  thumbnailUrl: string;
   type: QuizTypes;
   formerDraftId: string | null;
   questions: ImageMcqDraftQuestionRequest[];
@@ -25,13 +25,14 @@ interface ImageMcqDraftChoiceRequest {
   isAnswer: boolean;
 }
 
-const DraftButton: FC<DraftButtonProps> = () => {
+const DraftButton = () => {
 
-  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<ImageMcqQuestion>()
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewImageMcqQuestion>()
 
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
     const request = makeDraftRequest();
+    console.log(request);
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
@@ -53,6 +54,7 @@ const DraftButton: FC<DraftButtonProps> = () => {
   const makeDraftRequest = () => {
     const request: ImageMcqDraftRequest = {
       title: metadata.title ?? "제목 없음",
+      thumbnailUrl: metadata.thumbnailUrl,
       description: metadata.description ?? "설명 없음",
       formerDraftId: metadata.formerDraftId,
       type: QuizTypes.IMAGE_MCQ,
@@ -70,7 +72,7 @@ const DraftButton: FC<DraftButtonProps> = () => {
     })
   }
 
-  const makeDraftChoiceRequest = (question: ImageMcqQuestion) => {
+  const makeDraftChoiceRequest = (question: NewImageMcqQuestion) => {
     return question.choices.map((choice) => {
       return {content: choice.content, isAnswer: choice.isAnswer}
     });

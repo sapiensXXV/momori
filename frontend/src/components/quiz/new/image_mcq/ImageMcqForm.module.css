@@ -106,16 +106,6 @@
     background-color: #f8f9fa;
 }
 
-/*!* 호버 & 포커스 효과 *!*/
-/*.customUploadBox:hover,*/
-/*.hiddenInput:focus + .customUploadBox {*/
-/*    transform: scale(1.05);*/
-/*    border-color: #ffe6a6;*/
-/*    background-color: #ffe6a6;*/
-/*}*/
-
-
-
 /* 파일 이름 표시 숨기기 */
 input[type="file"]::file-selector-button {
     display: none;

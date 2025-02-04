@@ -1,18 +1,18 @@
 import styles from "./ImageMcqForm.module.css";
 import React from "react";
-import {ImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
+import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqChoice} from "../../../../types/choice.ts";
+import {NewImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
 import QuestionImage from "../common/QuestionImage.tsx";
-import {compressImage} from "../../../../global/util/image/ImageCompress.ts";
+import {compressImage} from "../../../../global/util/image/ImageCompress.tsx";
 
 const ImageMcqQuestionForm = () => {
 
-  const { questions, setQuestions } = useQuizContext<ImageMcqQuestion>();
+  const { questions, setQuestions } = useQuizContext<NewImageMcqQuestion>();
 
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const ImageMcqQuestionForm = () => {
       );
       const data: ImageUrlResponse = response.data;
       const imageUrl = data.imageUrl;
-      const copy: ImageMcqQuestion[] = [...questions];
+      const copy: NewImageMcqQuestion[] = [...questions];
       copy[index].imageUrl = imageUrl;
       setQuestions(copy);
 
@@ -156,7 +156,7 @@ const ImageMcqQuestionForm = () => {
 
               {/* 선택지 */}
               <div className={styles.choiceContainer}>
-                {question.choices.map((choice: ImageMcqChoice, ci: number) => (
+                {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
                   <div className={styles.choice} key={`${qi}_${ci}_choice`}>
                     {/* 체크박스 레이블 */}
                     <label className={styles.checkboxContainer}>

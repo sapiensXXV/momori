@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ImageMcqForm.module.css";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {ImageMcqQuestion} from "../../../../types/question.ts";
+import {NewImageMcqQuestion} from "../../../../types/question.ts";
 import DraftButton from "../common/DraftButton.tsx";
 import QuizCreateButton from "../common/QuizCreateButton.tsx";
 import {DraftSimpleInfo} from "../../../../types/draft.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import QuizDraftModal from "../common/modal/QuizDraftModal.tsx";
+import NewQuizThumbnail from "../common/thumbnail/NewQuizThumbnail.tsx";
 
 
 const ImageMcqMetadataForm = () => {
 
-  const { metadata, setMetadata, setDraftCount } = useQuizContext<ImageMcqQuestion>()
+  const {metadata, setMetadata, setDraftCount} = useQuizContext<NewImageMcqQuestion>()
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
   useEffect(() => {
@@ -34,8 +35,9 @@ const ImageMcqMetadataForm = () => {
 
   return (
     <>
-      <QuizDraftModal  drafts={drafts}/>
+      <QuizDraftModal drafts={drafts}/>
       <div className={styles.metaDataContainer}>
+        <NewQuizThumbnail/>
         <div className={styles.titleAndDraftButtonContainer}>
           <input
             className={`${styles.quizTitleInput} common-input-md`}

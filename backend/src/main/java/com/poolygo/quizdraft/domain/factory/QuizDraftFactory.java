@@ -30,6 +30,7 @@ public class QuizDraftFactory {
 
         return QuizDraft.builder()
             .title(request.getTitle())
+            .thumbnailUrl(request.getThumbnailUrl())
             .description(request.getDescription())
             .userInfo(userInfoFactory.from(userIdentifier, userProvider))
             .type(QuizType.from(request.getType()))
@@ -50,6 +51,7 @@ public class QuizDraftFactory {
         return QuizDraft.builder()
             .id(id)
             .title(request.getTitle())
+            .thumbnailUrl(request.getThumbnailUrl())
             .description(request.getDescription())
             .userInfo(userInfoFactory.from(userIdentifier, userProvider))
             .type(QuizType.from(request.getType()))

@@ -10,6 +10,7 @@ import java.util.List;
 public class DraftImageMcqResponse {
     private final String draftId;
     private final String quizType;
+    private final String thumbnailUrl;
     private final String title;
     private final String description;
     private final List<DraftImageMcqQuestionResponse> questions;
@@ -17,12 +18,14 @@ public class DraftImageMcqResponse {
     private DraftImageMcqResponse(
         final String draftId,
         final String quizType,
+        final String thumbnailUrl,
         final String title,
         final String description,
         final List<DraftImageMcqQuestionResponse> questions
     ) {
         this.draftId = draftId;
         this.quizType = quizType;
+        this.thumbnailUrl = thumbnailUrl;
         this.title = title;
         this.description = description;
         this.questions = questions;
@@ -31,12 +34,13 @@ public class DraftImageMcqResponse {
     public static DraftImageMcqResponse of(
         final String draftId,
         final String quizType,
+        final String thumbnailUrl,
         final String title,
         final String description,
         final List<DraftImageMcqQuestionResponse> questions
     ) {
 
-        return new DraftImageMcqResponse(draftId, quizType, title, description, questions);
+        return new DraftImageMcqResponse(draftId, quizType, thumbnailUrl, title, description, questions);
     }
 
     @Getter

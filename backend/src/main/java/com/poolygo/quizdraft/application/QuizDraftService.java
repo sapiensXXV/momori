@@ -45,6 +45,7 @@ public class QuizDraftService {
         return DraftImageMcqResponse.of(
             findDraft.getId(),
             findDraft.getType().name(),
+            findDraft.getThumbnailUrl(),
             findDraft.getTitle(),
             findDraft.getDescription(),
             questions
@@ -85,7 +86,8 @@ public class QuizDraftService {
         final String userIdentifier,
         final String userProvider
     ) {
-        QuizDraft savedDraft = quizDraftRepository.save(draftFactory.from(request, userIdentifier, userProvider));
+        QuizDraft saveDraft = draftFactory.from(request, userIdentifier, userProvider);
+        QuizDraft savedDraft = quizDraftRepository.save(saveDraft);
         return savedDraft.getId();
     }
 

@@ -1,11 +1,11 @@
 import classes from './AddImageMcqQuestionButton.module.css'
 import React from "react";
-import {ImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
+import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 
 const AddImageMcqQuestionButton = () => {
 
-  const {setQuestions} = useQuizContext<ImageMcqQuestion>()
+  const {setQuestions} = useQuizContext<NewImageMcqQuestion>()
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();

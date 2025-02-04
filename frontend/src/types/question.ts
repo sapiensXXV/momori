@@ -1,4 +1,10 @@
-import {ImageBinaryChoice, ImageMcqChoice, AudioBinaryChoice, VideoMcqChoice} from "./choice.ts";
+import {
+  NewImageBinaryChoice,
+  NewImageMcqChoice,
+  NewAudioBinaryChoice,
+  NewVideoMcqChoice,
+  ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice
+} from "./choice.ts";
 
 export enum ImageUploadStatus {
   NOT_UPLOADED = "not_uploaded",
@@ -15,32 +21,73 @@ export enum AudioUploadStatus {
 interface BaseQuestion {
 }
 
-export interface ImageMcqQuestion extends BaseQuestion {
+export interface NewImageMcqQuestion extends BaseQuestion {
   imageStatus: ImageUploadStatus;
+  imageUrl: string;
+  choices: NewImageMcqChoice[];
+}
+
+export interface NewImageSubjectiveQuestion extends BaseQuestion {
+  imageStatus: ImageUploadStatus;
+  imageUrl: string;
+  answers: string[];
+}
+
+export interface NewAudioMcqQuestion extends BaseQuestion {
+  audioStatus: AudioUploadStatus;
+  audioUrl: string;
+  choices: NewVideoMcqChoice[];
+}
+
+export interface NewAudioSubjectiveQuestion extends BaseQuestion {
+  audioStatus: AudioUploadStatus;
+  audioUrl: string;
+  answers: string[];
+}
+
+export interface NewImageBinaryQuestion extends BaseQuestion {
+  first: NewImageBinaryChoice;
+  second: NewImageBinaryChoice;
+}
+
+export interface NewAudioBinaryQuestion extends BaseQuestion {
+  first: NewAudioBinaryChoice;
+  second: NewAudioBinaryChoice;
+}
+
+export type NewQuestionTypes =
+  | NewImageMcqQuestion
+  | NewImageSubjectiveQuestion
+  | NewAudioMcqQuestion
+  | NewAudioSubjectiveQuestion
+  | NewImageBinaryQuestion
+  | NewAudioBinaryQuestion
+
+
+// ----------------------------------------- permanent quiz type -----------------------------------------
+
+export interface ImageMcqQuestion extends BaseQuestion {
   imageUrl: string;
   choices: ImageMcqChoice[];
 }
 
 export interface ImageSubjectiveQuestion extends BaseQuestion {
-  imageStatus: ImageUploadStatus;
   imageUrl: string;
   answers: string[];
 }
 
 export interface AudioMcqQuestion extends BaseQuestion {
-  audioStatus: AudioUploadStatus;
-  videoUrl: string;
-  choices: VideoMcqChoice[];
+  audioUrl: string;
+  choices: AudioMcqChoice[];
 }
 
 export interface AudioSubjectiveQuestion extends BaseQuestion {
-  audioStatus: AudioUploadStatus;
-  videoUrl: string;
+  audioUrl: string;
   answers: string[];
 }
 
 export interface ImageBinaryQuestion extends BaseQuestion {
-  first: ImageBinaryChoice;
+  first:ImageBinaryChoice;
   second: ImageBinaryChoice;
 }
 
@@ -50,11 +97,9 @@ export interface AudioBinaryQuestion extends BaseQuestion {
 }
 
 export type QuestionTypes =
-  | ImageMcqQuestion
-  | ImageSubjectiveQuestion
-  | AudioMcqQuestion
-  | AudioSubjectiveQuestion
-  | ImageBinaryQuestion
-  | AudioBinaryQuestion
-
-
+  | NewImageMcqQuestion
+  | NewImageSubjectiveQuestion
+  | NewAudioMcqQuestion
+  | NewAudioSubjectiveQuestion
+  | NewImageBinaryQuestion
+  | NewAudioBinaryQuestion
