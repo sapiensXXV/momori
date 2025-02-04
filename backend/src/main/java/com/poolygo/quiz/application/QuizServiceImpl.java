@@ -8,11 +8,13 @@ import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -23,14 +25,13 @@ import java.util.List;
 public class QuizServiceImpl implements QuizService {
 
     private final QuizRepository quizRepository;
+    private final QuizDraftRepository draftRepository;
     private final QuizFactory quizFactory;
     private final S3ImageService s3ImageService;
 
     @Override
     public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
 
-        //TODO: thumbnailUrl, request.questions.imageUrl 은 draft 객체 키를 가지고 있다.
-        //TODO: draft/ -> permanent/ 경로로 이미지를 복사하고, draft/ 키를 가지는 객체는 삭제해야한다.
         List<ImageMcqQuestionCreateRequest> questions = request.getQuestions();
         List<ImageMcqQuestionCreateRequest> newQuestions = questions.stream()
             .map(question -> {
@@ -45,15 +46,18 @@ public class QuizServiceImpl implements QuizService {
 
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
             request.getTitle(),
+            request.getDraftId(),
             request.getThumbnailUrl(),
             request.getDescription(),
             request.getType(),
             newQuestions
         );
 
-        //ImageMcqQuizCreateRequest 객체를 새롭게 만들어야한다.
         Quiz newQuiz = quizFactory.from(newRequest, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
+        if (StringUtils.hasText(request.getDescription())) {
+            draftRepository.deleteById(request.getDraftId()); // 임시저장 데이터로부터 퀴즈를 생성한 경우 임시저장 데이터를 삭제
+        }
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }

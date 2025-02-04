@@ -54,13 +54,12 @@ public class S3ImageService {
     public String copyDraftToPermanent(final String draftUrl) {
         String permanentUrl = "permanent/quiz/" + UUID.randomUUID();
         copyObject(draftUrl, permanentUrl);
-        return permanentUrl;
+        return amazonS3.getUrl(bucket, permanentUrl).toString();
     }
 
     public void copyObject(final String from, final String to) {
         try {
             CopyObjectRequest copyRequest = new CopyObjectRequest(bucket, from, bucket, to);
-            amazonS3.copyObject(copyRequest);
         } catch (AmazonServiceException e) {
             // 예외 처리
         } catch (SdkClientException e) {

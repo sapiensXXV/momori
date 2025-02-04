@@ -46,6 +46,7 @@ const QuizCreateButton = () => {
     return {
       title: metadata.title,
       description: metadata.description,
+      draftId: metadata.formerDraftId,
       type: quizType,
       thumbnailUrl: metadata.thumbnailUrl,
       questions: questions

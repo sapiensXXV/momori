@@ -12,6 +12,7 @@ import java.util.List;
 public class ImageMcqQuizCreateRequest {
 
     private String title;
+    private String draftId;
     private String thumbnailUrl;
     private String description;
     private String type;
