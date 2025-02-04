@@ -35,6 +35,7 @@ public class QuizServiceImpl implements QuizService {
         List<ImageMcqQuestionCreateRequest> newQuestions = questions.stream()
             .map(question -> {
                 String permanentUrl = s3ImageService.copyDraftToPermanent(question.getImageUrl());
+                s3ImageService.deleteObject(question.getImageUrl()); // 기존 임시 이미지 삭제
                 return new ImageMcqQuestionCreateRequest(
                     permanentUrl,
                     question.getChoices()
