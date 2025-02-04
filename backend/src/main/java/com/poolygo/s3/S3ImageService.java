@@ -1,7 +1,10 @@
 package com.poolygo.s3;
 
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CopyObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +48,23 @@ public class S3ImageService {
     public void deleteObject(final String url) {
         if (StringUtils.hasText(url)) {
             amazonS3.deleteObject(bucket, url);
+        }
+    }
+
+    public String copyDraftToPermanent(final String draftUrl) {
+        String permanentUrl = "permanent/quiz/" + UUID.randomUUID();
+        copyObject(draftUrl, permanentUrl);
+        return permanentUrl;
+    }
+
+    public void copyObject(final String from, final String to) {
+        try {
+            CopyObjectRequest copyRequest = new CopyObjectRequest(bucket, from, bucket, to);
+            amazonS3.copyObject(copyRequest);
+        } catch (AmazonServiceException e) {
+            // 예외 처리
+        } catch (SdkClientException e) {
+            // 예외 처리
         }
     }
 }
