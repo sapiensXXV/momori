@@ -10,7 +10,6 @@ import {handleError} from "../../../../../global/error/error.ts";
 const NewQuizThumbnail = () => {
 
   const {metadata, setMetadata} = useQuizContext()
-  console.log(metadata);
   const thumbnailUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value) return;
     if (!e.target.files || e.target.files.length === 0) {

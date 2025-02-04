@@ -36,7 +36,8 @@ public class QuizServiceImpl implements QuizService {
         List<ImageMcqQuestionCreateRequest> newQuestions = questions.stream()
             .map(question -> {
                 String permanentUrl = s3ImageService.copyDraftToPermanent(question.getImageUrl());
-                s3ImageService.deleteObject(question.getImageUrl()); // 기존 임시 이미지 삭제
+//                s3ImageService.deleteObject(question.getImageUrl()); // 임시 객체 삭제
+                log.info("새로운 URL=[{}], 기존의 URL=[{}]", permanentUrl, question.getImageUrl());
                 return new ImageMcqQuestionCreateRequest(
                     permanentUrl,
                     question.getChoices()
@@ -46,7 +47,8 @@ public class QuizServiceImpl implements QuizService {
 
         // 썸네일 복사
         String permanentThumbnailUrl = s3ImageService.copyDraftToPermanent(request.getThumbnailUrl());
-        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
+//        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
+        log.info("썸네일 URL=[{}]", permanentThumbnailUrl);
 
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
             request.getTitle(),
@@ -59,7 +61,7 @@ public class QuizServiceImpl implements QuizService {
 
         Quiz newQuiz = quizFactory.from(newRequest, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
-        if (StringUtils.hasText(request.getDescription())) {
+        if (StringUtils.hasText(request.getDraftId())) {
             draftRepository.deleteById(request.getDraftId()); // 임시저장 데이터로부터 퀴즈를 생성한 경우 임시저장 데이터를 삭제
         }
 
