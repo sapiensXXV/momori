@@ -6,6 +6,8 @@ import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {handleError} from "../../../global/error/error.ts";
 import {useInView} from "react-intersection-observer";
 import QuizSearchBar from "./QuizSearchBar.tsx";
+import {Simulate} from "react-dom/test-utils";
+import select = Simulate.select;
 
 export enum SearchType {
   LATEST = "latest",
@@ -15,14 +17,14 @@ export enum SearchType {
 type SearchCondition = {
   nextPage: number;
   size: number;
-  type: SearchType;
+  type: SearchType | null;
   isLastPage: boolean
 }
 
 const initSearchCondition: SearchCondition = {
   nextPage: 0,
   size: 20,
-  type: SearchType.POPULAR,
+  type: null,
   isLastPage: false
 }
 
@@ -56,13 +58,18 @@ export default function QuizGrid() {
       })
   }, [])
 
-  const typeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('condition type option change');
+  const typeChange = (selectType: SearchType) => {
+    console.log(`${selectType}가 선택됨.`)
+    if (selectType === searchCondition.type) {
+      setSearchCondition(prev => ({...prev, type: null}));
+    } else {
+      setSearchCondition(prev => ({...prev, type: selectType}));
+    }
   }
 
   return (
     <>
-      <QuizSearchBar typeChange={typeChange}/>
+      <QuizSearchBar type={searchCondition.type} typeChange={typeChange}/>
       <section className={classes.gridContainer}>
         {
           quizList.map((quiz, index) => {
