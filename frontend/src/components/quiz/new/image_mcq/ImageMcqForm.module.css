@@ -232,5 +232,21 @@ input[type="file"]::file-selector-button {
     100% { opacity: 1; }
 }
 
+.choiceDeleteButton {
+    background-color: var(--color-danger-background);
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+}
+
+.choiceDeleteButton:hover {
+    background-color: var(--color-danger-hover);
+}
+
+.choiceDeleteButton:hover > svg {
+    stroke: white;
+}
+
+
 
 
