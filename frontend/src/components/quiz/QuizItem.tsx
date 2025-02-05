@@ -1,22 +1,42 @@
-import styles from "./QuizItem.module.css"
+import classes from "./QuizItem.module.css"
+import {SimpleQuizItem} from "../../types/quiz.ts";
+import {FC} from "react";
+import {useNavigate} from "react-router-dom";
 
-export default function QuizItem() {
+type QuizItemProps = {
+  item: SimpleQuizItem;
+}
 
-  const quizItemClicked = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    console.log("quiz item clicked");
+const QuizItem: FC<QuizItemProps> = ({ item }) => {
+
+  const navigate = useNavigate();
+
+  const quizItemClicked = () => {
+    navigate(`/quiz/${item.id}`); // 퀴즈 페이지로 이동
+  }
+  
+  const getThumbnailImage = () => {
+    const thumbnail = item.thumbnailUrl;
+    if (thumbnail !== null || thumbnail !== undefined || thumbnail !== "") {
+      return <img className={classes.defaultThumbnailImage} src={"/img/icon/image.svg"}></img>
+    } else  {
+      return <img className={classes.thumbnailImage} src={item.thumbnailUrl}/>
+    }
   }
 
   return (
-    <section className={styles.item} onClick={(e) => quizItemClicked(e)}>
-      <div className={styles.thumbnailContainer}>
-        <img className={styles.thumbnailImage} src="/img/icon/image.svg"/>
-        <div className={styles.overlay}></div>
+    <section className={classes.item} onClick={() => quizItemClicked()}>
+      <div className={classes.thumbnailContainer}>
+        {/*<img className={classes.thumbnailImage} src={item.thumbnailUrl}/>*/}
+        { getThumbnailImage() }
+        <div className={classes.overlay}></div>
       </div>
-      <div className={styles.textContainer}>
-        <div className={styles.title}>제목입니다제목입니다제목입니다제목입니다제목입니다</div>
-        <div className={styles.description}>설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다설명입니다</div>
+      <div className={classes.textContainer}>
+        <div className={classes.title}>{item.title}</div>
+        <div className={classes.description}>{item.description}</div>
       </div>
     </section>
   )
 }
+
+export default QuizItem;

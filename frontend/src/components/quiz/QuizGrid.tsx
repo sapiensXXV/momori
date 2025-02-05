@@ -1,6 +1,7 @@
 import styles from "./QuizGrid.module.css"
 import QuizItem from "./QuizItem.tsx";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import {SimpleQuizItem} from "../../types/quiz.ts";
 
 export default function QuizGrid() {
 
@@ -8,20 +9,23 @@ export default function QuizGrid() {
 
   }, [])
 
+  const sampleItem: SimpleQuizItem = {
+    id: "123",
+    thumbnailUrl: "",
+    title: "퀴즈 제목",
+    description: "퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명",
+  }
+
   return (
     <section className={styles.gridContainer}>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
-      <QuizItem/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
+      <QuizItem item={sampleItem}/>
     </section>
   )
 }

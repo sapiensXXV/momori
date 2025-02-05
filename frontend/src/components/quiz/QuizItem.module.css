@@ -36,6 +36,13 @@
     pointer-events: none; /* 추가: 오버레이가 호버 방해하지 않음 */
 }
 
+.defaultThumbnailImage {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    filter: brightness(50%);
+}
+
 .thumbnailImage {
     width: 100%;
     height: 180px;

@@ -24,3 +24,11 @@ export interface CreateImageMcqRequest {
   thumbnailUrl: string;
   questions: ImageMcqQuestion[];
 }
+
+// 퀴즈 카드에서 보여지는 데이터
+export interface SimpleQuizItem {
+  id: string;
+  thumbnailUrl: string;
+  title: string;
+  description: string;
+}
