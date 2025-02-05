@@ -4,19 +4,26 @@ import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.infrastructure.QuizRepository;
-import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType.LATEST;
+import static com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType.POPULAR;
 
 @Service
 @RequiredArgsConstructor
@@ -101,8 +108,27 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizInfo> quizList(int page, int size) {
-        return List.of();
+    public List<QuizSummaryResponse> quizList(int page, int size, QuizSearchType type) {
+
+        Sort sort;
+        if (POPULAR.equals(type)) {
+            sort = Sort.by(Sort.Direction.DESC, "tries");
+        } else if (LATEST.equals(type)) {
+            sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        } else {
+            sort = null;
+        }
+
+        Pageable pageable;
+        if (sort == null) {
+            pageable = PageRequest.of(page, size);
+        } else {
+            pageable = PageRequest.of(page, size, sort);
+        }
+
+        return quizRepository.findByPage(pageable)
+            .stream()
+            .toList();
     }
 
     @Override

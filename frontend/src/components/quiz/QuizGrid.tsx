@@ -1,6 +1,6 @@
 import styles from "./QuizGrid.module.css"
 import QuizItem from "./QuizItem.tsx";
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {SimpleQuizItem} from "../../types/quiz.ts";
 
 export default function QuizGrid() {

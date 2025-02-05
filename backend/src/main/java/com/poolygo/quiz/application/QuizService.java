@@ -2,9 +2,10 @@ package com.poolygo.quiz.application;
 
 
 import com.poolygo.auth.dto.UserAuthDto;
-import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public interface QuizService {
      */
     public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth);
 
-    public List<QuizInfo> quizList(int page, int size);
+    public List<QuizSummaryResponse> quizList(int page, int size, QuizSearchType type);
 
     public void deleteQuiz(String quizId, UserAuthDto auth);
 

@@ -1,21 +1,21 @@
 package com.poolygo.quiz.presentation;
 
 import com.poolygo.auth.dto.UserAuthDto;
-import com.poolygo.global.resolver.DomainResolver;
-import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
-import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.global.resolver.AuthenticateUser;
+import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.application.QuizService;
+import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest;
+import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/quiz")
@@ -25,6 +25,16 @@ public class QuizController {
 
     private final QuizService quizService;
     private final DomainResolver domainResolver;
+
+    @GetMapping("/list")
+    public ResponseEntity<List<QuizSummaryResponse>> quizList(
+        @RequestBody final QuizListRequest quizListRequest,
+        @RequestParam("page") int page,
+        @RequestParam("size") int size
+    ) {
+        List<QuizSummaryResponse> result = quizService.quizList(page, size, quizListRequest.getSearchType());
+        return ResponseEntity.ok(result);
+    }
 
     @PostMapping("/mcq-img")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
