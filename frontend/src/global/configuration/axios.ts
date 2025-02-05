@@ -6,11 +6,25 @@ export const axiosInstance = axios.create({
   baseURL: BASE_URI
 });
 
-export const axiosJwtInstance = axios.create ({
+
+
+// export const axiosJwtInstance = axios.create ({
+//   baseURL: `${BASE_URI}`,
+//   withCredentials: true,
+//   headers: {
+//     "Authorization": `Bearer ${getCookieValue("jwtToken")}`
+//   }
+// })
+
+export const axiosJwtInstance = axios.create({
   baseURL: `${BASE_URI}`,
   withCredentials: true,
-  headers: {
-    "Authorization": `Bearer ${getCookieValue("jwtToken")}`
-  }
-})
+});
 
+axiosJwtInstance.interceptors.request.use((config) => {
+  const jwtToken = getCookieValue("jwtToken");
+  if (jwtToken) {
+    config.headers.Authorization = `Bearer ${jwtToken}`;
+  }
+  return config;
+});

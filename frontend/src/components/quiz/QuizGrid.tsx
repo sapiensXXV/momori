@@ -1,31 +1,47 @@
 import styles from "./QuizGrid.module.css"
 import QuizItem from "./QuizItem.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {SimpleQuizItem} from "../../types/quiz.ts";
+import {axiosJwtInstance} from "../../global/configuration/axios.ts";
+import {handleError} from "../../global/error/error.ts";
+
+enum SearchType {
+  LATEST="latest",
+  POPULAR="popular"
+}
+
+type SearchCondition = {
+  page: number;
+  size: number;
+  type: SearchType;
+}
 
 export default function QuizGrid() {
 
-  useEffect(() => {
+  const [quizList, setQuizList] = useState<SimpleQuizItem[]>([]);
+  const [searchCondition, setSearchCondition] = useState<SearchCondition>({ page: 0, size: 20, type: SearchType.POPULAR })
 
+  useEffect(() => {
+    requestSimpleQuiz();
   }, [])
 
-  const sampleItem: SimpleQuizItem = {
-    id: "123",
-    thumbnailUrl: "",
-    title: "퀴즈 제목",
-    description: "퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명, 퀴즈 설명",
+  const requestSimpleQuiz = async () => {
+    try {
+      const response = await axiosJwtInstance.get(`/api/quiz/list?page=${searchCondition.page}&size=${searchCondition.size}&type=${searchCondition.type}`)
+      // console.log(response.data);
+      setQuizList(response.data)
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   return (
     <section className={styles.gridContainer}>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
-      <QuizItem item={sampleItem}/>
+      {
+        quizList.map((quiz, index) => {
+          return <QuizItem key={`quiz_number_${index}`} item={quiz}/>
+        })
+      }
     </section>
   )
 }

@@ -17,7 +17,7 @@ const QuizItem: FC<QuizItemProps> = ({ item }) => {
   
   const getThumbnailImage = () => {
     const thumbnail = item.thumbnailUrl;
-    if (thumbnail !== null || thumbnail !== undefined || thumbnail !== "") {
+    if (thumbnail === null || thumbnail === undefined || thumbnail === "") {
       return <img className={classes.defaultThumbnailImage} src={"/img/icon/image.svg"}></img>
     } else  {
       return <img className={classes.thumbnailImage} src={item.thumbnailUrl}/>
@@ -27,7 +27,6 @@ const QuizItem: FC<QuizItemProps> = ({ item }) => {
   return (
     <section className={classes.item} onClick={() => quizItemClicked()}>
       <div className={classes.thumbnailContainer}>
-        {/*<img className={classes.thumbnailImage} src={item.thumbnailUrl}/>*/}
         { getThumbnailImage() }
         <div className={classes.overlay}></div>
       </div>
