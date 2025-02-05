@@ -13,11 +13,11 @@
 	.st6{fill:#D74F3F;}
 	.st7{fill:#D43C89;}
 	.st8{fill:#B2005F;}
-	.st9{fill:none;stroke:#000000;strokeWidth:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
+	.st9{fill:none;stroke:#000000;stroke-width:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
 	
-		.st10{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#000000;strokeWidth:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
+		.st10{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#000000;stroke-width:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
 	
-		.st11{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#040404;strokeWidth:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
+		.st11{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#040404;stroke-width:3;strokeLinecap:round;strokeLinejoin:round;stroke-miterlimit:10;}
 	.st12{fill-rule:evenodd;clip-rule:evenodd;}
 	.st13{fill-rule:evenodd;clip-rule:evenodd;fill:#040404;}
 	.st14{fill:url(#SVGID_1_);}
@@ -83,7 +83,7 @@
 	.st74{fill:url(#SVGID_60_);}
 	.st75{fill:url(#SVGID_61_);}
 	.st76{fill:url(#SVGID_62_);}
-	.st77{fill:none;stroke:#000000;strokeWidth:3;stroke-miterlimit:10;}
+	.st77{fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;}
 	.st78{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
 	.st79{fill:#4BC9FF;}
 	.st80{fill:#5500DD;}
