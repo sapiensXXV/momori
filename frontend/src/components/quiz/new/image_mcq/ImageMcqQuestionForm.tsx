@@ -1,4 +1,4 @@
-import styles from "./ImageMcqForm.module.css";
+import classes from "./ImageMcqForm.module.css";
 import React from "react";
 import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
@@ -123,14 +123,14 @@ const ImageMcqQuestionForm = () => {
   return (
     <>
 
-      <section className={`${styles.questionContainer} common-flex-column`}>
+      <section className={`${classes.questionContainer} common-flex-column`}>
         {questions?.map((question, qi) => (
           <React.Fragment key={`question_${qi}`}>
             <hr className="common-hr"/>
-            <div className={styles.question}>
-              <div className={styles.deleteButtonContainer}>
+            <div className={classes.question}>
+              <div className={classes.deleteButtonContainer}>
                 <button
-                  className={styles.quizDeleteButton}
+                  className={classes.quizDeleteButton}
                   onClick={() => deleteQuestion(qi)}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
@@ -138,44 +138,52 @@ const ImageMcqQuestionForm = () => {
                   </svg>
                 </button>
               </div>
-              <div className={styles.fileInputContainer}>
+              <div className={classes.fileInputContainer}>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => imageUploader(e, qi)}
                   id={`file-upload-${qi}`}
-                  className={styles.hiddenInput}
+                  className={classes.hiddenInput}
                 />
-                <label htmlFor={`file-upload-${qi}`} className={styles.customUploadBox}>
+                <label htmlFor={`file-upload-${qi}`} className={classes.customUploadBox}>
                   <QuestionImage status={question.imageStatus} imageUrl={question.imageUrl}/>
                 </label>
-                <button className={styles.choiceAddButton} onClick={() => addChoice(qi)}>
+                <button className={classes.choiceAddButton} onClick={() => addChoice(qi)}>
                   선택지 추가
                 </button>
               </div>
 
               {/* 선택지 */}
-              <div className={styles.choiceContainer}>
+              <div className={classes.choiceContainer}>
                 {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
-                  <div className={styles.choice} key={`${qi}_${ci}_choice`}>
+                  <div className={classes.choice} key={`${qi}_${ci}_choice`}>
                     {/* 체크박스 레이블 */}
-                    <label className={styles.checkboxContainer}>
+                    <label className={classes.checkboxContainer}>
                       <input
                         type="checkbox"
                         checked={choice.isAnswer}
                         onChange={() => choiceAnswerCheck(qi, ci)}
-                        className={styles.hiddenCheckbox}
+                        className={classes.hiddenCheckbox}
                       />
-                      <span className={styles.customCheckbox}></span>
+                      <span className={classes.customCheckbox}></span>
                     </label>
-                    <span className={styles.choiceNumber}>{ci + 1}. </span>
+                    <span className={classes.choiceNumber}>{ci + 1}. </span>
                     <input
-                      className={`${styles.choiceInput} common-input-sm`}
+                      className={`${classes.choiceInput} common-input-sm`}
                       type="text"
                       placeholder="선택지를 입력하세요"
                       value={choice.content}
                       onChange={(e) => choiceInputChange(e, qi, ci)}
                     />
+                    <button className={`${classes.choiceDeleteButton} common-button`}>
+                      {/*<img src={"/img/icon/trashcan.svg"}/>*/}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" className="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                      </svg>
+                    </button>
                   </div>
                 ))}
               </div>
