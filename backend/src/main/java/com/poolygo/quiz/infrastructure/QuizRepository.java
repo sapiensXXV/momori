@@ -7,6 +7,4 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface QuizRepository extends MongoRepository<Quiz, String> {
-
-    Page<QuizSummaryResponse> findByPage(Pageable pageable);
 }

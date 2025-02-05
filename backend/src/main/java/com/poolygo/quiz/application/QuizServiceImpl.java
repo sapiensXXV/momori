@@ -54,7 +54,7 @@ public class QuizServiceImpl implements QuizService {
 
         // 썸네일 복사
         String permanentThumbnailUrl = s3ImageService.copyDraftToPermanent(request.getThumbnailUrl());
-//        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
+        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
         log.info("썸네일 URL=[{}]", permanentThumbnailUrl);
 
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
@@ -126,9 +126,13 @@ public class QuizServiceImpl implements QuizService {
             pageable = PageRequest.of(page, size, sort);
         }
 
-        return quizRepository.findByPage(pageable)
+        List<QuizSummaryResponse> result = quizRepository.findAll(pageable)
             .stream()
+            .map(q -> {
+                return new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription());
+            })
             .toList();
+        return result;
     }
 
     @Override
