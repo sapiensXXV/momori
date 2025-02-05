@@ -6,7 +6,6 @@ import {
   NewImageMcqQuestion,
   NewImageSubjectiveQuestion
 } from "./question.ts";
-import {QuizTypes} from "../components/quiz/types/Quiz.types.ts";
 
 export interface DraftSimpleInfo {
   draftId: string;

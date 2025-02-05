@@ -4,19 +4,25 @@ import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.infrastructure.QuizRepository;
-import com.poolygo.quiz.presentation.dto.QuizInfo;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
+import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+
+import static com.poolygo.quiz.application.QuizSearchType.LATEST;
+import static com.poolygo.quiz.application.QuizSearchType.POPULAR;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +53,7 @@ public class QuizServiceImpl implements QuizService {
 
         // 썸네일 복사
         String permanentThumbnailUrl = s3ImageService.copyDraftToPermanent(request.getThumbnailUrl());
-//        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
+        s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
         log.info("썸네일 URL=[{}]", permanentThumbnailUrl);
 
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
@@ -101,8 +107,31 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizInfo> quizList(int page, int size) {
-        return List.of();
+    public List<QuizSummaryResponse> quizList(int page, int size, String type) {
+
+        QuizSearchType quizType = QuizSearchType.from(type);
+        Sort sort;
+        if (POPULAR.equals(quizType)) {
+            sort = Sort.by(Sort.Direction.DESC, "tries");
+        } else if (LATEST.equals(quizType)) {
+            sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        } else {
+            sort = null;
+        }
+
+        Pageable pageable;
+        if (sort == null) {
+            pageable = PageRequest.of(page, size);
+        } else {
+            pageable = PageRequest.of(page, size, sort);
+        }
+
+        return quizRepository.findAll(pageable)
+            .stream()
+            .map(q -> {
+                return new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription());
+            })
+            .toList();
     }
 
     @Override
