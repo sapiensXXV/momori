@@ -6,7 +6,6 @@ import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.infrastructure.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
-import com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
@@ -22,8 +21,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType.LATEST;
-import static com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest.QuizSearchType.POPULAR;
+import static com.poolygo.quiz.application.QuizSearchType.LATEST;
+import static com.poolygo.quiz.application.QuizSearchType.POPULAR;
 
 @Service
 @RequiredArgsConstructor
@@ -108,12 +107,13 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizSummaryResponse> quizList(int page, int size, QuizSearchType type) {
+    public List<QuizSummaryResponse> quizList(int page, int size, String type) {
 
+        QuizSearchType quizType = QuizSearchType.from(type);
         Sort sort;
-        if (POPULAR.equals(type)) {
+        if (POPULAR.equals(quizType)) {
             sort = Sort.by(Sort.Direction.DESC, "tries");
-        } else if (LATEST.equals(type)) {
+        } else if (LATEST.equals(quizType)) {
             sort = Sort.by(Sort.Direction.DESC, "createdAt");
         } else {
             sort = null;
@@ -126,13 +126,12 @@ public class QuizServiceImpl implements QuizService {
             pageable = PageRequest.of(page, size, sort);
         }
 
-        List<QuizSummaryResponse> result = quizRepository.findAll(pageable)
+        return quizRepository.findAll(pageable)
             .stream()
             .map(q -> {
                 return new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription());
             })
             .toList();
-        return result;
     }
 
     @Override

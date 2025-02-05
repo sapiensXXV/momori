@@ -5,7 +5,6 @@ import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
-import com.poolygo.quiz.presentation.dto.request.quiz.QuizListRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +27,12 @@ public class QuizController {
 
     @GetMapping("/list")
     public ResponseEntity<List<QuizSummaryResponse>> quizList(
-        @RequestBody final QuizListRequest quizListRequest,
         @RequestParam("page") int page,
-        @RequestParam("size") int size
+        @RequestParam("size") int size,
+        @RequestParam("type") String type
     ) {
-        List<QuizSummaryResponse> result = quizService.quizList(page, size, quizListRequest.getSearchType());
+        log.info("page={}, size={}, type={}", page, size, type);
+        List<QuizSummaryResponse> result = quizService.quizList(page, size, type);
         return ResponseEntity.ok(result);
     }
 
