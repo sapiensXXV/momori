@@ -1,12 +1,13 @@
 import classes from "./QuizGrid.module.css"
 import QuizItem from "./QuizItem.tsx";
 import {useCallback, useEffect, useState} from "react";
-import {SimpleQuizItem} from "../../types/quiz.ts";
-import {axiosJwtInstance} from "../../global/configuration/axios.ts";
-import {handleError} from "../../global/error/error.ts";
+import {SimpleQuizItem} from "../../../types/quiz.ts";
+import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
+import {handleError} from "../../../global/error/error.ts";
 import {useInView} from "react-intersection-observer";
+import QuizSearchBar from "./QuizSearchBar.tsx";
 
-enum SearchType {
+export enum SearchType {
   LATEST = "latest",
   POPULAR = "popular"
 }
@@ -55,8 +56,13 @@ export default function QuizGrid() {
       })
   }, [])
 
+  const typeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log('condition type option change');
+  }
+
   return (
     <>
+      <QuizSearchBar typeChange={typeChange}/>
       <section className={classes.gridContainer}>
         {
           quizList.map((quiz, index) => {
