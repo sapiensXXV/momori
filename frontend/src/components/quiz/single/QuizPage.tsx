@@ -6,11 +6,12 @@ const QuizPage = () => {
   const {quizId} = useParams();
 
   useEffect(() => {
-    
+
   }, []);
 
   return (
     <>
+      { `퀴즈 아이디=${quizId}` }
     </>
   )
 }

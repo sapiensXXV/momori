@@ -6,7 +6,7 @@ import com.poolygo.global.resolver.DomainResolver;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +36,9 @@ public class QuizController {
         List<QuizSummaryResponse> result = quizService.quizList(page, size, type, searchTerm);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/{quizId}")
+    public ResponseEntity<Quiz>
 
     @PostMapping("/mcq-img")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
@@ -73,6 +76,8 @@ public class QuizController {
     public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
         return null;
     }
+
+
 
 
 }

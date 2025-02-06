@@ -4,7 +4,7 @@ package com.poolygo.quiz.application;
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
 
 import java.util.List;
 

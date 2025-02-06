@@ -7,7 +7,7 @@ import com.poolygo.quiz.infrastructure.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;

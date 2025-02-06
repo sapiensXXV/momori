@@ -1,4 +1,4 @@
-package com.poolygo.quiz.presentation.dto.response;
+package com.poolygo.quiz.presentation.dto.response.summary;
 
 
 import lombok.AllArgsConstructor;
