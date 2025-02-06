@@ -75,7 +75,11 @@ export default function QuizGrid() {
 
   return (
     <>
-      <QuizSearchBar type={searchCondition.type} typeChange={typeChange} searchInputChange={searchInputChange} />
+      <QuizSearchBar
+        type={searchCondition.type}
+        typeChange={typeChange}
+        searchInputChange={searchInputChange}
+      />
       <section className={classes.gridContainer}>
         {
           quizList.map((quiz, index) => {
