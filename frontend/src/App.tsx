@@ -10,6 +10,7 @@ import {AuthProvider} from "./context/AuthContext.tsx";
 import OAuth2Callback from "./components/login/callback/OAuth2Callback.tsx";
 import NewQuiz from "./components/quiz/new/NewQuiz.tsx";
 import {QuizProvider} from "./context/QuizContext.tsx";
+import QuizPage from "./components/quiz/single/QuizPage.tsx";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                 path="/quiz/new"
                 element={<QuizProvider><NewQuiz /></QuizProvider>}
               />
+              <Route path="/quiz/:quizId" element={<QuizPage />} />
             </Routes>
             <Footer/>
           </BrowserRouter>
