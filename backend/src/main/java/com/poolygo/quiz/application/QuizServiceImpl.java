@@ -42,7 +42,7 @@ public class QuizServiceImpl implements QuizService {
         List<ImageMcqQuestionCreateRequest> newQuestions = questions.stream()
             .map(question -> {
                 String permanentUrl = s3ImageService.copyDraftToPermanent(question.getImageUrl());
-//                s3ImageService.deleteObject(question.getImageUrl()); // 임시 객체 삭제
+                s3ImageService.deleteObject(question.getImageUrl()); // 임시 객체 삭제
                 log.info("새로운 URL=[{}], 기존의 URL=[{}]", permanentUrl, question.getImageUrl());
                 return new ImageMcqQuestionCreateRequest(
                     permanentUrl,
@@ -107,7 +107,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public List<QuizSummaryResponse> quizList(int page, int size, String type) {
+    public List<QuizSummaryResponse> quizList(int page, int size, String type, String searchTerm) {
 
         QuizSearchType quizType = QuizSearchType.from(type);
         Sort sort;
@@ -126,11 +126,16 @@ public class QuizServiceImpl implements QuizService {
             pageable = PageRequest.of(page, size, sort);
         }
 
+        if (StringUtils.hasText(searchTerm)) {
+            String regex = ".*" + searchTerm + ".*";
+            return quizRepository.findByTitleMatching(regex, pageable).stream()
+                .map(q -> new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription()))
+                .toList();
+        }
+
         return quizRepository.findAll(pageable)
             .stream()
-            .map(q -> {
-                return new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription());
-            })
+            .map(q -> new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription()))
             .toList();
     }
 

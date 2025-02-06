@@ -1,5 +1,5 @@
 import classes from "./QuizItem.module.css"
-import {SimpleQuizItem} from "../../types/quiz.ts";
+import {SimpleQuizItem} from "../../../types/quiz.ts";
 import {FC} from "react";
 import {useNavigate} from "react-router-dom";
 

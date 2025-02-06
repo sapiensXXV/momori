@@ -1,10 +1,14 @@
 package com.poolygo.quiz.infrastructure;
 
 import com.poolygo.quiz.domain.Quiz;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
+import java.util.List;
 
 public interface QuizRepository extends MongoRepository<Quiz, String> {
+
+    @Query("{ 'title':  { $regex: ?0, $options:  'i' } }")
+    List<Quiz> findByTitleMatching(String regex, Pageable pageable);
 }

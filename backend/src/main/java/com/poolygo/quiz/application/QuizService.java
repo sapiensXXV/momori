@@ -49,7 +49,7 @@ public interface QuizService {
      */
     public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth);
 
-    public List<QuizSummaryResponse> quizList(int page, int size, String type);
+    public List<QuizSummaryResponse> quizList(int page, int size, String type, String searchTerm);
 
     public void deleteQuiz(String quizId, UserAuthDto auth);
 

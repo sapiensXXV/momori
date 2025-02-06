@@ -29,10 +29,11 @@ public class QuizController {
     public ResponseEntity<List<QuizSummaryResponse>> quizList(
         @RequestParam("page") int page,
         @RequestParam("size") int size,
-        @RequestParam("type") String type
+        @RequestParam("type") String type,
+        @RequestParam("searchTerm") String searchTerm
     ) {
         log.info("page={}, size={}, type={}", page, size, type);
-        List<QuizSummaryResponse> result = quizService.quizList(page, size, type);
+        List<QuizSummaryResponse> result = quizService.quizList(page, size, type, searchTerm);
         return ResponseEntity.ok(result);
     }
 
