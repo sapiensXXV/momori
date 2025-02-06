@@ -16,6 +16,7 @@ export enum SearchType {
 
 type SearchCondition = {
   nextPage: number;
+  searchString: string;
   size: number;
   type: SearchType | null;
   isLastPage: boolean
@@ -23,6 +24,7 @@ type SearchCondition = {
 
 const initSearchCondition: SearchCondition = {
   nextPage: 0,
+  searchString: "",
   size: 20,
   type: null,
   isLastPage: false
@@ -36,11 +38,11 @@ export default function QuizGrid() {
   const [observeTrigger, inView] = useInView();
 
   useEffect(() => {
-    if (loading) return; // 로딩중이라면 반환
+    if (loading || searchCondition.isLastPage) return; // 로딩 중이거나 마지막 페이지라면 로직을 수행하지 않는다.
     requestSimpleQuiz(searchCondition.nextPage, searchCondition.size, searchCondition.type);
-  }, [inView])
+  }, [inView]);
 
-  const requestSimpleQuiz = useCallback((nextPage: number, size: number, type: SearchType) => {
+  const requestSimpleQuiz = useCallback((nextPage: number, size: number, type: SearchType | null) => {
     setLoading(true); // 로딩 true
     axiosJwtInstance.get(`/api/quiz/list?page=${nextPage}&size=${size}&type=${type}`)
       .then((response) => {
@@ -56,10 +58,9 @@ export default function QuizGrid() {
       .catch((err) => {
         handleError(err);
       })
-  }, [])
+  }, [searchCondition])
 
   const typeChange = (selectType: SearchType) => {
-    console.log(`${selectType}가 선택됨.`)
     if (selectType === searchCondition.type) {
       setSearchCondition(prev => ({...prev, type: null}));
     } else {
@@ -67,9 +68,14 @@ export default function QuizGrid() {
     }
   }
 
+  const searchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSearchCondition(prev => ({...prev, searchString: e.target.value}))
+  }
+
   return (
     <>
-      <QuizSearchBar type={searchCondition.type} typeChange={typeChange}/>
+      <QuizSearchBar type={searchCondition.type} typeChange={typeChange} searchInputChange={searchInputChange} />
       <section className={classes.gridContainer}>
         {
           quizList.map((quiz, index) => {
@@ -77,11 +83,15 @@ export default function QuizGrid() {
           })
         }
       </section>
-      <div ref={observeTrigger} className={classes.gridObserver}>
-        {
-          loading ? <img src={"/img/icon/loading.gif"} alt={"loading"}/> : null
-        }
-      </div>
+      {
+        // 마지막 페이지라면 옵저버 트리거를 출력하지 않는다.
+        searchCondition.isLastPage ? null : (
+          <div ref={observeTrigger} className={classes.gridObserver}>
+            {loading ? <img src="/img/icon/loading.gif" alt="loading" /> : null}
+          </div>
+        )
+      }
+
     </>
 
   )
