@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface QuizRepository extends MongoRepository<Quiz, String> {
 
-    @Query("{ 'title':  { $regex: ?0, $option:  'i' } }")
+    @Query("{ 'title':  { $regex: ?0, $options:  'i' } }")
     List<Quiz> findByTitleMatching(String regex, Pageable pageable);
 }

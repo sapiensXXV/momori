@@ -6,9 +6,10 @@ type QuizSearchBarProps = {
   type: SearchType | null;
   typeChange: (selectType: SearchType) => void;
   searchInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchButtonClicked: () => void;
 }
 
-const QuizSearchBar: FC<QuizSearchBarProps> = ({ type, typeChange, searchInputChange }) => {
+const QuizSearchBar: FC<QuizSearchBarProps> = ({ type, typeChange, searchInputChange, searchButtonClicked }) => {
   return (
     <>
       <section className={classes.searchContainer}>
@@ -21,7 +22,7 @@ const QuizSearchBar: FC<QuizSearchBarProps> = ({ type, typeChange, searchInputCh
           onClick={() => typeChange(SearchType.POPULAR)}
         >인기순</div>
         <input className={`${classes.searchInput} common-input-sm`} type={"text"} placeholder={"퀴즈를 검색하세요"} onChange={searchInputChange}/>
-        <div className={`${classes.searchButton} common-button`}>
+        <div className={`${classes.searchButton} common-button`} onClick={searchButtonClicked}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" className="size-6">
             <path stroke-linecap="round" stroke-linejoin="round"
