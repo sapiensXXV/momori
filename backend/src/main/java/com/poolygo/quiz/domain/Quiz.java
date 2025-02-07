@@ -18,7 +18,6 @@ import java.util.List;
 @Builder
 public class Quiz {
     @Id
-    @Field(name = "_id", targetType = FieldType.OBJECT_ID)
     private String id;
 
     @CreatedDate
