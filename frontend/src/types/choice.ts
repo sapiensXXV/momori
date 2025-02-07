@@ -33,18 +33,15 @@ export interface ImageMcqChoice {
 
 export interface AudioMcqChoice {
   content: string;
-  audioUrl: string;
   isAnswer: boolean;
 }
 
 export interface ImageBinaryChoice {
   description: string;
-  imageUrl: string;
   isAnswer: boolean;
 }
 
 export interface AudioBinaryChoice {
   description: string;
-  audioUrl: string;
   isAnswer: boolean;
 }
