@@ -3,11 +3,9 @@ import QuizItem from "./QuizItem.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {SimpleQuizItem} from "../../../types/quiz.ts";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
-import {handleError} from "../../../global/error/error.ts";
 import {useInView} from "react-intersection-observer";
 import QuizSearchBar from "./QuizSearchBar.tsx";
-import {Simulate} from "react-dom/test-utils";
-import select = Simulate.select;
+import { handleError } from '@global/error/error.ts';
 
 export enum SearchType {
   LATEST = "latest",

@@ -14,7 +14,7 @@ public class ChoiceFactory {
         String content = request.getContent();
         boolean isAnswer = request.isAnswer();
 
-        return ImageMcqChoice.of(content, isAnswer);
+        return new ImageMcqChoice(content, isAnswer);
     }
 
     public BinaryChoiceItem from(ChoiceItemRequest request) {

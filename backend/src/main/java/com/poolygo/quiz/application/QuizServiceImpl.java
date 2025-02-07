@@ -1,13 +1,18 @@
 package com.poolygo.quiz.application;
 
 import com.poolygo.auth.dto.UserAuthDto;
+import com.poolygo.global.exception.ExceptionCode;
+import com.poolygo.global.exception.QuizException;
+import com.poolygo.quiz.application.factory.QuizMappingStrategyFactory;
+import com.poolygo.quiz.application.strategy.QuizMappingStrategy;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.infrastructure.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
+import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuizDraftRepository draftRepository;
     private final QuizFactory quizFactory;
+    private final QuizMappingStrategyFactory quizMappingStrategyFactory;
     private final S3ImageService s3ImageService;
 
     @Override
@@ -137,6 +143,15 @@ public class QuizServiceImpl implements QuizService {
             .stream()
             .map(q -> new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription()))
             .toList();
+    }
+
+    @Override
+    public QuizDetailResponse findById(String id) {
+        Quiz quiz = quizRepository.findById(id)
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        QuizMappingStrategy strategy = quizMappingStrategyFactory.getStrategy(quiz.getType());
+        return strategy.map(quiz);
     }
 
     @Override

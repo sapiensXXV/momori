@@ -2,11 +2,12 @@ package com.poolygo.quiz.presentation;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.AuthenticateUser;
-import com.poolygo.global.resolver.DomainResolver;
+import com.poolygo.global.resolver.DomainConfiguration;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
-import com.poolygo.quiz.presentation.dto.response.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
+import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import java.util.List;
 public class QuizController {
 
     private final QuizService quizService;
-    private final DomainResolver domainResolver;
+    private final DomainConfiguration domainConfiguration;
 
     @GetMapping("/list")
     public ResponseEntity<List<QuizSummaryResponse>> quizList(
@@ -32,9 +33,16 @@ public class QuizController {
         @RequestParam("type") String type,
         @RequestParam("searchTerm") String searchTerm
     ) {
-        log.info("page={}, size={}, type={}", page, size, type);
+        log.debug("page={}, size={}, type={}", page, size, type);
         List<QuizSummaryResponse> result = quizService.quizList(page, size, type, searchTerm);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{quizId}")
+    public ResponseEntity<QuizDetailResponse> quizDetail(
+        @PathVariable("quizId") String quizId
+    ) {
+        return null;
     }
 
     @PostMapping("/mcq-img")
@@ -44,7 +52,7 @@ public class QuizController {
     ) {
         QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest, auth);
         URI quizUri = UriComponentsBuilder
-            .fromUriString(domainResolver.baseUrl() + "/quiz/" + createResponse.getQuizId())
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + createResponse.getQuizId())
             .build()
             .toUri();
 
@@ -73,6 +81,8 @@ public class QuizController {
     public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
         return null;
     }
+
+
 
 
 }
