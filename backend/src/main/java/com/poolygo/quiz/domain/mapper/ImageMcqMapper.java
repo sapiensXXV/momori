@@ -22,7 +22,7 @@ public interface ImageMcqMapper {
 
     // ImageMcqChoice 를 ImageMcqChoiceDetailResponse 로 매핑
     default McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice) {
-        return new McqChoiceDetail(choice.getContent(), choice.isAnswer());
+        return new McqChoiceDetail(choice.getContent(), choice.isAnswer(), choice.getSelectedCount());
     }
 
     // List<McqChoiceDetail에 대한 매핑은 MapperStruct가 자동으로 처리해준다.

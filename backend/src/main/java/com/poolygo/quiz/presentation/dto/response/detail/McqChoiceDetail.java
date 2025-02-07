@@ -12,6 +12,10 @@ public class McqChoiceDetail {
 
     @JsonProperty("content")
     private String content;
+
     @JsonProperty("isAnswer")
     private boolean isAnswer;
+
+    @JsonProperty("selectedCount")
+    private int selectedCount;
 }
