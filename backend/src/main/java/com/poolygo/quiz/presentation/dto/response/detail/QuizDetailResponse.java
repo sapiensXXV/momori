@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class QuizDetailResponse {
 
+    private final String id;
     private final String title;
     private final String description;
     private final String type;
@@ -21,6 +22,7 @@ public class QuizDetailResponse {
 
     @Builder
     public QuizDetailResponse(
+        String id,
         String title,
         String description,
         String type,
@@ -30,6 +32,7 @@ public class QuizDetailResponse {
         int tries,
         int likes
     ) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.type = type;

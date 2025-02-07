@@ -1,24 +1,19 @@
 package com.poolygo.quiz.presentation.dto.response.detail;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImageMcqQuestionDetailResponse extends QuestionDetailResponse {
 
-    private final String imageUrl;
-    private final List<? extends McqChoiceDetail> choices;
-
-    private ImageMcqQuestionDetailResponse(String imageUrl, List<? extends McqChoiceDetail> choices) {
-        this.imageUrl = imageUrl;
-        this.choices = choices;
-    }
-
-    public static ImageMcqQuestionDetailResponse of(String imageUrl, List<? extends McqChoiceDetail> choices) {
-        return new ImageMcqQuestionDetailResponse(imageUrl, choices);
-    }
-
-
+    private String imageUrl;
+    private List<McqChoiceDetail> choices;
 }

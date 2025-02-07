@@ -1,6 +1,7 @@
 package com.poolygo.quiz.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

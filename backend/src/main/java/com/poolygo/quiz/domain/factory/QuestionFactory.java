@@ -15,9 +15,10 @@ public class QuestionFactory {
 
     public ImageMcqQuestion from(final ImageMcqQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
-        List<ImageMcqChoiceCreateRequest> choices = request.getChoices();
-
-        return ImageMcqQuestion.of(imageUrl, choices);
+        List<ImageMcqChoice> choices = request.getChoices().stream()
+            .map(choiceFactory::from)
+            .toList();
+        return new ImageMcqQuestion(imageUrl, choices);
     }
 
     public ImageSubjectiveQuestion from(final ImageSubjectiveQuestionCreateRequest request) {
