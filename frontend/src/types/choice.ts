@@ -45,3 +45,14 @@ export interface AudioBinaryChoice {
   description: string;
   isAnswer: boolean;
 }
+
+// ----------------------- quiz detail info -------------------------
+// 단일 퀴즈 조회 시 사용
+
+export interface ImageMcqDetailChoice {
+  content: string;
+  isAnswer: boolean;
+  selectedCount: number;
+}
+
+//TODO: 다른 퀴즈 타입의 선택지 타입 정의 (주관식 문제의 경우에는 선택지가 없음)
