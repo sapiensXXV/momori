@@ -28,6 +28,7 @@ public class QuestionFactory {
             .build();
     }
 
+    // TODO: 다른 타입의 문제 유형도 Question 추상클래스의 필드를 포함하도록 @SuperBuilder 적용
     public ImageSubjectiveQuestion from(final ImageSubjectiveQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
         List<String> answers = request.getAnswers();
