@@ -16,3 +16,9 @@ url:
   path:
     signup: /register
     auth: /auth
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+#    org.mongodb.driver: DEBUG
+#    org.mongodb.driver.protocol.command: DEBUG

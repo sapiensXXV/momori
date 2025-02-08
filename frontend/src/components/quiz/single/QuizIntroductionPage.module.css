@@ -1,0 +1,70 @@
+.introContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+}
+
+.introContentContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 500px;
+
+    background-color: var(--color-light-background);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.introThumbnail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 500px;
+    width: 100vw;
+    border: none;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow: hidden; /* 부모 경계를 넘는 내용은 감춤 */
+}
+
+.introThumbnail > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 부모 영역을 채움 */
+    display: block;
+}
+
+.introTitle {
+    font-family: Pretendard-Bold, serif;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.introDescription {
+    font-family: Pretendard-Regular, serif;
+    font-size: 0.9rem;
+    color: var(--color-gray);
+}
+
+.countButtonContainer {
+    display: grid;
+    gap: 10px;             /* 버튼 간 간격 */
+    justify-content: center; /* 그리드 전체를 중앙 정렬 */
+    grid-template-columns: repeat(3, auto);
+}
+
+.countButton {
+    background-color: var(--color-main-button-light);
+
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+    color: black;
+    padding: 8px 12px;
+
+}

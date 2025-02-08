@@ -13,4 +13,7 @@ public class ImageMcqChoice extends McqChoice {
 
     @JsonProperty("isAnswer")
     private final boolean isAnswer;
+
+    @JsonProperty("selectedCount")
+    private final int selectedCount;
 }

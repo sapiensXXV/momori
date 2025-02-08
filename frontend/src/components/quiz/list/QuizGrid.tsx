@@ -5,7 +5,7 @@ import {SimpleQuizItem} from "../../../types/quiz.ts";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {useInView} from "react-intersection-observer";
 import QuizSearchBar from "./QuizSearchBar.tsx";
-import { handleError } from '@global/error/error.ts';
+import {handleError} from "../../../global/error/error.ts";
 
 export enum SearchType {
   LATEST = "latest",

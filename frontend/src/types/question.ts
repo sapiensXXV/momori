@@ -3,7 +3,7 @@ import {
   NewImageMcqChoice,
   NewAudioBinaryChoice,
   NewVideoMcqChoice,
-  ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice
+  ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice, ImageMcqChoiceDetail, ImageMcqDetailChoice
 } from "./choice.ts";
 
 export enum ImageUploadStatus {
@@ -103,3 +103,23 @@ export type QuestionTypes =
   | NewAudioSubjectiveQuestion
   | NewImageBinaryQuestion
   | NewAudioBinaryQuestion
+
+
+// ---------------------------------------- quiz detail info -------------------------------------------
+export interface DetailQuestion {
+  questionId: string;
+  correctCount: number;
+  tryCount: number;
+}
+
+export interface ImageMcqDetailQuestion extends DetailQuestion {
+  imageUrl: string;
+  choices: ImageMcqDetailChoice[];
+}
+
+export interface ImageSubjectiveDetailQuestion extends DetailQuestion {
+  imageUrl: string;
+  answers: string[];
+}
+
+//TODO: 다른 퀴즈 타입의 문제 타입 정의

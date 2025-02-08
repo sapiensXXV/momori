@@ -1,4 +1,4 @@
-import {ImageUploadStatus, ImageMcqQuestion} from "./question.ts";
+import {ImageUploadStatus, ImageMcqQuestion, ImageMcqDetailQuestion, DetailQuestion} from "./question.ts";
 import {QuizTypes} from "../components/quiz/types/Quiz.types.ts";
 
 export interface NewQuizMetadata {
@@ -31,4 +31,26 @@ export interface SimpleQuizItem {
   thumbnailUrl: string;
   title: string;
   description: string;
+}
+
+export interface QuizDetail {
+  id: string;
+  thumbnailUrl: string;
+  title: string;
+  description: string;
+  type: QuizTypes;
+  views: number;
+  tries: number;
+  questions: DetailQuestion[];
+}
+
+export const initQuizDetail = {
+  id: "quiz_id",
+  thumbnailUrl: "thumbnail_url",
+  title: "title",
+  description: "description",
+  type: QuizTypes.IMAGE_MCQ,
+  views: 0,
+  tries: 0,
+  questions: []
 }

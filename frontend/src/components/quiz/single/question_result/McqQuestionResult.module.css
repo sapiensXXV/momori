@@ -1,0 +1,138 @@
+.resultContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: #ffe6a6;*/
+    padding: 10px;
+}
+
+.resultContentContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-light-background);
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /*높이와 너비를 지정해줘야 자식 이미지의 전체 부분이 출력*/
+    width: 100vw;
+    max-width: 500px;
+    height: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+}
+
+.questionImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.resultText {
+    font-size: 1.5rem;
+    font-family: Pretendard-Bold, serif;
+    color: black;
+}
+
+.choiceResultContainer {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    justify-content: flex-start;
+    align-items: flex-start; /* center → flex-start로 변경 */
+}
+
+.choiceAndResult {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    width: 100%;
+
+    /*border: 3px solid transparent;*/
+    /*border-color: var(--color-main-button-light);*/
+}
+
+.isAnswerChoice {
+    padding: 6px 0px;
+    border: 4px solid var(--color-emphasize);
+    border-radius: 5px;
+}
+
+.isAnswerChoice .choiceContent {
+    font-family: Pretendard-Bold, serif;
+}
+
+.answerMark {
+
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+    color: var(--color-emphasize)
+}
+
+.choiceContentContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 5px;
+    align-items: center;
+    border-radius: 5px;
+    border: 3px solid transparent;
+    outline: none;
+    padding: 0px 10px;
+    box-sizing: border-box;
+
+    transition: all 0.2s ease;
+    /*cursor: pointer;*/
+}
+
+.answerChoice {
+    font-family: Pretendard-Bold, serif;
+}
+
+.choiceNumber {
+    width: 15px;
+    font-family: Pretendard-Bold, serif;
+}
+
+.choiceContent {
+    font-size: 0.9rem;
+    font-family: Pretendard-Regular, serif;
+}
+
+.choiceInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+    column-gap: 5px;
+}
+
+.nextButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-main-button-light);
+    padding: 8px 10px;
+    column-gap: 5px;
+    justify-content: center;
+    font-family: Pretendard-Bold, serif;
+    font-size: 0.9rem;
+    /*cursor: pointer;*/
+}
+
+.nextButton > svg {
+    width: 1rem;
+    height: 1rem;
+}

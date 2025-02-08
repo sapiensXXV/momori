@@ -42,7 +42,8 @@ public class QuizController {
     public ResponseEntity<QuizDetailResponse> quizDetail(
         @PathVariable("quizId") String quizId
     ) {
-        return null;
+        QuizDetailResponse result = quizService.findById(quizId);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/mcq-img")

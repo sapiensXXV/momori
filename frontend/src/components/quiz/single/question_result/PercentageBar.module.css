@@ -1,0 +1,30 @@
+.percentageBarContainer {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;            /* 부모 너비에 맞춰 확장 */
+    max-width: 500px;       /* 필요에 따라 최대 너비 설정 */
+    height: 15px;           /* 바의 높이 */
+    background-color: white; /* 바의 배경색 */
+    border-radius: 5px;
+    overflow: hidden;       /* 내부 내용이 바깥으로 넘어가지 않게 함 */
+    margin: 0 auto;         /* 가운데 정렬 (부모가 block 요소일 경우) */
+}
+
+.percentageBar {
+    height: 100%;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: var(--color-main-button-light);;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.percentageText {
+    font-family: Pretendard-Bold, serif;
+    color: black;
+    font-size: 0.8rem;
+}
