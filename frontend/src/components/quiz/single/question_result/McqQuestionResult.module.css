@@ -1,12 +1,12 @@
-.questionContainer {
-    padding: 10px; /* 없애도 됨 */
+.resultContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     /*background-color: #ffe6a6;*/
+    padding: 10px;
 }
 
-.questionContentContainer {
+.resultContentContainer {
     display: flex;
     flex-direction: column;
     row-gap: 25px;
@@ -37,14 +37,30 @@
     object-position: center;
 }
 
-.choiceContainer {
+.resultText {
+    font-size: 1.5rem;
+    font-family: Pretendard-Bold, serif;
+    color: black;
+}
+
+.choiceResultContainer {
     width: 100%;
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    row-gap: 3px;
+    row-gap: 5px;
     justify-content: flex-start;
     align-items: flex-start; /* center → flex-start로 변경 */
+}
+
+.choiceAndResult {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    width: 100%;
+
+    /*border: 3px solid transparent;*/
+    /*border-color: var(--color-main-button-light);*/
 }
 
 .choiceContentContainer {
@@ -57,24 +73,15 @@
     border-radius: 5px;
     border: 3px solid transparent;
     outline: none;
-    padding: 4px 10px;
+    padding: 0px 10px;
     box-sizing: border-box;
 
     transition: all 0.2s ease;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
-.choiceContentContainer:hover {
-    transform: scale(1.01);
-}
-
-.choiceContentContainer:active {
-    transform: scale(0.99);
-}
-
-.selectedChoice {
-    border-color: rgba(255, 230, 166, 0.7);
-    box-shadow: none;
+.answerChoice {
+    font-family: Pretendard-Bold, serif;
 }
 
 .choiceNumber {
@@ -82,23 +89,33 @@
     font-family: Pretendard-Bold, serif;
 }
 
-.submitButton {
-    padding: 8px 12px;
-    font-family: Pretendard-Bold, serif;
+.choiceContent {
     font-size: 0.9rem;
-    width: 60px;
-    text-align: center;
-    background-color: var(--color-main-button-light);
+    font-family: Pretendard-Regular, serif;
 }
 
-.submitButtonContentContainer {
+.choiceInfo {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
     column-gap: 5px;
-    justify-content: center;
 }
 
-.submitButtonContentContainer > svg {
+.nextButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--color-main-button-light);
+    padding: 8px 10px;
+    column-gap: 5px;
+    justify-content: center;
+    font-family: Pretendard-Bold, serif;
+    font-size: 0.9rem;
+    /*cursor: pointer;*/
+}
+
+.nextButton > svg {
     width: 1rem;
     height: 1rem;
 }

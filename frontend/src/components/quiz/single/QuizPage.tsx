@@ -14,6 +14,11 @@ import ImageSubjectiveQuestionPage from "./question/ImageSubjectiveQuestionPage.
 import AudioMcqQuestionPage from "./question/AudioMcqQuestionPage.tsx";
 import AudioSubjectiveQuestionPage from "./question/AudioSubjectiveQuestionPage.tsx";
 import ImageBinaryQuestionPage from "./question/ImageBinaryQuestionPage.tsx";
+import ImageMcqQuestionResultPage from "./question_result/ImageMcqQuestionResultPage.tsx";
+import ImageSubjectiveQuestionResultPage from "./question_result/ImageSubjectiveQuestionResultPage.tsx";
+import AudioMcqQuestionResultPage from "./question_result/AudioMcqQuestionResultPage.tsx";
+import AudioSubjectiveQuestionResultPage from "./question_result/AudioSubjectiveQuestionResultPage.tsx";
+import ImageBinaryQuestionResultPage from "./question_result/ImageBinaryQuestionResultPage.tsx";
 
 enum QuizPageType {
   INTRODUCTION = "introduction",
@@ -69,9 +74,22 @@ const QuizPage = () => {
       case QuizPageType.QUESTION:
         return selectQuestionComponent();
       case QuizPageType.QUESTION_RESULT:
-        return <QuestionResultPage/>;
+        return selectQuestionResultComponent();
       case QuizPageType.RESULT:
         return <QuizResultPage/>;
+    }
+  }
+
+  const afterSubmit = (isSelectAnswer: boolean) => {
+    console.log(isSelectAnswer);
+    // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
+    setPageType(QuizPageType.QUESTION_RESULT);
+    // 객관식, 주관식, 이미지, 오디오 각각 결결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
+
+    if (isSelectAnswer) {
+      // TODO: 정답 선택 시 로직
+    } else {
+      // TODO: 오답 선택 시 로직
     }
   }
 
@@ -82,6 +100,7 @@ const QuizPage = () => {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqQuestionPage
           question={chosenQuestions[current] as ImageMcqDetailQuestion}
+          afterSubmit={afterSubmit}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionPage/>
@@ -91,6 +110,22 @@ const QuizPage = () => {
         return <AudioSubjectiveQuestionPage/>
       case QuizTypes.BINARY_CHOICE:
         return <ImageBinaryQuestionPage/>
+    }
+  }
+
+  // 문제 결과 컴포넌트를 선택하는 함수
+  const selectQuestionResultComponent = () => {
+    switch (quiz.type) {
+      case QuizTypes.IMAGE_MCQ:
+        return <ImageMcqQuestionResultPage question={chosenQuestions[current] as ImageMcqDetailQuestion} />
+      case QuizTypes.IMAGE_SUBJECTIVE:
+        return <ImageSubjectiveQuestionResultPage/>
+      case QuizTypes.AUDIO_MCQ:
+        return <AudioMcqQuestionResultPage/>
+      case QuizTypes.AUDIO_SUBJECTIVE:
+        return <AudioSubjectiveQuestionResultPage/>
+      case QuizTypes.BINARY_CHOICE:
+        return <ImageBinaryQuestionResultPage/>
     }
   }
 

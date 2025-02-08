@@ -7,11 +7,10 @@ type ImageMcqQuestionPageProps = {
   afterSubmit: (isSelectAnswer: boolean) => void;
 }
 
-const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question}, afterSubmit) => {
+const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSubmit}) => {
 
   const [selected, setSelected] = useState<number | null>(null);
 
-  console.log(selected)
   const choiceSelect = (index: number) => {
     setSelected(index);
   }
@@ -29,13 +28,13 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question}, afterSu
       return;
     }
     // selectedIndex 는 배열 인덱스 0부터 시작하기 때문에 1번 -> 0, 2번 -> 1에 매핑됨
-    console.log(`${selectedIndex+1}번 선택`)
     if (question.choices[selectedIndex].isAnswer) {
-      // 정답을 선택한 경우 afterSubmit 메서드에 true전달
+      // 정답을 선택한 경우 afterSubmit 메서드에 true 전달
       afterSubmit(true);
+    } else {
+      // 오답을 선택한 경우 afterSubmit 메서드에 false 전달
+      afterSubmit(false);
     }
-    // 오답을 선택한 경우 afterSubmit 메서드에 false 전달
-    afterSubmit(false);
   }
 
   return (
