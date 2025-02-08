@@ -1,6 +1,6 @@
 const ImageBinaryQuestionPage = () => {
   return (
-    <></>
+    <>ImageBinaryQuestionPage</>
   )
 }
 

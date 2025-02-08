@@ -1,6 +1,6 @@
 const AudioBinaryQuestionPage = () => {
   return (
-    <></>
+    <>AudioBinaryQuestionPage</>
   )
 }
 

@@ -1,6 +1,6 @@
 const AudioMcqQuestionPage = () => {
   return (
-    <></>
+    <>AudioMcqQuestionPage</>
   )
 }
 

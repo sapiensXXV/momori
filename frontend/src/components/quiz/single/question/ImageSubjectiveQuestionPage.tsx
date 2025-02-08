@@ -1,6 +1,6 @@
 const ImageSubjectiveQuestionPage = () => {
   return (
-    <></>
+    <>ImageSubjectiveQuestionPage</>
   )
 }
 
