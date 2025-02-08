@@ -23,7 +23,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
 
   const calculateSelectSum = () => {
     let result = 0;
-    question.choices.map((choice, index) => {
+    question.choices.map((choice) => {
       result += choice.selectedCount;
     })
     return result;
@@ -41,15 +41,19 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
             {
               question.choices.map((choice, index) => {
                 return (
-                  <div className={classes.choiceAndResult}>
+                  <div className={`${classes.choiceAndResult} ${ choice.isAnswer ? classes.isAnswerChoice : '' }`}>
                     <div className={classes.choiceContentContainer}>
                       <span className={classes.choiceNumber}>{index + 1}. </span>
                       <span className={classes.choiceContent}>{choice.content}</span>
+                      {
+                        choice.isAnswer ? (
+                          <span className={classes.answerMark}>(정답)</span>
+                        ) : null
+                      }
                     </div>
                     <div className={classes.choiceInfo}>
                       {/*<PercentageBar percentage={ percent(selectSum.current, choice.selectedCount) } />*/}
                       <PercentageBar percentage={percent(100, 100)}/>
-                      {/*<span className={classes.correctRateText}>{ percent(selectSum.current, choice.selectedCount) }</span>*/}
                     </div>
                   </div>
                 )

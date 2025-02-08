@@ -3,7 +3,6 @@ import {useParams} from "react-router-dom";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {handleError} from "../../../global/error/error.ts";
 import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
-import QuestionResultPage from "./QuestionResultPage.tsx";
 import QuizResultPage from "./QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {DetailQuestion, ImageMcqDetailQuestion} from "../../../types/question.ts";
@@ -27,7 +26,7 @@ enum QuizPageType {
   RESULT = "result",
 }
 
-type QuizAttemptRecord = {
+export type QuizAttemptRecord = {
   quizId: string;
   questions: {
     questionId: string;
@@ -55,14 +54,15 @@ const QuizPage = () => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
         // console.log(response.data);
+        console.log(response.data);
         setQuiz(response.data);
-        record.current.quizId = response.data.quizId; // 퀴즈 ID 저장
+        record.current.quizId = response.data.id; // 퀴즈 ID 저장
       })
       .catch((error) => {
         // console.log(error);
         handleError(error);
       })
-  }, []);
+  }, [quizId]);
 
   const setQuestionCount = (value: number) => {
     // 1. value 개의 문제를 랜덤하게 선정 (chosenQuestions)
@@ -71,7 +71,6 @@ const QuizPage = () => {
     setChosenQuestions(randomQuestions);
     // 2. pageType 을 QUESTION 으로 전환
     setPageType(QuizPageType.QUESTION);
-
   }
 
   const selectComponent = () => {
@@ -89,7 +88,7 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        return <QuizResultPage/>;
+        return <QuizResultPage record={record.current} />;
     }
   }
 
