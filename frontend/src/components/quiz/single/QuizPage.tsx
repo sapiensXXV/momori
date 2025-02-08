@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {handleError} from "../../../global/error/error.ts";
@@ -27,12 +27,27 @@ enum QuizPageType {
   RESULT = "result",
 }
 
+type QuizAttemptRecord = {
+  quizId: string;
+  questions: {
+    questionId: string;
+    isCorrect: boolean;
+  }[];
+}
+
+const initAttemptRecord: QuizAttemptRecord = {
+  quizId: "quiz_id",
+  questions: []
+}
+
 const QuizPage = () => {
 
   const [pageType, setPageType] = useState<QuizPageType>(QuizPageType.INTRODUCTION);
   const [quiz, setQuiz] = useState<QuizDetail>(initQuizDetail);
   const [chosenQuestions, setChosenQuestions] = useState<DetailQuestion[]>([]);
   const [current, setCurrent] = useState(0); // 현재 퀴즈 번호
+  const [correct, setCorrect] = useState<boolean>(false)
+  const record = useRef<QuizAttemptRecord>(initAttemptRecord); // 퀴즈가 끝난후 서버에 전달. 통계용으로 사용
 
   const {quizId} = useParams();
 
@@ -41,6 +56,7 @@ const QuizPage = () => {
       .then((response) => {
         // console.log(response.data);
         setQuiz(response.data);
+        record.current.quizId = response.data.quizId; // 퀴즈 ID 저장
       })
       .catch((error) => {
         // console.log(error);
@@ -49,14 +65,11 @@ const QuizPage = () => {
   }, []);
 
   const setQuestionCount = (value: number) => {
-    // TODO: 문제 중 랜덤하게 value 개를 뽑아 사용자에게 제공할 문제로 선정
-    console.log(`set question count: ${value}`)
-
-    // 1. value개의 문제를 랜덤하게 선정 (chosenQuestions)
+    // 1. value 개의 문제를 랜덤하게 선정 (chosenQuestions)
     const randomQuestions = getRandomElements(quiz.questions, value);
     // console.log(randomQuestions)
     setChosenQuestions(randomQuestions);
-    // 2. pageType을 QUESTION으로 전환
+    // 2. pageType 을 QUESTION 으로 전환
     setPageType(QuizPageType.QUESTION);
 
   }
@@ -80,17 +93,34 @@ const QuizPage = () => {
     }
   }
 
-  const afterSubmit = (isSelectAnswer: boolean) => {
+  const submitQuestion = (isSelectAnswer: boolean) => {
     console.log(isSelectAnswer);
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
     // 객관식, 주관식, 이미지, 오디오 각각 결결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
-
     if (isSelectAnswer) {
       // TODO: 정답 선택 시 로직
+      setCorrect(true);
+      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: true })
     } else {
       // TODO: 오답 선택 시 로직
+      setCorrect(false);
+      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: false })
     }
+  }
+
+  // 문제 결과 페이지에서 '다음으로' 버튼을 눌렀을 때 호출되는 메서드
+  const nextQuestion = () => {
+    // TODO: 마지막 문제일 때를 고려한 로직 필요
+    console.log(`문제 갯수: ${chosenQuestions.length}`);
+    console.log(`current_index=${current}`);
+    if (chosenQuestions.length <= current+1) {
+      setPageType(QuizPageType.RESULT); // 마지막 문제를 해결한 경우 결과 페이지로 이동
+      return;
+    }
+
+    setPageType(QuizPageType.QUESTION);
+    setCurrent((prev) => prev + 1);
   }
 
   // 선택지 선택시 호출되는 메서드
@@ -100,7 +130,7 @@ const QuizPage = () => {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqQuestionPage
           question={chosenQuestions[current] as ImageMcqDetailQuestion}
-          afterSubmit={afterSubmit}
+          afterSubmit={submitQuestion}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionPage/>
@@ -117,7 +147,11 @@ const QuizPage = () => {
   const selectQuestionResultComponent = () => {
     switch (quiz.type) {
       case QuizTypes.IMAGE_MCQ:
-        return <ImageMcqQuestionResultPage question={chosenQuestions[current] as ImageMcqDetailQuestion} />
+        return <ImageMcqQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as ImageMcqDetailQuestion}
+          nextQuestion={nextQuestion}
+        />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionResultPage/>
       case QuizTypes.AUDIO_MCQ:

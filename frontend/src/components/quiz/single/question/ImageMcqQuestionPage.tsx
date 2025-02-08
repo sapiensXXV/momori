@@ -49,6 +49,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
               question.choices.map((choice, index) => {
                 return (
                   <div
+                    key={`${question.questionId}_${index}`}
                     className={`${classes.choiceContentContainer} ${isSelected(index) ? classes.selectedChoice : ''}`}
                     onClick={() => choiceSelect(index)}>
                     <span className={classes.choiceNumber}>{index + 1}.</span>

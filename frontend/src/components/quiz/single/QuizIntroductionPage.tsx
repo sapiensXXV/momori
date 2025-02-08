@@ -34,7 +34,11 @@ const QuizIntroductionPage: FC<QuizIntroductionPageProps> = (
           <div className={classes.countButtonContainer}>
             {
               allowCounts.map((count) => (
-                <div className={`common-button ${classes.countButton}`} onClick={() => setQuestionCount(count)}>{count}개 풀기</div>
+                <div
+                  key={`quiz_${title}_allow_${count}`}
+                  className={`common-button ${classes.countButton}`}
+                  onClick={() => setQuestionCount(count)}
+                >{count}개 풀기</div>
               ))
             }
           </div>
