@@ -3,12 +3,10 @@ import { useParams } from "react-router-dom";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {handleError} from "../../../global/error/error.ts";
 import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
-import QuestionPage from "./QuestionPage.tsx";
 import QuestionResultPage from "./QuestionResultPage.tsx";
 import QuizResultPage from "./QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {DetailQuestion} from "../../../types/question.ts";
-import {getRandomValues} from "node:crypto";
 import {getRandomElements} from "../../../global/util/random.ts";
 
 enum QuizPageType {
@@ -63,7 +61,7 @@ const QuizPage = () => {
           setQuestionCount={setQuestionCount}
         />;
       case QuizPageType.QUESTION:
-        return <QuestionPage/>;
+        // return <QuestionPage/>;
       case QuizPageType.QUESTION_RESULT:
         return <QuestionResultPage/>;
       case QuizPageType.RESULT:
