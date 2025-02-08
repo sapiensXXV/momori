@@ -1,8 +1,6 @@
 import classes from './McqQuestion.module.css'
 import {FC, useState} from "react";
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
-import {Simulate} from "react-dom/test-utils";
-import select = Simulate.select;
 
 type ImageMcqQuestionPageProps = {
   question: ImageMcqDetailQuestion;
