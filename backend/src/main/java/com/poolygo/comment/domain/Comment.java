@@ -20,6 +20,9 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
+    @Column(nullable = false)
+    private String quizId;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true) // 익명댓글에는 유저 정보가 없음
     private User user;
@@ -32,9 +35,6 @@ public class Comment {
 
     @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private boolean isMaker;
 
     @CreatedDate
     @Column(nullable = false)
