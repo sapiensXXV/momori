@@ -2,8 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0;
-
 }
 
 .introContentContainer {
@@ -13,7 +11,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 500px;
+    width: 100%;
 
     background-color: var(--color-light-background);
     border-radius: 8px;

@@ -45,7 +45,7 @@ export default function QuizGrid() {
   }, [searchCondition.type])
 
   const requestSimpleQuiz = useCallback((nextPage: number, size: number, type: SearchType | null, searchTerm: string) => {
-    console.log(`nextPage=${nextPage}, size=${size}, type=${type}, searchTerm=${searchTerm}`);
+    // console.log(`nextPage=${nextPage}, size=${size}, type=${type}, searchTerm=${searchTerm}`);
     setLoading(true); // 로딩 true
     axiosJwtInstance.get(`/api/quiz/list?page=${nextPage}&size=${size}&type=${type}&searchTerm=${searchTerm}`)
       .then((response) => {

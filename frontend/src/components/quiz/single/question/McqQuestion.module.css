@@ -1,5 +1,4 @@
 .questionContainer {
-    padding: 10px; /* 없애도 됨 */
     display: flex;
     justify-content: center;
     align-items: center;

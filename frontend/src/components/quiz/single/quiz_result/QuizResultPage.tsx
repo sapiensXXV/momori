@@ -27,7 +27,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
         labels: ["0~9", "10~19", "20~29", "30~39", "40~49", "50~59", "60~69", "70~79", "80~89", "90~100"],
         datasets: [
           {
-            type: 'line',
+            type: "line",
             label: '점수 분포 라인',
             data: distribution,
             borderColor: 'rgba(54, 162, 235, 1)',
@@ -91,7 +91,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
         <div className={classes.resultContentContainer}>
           <span className={classes.resultTitle}>퀴즈 결과</span>
           <div className={classes.resultScore}>{calculateScore()}점 (상위 {calculatePercentile(calculateScore(), distribution)}%)</div>
-
           <canvas className={classes.chart} ref={chartRef}></canvas>
         </div>
       </main>
