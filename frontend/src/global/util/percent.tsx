@@ -14,7 +14,10 @@ export function calculatePercentile(userScore: number, distribution: number[]): 
   const totalCount = distribution.reduce((sum, count) => sum + count, 0);
 
   // 사용자가 속한 bin의 인덱스 계산 (0~4점 → 0, 5~9점 → 1, …)
-  const userBinIndex = Math.floor(userScore / 5);
+  let userBinIndex: number = Math.floor(userScore / 10);
+  if (userScore === 100) {
+    userBinIndex = 9;
+  }
 
   // userScore가 distribution 범위를 벗어나면 에러 처리
   if (userBinIndex >= distribution.length) {
@@ -37,7 +40,7 @@ export function calculatePercentile(userScore: number, distribution: number[]): 
   // 상위 퍼센트 = (전체 사용자 수 - 예상 순위) / 전체 사용자 수 * 100
   const percentile = ((totalCount - estimatedRank) / totalCount) * 100;
 
-  return Math.round(percentile);
+  return 100 - Math.round(percentile);
 }
 
 // // 예시 데이터:

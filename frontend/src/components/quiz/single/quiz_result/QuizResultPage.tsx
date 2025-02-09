@@ -1,9 +1,8 @@
 import classes from './QuizResultPage.module.css'
-import {QuizAttemptRecord} from "./QuizPage.tsx";
+import {QuizAttemptRecord} from "../QuizPage.tsx";
 import {FC, useEffect, useRef} from "react";
 import {Chart, ChartConfiguration, Colors, registerables} from "chart.js";
-import {calculatePercentile} from "../../../global/util/percent.tsx";
-// import { annotationPlugins } from "chartjs-plugin-annotation";
+import {calculatePercentile} from "../../../../global/util/percent.tsx";
 
 type QuizResultPageProps = {
   record: QuizAttemptRecord;
@@ -12,8 +11,8 @@ type QuizResultPageProps = {
 
 const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
 
-  const chartRef = useRef<HTMLCanvasElement>();
-  const chartInstance = useRef<Chart>();
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -24,20 +23,12 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
     Chart.register(Colors)
 
     const config: ChartConfiguration<"bar", number[], string> = {
-      type: "bar",
       data: {
         labels: ["0~9", "10~19", "20~29", "30~39", "40~49", "50~59", "60~69", "70~79", "80~89", "90~100"],
         datasets: [
-          // {
-          //   label: '내 점수',
-          //   data: [calculateScore()],
-          //   borderColor: 'rgb(117,117,117)',
-          //   borderWidth: 2,
-          //   order: 0,
-          // },
           {
-            label: '점수분포 라인',
             type: 'line',
+            label: '점수 분포 라인',
             data: distribution,
             borderColor: 'rgba(54, 162, 235, 1)',
             backgroundColor: 'rgba(54, 162, 235, 1)',
@@ -46,6 +37,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
             order: 1,
           },
           {
+            type: "bar",
             label: "점수 분포 막대",
             data: distribution,
             backgroundColor: [
@@ -57,7 +49,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
             borderWidth: 2,
             order: 2
           },
-          // 사용자 데이터셋 표현 추가
         ],
       },
       options: {
@@ -83,8 +74,8 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
-        // chartInstance.current = null;
       }
+      record.questions = []; // 배열을 초기화 해주지 않으면 페이지에 재 접속했을 때 이전 기록이 계속 남아있음.
     };
   }, [])
 
@@ -99,7 +90,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
       <main className={classes.resultContainer}>
         <div className={classes.resultContentContainer}>
           <span className={classes.resultTitle}>퀴즈 결과</span>
-          <div className={classes.resultScore}>{calculateScore()}점 (상위{calculatePercentile(calculateScore(), distribution)}%)</div>
+          <div className={classes.resultScore}>{calculateScore()}점 (상위 {calculatePercentile(calculateScore(), distribution)}%)</div>
 
           <canvas className={classes.chart} ref={chartRef}></canvas>
         </div>
