@@ -75,6 +75,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
+      record.questions = []; // 배열을 초기화 해주지 않으면 페이지에 재 접속했을 때 이전 기록이 계속 남아있음.
     };
   }, [])
 

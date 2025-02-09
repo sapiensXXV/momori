@@ -10,15 +10,14 @@ export function percent(total: number, value: number): number {
  * distribution: 각 bin(5점 단위)에 해당하는 사용자 수 배열 (예: [count0, count1, ..., countN])
  */
 export function calculatePercentile(userScore: number, distribution: number[]): number {
-  console.log(distribution)
-  console.log(userScore);
   // 전체 사용자 수 계산
   const totalCount = distribution.reduce((sum, count) => sum + count, 0);
 
   // 사용자가 속한 bin의 인덱스 계산 (0~4점 → 0, 5~9점 → 1, …)
-  const userBinIndex = Math.floor(userScore / 10);
-
-  console.log(userBinIndex);
+  let userBinIndex: number = Math.floor(userScore / 10);
+  if (userScore === 100) {
+    userBinIndex = 9;
+  }
 
   // userScore가 distribution 범위를 벗어나면 에러 처리
   if (userBinIndex >= distribution.length) {

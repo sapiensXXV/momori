@@ -16,7 +16,6 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
   nextQuestion,
   userSelect
 }) => {
-  console.log(question);
   const selectSum = useRef<number>(0);
 
   useEffect(() => {

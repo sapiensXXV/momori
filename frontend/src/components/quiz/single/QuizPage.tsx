@@ -54,8 +54,6 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
-        // console.log(response.data);
-        console.log(response.data);
         setQuiz(response.data);
         record.current.quizId = response.data.id; // 퀴즈 ID 저장
       })
@@ -95,7 +93,6 @@ const QuizPage = () => {
   }
 
   const submitQuestion = (isSelectAnswer: boolean, userSelect: number) => {
-    console.log(isSelectAnswer);
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserSelect(userSelect);
@@ -114,8 +111,6 @@ const QuizPage = () => {
   // 문제 결과 페이지에서 '다음으로' 버튼을 눌렀을 때 호출되는 메서드
   const nextQuestion = () => {
     // TODO: 마지막 문제일 때를 고려한 로직 필요
-    console.log(`문제 갯수: ${chosenQuestions.length}`);
-    console.log(`current_index=${current}`);
     if (chosenQuestions.length <= current+1) {
       setPageType(QuizPageType.RESULT); // 마지막 문제를 해결한 경우 결과 페이지로 이동
       return;
