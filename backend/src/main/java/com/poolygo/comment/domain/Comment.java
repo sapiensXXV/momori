@@ -20,25 +20,25 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
+    @Column(nullable = false)
+    private String quizId;
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true) // 익명댓글에는 유저 정보가 없음.
+    @JoinColumn(name = "user_id", nullable = true) // 익명댓글에는 유저 정보가 없음
     private User user;
 
-    @Column(nullable = false)
+    @Column(nullable = false) // 회원 댓글인 경우, 회원의 이름 정보가 들어간다
     private String name;
 
-    @Column(nullable = false)
-    private boolean anonymous;
+    @Column(nullable = true) // 회원 댓글인 경우, 비밀번호 정보가 없다
+    private String password;
 
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private boolean isMaker;
-
     @CreatedDate
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @Column(name = "ip_address", nullable = false)
     private String ip;

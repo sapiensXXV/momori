@@ -2,8 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background-color: #ffe6a6;*/
-    padding: 10px;
 }
 
 .resultContentContainer {
