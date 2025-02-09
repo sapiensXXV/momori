@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {handleError} from "../../../global/error/error.ts";
 import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
-import QuizResultPage from "./QuizResultPage.tsx";
+import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {DetailQuestion, ImageMcqDetailQuestion} from "../../../types/question.ts";
 import {getRandomElements} from "../../../global/util/random.ts";
@@ -88,7 +88,8 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        return <QuizResultPage record={record.current} />;
+        // return <QuizResultPage record={record.current} distribution={quiz.scoreDistribution} />;
+        return <QuizResultPage record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
     }
   }
 

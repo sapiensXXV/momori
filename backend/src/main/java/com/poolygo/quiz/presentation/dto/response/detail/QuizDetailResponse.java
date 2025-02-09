@@ -17,6 +17,7 @@ public class QuizDetailResponse {
     private final int views;
     private final int tries;
     private final int likes;
+    private final List<Integer> scoreDistribution;
 
     private final List<? extends QuestionDetailResponse> questions;
 
@@ -28,6 +29,7 @@ public class QuizDetailResponse {
         String type,
         String thumbnailUrl,
         List<? extends QuestionDetailResponse> questions,
+        List<Integer> scoreDistribution,
         int views,
         int tries,
         int likes
@@ -38,6 +40,7 @@ public class QuizDetailResponse {
         this.type = type;
         this.thumbnailUrl = thumbnailUrl;
         this.questions = questions;
+        this.scoreDistribution = scoreDistribution;
         this.views = views;
         this.tries = tries;
         this.likes = likes;

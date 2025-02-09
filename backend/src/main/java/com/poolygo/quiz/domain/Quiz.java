@@ -32,6 +32,7 @@ public class Quiz {
     private int views;
     private int tries;
     private int likes;
+    private List<Integer> scoreDistribution;
 
     private List<? extends Question> questions;
 

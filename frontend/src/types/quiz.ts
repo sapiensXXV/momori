@@ -41,6 +41,7 @@ export interface QuizDetail {
   type: QuizTypes;
   views: number;
   tries: number;
+  scoreDistribution: number[];
   questions: DetailQuestion[];
 }
 
