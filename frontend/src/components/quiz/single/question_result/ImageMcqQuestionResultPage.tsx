@@ -57,18 +57,21 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
                     ${(!choice.isAnswer && userSelect === index) ? classes.userChooseChoice : ''}
                     `}>
                     <div className={classes.choiceContentContainer}>
+
                       <span className={classes.choiceNumber}>{index + 1}. </span>
-                      <span className={classes.choiceContent}>{choice.content}</span>
-                      {
-                        choice.isAnswer ? (
-                          <span className={classes.answerMark}>(정답)</span>
-                        ) : null
-                      }
-                      {
-                        (!choice.isAnswer && userSelect === index) ? (
-                          <span className={classes.userChooseMark}>(내 선택)</span>
-                        ) : null
-                      }
+                      <span className={classes.choiceContent}>
+                        {
+                          choice.isAnswer ? (
+                            <span className={classes.answerMark}>(정답) </span>
+                          ) : null
+                        }
+                        {
+                          (!choice.isAnswer && userSelect === index) ? (
+                            <span className={classes.userChooseMark}>(내 선택) </span>
+                          ) : null
+                        }
+                        {choice.content}
+                      </span>
                     </div>
                     <div className={classes.choiceInfo}>
                       {/*<PercentageBar percentage={ percent(selectSum.current, choice.selectedCount) } />*/}
