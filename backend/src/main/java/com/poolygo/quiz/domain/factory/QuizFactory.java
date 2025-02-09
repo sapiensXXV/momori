@@ -7,6 +7,8 @@ import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -32,6 +34,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
             .build();
     }
 
@@ -51,6 +54,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
             .build();
     }
 
@@ -69,6 +73,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
             .build();
     }
 
@@ -87,6 +92,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
             .build();
     }
 
@@ -104,6 +110,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
             .build();
     }
 

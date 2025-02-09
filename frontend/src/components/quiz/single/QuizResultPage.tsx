@@ -11,8 +11,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record}) => {
   const calculateScore = () => {
     const correct: number = record.questions
       .filter((question) => question.isCorrect).length;
-
-    console.log(`맞은 갯수: ${correct}`);
     return Math.floor(correct / record.questions.length * 100);
   }
 
