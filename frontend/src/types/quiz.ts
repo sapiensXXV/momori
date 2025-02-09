@@ -51,6 +51,7 @@ export const initQuizDetail = {
   title: "title",
   description: "description",
   type: QuizTypes.IMAGE_MCQ,
+  scoreDistribution: [],
   views: 0,
   tries: 0,
   questions: []

@@ -46,6 +46,7 @@ const QuizPage = () => {
   const [chosenQuestions, setChosenQuestions] = useState<DetailQuestion[]>([]);
   const [current, setCurrent] = useState(0); // 현재 퀴즈 번호
   const [correct, setCorrect] = useState<boolean>(false)
+  const [userSelect, setUserSelect] = useState<number>(0);
   const record = useRef<QuizAttemptRecord>(initAttemptRecord); // 퀴즈가 끝난후 서버에 전달. 통계용으로 사용
 
   const {quizId} = useParams();
@@ -93,10 +94,11 @@ const QuizPage = () => {
     }
   }
 
-  const submitQuestion = (isSelectAnswer: boolean) => {
+  const submitQuestion = (isSelectAnswer: boolean, userSelect: number) => {
     console.log(isSelectAnswer);
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
+    setUserSelect(userSelect);
     // 객관식, 주관식, 이미지, 오디오 각각 결결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
       // TODO: 정답 선택 시 로직
@@ -151,6 +153,7 @@ const QuizPage = () => {
           isCorrect={correct}
           question={chosenQuestions[current] as ImageMcqDetailQuestion}
           nextQuestion={nextQuestion}
+          userSelect={userSelect}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionResultPage/>
