@@ -36,6 +36,7 @@ public class ImageMcqQuizMappingStrategy implements QuizMappingStrategy {
             .description(quiz.getDescription())
             .type(quiz.getType().name())
             .questions(questions)
+            .scoreDistribution(quiz.getScoreDistribution())
             .views(quiz.getViews())
             .tries(quiz.getTries())
             .likes(quiz.getLikes())
