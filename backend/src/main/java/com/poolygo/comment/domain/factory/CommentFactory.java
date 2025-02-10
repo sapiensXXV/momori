@@ -17,12 +17,21 @@ public class CommentFactory {
         String content = request.getContent();
 
         //TODO: IP 추가
-        return Comment.anonymous(name, content, password, "");
+        return Comment.builder()
+            .name(name)
+            .password(password)
+            .content(content)
+            .ip("")
+            .build();
     }
 
     public Comment createUserComment(final CommentCreateRequest request, final User user) {
         //TODO: IP 추가
-        Comment comment = Comment.user(request.getName(), request.getContent(), "");
+        Comment comment = Comment.builder()
+            .name(request.getName())
+            .content(request.getContent())
+            .ip("")
+            .build();
         comment.addUser(user);
         return comment;
     }

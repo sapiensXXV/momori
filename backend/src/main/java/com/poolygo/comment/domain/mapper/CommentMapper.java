@@ -15,7 +15,6 @@ public interface CommentMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "content", source = "content")
-    @Mapping(target = "isMaker", source = "isMaker")
     CommentDetailResponse toCommentDetailResponse(Comment comment);
 
 }
