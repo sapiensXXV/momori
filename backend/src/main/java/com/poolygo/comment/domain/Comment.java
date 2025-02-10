@@ -10,6 +10,9 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+import static com.poolygo.comment.domain.CommentType.ANONYMOUS;
+import static com.poolygo.comment.domain.CommentType.USER;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -40,7 +43,31 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CommentType type;
+
     @Column(name = "ip_address", nullable = false)
     private String ip;
+
+    private Comment(String name, String content, String password, String ip, CommentType type) {
+        this.name = name;
+        this.content = content;
+        this.password = password;
+        this.ip = ip;
+    }
+
+    public static Comment anonymous(String name, String content, String password, String ip) {
+        return new Comment(name, content, password, ip, ANONYMOUS);
+    }
+
+    public static Comment user(String name, String content, String ip) {
+        return new Comment(name, content, null, ip, USER);
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+        user.getComments().add(this);
+    }
 
 }

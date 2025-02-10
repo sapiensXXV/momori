@@ -3,6 +3,7 @@ package com.poolygo.comment.presentation;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.comment.application.CommentService;
+import com.poolygo.comment.presentation.dto.CommentCreateRequest;
 import com.poolygo.comment.presentation.dto.CommentCreateResponse;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
 import com.poolygo.global.resolver.AuthenticateUser;
@@ -33,6 +34,7 @@ public class CommentController {
     @PostMapping("/comment/{quizId}")
     public ResponseEntity<CommentCreateResponse> createComment(
         @PathVariable("quizId") String quizId,
+        @RequestBody CommentCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
         log.debug("퀴즈=[{}] 댓글 작성 요청", quizId);
@@ -40,10 +42,10 @@ public class CommentController {
         // - 있다면 로그인한 사용자의 요청으로, 그렇지 않다면 익명의 사용자가 아이디와 패스워드를 주었을 것으로 간주
         if (auth == null) {
             // 사용자 정보가 없을 경우 익명 댓글 생성
-            commentService.createAnonymousComment();
+            commentService.createAnonymousComment(request);
         } else {
             // 사용자 정보가 전달되었을 경우 회원 댓글 생성
-            commentService.createUserComment();
+            commentService.createUserComment(request, auth);
         }
 
         return ResponseEntity.ok(CommentCreateResponse.success());
