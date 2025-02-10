@@ -1,17 +1,18 @@
 package com.poolygo.comment.presentation.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
+@AllArgsConstructor
+@Builder
 public class CommentCreateResponse {
-    private final String message;
-
-    private CommentCreateResponse(String message) {
-        this.message = message;
-    }
-
-    public static CommentCreateResponse success() {
-        return new CommentCreateResponse("comment create success");
-    }
+    private final Long id;
+    private final String content;
+    private final String name;
+    private final LocalDateTime createdAt;
 }

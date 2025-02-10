@@ -1,9 +1,9 @@
 spring:
   config:
     import: optional:file:.env[.properties]
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
+  jpa:
+    hibernate:
+      ddl-auto: create
   datasource:
     url: ${MYSQL_MASTER_DB_HOST}
     username: ${MYSQL_USERNAME}

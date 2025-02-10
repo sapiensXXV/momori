@@ -7,6 +7,7 @@ import com.poolygo.comment.domain.factory.CommentFactory;
 import com.poolygo.comment.domain.mapper.CommentMapper;
 import com.poolygo.comment.domain.repository.CommentRepository;
 import com.poolygo.comment.presentation.dto.CommentCreateRequest;
+import com.poolygo.comment.presentation.dto.CommentCreateResponse;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
 import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ExceptionCode;
@@ -41,22 +42,24 @@ public class CommentService {
     /**
      * 익명 댓글을 생성하는 메서드
      */
-    public void createAnonymousComment(final CommentCreateRequest request) {
+    public CommentCreateResponse createAnonymousComment(final CommentCreateRequest request) {
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
         Comment comment = commentFactory.createAnonymousComment(createPasswordEncryptRequest(request));
 
         commentRepository.save(comment);
+        return commentMapper.toCommentCreateResponse(comment);
     }
 
     /**
      * 사용자 댓글을 생성하는 메서드
      */
-    public void createUserComment(final CommentCreateRequest request, UserAuthDto auth) {
+    public CommentCreateResponse createUserComment(final CommentCreateRequest request, UserAuthDto auth) {
         User findUser = userRepository.findByIdentifier(auth.getIdentifier())
             .orElseThrow(() -> new AuthException(ExceptionCode.INVALID_USER_ID));
 
         Comment comment = commentFactory.createUserComment(createPasswordEncryptRequest(request), findUser);
         commentRepository.save(comment);
+        return commentMapper.toCommentCreateResponse(comment);
     }
 
     private CommentCreateRequest createPasswordEncryptRequest(final CommentCreateRequest request) {

@@ -40,15 +40,16 @@ public class CommentController {
         log.debug("퀴즈=[{}] 댓글 작성 요청", quizId);
         //TODO: 댓글 작성 로직 작성. request 에서 authorization 헤더있는지 확인 후
         // - 있다면 로그인한 사용자의 요청으로, 그렇지 않다면 익명의 사용자가 아이디와 패스워드를 주었을 것으로 간주
+        CommentCreateResponse response;
         if (auth == null) {
             // 사용자 정보가 없을 경우 익명 댓글 생성
-            commentService.createAnonymousComment(request);
+            response = commentService.createAnonymousComment(request);
         } else {
             // 사용자 정보가 전달되었을 경우 회원 댓글 생성
-            commentService.createUserComment(request, auth);
+            response = commentService.createUserComment(request, auth);
         }
 
-        return ResponseEntity.ok(CommentCreateResponse.success());
+        return ResponseEntity.ok(response);
     }
 
 }

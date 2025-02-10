@@ -1,6 +1,7 @@
 package com.poolygo.comment.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.poolygo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,6 +40,9 @@ public class Comment {
     @CreatedDate
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private boolean isMaker;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
