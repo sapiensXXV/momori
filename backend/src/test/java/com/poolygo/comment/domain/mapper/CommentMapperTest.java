@@ -1,0 +1,32 @@
+package com.poolygo.comment.domain.mapper;
+
+import com.poolygo.comment.domain.Comment;
+import com.poolygo.comment.presentation.dto.CommentDetailResponse;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+@SpringBootTest
+class CommentMapperTest {
+
+    @Autowired
+    CommentMapper commentMapper;
+
+    @Test
+    void commentCreateDtoMapperTest() {
+        Comment newComment = Comment.builder()
+            .name("name")
+            .content("content")
+            .createdAt(LocalDateTime.now())
+            .build();
+        CommentDetailResponse response = commentMapper.toCommentDetailResponse(newComment);
+        assertThat(response.getContent()).isEqualTo("content");
+        assertThat(response.getName()).isEqualTo(newComment.getName());
+    }
+
+}
