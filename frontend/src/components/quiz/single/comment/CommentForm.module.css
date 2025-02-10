@@ -1,0 +1,47 @@
+.commentFormContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    /*align-items: stretch;*/
+}
+
+.commentContentContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    flex: 1;
+
+}
+
+.commentContentArea {
+    height: 50px;
+}
+
+
+.commentUserInfoArea {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.commentInfoInput {
+    padding: 3px 5px;
+    height: 13px;
+    max-width: 100px;
+    border: 3px solid transparent;
+}
+
+.submitButton {
+    display: flex;
+    background-color: var(--color-main-button-light);
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+    padding: 5px 25px;
+    /*height: 100%;*/
+    align-self: stretch;
+    align-items: center;
+    cursor: pointer;
+}
+

@@ -19,6 +19,7 @@ import AudioMcqQuestionResultPage from "./question_result/AudioMcqQuestionResult
 import AudioSubjectiveQuestionResultPage from "./question_result/AudioSubjectiveQuestionResultPage.tsx";
 import ImageBinaryQuestionResultPage from "./question_result/ImageBinaryQuestionResultPage.tsx";
 import Comments from "./comment/Comments.tsx";
+import classes from './QuizPage.module.css';
 
 enum QuizPageType {
   INTRODUCTION = "introduction",
@@ -164,8 +165,10 @@ const QuizPage = () => {
 
   return (
     <>
-      { selectComponent() }
-      <Comments quizId={quiz.id}/>
+      <div className={classes.quizPageMain}>
+        { selectComponent() }
+        <Comments quizId={quizId}/>
+      </div>
     </>
   )
 }
