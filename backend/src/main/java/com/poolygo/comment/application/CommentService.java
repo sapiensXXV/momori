@@ -42,9 +42,11 @@ public class CommentService {
     /**
      * 익명 댓글을 생성하는 메서드
      */
-    public CommentCreateResponse createAnonymousComment(final CommentCreateRequest request) {
-        String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        Comment comment = commentFactory.createAnonymousComment(createPasswordEncryptRequest(request));
+    public CommentCreateResponse createAnonymousComment(
+        final String quizId,
+        final CommentCreateRequest request
+    ) {
+        Comment comment = commentFactory.createAnonymousComment(quizId, createPasswordEncryptRequest(request));
 
         commentRepository.save(comment);
         return commentMapper.toCommentCreateResponse(comment);
@@ -53,11 +55,15 @@ public class CommentService {
     /**
      * 사용자 댓글을 생성하는 메서드
      */
-    public CommentCreateResponse createUserComment(final CommentCreateRequest request, UserAuthDto auth) {
+    public CommentCreateResponse createUserComment(
+        final String quizId,
+        final CommentCreateRequest request,
+        UserAuthDto auth
+    ) {
         User findUser = userRepository.findByIdentifier(auth.getIdentifier())
             .orElseThrow(() -> new AuthException(ExceptionCode.INVALID_USER_ID));
 
-        Comment comment = commentFactory.createUserComment(createPasswordEncryptRequest(request), findUser);
+        Comment comment = commentFactory.createUserComment(quizId, createPasswordEncryptRequest(request), findUser);
         commentRepository.save(comment);
         return commentMapper.toCommentCreateResponse(comment);
     }

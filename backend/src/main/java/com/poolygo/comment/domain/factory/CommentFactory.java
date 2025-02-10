@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CommentFactory {
 
-    public Comment createAnonymousComment(final CommentCreateRequest request) {
+    public Comment createAnonymousComment(String quizId, final CommentCreateRequest request) {
         String name = request.getName();
         String password = request.getPassword(); // 암호화된 패스워드
         String content = request.getContent();
@@ -20,6 +20,7 @@ public class CommentFactory {
         //TODO: IP 추가
         return Comment.builder()
             .name(name)
+            .quizId(quizId)
             .password(password)
             .content(content)
             .type(CommentType.ANONYMOUS)
@@ -27,10 +28,11 @@ public class CommentFactory {
             .build();
     }
 
-    public Comment createUserComment(final CommentCreateRequest request, final User user) {
+    public Comment createUserComment(String quizId, final CommentCreateRequest request, final User user) {
         //TODO: IP 추가
         Comment comment = Comment.builder()
             .name(user.getName())
+            .quizId(quizId)
             .content(request.getContent())
             .type(CommentType.USER)
             .ip("")

@@ -13,6 +13,7 @@ public interface CommentMapper {
 
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "content", source = "content")

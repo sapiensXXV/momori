@@ -1,11 +1,11 @@
 package com.poolygo.comment.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.poolygo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -38,7 +39,7 @@ public class Comment {
     private String content;
 
     @CreatedDate
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
