@@ -6,6 +6,9 @@ type CommentsProps = {
 }
 
 const Comments: FC<CommentsProps> = ({ quizId }) => {
+
+  
+
   return (
     <>
     </>

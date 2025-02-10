@@ -30,7 +30,7 @@ public class CommentFactory {
     public Comment createUserComment(final CommentCreateRequest request, final User user) {
         //TODO: IP 추가
         Comment comment = Comment.builder()
-            .name(request.getName())
+            .name(user.getName())
             .content(request.getContent())
             .type(CommentType.USER)
             .ip("")
