@@ -2,6 +2,7 @@ package com.poolygo.comment.domain.factory;
 
 
 import com.poolygo.comment.domain.Comment;
+import com.poolygo.comment.domain.CommentType;
 import com.poolygo.comment.presentation.dto.CommentCreateRequest;
 import com.poolygo.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class CommentFactory {
             .name(name)
             .password(password)
             .content(content)
+            .type(CommentType.ANONYMOUS)
             .ip("")
             .build();
     }
@@ -30,6 +32,7 @@ public class CommentFactory {
         Comment comment = Comment.builder()
             .name(request.getName())
             .content(request.getContent())
+            .type(CommentType.USER)
             .ip("")
             .build();
         comment.addUser(user);
