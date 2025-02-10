@@ -27,4 +27,18 @@ public class CommentService {
             .toList();
     }
 
+    /**
+     * 익명 댓글을 생성하는 메서드
+     */
+    public void createAnonymousComment() {
+
+    }
+
+    /**
+     * 사용자 댓글을 생성하는 메서드
+     */
+    public void createUserComment() {
+
+    }
+
 }
