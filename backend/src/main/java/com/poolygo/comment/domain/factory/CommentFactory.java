@@ -24,7 +24,7 @@ public class CommentFactory {
             .password(password)
             .content(content)
             .type(CommentType.ANONYMOUS)
-            .isMaker(false) // 익명 유저는 퀴즈를 만들 수 없다.
+            .maker(false) // 익명 유저는 퀴즈를 만들 수 없다.
             .ip("")
             .build();
     }
@@ -41,7 +41,7 @@ public class CommentFactory {
             .quizId(quizId)
             .content(request.getContent())
             .type(CommentType.USER)
-            .isMaker(isMaker)
+            .maker(isMaker)
             .ip("")
             .build();
         comment.addUser(user);

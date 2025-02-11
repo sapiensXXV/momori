@@ -26,7 +26,7 @@ public class CommentQueryRepository {
                     comment.name,
                     comment.createdAt,
                     comment.content,
-                    comment.isMaker
+                    comment.maker
                 )
             )
             .from(comment)

@@ -5,7 +5,6 @@ import com.poolygo.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -43,7 +41,7 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private boolean isMaker;
+    private boolean maker;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

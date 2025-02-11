@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentDetailResponse {
 
-    private final String id;
+    private final Long id;
     private final String name;
     private final LocalDateTime createdAt;
     private final String content;
-    private final boolean isMaker;
+    private final boolean maker;
 
 }

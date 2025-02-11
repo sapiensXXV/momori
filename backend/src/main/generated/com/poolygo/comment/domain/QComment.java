@@ -30,7 +30,7 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final StringPath ip = createString("ip");
 
-    public final BooleanPath isMaker = createBoolean("isMaker");
+    public final BooleanPath maker = createBoolean("maker");
 
     public final StringPath name = createString("name");
 

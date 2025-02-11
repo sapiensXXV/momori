@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-11T05:07:37+0900",
+    date = "2025-02-11T22:51:03+0900",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 21.0.4 (Eclipse Adoptium)"
 )
 @Component
@@ -32,6 +32,25 @@ public class ImageMcqMapperImpl implements ImageMcqMapper {
         imageMcqQuestionDetailResponse.setCorrectCount( question.getCorrectCount() );
 
         return imageMcqQuestionDetailResponse;
+    }
+
+    @Override
+    public McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice) {
+        if ( choice == null ) {
+            return null;
+        }
+
+        String content = null;
+        boolean answer = false;
+        int selectedCount = 0;
+
+        content = choice.getContent();
+        answer = choice.isAnswer();
+        selectedCount = choice.getSelectedCount();
+
+        McqChoiceDetail mcqChoiceDetail = new McqChoiceDetail( content, answer, selectedCount );
+
+        return mcqChoiceDetail;
     }
 
     @Override
