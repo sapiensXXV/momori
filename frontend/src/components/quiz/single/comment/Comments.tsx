@@ -51,12 +51,12 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
           setSearchCondition((prev) => ({
             ...prev,
             isLastPage: true,
-            lastId: newComments.at(-1).id
+            lastId: newComments.length > 0 ? newComments.at(-1).id : 9007199254740991
           }));
         } else {
           setSearchCondition(prev => ({
             ...prev,
-            lastId: newComments.at(-1).id
+            lastId: newComments.length > 0 ? newComments.at(-1).id : 9007199254740991
           }))
         }
       })
