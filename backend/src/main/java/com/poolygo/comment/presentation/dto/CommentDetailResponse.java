@@ -2,18 +2,22 @@ package com.poolygo.comment.presentation.dto;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class CommentDetailResponse {
 
-    private final Long id;
-    private final String name;
-    private final LocalDateTime createdAt;
-    private final String content;
-    private final boolean maker;
+    private Long id;
+    private String name;
+    private LocalDateTime createdAt;
+    private String content;
+    private boolean maker;
 
 }

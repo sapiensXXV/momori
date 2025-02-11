@@ -3,19 +3,21 @@ package com.poolygo.quiz.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ImageMcqChoice extends McqChoice {
     @JsonProperty("content")
-    private final String content;
+    private String content;
 
     @JsonProperty("isAnswer")
-    private final boolean answer;
+    private boolean answer;
 
     @JsonProperty("selectedCount")
-    private final int selectedCount;
+    private int selectedCount;
 }

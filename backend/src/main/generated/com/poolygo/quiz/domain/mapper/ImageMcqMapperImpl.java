@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-11T22:51:03+0900",
+    date = "2025-02-12T01:09:28+0900",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 21.0.4 (Eclipse Adoptium)"
 )
 @Component
@@ -23,15 +23,12 @@ public class ImageMcqMapperImpl implements ImageMcqMapper {
             return null;
         }
 
-        ImageMcqQuestionDetailResponse imageMcqQuestionDetailResponse = new ImageMcqQuestionDetailResponse();
+        ImageMcqQuestionDetailResponse.ImageMcqQuestionDetailResponseBuilder imageMcqQuestionDetailResponse = ImageMcqQuestionDetailResponse.builder();
 
-        imageMcqQuestionDetailResponse.setImageUrl( question.getImageUrl() );
-        imageMcqQuestionDetailResponse.setChoices( toMcqChoiceDetailList( question.getChoices() ) );
-        imageMcqQuestionDetailResponse.setQuestionId( question.getQuestionId() );
-        imageMcqQuestionDetailResponse.setTryCount( question.getTryCount() );
-        imageMcqQuestionDetailResponse.setCorrectCount( question.getCorrectCount() );
+        imageMcqQuestionDetailResponse.imageUrl( question.getImageUrl() );
+        imageMcqQuestionDetailResponse.choices( toMcqChoiceDetailList( question.getChoices() ) );
 
-        return imageMcqQuestionDetailResponse;
+        return imageMcqQuestionDetailResponse.build();
     }
 
     @Override
@@ -40,17 +37,13 @@ public class ImageMcqMapperImpl implements ImageMcqMapper {
             return null;
         }
 
-        String content = null;
-        boolean answer = false;
-        int selectedCount = 0;
+        McqChoiceDetail.McqChoiceDetailBuilder mcqChoiceDetail = McqChoiceDetail.builder();
 
-        content = choice.getContent();
-        answer = choice.isAnswer();
-        selectedCount = choice.getSelectedCount();
+        mcqChoiceDetail.content( choice.getContent() );
+        mcqChoiceDetail.answer( choice.isAnswer() );
+        mcqChoiceDetail.selectedCount( choice.getSelectedCount() );
 
-        McqChoiceDetail mcqChoiceDetail = new McqChoiceDetail( content, answer, selectedCount );
-
-        return mcqChoiceDetail;
+        return mcqChoiceDetail.build();
     }
 
     @Override

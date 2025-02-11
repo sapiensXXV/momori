@@ -5,20 +5,18 @@ import com.poolygo.quiz.domain.ImageMcqQuestion;
 import com.poolygo.quiz.presentation.dto.response.detail.ImageMcqQuestionDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.McqChoiceDetail;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ImageMcqMapper {
 
-    @Mapping(target = "imageUrl", source = "imageUrl")
-    @Mapping(target = "choices", source = "choices")
+    // 매퍼 클래스에서 ImageMcqMapper 를 찾을 수 있도록 하는 방법
+    ImageMcqMapper INSTANCE = Mappers.getMapper(ImageMcqMapper.class);
+
     ImageMcqQuestionDetailResponse toImageMcqQuestionDetailResponse(ImageMcqQuestion question);
 
-    @Mapping(target = "content", source = "content")
-    @Mapping(target = "answer", source = "answer")
-    @Mapping(target = "selectedCount", source = "selectedCount")
     McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice);
 
     List<McqChoiceDetail> toMcqChoiceDetailList(List<ImageMcqChoice> choices);

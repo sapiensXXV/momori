@@ -8,11 +8,11 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Comment {
 
     @Id
@@ -37,7 +37,6 @@ public class Comment {
     private String content;
 
     @CreatedDate
-//    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)

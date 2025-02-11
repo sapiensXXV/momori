@@ -3,13 +3,12 @@ package com.poolygo.comment.domain.mapper;
 import com.poolygo.comment.domain.Comment;
 import com.poolygo.comment.presentation.dto.CommentCreateResponse;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
-import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-11T22:51:03+0900",
+    date = "2025-02-12T01:09:28+0900",
     comments = "version: 1.5.3.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 21.0.4 (Eclipse Adoptium)"
 )
 @Component
@@ -21,21 +20,15 @@ public class CommentMapperImpl implements CommentMapper {
             return null;
         }
 
-        Long id = null;
-        String name = null;
-        LocalDateTime createdAt = null;
-        String content = null;
-        boolean maker = false;
+        CommentDetailResponse.CommentDetailResponseBuilder commentDetailResponse = CommentDetailResponse.builder();
 
-        id = comment.getId();
-        name = comment.getName();
-        createdAt = comment.getCreatedAt();
-        content = comment.getContent();
-        maker = comment.isMaker();
+        commentDetailResponse.id( comment.getId() );
+        commentDetailResponse.name( comment.getName() );
+        commentDetailResponse.createdAt( comment.getCreatedAt() );
+        commentDetailResponse.content( comment.getContent() );
+        commentDetailResponse.maker( comment.isMaker() );
 
-        CommentDetailResponse commentDetailResponse = new CommentDetailResponse( id, name, createdAt, content, maker );
-
-        return commentDetailResponse;
+        return commentDetailResponse.build();
     }
 
     @Override
@@ -47,8 +40,8 @@ public class CommentMapperImpl implements CommentMapper {
         CommentCreateResponse.CommentCreateResponseBuilder commentCreateResponse = CommentCreateResponse.builder();
 
         commentCreateResponse.id( comment.getId() );
-        commentCreateResponse.name( comment.getName() );
         commentCreateResponse.content( comment.getContent() );
+        commentCreateResponse.name( comment.getName() );
         commentCreateResponse.createdAt( comment.getCreatedAt() );
 
         return commentCreateResponse.build();

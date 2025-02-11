@@ -2,16 +2,16 @@ package com.poolygo.quiz.presentation.dto.response.detail;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ImageMcqQuestionDetailResponse extends QuestionDetailResponse {
 
     private String imageUrl;

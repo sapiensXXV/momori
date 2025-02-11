@@ -4,15 +4,17 @@ package com.poolygo.comment.presentation.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentCreateResponse {
-    private final Long id;
-    private final String content;
-    private final String name;
-    private final LocalDateTime createdAt;
+    private Long id;
+    private String content;
+    private String name;
+    private LocalDateTime createdAt;
 }
