@@ -24,10 +24,12 @@ public class CommentController {
 
     @GetMapping("/comment/{quizId}")
     public ResponseEntity<List<CommentDetailResponse>> comments(
-        @PathVariable("quizId") String quizId
+        @PathVariable("quizId") String quizId,
+        @RequestParam("lastId") long lastId,
+        @RequestParam("size") int size
     ) {
         log.info("퀴즈=[{}] 댓글 조회 요청", quizId);
-        List<CommentDetailResponse> result = commentService.findComments(quizId);
+        List<CommentDetailResponse> result = commentService.findComments(quizId, lastId, size);
         return ResponseEntity.ok(result);
     }
 
