@@ -19,12 +19,12 @@ export type CommentDetail = {
 }
 
 type CommentSearchCondition = {
-  page: number;
+  lastId: number
   size: number;
   isLastPage: boolean;
 }
 
-const initSearchCondition = {page: 0, size: 20, isLastPage: false}
+const initSearchCondition = {lastId: 9007199254740991, size: 20, isLastPage: false} // 자바스크립트의 number 최댓값
 
 const Comments: FC<CommentsProps> = ({quizId}) => {
 
@@ -41,15 +41,23 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   const requestComments = () => {
     setIsLoading(true);
     axiosJwtInstance
-      .get(`/api/comment/${quizId}`)
+      .get(`/api/comment/${quizId}?lastId=${searchCondition.lastId}&size=${searchCondition.size}`)
       .then((response) => {
-        setComments([...comments, ...response.data]) // 댓글 데이터 세팅
+        const newComments = [...comments, ...response.data];
+        setComments(newComments); // 댓글 데이터 세팅
         console.log(response);
         if (response.data.length < searchCondition.size) {
           // 가져온 데이터의 갯수가 요청한 수보다 적다면 마지막 페이지 임을 나타낸다.
-          searchCondition.isLastPage = true;
+          setSearchCondition((prev) => ({
+            ...prev,
+            isLastPage: true,
+            lastId: newComments.at(-1).id
+          }));
         } else {
-          setSearchCondition(prev => ({...prev, page: prev.page + 1}))
+          setSearchCondition(prev => ({
+            ...prev,
+            lastId: newComments.at(-1).id
+          }))
         }
       })
       .catch((error) => {
