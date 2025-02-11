@@ -3,16 +3,18 @@ package com.poolygo.comment.domain;
 
 import com.poolygo.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -37,10 +39,22 @@ public class Comment {
     private String content;
 
     @CreatedDate
-    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private boolean maker;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CommentType type;
 
     @Column(name = "ip_address", nullable = false)
     private String ip;
+
+
+    public void addUser(User user) {
+        this.user = user;
+        user.getComments().add(this);
+    }
 
 }

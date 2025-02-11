@@ -50,22 +50,23 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
               question.choices.map((choice, index) => {
                 return (
                   <div
+                    key={`question_${question.questionId}_choice_${index}`}
                     className={`
                     ${classes.choiceAndResult} 
-                    ${choice.isAnswer ? classes.isAnswerChoice : ''}
-                    ${(!choice.isAnswer && userSelect === index) ? classes.userChooseChoice : ''}
+                    ${choice.answer ? classes.isAnswerChoice : ''}
+                    ${(!choice.answer && userSelect === index) ? classes.userChooseChoice : ''}
                     `}>
                     <div className={classes.choiceContentContainer}>
 
                       <span className={classes.choiceNumber}>{index + 1}. </span>
                       <span className={classes.choiceContent}>
                         {
-                          choice.isAnswer ? (
+                          choice.answer ? (
                             <span className={classes.answerMark}>(정답) </span>
                           ) : null
                         }
                         {
-                          (!choice.isAnswer && userSelect === index) ? (
+                          (!choice.answer && userSelect === index) ? (
                             <span className={classes.userChooseMark}>(내 선택) </span>
                           ) : null
                         }

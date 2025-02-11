@@ -13,18 +13,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ImageMcqMapper {
 
+    // 매퍼 클래스에서 ImageMcqMapper 를 찾을 수 있도록 하는 방법
     ImageMcqMapper INSTANCE = Mappers.getMapper(ImageMcqMapper.class);
 
-    // ImageMcqQuestion 을 ImageMcqQuestionDetailResponse 로 매핑
-    @Mapping(target = "imageUrl", source = "imageUrl")
-    @Mapping(target = "choices", source = "choices")
     ImageMcqQuestionDetailResponse toImageMcqQuestionDetailResponse(ImageMcqQuestion question);
 
-    // ImageMcqChoice 를 ImageMcqChoiceDetailResponse 로 매핑
-    default McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice) {
-        return new McqChoiceDetail(choice.getContent(), choice.isAnswer(), choice.getSelectedCount());
-    }
+    @Mapping(source = "answer", target = "answer")
+    McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice);
 
-    // List<McqChoiceDetail에 대한 매핑은 MapperStruct가 자동으로 처리해준다.
     List<McqChoiceDetail> toMcqChoiceDetailList(List<ImageMcqChoice> choices);
 }

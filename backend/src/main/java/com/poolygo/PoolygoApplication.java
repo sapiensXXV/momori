@@ -21,6 +21,7 @@ public class PoolygoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PoolygoApplication.class, args);
+
     }
 
 }

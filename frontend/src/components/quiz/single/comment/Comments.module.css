@@ -1,0 +1,42 @@
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-light-background);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.commentObserver {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: rgb(251, 89, 89);*/
+    padding: 5px;
+    height: 30px;
+    border-radius: 8px;
+}
+
+.commentObserver > img {
+    width: 30px;
+    height: 30px;
+}
+
+
+.divider {
+    height: 1px;
+    width: 100%;
+    background-color: var(--color-shallow-gray);
+    margin: 5px 0px;
+}

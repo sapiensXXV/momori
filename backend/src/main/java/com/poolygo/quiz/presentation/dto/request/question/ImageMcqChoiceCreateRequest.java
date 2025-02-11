@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ImageMcqChoiceCreateRequest extends McqChoice {
     private String content;
-    private boolean isAnswer;
+    private boolean answer;
 }

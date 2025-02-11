@@ -1,11 +1,13 @@
 package com.poolygo.quiz.domain;
 
 
+import jakarta.persistence.EntityListeners;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.util.List;
 @Document(collection = "quiz")
 @Getter
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Quiz {
     @Id
     private String id;

@@ -25,6 +25,6 @@ export function formatDateTime(dateStr) {
     // getMonth()는 0부터 시작하므로 1을 더해줍니다.
     const month = pad(inputDate.getMonth() + 1);
     const day = pad(inputDate.getDate());
-    return `${year}/${month}/${day} ${hours}:${minutes}`;
+    return `${year}.${month}.${day} ${hours}:${minutes}`;
   }
 }

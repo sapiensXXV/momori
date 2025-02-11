@@ -22,7 +22,7 @@ interface ImageMcqDraftQuestionRequest {
 
 interface ImageMcqDraftChoiceRequest {
   content: string;
-  isAnswer: boolean;
+  answer: boolean;
 }
 
 const DraftButton = () => {
@@ -74,7 +74,7 @@ const DraftButton = () => {
 
   const makeDraftChoiceRequest = (question: NewImageMcqQuestion) => {
     return question.choices.map((choice) => {
-      return {content: choice.content, isAnswer: choice.isAnswer}
+      return {content: choice.content, answer: choice.answer}
     });
   }
 

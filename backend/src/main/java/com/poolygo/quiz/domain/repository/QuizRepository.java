@@ -1,4 +1,4 @@
-package com.poolygo.quiz.infrastructure;
+package com.poolygo.quiz.domain.repository;
 
 import com.poolygo.quiz.domain.Quiz;
 import org.springframework.data.domain.Pageable;

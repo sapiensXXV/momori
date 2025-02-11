@@ -31,7 +31,6 @@
     border: 3px solid transparent;
     outline: none; /* 브라우저 기본 포커스 효과 제거 */
     transition: border-color 0.2s ease;
-
 }
 
 .common-input-md:focus {
