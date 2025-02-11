@@ -12,6 +12,9 @@ import com.poolygo.comment.presentation.dto.CommentCreateResponse;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
 import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ExceptionCode;
+import com.poolygo.global.exception.QuizException;
+import com.poolygo.quiz.domain.Quiz;
+import com.poolygo.quiz.infrastructure.QuizRepository;
 import com.poolygo.user.domain.User;
 import com.poolygo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class CommentService {
     private final PasswordEncoder passwordEncoder;
     private final CommentFactory commentFactory;
     private final UserRepository userRepository;
+    private final QuizRepository quizRepository;
     private final CommentQueryRepository commentQueryRepository;
 
     public List<CommentDetailResponse> findComments(String quizId, long lastId, int size) {
@@ -61,7 +65,12 @@ public class CommentService {
         User findUser = userRepository.findByIdentifier(auth.getIdentifier())
             .orElseThrow(() -> new AuthException(ExceptionCode.INVALID_USER_ID));
 
-        Comment comment = commentFactory.createUserComment(quizId, createPasswordEncryptRequest(request), findUser);
+        Quiz findQuiz = quizRepository.findById(quizId)
+            .orElseThrow((() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID)));
+
+        isQuizMaker(findUser, findQuiz);
+
+        Comment comment = commentFactory.createUserComment(quizId, createPasswordEncryptRequest(request), findUser, isQuizMaker(findUser, findQuiz));
         commentRepository.save(comment);
         return commentMapper.toCommentCreateResponse(comment);
     }
@@ -72,6 +81,15 @@ public class CommentService {
             passwordEncoder.encode(request.getPassword()), // 암호화된 패스워드
             request.getContent()
         );
+    }
+
+    private boolean isQuizMaker(User findUser, Quiz findQuiz) {
+        String identifier1 = findUser.getIdentifier();
+        String provider1 = findUser.getProvider().name();
+        String identifier2 = findQuiz.getUserInfo().getIdentifier();
+        String provider2 = findQuiz.getUserInfo().getProvider();
+
+        return identifier1.equals(identifier2) && provider1.equalsIgnoreCase(provider2);
     }
 
 }

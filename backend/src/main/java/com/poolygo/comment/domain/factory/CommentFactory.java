@@ -24,17 +24,24 @@ public class CommentFactory {
             .password(password)
             .content(content)
             .type(CommentType.ANONYMOUS)
+            .isMaker(false) // 익명 유저는 퀴즈를 만들 수 없다.
             .ip("")
             .build();
     }
 
-    public Comment createUserComment(String quizId, final CommentCreateRequest request, final User user) {
+    public Comment createUserComment(
+        String quizId,
+        final CommentCreateRequest request,
+        final User user,
+        final boolean isMaker
+    ) {
         //TODO: IP 추가
         Comment comment = Comment.builder()
             .name(user.getName())
             .quizId(quizId)
             .content(request.getContent())
             .type(CommentType.USER)
+            .isMaker(isMaker)
             .ip("")
             .build();
         comment.addUser(user);
