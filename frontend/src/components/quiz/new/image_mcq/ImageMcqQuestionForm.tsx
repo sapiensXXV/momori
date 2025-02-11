@@ -113,7 +113,7 @@ const ImageMcqQuestionForm = () => {
         return qIdx !== qi ? question : {
           ...question,
           choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : {...choice, isAnswer: !choice.answer}
+            cIdx !== ci ? choice : {...choice, answer: !choice.answer}
           )
         };
       })

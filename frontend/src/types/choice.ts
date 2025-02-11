@@ -28,22 +28,22 @@ export interface NewAudioBinaryChoice {
 
 export interface ImageMcqChoice {
   content: string;
-  isAnswer: boolean;
+  answer: boolean;
 }
 
 export interface AudioMcqChoice {
   content: string;
-  isAnswer: boolean;
+  answer: boolean;
 }
 
 export interface ImageBinaryChoice {
   description: string;
-  isAnswer: boolean;
+  answer: boolean;
 }
 
 export interface AudioBinaryChoice {
   description: string;
-  isAnswer: boolean;
+  answer: boolean;
 }
 
 // ----------------------- quiz detail info -------------------------
@@ -51,7 +51,7 @@ export interface AudioBinaryChoice {
 
 export interface ImageMcqDetailChoice {
   content: string;
-  isAnswer: boolean;
+  answer: boolean;
   selectedCount: number;
 }
 

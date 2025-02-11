@@ -1,6 +1,7 @@
 .questionContainer {
     background-color: #f6f6f6;
     border-radius: 5px;
+    padding: 10px;
 }
 
 /*메타데이터*/
@@ -24,6 +25,7 @@
     flex: 1;
     font-family: Pretendard-Regular, serif;
     font-size: 14px;
+    height: 25px;
 }
 
 
