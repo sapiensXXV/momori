@@ -5,6 +5,7 @@ import com.poolygo.quiz.domain.ImageMcqQuestion;
 import com.poolygo.quiz.presentation.dto.response.detail.ImageMcqQuestionDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.McqChoiceDetail;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface ImageMcqMapper {
 
     ImageMcqQuestionDetailResponse toImageMcqQuestionDetailResponse(ImageMcqQuestion question);
 
+    @Mapping(source = "answer", target = "answer")
     McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice);
 
     List<McqChoiceDetail> toMcqChoiceDetailList(List<ImageMcqChoice> choices);

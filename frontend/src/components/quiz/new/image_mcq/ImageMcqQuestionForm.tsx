@@ -80,7 +80,7 @@ const ImageMcqQuestionForm = () => {
         }
         return {
           ...question,
-          choices: [...question.choices, {content: "", isAnswer: false}]
+          choices: [...question.choices, {content: "", answer: false}]
         };
       })
     );
@@ -97,7 +97,7 @@ const ImageMcqQuestionForm = () => {
         return qIdx !== qi ? question : {
           ...question,
           choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : {content: e.target.value, isAnswer: choice.isAnswer}
+            cIdx !== ci ? choice : {content: e.target.value, answer: choice.answer}
           ),
         }
       })
@@ -113,7 +113,7 @@ const ImageMcqQuestionForm = () => {
         return qIdx !== qi ? question : {
           ...question,
           choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : {...choice, isAnswer: !choice.isAnswer}
+            cIdx !== ci ? choice : {...choice, isAnswer: !choice.answer}
           )
         };
       })
@@ -177,7 +177,7 @@ const ImageMcqQuestionForm = () => {
                     <label className={classes.checkboxContainer}>
                       <input
                         type="checkbox"
-                        checked={choice.isAnswer}
+                        checked={choice.answer}
                         onChange={() => choiceAnswerCheck(qi, ci)}
                         className={classes.hiddenCheckbox}
                       />

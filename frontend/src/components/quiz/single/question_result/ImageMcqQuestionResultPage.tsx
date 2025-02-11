@@ -50,6 +50,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
               question.choices.map((choice, index) => {
                 return (
                   <div
+                    key={`question_${question.questionId}_choice_${index}`}
                     className={`
                     ${classes.choiceAndResult} 
                     ${choice.isAnswer ? classes.isAnswerChoice : ''}
