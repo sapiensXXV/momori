@@ -50,8 +50,8 @@ public class CommentService {
     ) {
         Comment comment = commentFactory.createAnonymousComment(quizId, createPasswordEncryptRequest(request));
 
-        commentRepository.save(comment);
-        return commentMapper.toCommentCreateResponse(comment);
+        Comment savedComment = commentRepository.save(comment);
+        return commentMapper.toCommentCreateResponse(savedComment);
     }
 
     /**
@@ -71,8 +71,8 @@ public class CommentService {
         isQuizMaker(findUser, findQuiz);
 
         Comment comment = commentFactory.createUserComment(quizId, createPasswordEncryptRequest(request), findUser, isQuizMaker(findUser, findQuiz));
-        commentRepository.save(comment);
-        return commentMapper.toCommentCreateResponse(comment);
+        Comment savedComment = commentRepository.save(comment);
+        return commentMapper.toCommentCreateResponse(savedComment);
     }
 
     private CommentCreateRequest createPasswordEncryptRequest(final CommentCreateRequest request) {
