@@ -3,9 +3,11 @@ import {FC, useState} from "react";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
+import {CommentDetail} from "./Comments.tsx";
 
 type CommentFormProps = {
   quizId: string;
+  setComments: React.Dispatch<React.SetStateAction<CommentDetail[]>>
 }
 
 type CommentFormData = {
@@ -14,7 +16,7 @@ type CommentFormData = {
   content: string;
 }
 
-const CommentForm: FC<CommentFormProps> = ({ quizId }) => {
+const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
 
   const [formData, setFormData] = useState<CommentFormData>({content: "", name: "", password: ""});
   const auth = useAuth();
@@ -22,9 +24,20 @@ const CommentForm: FC<CommentFormProps> = ({ quizId }) => {
   const postComment = () => {
     axiosJwtInstance.post(`/api/comment/${quizId}`, formData)
       .then((response) => {
+        const data: CommentDetail = response.data;
+        const newComment = {
+          id: data.id,
+          name: data.name,
+          createdAt: data.createdAt,
+          content: data.content,
+          maker: data.maker
+        };
         console.log(response.data);
+        setFormData(prev => ({...prev, content: ""})); // 컨텐츠 비우기
+        setComments(prev => ([newComment, ...prev])); // 새로운 댓글 끼워넣기.
       })
       .catch((error) => {
+        console.log(error);
         handleError(error);
       })
 

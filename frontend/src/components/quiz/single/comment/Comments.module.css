@@ -1,7 +1,6 @@
 .commentContainer {
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
     background-color: var(--color-light-background);
     border-radius: 8px;
     padding: 8px;
@@ -39,5 +38,5 @@
     height: 1px;
     width: 100%;
     background-color: var(--color-shallow-gray);
-
+    margin: 5px 0px;
 }

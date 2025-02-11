@@ -71,13 +71,14 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   return (
     <>
       <main className={classes.commentContainer}>
-        <CommentForm quizId={quizId}/>
+        <CommentForm setComments={setComments} quizId={quizId}/>
+        <div className={classes.divider}></div>
         {
           comments.map((comment) => (
             <SingleComment key={`comment_${comment.id}`} comment={comment}/>
           ))
         }
-        <div className={classes.divider}></div>
+
         {
           searchCondition.isLastPage ? null :
             <div ref={observeTrigger} className={classes.commentObserver}>

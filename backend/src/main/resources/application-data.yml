@@ -3,7 +3,7 @@ spring:
     import: optional:file:.env[.properties]
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
     url: ${MYSQL_MASTER_DB_HOST}
     username: ${MYSQL_USERNAME}
