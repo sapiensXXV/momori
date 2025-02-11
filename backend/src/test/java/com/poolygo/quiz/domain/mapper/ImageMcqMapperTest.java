@@ -3,6 +3,7 @@ package com.poolygo.quiz.domain.mapper;
 import com.poolygo.quiz.domain.*;
 import com.poolygo.quiz.presentation.dto.response.detail.ImageMcqQuestionDetailResponse;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ class ImageMcqMapperTest {
     ImageMcqMapper imageMcqMapper;
 
     @Test
+    @DisplayName("이미지-객관식 DTO 매퍼 테스트")
     void imageMcqQuestionDetailTest() {
 
         UserInfo userInfo = new UserInfo("user_identifier", "oauth2_provider");

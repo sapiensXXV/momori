@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ImageMcqQuestionDetailResponse extends QuestionDetailResponse {
-
+    private String questionId;
     private String imageUrl;
     private List<McqChoiceDetail> choices;
 }

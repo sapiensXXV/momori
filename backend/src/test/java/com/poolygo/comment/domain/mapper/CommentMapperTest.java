@@ -2,6 +2,7 @@ package com.poolygo.comment.domain.mapper;
 
 import com.poolygo.comment.domain.Comment;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ class CommentMapperTest {
     CommentMapper commentMapper;
 
     @Test
+    @DisplayName("댓글 DTO 매퍼 테스트")
     void commentCreateDtoMapperTest() {
         Comment newComment = Comment.builder()
             .name("name")
