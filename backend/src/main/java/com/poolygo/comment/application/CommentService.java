@@ -14,7 +14,7 @@ import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.exception.QuizException;
 import com.poolygo.quiz.domain.Quiz;
-import com.poolygo.quiz.infrastructure.QuizRepository;
+import com.poolygo.quiz.domain.repository.QuizRepository;
 import com.poolygo.user.domain.User;
 import com.poolygo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

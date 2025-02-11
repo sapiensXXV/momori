@@ -7,7 +7,7 @@ import com.poolygo.quiz.application.factory.QuizMappingStrategyFactory;
 import com.poolygo.quiz.application.strategy.QuizMappingStrategy;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
-import com.poolygo.quiz.infrastructure.QuizRepository;
+import com.poolygo.quiz.domain.repository.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
