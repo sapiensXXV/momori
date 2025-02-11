@@ -15,7 +15,7 @@ export type CommentDetail = {
   name: string;
   createdAt: string;
   content: string;
-  isMaker: boolean;
+  maker: boolean;
 }
 
 type CommentSearchCondition = {

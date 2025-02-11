@@ -17,4 +17,5 @@ public class CommentCreateResponse {
     private String content;
     private String name;
     private LocalDateTime createdAt;
+    private boolean maker;
 }
