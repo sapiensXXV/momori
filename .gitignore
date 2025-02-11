@@ -1,5 +1,9 @@
 node_modules
 
+# /generated code
+backend/src/main/generated/*
+
+
 # @vitjs/vit temporary directory
 .vit
 
