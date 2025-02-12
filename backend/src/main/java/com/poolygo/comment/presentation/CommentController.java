@@ -3,9 +3,7 @@ package com.poolygo.comment.presentation;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.comment.application.CommentService;
-import com.poolygo.comment.presentation.dto.CommentCreateRequest;
-import com.poolygo.comment.presentation.dto.CommentCreateResponse;
-import com.poolygo.comment.presentation.dto.CommentDetailResponse;
+import com.poolygo.comment.presentation.dto.*;
 import com.poolygo.global.resolver.AuthenticateUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +48,15 @@ public class CommentController {
         }
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/comment")
+    public ResponseEntity<CommentDeleteResponse> createComment(
+        @RequestBody CommentDeleteRequest request,
+        @AuthenticateUser UserAuthDto auth
+    ) {
+        commentService.deleteComment(request, auth);
+        return ResponseEntity.ok(CommentDeleteResponse.success());
     }
 
 }

@@ -15,7 +15,6 @@ import QuizPage from "./components/quiz/single/QuizPage.tsx";
 
 function App() {
 
-
   return (
     <>
       <AuthProvider>
