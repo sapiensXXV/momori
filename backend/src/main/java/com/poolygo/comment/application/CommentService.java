@@ -3,14 +3,17 @@ package com.poolygo.comment.application;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.comment.domain.Comment;
+import com.poolygo.comment.domain.dto.CommentDetailRepositoryResponse;
 import com.poolygo.comment.domain.factory.CommentFactory;
 import com.poolygo.comment.domain.mapper.CommentMapper;
 import com.poolygo.comment.domain.repository.CommentQueryRepository;
 import com.poolygo.comment.domain.repository.CommentRepository;
 import com.poolygo.comment.presentation.dto.CommentCreateRequest;
 import com.poolygo.comment.presentation.dto.CommentCreateResponse;
+import com.poolygo.comment.presentation.dto.CommentDeleteRequest;
 import com.poolygo.comment.presentation.dto.CommentDetailResponse;
 import com.poolygo.global.exception.AuthException;
+import com.poolygo.global.exception.CommentException;
 import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.exception.QuizException;
 import com.poolygo.quiz.domain.Quiz;
@@ -38,7 +41,10 @@ public class CommentService {
     private final CommentQueryRepository commentQueryRepository;
 
     public List<CommentDetailResponse> findComments(String quizId, long lastId, int size) {
-        return commentQueryRepository.commentList(quizId, lastId, size);
+        List<CommentDetailRepositoryResponse> response = commentQueryRepository.commentList(quizId, lastId, size);
+        return response.stream()
+            .map(commentMapper::toCommentDetailResponse)
+            .toList();
     }
 
     /**
@@ -90,6 +96,44 @@ public class CommentService {
         String provider2 = findQuiz.getUserInfo().getProvider();
 
         return identifier1.equals(identifier2) && provider1.equalsIgnoreCase(provider2);
+    }
+
+    public void deleteComment(CommentDeleteRequest request, UserAuthDto auth) {
+        if (auth == null) {
+            deleteAnonymousComment(request);
+        } else {
+            deleteUserComment(request, auth);
+        }
+
+    }
+
+    private void deleteAnonymousComment(CommentDeleteRequest request) {
+        Long commentId = request.getId();
+        Comment findComment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new CommentException(ExceptionCode.INVALID_COMMENT_ID));
+
+        boolean passwordMatch = passwordEncoder.matches(request.getPassword(), findComment.getPassword());
+        if (!passwordMatch) {
+            throw new CommentException(ExceptionCode.INVALID_COMMENT_PASSWORD);
+        }
+        commentRepository.deleteById(commentId);
+    }
+
+    private void deleteUserComment(CommentDeleteRequest request, UserAuthDto auth) {
+        Long commentId = request.getId();
+        Comment findComment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new CommentException(ExceptionCode.INVALID_COMMENT_ID));
+        if (!isCommentWriter(findComment, auth)) {
+            throw new CommentException(ExceptionCode.INVALID_COMMENT_USER);
+        }
+        commentRepository.deleteById(commentId);
+    }
+
+    private boolean isCommentWriter(Comment comment, UserAuthDto auth) {
+        if (!comment.getUser().getIdentifier().equals(auth.getIdentifier())) return false;
+        if (!comment.getUser().getProvider().name().equals(auth.getProvider())) return false;
+
+        return true;
     }
 
 }

@@ -40,7 +40,6 @@ const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
         console.log(error);
         handleError(error);
       })
-
   }
 
   return (

@@ -1,6 +1,6 @@
-package com.poolygo.comment.presentation.dto;
+package com.poolygo.comment.domain.dto;
 
-
+import com.poolygo.comment.domain.CommentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDetailResponse {
+public class CommentDetailRepositoryResponse {
 
     private Long id;
     private String name;
     private LocalDateTime createdAt;
     private String content;
     private boolean maker;
-    private String type;
+    private CommentType type;
 
 }

@@ -16,7 +16,10 @@ public enum ExceptionCode {
 
     INVALID_S3_OBJECT_KEY(5001, "잘못된 객체 URL 입니다."),
 
-    INVALID_COMMENT_FORMAT(6001, "댓글 요청 형식이 잘못되었습니다.");
+    INVALID_COMMENT_FORMAT(6001, "댓글 요청 형식이 잘못되었습니다."),
+    INVALID_COMMENT_ID(6002, "댓글을 찾을 수 없습니다."),
+    INVALID_COMMENT_PASSWORD(6003, "댓글 비밀번호가 일치하지 않습니다."),
+    INVALID_COMMENT_USER(6004,"댓글을 작성한 사용자만 삭제할 수 있습니다.");
 
     private int code;
     private String message;
