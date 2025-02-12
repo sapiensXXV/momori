@@ -16,6 +16,7 @@ export type CommentDetail = {
   createdAt: string;
   content: string;
   maker: boolean;
+  type: string;
 }
 
 type CommentSearchCondition = {
@@ -68,6 +69,14 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
       })
   }
 
+  const deleteComment = (commentId: number) => {
+    console.log(`Delete Comment, comment_id=${commentId}`);
+  }
+
+  const reportComment = (commentId: number) => {
+    console.log(`Report Comment, comment_id=${commentId}`);
+  }
+
   return (
     <>
       <main className={classes.commentContainer}>
@@ -75,7 +84,12 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
         <div className={classes.divider}></div>
         {
           comments.map((comment) => (
-            <SingleComment key={`comment_${comment.id}`} comment={comment}/>
+            <SingleComment
+              key={`comment_${comment.id}`}
+              comment={comment}
+              deleteComment = {deleteComment}
+              reportComment = {reportComment}
+            />
           ))
         }
 

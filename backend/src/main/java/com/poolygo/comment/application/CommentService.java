@@ -3,6 +3,7 @@ package com.poolygo.comment.application;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.comment.domain.Comment;
+import com.poolygo.comment.domain.dto.CommentDetailRepositoryResponse;
 import com.poolygo.comment.domain.factory.CommentFactory;
 import com.poolygo.comment.domain.mapper.CommentMapper;
 import com.poolygo.comment.domain.repository.CommentQueryRepository;
@@ -40,7 +41,10 @@ public class CommentService {
     private final CommentQueryRepository commentQueryRepository;
 
     public List<CommentDetailResponse> findComments(String quizId, long lastId, int size) {
-        return commentQueryRepository.commentList(quizId, lastId, size);
+        List<CommentDetailRepositoryResponse> response = commentQueryRepository.commentList(quizId, lastId, size);
+        return response.stream()
+            .map(commentMapper::toCommentDetailResponse)
+            .toList();
     }
 
     /**
