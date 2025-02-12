@@ -15,4 +15,12 @@ public abstract class Question {
         this.tryCount = 0;
         this.correctCount = 0;
     }
+
+    public void addTryCount() {
+        this.tryCount++;
+    }
+
+    public void addCorrectCount() {
+        this.correctCount++;
+    }
 }
