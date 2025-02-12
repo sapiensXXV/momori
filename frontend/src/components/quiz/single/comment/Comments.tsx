@@ -108,13 +108,10 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
     axiosJwtInstance.delete('/api/comment', { data: { id: commendId, password: password }})
       .then((response) => {
         console.log(response);
+        setShowDeleteModal(false);
       })
       .catch((error) => {
         handleError(error);
-      })
-      .finally(() => {
-        // 모달 닫기
-        setShowDeleteModal(false);
       })
 
   }
