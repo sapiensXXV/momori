@@ -5,7 +5,7 @@ import {FC, useState} from "react";
 type CommentDeleteModalProps = {
   comment: CommentDetail;
   setShowModal:  React.Dispatch<React.SetStateAction<boolean>>;
-  deleteComment: (commentId: number, password: string) => void;
+  deleteComment: (commentId: number, password: string, type: string) => void;
 }
 
 const CommentDeleteModal: FC<CommentDeleteModalProps> = ({ comment, setShowModal, deleteComment}) => {
@@ -41,7 +41,7 @@ const CommentDeleteModal: FC<CommentDeleteModalProps> = ({ comment, setShowModal
                 : null
             }
             <div className={classes.buttonContainer}>
-              <button className={`common-button`} onClick={() => deleteComment(comment.id, password)}>예</button>
+              <button className={`common-button`} onClick={() => deleteComment(comment.id, password, comment.type)}>예</button>
               <button className={`common-button`} onClick={closeModal}>아니오</button>
             </div>
           </div>

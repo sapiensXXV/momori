@@ -103,9 +103,9 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
     setComments(prev => prev.filter(comment => comment.id !== commentId));
   }
 
-  const deleteComment = (commentId: number, password: string) => {
-    console.log(`delete comment, commentId=${commentId}, password=${password}`);
-    axiosJwtInstance.delete('/api/comment', { data: { id: commentId, password: password }})
+  const deleteComment = (commentId: number, password: string, type: string) => {
+    console.log(`delete comment, commentId=${commentId}, password=${password} type=${type}`);
+    axiosJwtInstance.delete('/api/comment', { data: { id: commentId, password: password, type: type }})
       .then(() => {
         setShowDeleteModal(false);
         removeCommentFromList(commentId);
