@@ -36,11 +36,6 @@ const initCommentDetail = {
   type: "ANONYMOUS",
 }
 
-type CommentDeleteRequest = {
-  id: number;
-  password: string;
-}
-
 const initSearchCondition = {lastId: 9007199254740991, size: 20, isLastPage: false} // 자바스크립트의 number 최댓값
 
 const Comments: FC<CommentsProps> = ({quizId}) => {
@@ -103,12 +98,17 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
     console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
   }
 
-  const deleteComment = (commendId: number, password: string) => {
-    console.log(`delete comment, commentId=${commendId}, password=${password}`);
-    axiosJwtInstance.delete('/api/comment', { data: { id: commendId, password: password }})
-      .then((response) => {
-        console.log(response);
+  const removeCommentFromList = (commentId: number) => {
+    // id가 일치하지 않는 댓글을 리스트에서 제거
+    setComments(prev => prev.filter(comment => comment.id !== commentId));
+  }
+
+  const deleteComment = (commentId: number, password: string) => {
+    console.log(`delete comment, commentId=${commentId}, password=${password}`);
+    axiosJwtInstance.delete('/api/comment', { data: { id: commentId, password: password }})
+      .then(() => {
         setShowDeleteModal(false);
+        removeCommentFromList(commentId);
       })
       .catch((error) => {
         handleError(error);
