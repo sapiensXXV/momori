@@ -3,6 +3,7 @@ package com.poolygo.comment.application;
 
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.comment.domain.Comment;
+import com.poolygo.comment.domain.CommentType;
 import com.poolygo.comment.domain.dto.CommentDetailRepositoryResponse;
 import com.poolygo.comment.domain.factory.CommentFactory;
 import com.poolygo.comment.domain.mapper.CommentMapper;
@@ -99,9 +100,11 @@ public class CommentService {
     }
 
     public void deleteComment(CommentDeleteRequest request, UserAuthDto auth) {
-        if (auth == null) {
+        String type = request.getType();
+        CommentType commentType = CommentType.from(type);
+        if (commentType == CommentType.ANONYMOUS) {
             deleteAnonymousComment(request);
-        } else {
+        } else if (commentType == CommentType.USER) {
             deleteUserComment(request, auth);
         }
 
@@ -120,6 +123,11 @@ public class CommentService {
     }
 
     private void deleteUserComment(CommentDeleteRequest request, UserAuthDto auth) {
+
+        if (auth == null) {
+            throw new CommentException(ExceptionCode.INVALID_COMMENT_USER);
+        }
+
         Long commentId = request.getId();
         Comment findComment = commentRepository.findById(commentId)
             .orElseThrow(() -> new CommentException(ExceptionCode.INVALID_COMMENT_ID));

@@ -9,4 +9,5 @@ import lombok.Getter;
 public class CommentDeleteRequest {
     private final Long id;
     private final String password;
+    private final String type;
 }

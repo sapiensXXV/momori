@@ -5,6 +5,8 @@ import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import CommentForm from "./CommentForm.tsx";
 import SingleComment from "./SingleComment.tsx";
+import CommentDeleteModal from "./modal/CommentDeleteModal.tsx";
+import CommentReportModal from "./modal/CommentReportModal.tsx";
 
 type CommentsProps = {
   quizId: string;
@@ -25,6 +27,15 @@ type CommentSearchCondition = {
   isLastPage: boolean;
 }
 
+const initCommentDetail = {
+  id: 0,
+  name: "writer_name",
+  createdAt: "created_at",
+  content: "content",
+  maker: false,
+  type: "ANONYMOUS",
+}
+
 const initSearchCondition = {lastId: 9007199254740991, size: 20, isLastPage: false} // 자바스크립트의 number 최댓값
 
 const Comments: FC<CommentsProps> = ({quizId}) => {
@@ -33,6 +44,9 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   const [searchCondition, setSearchCondition] = useState<CommentSearchCondition>(initSearchCondition);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [observeTrigger, inView] = useInView()
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [selectComment, setSelectComment] = useState<CommentDetail>(initCommentDetail);
+  const [showReportModal, setShowReportModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoading || searchCondition.isLastPage) return; // 로딩 중이거나 마지막 페이지라면 로직을 수행하지 않는다.
@@ -69,16 +83,47 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
       })
   }
 
-  const deleteComment = (commentId: number) => {
-    console.log(`Delete Comment, comment_id=${commentId}`);
+  const triggerDeleteComment = (commentId: number) => {
+    console.log(`Trigger Delete Comment Modal, comment_id=${commentId}`);
+    const selected = comments.find(comment => (comment.id === commentId));
+    if (selected == null) {
+      alert('댓글을 삭제하는데 문제가 발생하였습니다.');
+      return;
+    }
+    setSelectComment(selected);
+    setShowDeleteModal(true);
+  }
+
+  const triggerReportComment = (commentId: number) => {
+    console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
+  }
+
+  const removeCommentFromList = (commentId: number) => {
+    // id가 일치하지 않는 댓글을 리스트에서 제거
+    setComments(prev => prev.filter(comment => comment.id !== commentId));
+  }
+
+  const deleteComment = (commentId: number, password: string, type: string) => {
+    console.log(`delete comment, commentId=${commentId}, password=${password} type=${type}`);
+    axiosJwtInstance.delete('/api/comment', { data: { id: commentId, password: password, type: type }})
+      .then(() => {
+        setShowDeleteModal(false);
+        removeCommentFromList(commentId);
+      })
+      .catch((error) => {
+        handleError(error);
+      })
+
   }
 
   const reportComment = (commentId: number) => {
-    console.log(`Report Comment, comment_id=${commentId}`);
+
   }
 
   return (
     <>
+      { showDeleteModal ? <CommentDeleteModal comment={selectComment} setShowModal={setShowDeleteModal} deleteComment={deleteComment} /> : null }
+      { showReportModal ? <CommentReportModal comment={selectComment} setShowModal={setShowReportModal}  /> : null }
       <main className={classes.commentContainer}>
         <CommentForm setComments={setComments} quizId={quizId}/>
         <div className={classes.divider}></div>
@@ -87,8 +132,8 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
             <SingleComment
               key={`comment_${comment.id}`}
               comment={comment}
-              deleteComment = {deleteComment}
-              reportComment = {reportComment}
+              deleteComment={triggerDeleteComment}
+              reportComment={triggerReportComment}
             />
           ))
         }
@@ -102,7 +147,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
       </main>
 
     </>
-  )
+  );
 }
 
 export default Comments;

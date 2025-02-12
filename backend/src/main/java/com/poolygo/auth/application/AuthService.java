@@ -2,8 +2,9 @@ package com.poolygo.auth.application;
 
 
 import com.poolygo.auth.dto.UserAuthDto;
+import com.poolygo.global.exception.AuthException;
+import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.util.AuthJwtTokenUtil;
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class AuthService {
     public UserAuthDto decodeJwtWithoutIdentifier(String token) {
         Optional<UserAuthDto> authInfo = jwtTokenUtil.decodeWithoutIdentifier(token);
         if (authInfo.isEmpty()) {
-            throw new JwtException("토큰으로부터 유저 정보를 해독하지 못했습니다.");
+            throw new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL);
         }
         return authInfo.get();
     }
