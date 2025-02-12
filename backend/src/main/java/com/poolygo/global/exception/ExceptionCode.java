@@ -13,6 +13,8 @@ public enum ExceptionCode {
     INVALID_TOKEN(4001, "올바르지 않은 JWT 토큰입니다."),
     TOKEN_AUTHENTICATION_FAIL(4002, "토큰으로부터 사용자 정보를 추출하는데 실패하였습니다."),
     INVALID_USER_ID(4003, "사용자를 식별하는데 실패하였습니다. 존재하지 않는 id 입니다."),
+    TOKEN_NOT_FOUND(4004, "인증 토큰이 없습니다."),
+
 
     INVALID_S3_OBJECT_KEY(5001, "잘못된 객체 URL 입니다."),
 

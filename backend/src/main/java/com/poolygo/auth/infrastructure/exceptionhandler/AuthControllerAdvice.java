@@ -1,9 +1,8 @@
 package com.poolygo.auth.infrastructure.exceptionhandler;
 
 
+import com.poolygo.global.exception.AuthException;
 import com.poolygo.global.exception.ErrorResult;
-import com.poolygo.global.exception.NoJwtTokenException;
-import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,15 +14,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class AuthControllerAdvice {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(NoJwtTokenException.class)
-    public ErrorResult noJwtTokenException(NoJwtTokenException e) {
-        return new ErrorResult(e.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(JwtException.class)
-    public ErrorResult jwtTokenException(JwtException e) {
-        return new ErrorResult(e.getMessage());
+    @ExceptionHandler(AuthException.class)
+    public ErrorResult noJwtTokenException(AuthException e) {
+        return new ErrorResult(e.getCode(), e.getMessage());
     }
 
 }

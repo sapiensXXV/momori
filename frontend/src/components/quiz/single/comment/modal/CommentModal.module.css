@@ -1,0 +1,101 @@
+.modalLayer {
+    z-index: 1200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(213, 213, 213, 0.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    max-width: 400px;
+    /*height: 100vw;*/
+    /*max-height: 343px;*/
+
+    background-color: var(--color-light-background);
+    overflow: hidden;
+    border-radius: 15px;
+    position: relative;
+}
+
+.headerLayer {
+    font-family: Pretendard-Bold, serif;
+    width: 100%;
+    padding: 20.5px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.modalCloseButton {
+    position: absolute; /* 문서 흐름에서 벗어나 절대 위치 지정 */
+    right: 20px;      /* 컨테이너의 오른쪽 패딩 값과 동일하게 */
+    width: 30px;
+    height: 30px;
+    cursor: pointer
+}
+
+.contentLayer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 28px 32px;
+
+    row-gap: 15px;
+
+    overflow: auto;             /* 내용이 넘칠 때 스크롤 가능 */
+    -ms-overflow-style: none;   /* IE, Edge에서 스크롤바 숨김 */
+    scrollbar-width: none;      /* Firefox에서 스크롤바 숨김 */
+}
+
+.contentLayer::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari, Opera에서 스크롤바 숨김 */
+}
+
+.contentDescription {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.contentDescription > span{
+    font-family: Pretendard-Regular, serif;
+    color: var(--color-gray);
+    font-size: 0.9rem;
+}
+
+.contentDescription > button {
+    background-color: var(--color-main-button-light);
+    font-family: Pretendard-Bold, serif;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.buttonContainer > button {
+    min-width: 65px;
+    background-color: #ffe6a6;
+}
+
+.passwordInput {
+    border: 2px solid transparent;
+    width: 200px;
+}

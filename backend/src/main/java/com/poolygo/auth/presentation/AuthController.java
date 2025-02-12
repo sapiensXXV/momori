@@ -1,11 +1,12 @@
 package com.poolygo.auth.presentation;
 
 
+import com.poolygo.auth.application.AuthService;
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.auth.presentation.dto.AuthInfoDto;
-import com.poolygo.auth.application.AuthService;
 import com.poolygo.global.config.security.SecurityConstant;
-import com.poolygo.global.exception.NoJwtTokenException;
+import com.poolygo.global.exception.AuthException;
+import com.poolygo.global.exception.ExceptionCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class AuthController {
         //jwt 토큰을 해석하여 그 안에 담긴 provider, role 정보를 반환
         String bearerToken = request.getHeader(SecurityConstant.AUTHORIZATION_HEADER);
         if (bearerToken == null || bearerToken.isEmpty()) {
-            throw new NoJwtTokenException("[ERROR] 인증 토큰을 찾을 수 없습니다.");
+            throw new AuthException(ExceptionCode.TOKEN_NOT_FOUND);
         }
 
         UserAuthDto userAuthDto = authService.decodeJwtWithoutIdentifier(bearerToken);
