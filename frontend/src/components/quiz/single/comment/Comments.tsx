@@ -9,7 +9,7 @@ import CommentDeleteModal from "./modal/CommentDeleteModal.tsx";
 import CommentReportModal from "./modal/CommentReportModal.tsx";
 
 type CommentsProps = {
-  quizId: string;
+  quizId: string | undefined;
 }
 
 export type CommentDetail = {

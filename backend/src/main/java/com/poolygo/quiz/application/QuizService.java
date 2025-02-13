@@ -56,4 +56,6 @@ public interface QuizService {
 
     public void deleteQuiz(String quizId, UserAuthDto auth);
 
+    public void recordResult(QuizResultRequest request);
+
 }

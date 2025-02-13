@@ -7,7 +7,7 @@ import {CommentDetail} from "./Comments.tsx";
 
 type CommentFormProps = {
   quizId: string;
-  setComments: React.Dispatch<React.SetStateAction<CommentDetail[]>>
+  setComments: React.Dispatch<React.SetStateAction<CommentDetail[]>>;
 }
 
 type CommentFormData = {
@@ -25,12 +25,13 @@ const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
     axiosJwtInstance.post(`/api/comment/${quizId}`, formData)
       .then((response) => {
         const data: CommentDetail = response.data;
-        const newComment = {
+        const newComment: CommentDetail = {
           id: data.id,
           name: data.name,
           createdAt: data.createdAt,
           content: data.content,
-          maker: data.maker
+          maker: data.maker,
+          type: data.type
         };
         console.log(response.data);
         setFormData(prev => ({...prev, content: ""})); // 컨텐츠 비우기

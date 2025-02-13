@@ -20,7 +20,6 @@ import AudioSubjectiveQuestionResultPage from "./question_result/AudioSubjective
 import ImageBinaryQuestionResultPage from "./question_result/ImageBinaryQuestionResultPage.tsx";
 import Comments from "./comment/Comments.tsx";
 import classes from './QuizPage.module.css';
-import {useAuth} from "../../../context/AuthContext.tsx";
 
 enum QuizPageType {
   INTRODUCTION = "introduction",
@@ -91,8 +90,8 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        // return <QuizResultPage record={record.current} distribution={quiz.scoreDistribution} />;
-        return <QuizResultPage record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
+        return <QuizResultPage quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
+        // return <QuizResultPage quizId={quizId} record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
     }
   }
 

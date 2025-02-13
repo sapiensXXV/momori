@@ -16,4 +16,6 @@ public class ImageMcqQuestionDetailResponse extends QuestionDetailResponse {
     private String questionId;
     private String imageUrl;
     private List<McqChoiceDetail> choices;
+    private int tryCount;
+    private int correctCount;
 }
