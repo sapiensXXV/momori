@@ -52,7 +52,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const data: BaseDraft = response.data as BaseDraft;
     switch (getQuizTypeFrom(data.quizType)) {
       case QuizTypes.IMAGE_MCQ: {
-        console.log(data);
         const questions = (data as ImageMcqDraftData).questions;
         const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.imageUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
         setQuestions(result);

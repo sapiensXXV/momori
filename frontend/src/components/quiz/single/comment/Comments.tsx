@@ -60,7 +60,6 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
       .then((response) => {
         const newComments = [...comments, ...response.data];
         setComments(newComments); // 댓글 데이터 세팅
-        console.log(response);
         if (response.data.length < searchCondition.size) {
           // 가져온 데이터의 갯수가 요청한 수보다 적다면 마지막 페이지 임을 나타낸다.
           setSearchCondition((prev) => ({
@@ -84,7 +83,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   }
 
   const triggerDeleteComment = (commentId: number) => {
-    console.log(`Trigger Delete Comment Modal, comment_id=${commentId}`);
+    // console.log(`Trigger Delete Comment Modal, comment_id=${commentId}`);
     const selected = comments.find(comment => (comment.id === commentId));
     if (selected == null) {
       alert('댓글을 삭제하는데 문제가 발생하였습니다.');
@@ -95,7 +94,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   }
 
   const triggerReportComment = (commentId: number) => {
-    console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
+    // console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
   }
 
   const removeCommentFromList = (commentId: number) => {
@@ -104,7 +103,6 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   }
 
   const deleteComment = (commentId: number, password: string, type: string) => {
-    console.log(`delete comment, commentId=${commentId}, password=${password} type=${type}`);
     axiosJwtInstance.delete('/api/comment', { data: { id: commentId, password: password, type: type }})
       .then(() => {
         setShowDeleteModal(false);

@@ -1,5 +1,6 @@
 package com.poolygo.quiz.domain;
 
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,5 +18,10 @@ public class ImageSubjectiveQuestion extends Question {
     ) {
         this.imageUrl = imageUrl;
         this.answers = answers;
+    }
+
+    @Override
+    public void reflectQuizResult(QuizResultRequest request) {
+
     }
 }

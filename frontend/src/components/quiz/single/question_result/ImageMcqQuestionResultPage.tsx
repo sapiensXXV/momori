@@ -16,6 +16,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
   nextQuestion,
   userSelect
 }) => {
+  console.log(question);
   const selectSum = useRef<number>(0);
 
   useEffect(() => {
@@ -74,8 +75,8 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
                       </span>
                     </div>
                     <div className={classes.choiceInfo}>
-                      {/*<PercentageBar percentage={ percent(selectSum.current, choice.selectedCount) } />*/}
-                      <PercentageBar percentage={percent(100, 100)}/>
+                      <PercentageBar percentage={ percent(selectSum.current, choice.selectedCount) } />
+                      {/*<PercentageBar percentage={percent(100, 100)}/>*/}
                     </div>
                   </div>
                 )

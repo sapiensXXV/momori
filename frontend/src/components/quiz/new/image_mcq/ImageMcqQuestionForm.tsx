@@ -47,7 +47,6 @@ const ImageMcqQuestionForm = () => {
       copy[index].imageUrl = imageUrl;
       setQuestions(copy);
 
-      console.log('image upload success');
       changeImageUploadStatus(ImageUploadStatus.UPLOADED, index);
     } catch (error) {
       handleError(error);

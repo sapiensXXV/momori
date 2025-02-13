@@ -18,8 +18,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
-    console.log('useEffect 호출');
-    console.log(record);
     // 차트 생성
     if (!chartRef.current) return;
     const ctx = chartRef.current.getContext("2d")

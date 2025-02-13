@@ -1,4 +1,5 @@
 export function percent(total: number, value: number): number {
+  console.log(`percent(${total}, ${value})`);
   if (total === 0) {
     return 0;
   }

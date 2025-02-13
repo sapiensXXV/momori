@@ -30,14 +30,17 @@ enum QuizPageType {
 
 export type QuizAttemptRecord = {
   quizId: string;
+  type: string;
   questions: {
     questionId: string;
     isCorrect: boolean;
+    choices: number[]; // 해당 문제에서 선택한 선택지 번호
   }[];
 }
 
 const initAttemptRecord: QuizAttemptRecord = {
   quizId: "quiz_id",
+  type: "IMAGE_MCQ",
   questions: []
 }
 
@@ -57,7 +60,6 @@ const QuizPage = () => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
         setQuiz(response.data);
-        console.log(response.data);
         record.current.quizId = response.data.id; // 퀴즈 ID 저장
       })
       .catch((error) => {
