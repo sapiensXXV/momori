@@ -9,12 +9,11 @@ import {QuizTypes} from "../../types/Quiz.types.ts";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
-  quizType: QuizTypes;
   record: QuizAttemptRecord;
   distribution: number[];
 }
 
-const QuizResultPage: FC<QuizResultPageProps> = ({quizId, quizType, record, distribution}) => {
+const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution}) => {
 
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
@@ -82,7 +81,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, quizType, record, dist
         quizId: quizId,
         score: calculateScore(),
         questions: record.questions,
-        quizType: quizType
+        type: record.type
       }
     )
       .then(() => {

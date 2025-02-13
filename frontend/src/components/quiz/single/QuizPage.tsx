@@ -30,7 +30,7 @@ enum QuizPageType {
 
 export type QuizAttemptRecord = {
   quizId: string;
-  type: string;
+  type: QuizTypes;
   questions: {
     questionId: string;
     isCorrect: boolean;
@@ -40,7 +40,7 @@ export type QuizAttemptRecord = {
 
 const initAttemptRecord: QuizAttemptRecord = {
   quizId: "quiz_id",
-  type: "IMAGE_MCQ",
+  type: QuizTypes.IMAGE_MCQ,
   questions: []
 }
 
@@ -59,8 +59,11 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
+        console.log(response.data);
         setQuiz(response.data);
         record.current.quizId = response.data.id; // 퀴즈 ID 저장
+        record.current.type = response.data.type
+        console.log(record.current);
       })
       .catch((error) => {
         // console.log(error);
@@ -92,7 +95,7 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        return <QuizResultPage quizType={quiz.type} quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
+        return <QuizResultPage quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
         // return <QuizResultPage quizId={quizId} record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
     }
   }

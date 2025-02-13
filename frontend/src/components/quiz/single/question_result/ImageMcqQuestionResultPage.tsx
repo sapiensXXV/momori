@@ -1,6 +1,6 @@
 import classes from './McqQuestionResult.module.css'
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
-import {FC, useEffect, useRef} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 import {percent} from "../../../../global/util/percent.tsx";
 import PercentageBar from "./PercentageBar.tsx";
 
@@ -16,11 +16,10 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
   nextQuestion,
   userSelect
 }) => {
-  console.log(question);
-  const selectSum = useRef<number>(0);
+  const [sumOfChoices, setSumOfChoices] = useState<number>(0);
 
   useEffect(() => {
-    selectSum.current = calculateSelectSum();
+    setSumOfChoices(calculateSelectSum);
   }, []);
 
   const calculateSelectSum = () => {
@@ -28,6 +27,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
     question.choices.map((choice) => {
       result += choice.selectedCount;
     })
+    console.log(result);
     return result;
   }
 
@@ -75,7 +75,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
                       </span>
                     </div>
                     <div className={classes.choiceInfo}>
-                      <PercentageBar percentage={ percent(selectSum.current, choice.selectedCount) } />
+                      <PercentageBar percentage={ percent(sumOfChoices, choice.selectedCount) } />
                       {/*<PercentageBar percentage={percent(100, 100)}/>*/}
                     </div>
                   </div>
