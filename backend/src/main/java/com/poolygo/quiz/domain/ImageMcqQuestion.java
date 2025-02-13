@@ -17,7 +17,17 @@ public class ImageMcqQuestion extends Question {
     private List<TextMcqChoice> choices; // DTO 타입으로 부터
 
     @Override
-    public void reflectQuizResult(QuizResultRequest request) {
-        
+    public void reflectQuizResult(QuizResultRequest.QuestionResultRequest request) {
+        this.addTryCount(); // 시도 카운트 증가
+        if (request.isCorrect()) {
+            this.addCorrectCount(); // 정답 카운트 증가
+        }
+        List<Integer> selectedChoices = request.getChoices();
+        try {
+            // 선택지 선택 카운트 증가.
+            selectedChoices.forEach((index) -> choices.get(index).addSelectedCount());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("");
+        }
     }
 }

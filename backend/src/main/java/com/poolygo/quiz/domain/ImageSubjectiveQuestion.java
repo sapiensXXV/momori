@@ -21,7 +21,7 @@ public class ImageSubjectiveQuestion extends Question {
     }
 
     @Override
-    public void reflectQuizResult(QuizResultRequest request) {
+    public void reflectQuizResult(QuizResultRequest.QuestionResultRequest request) {
 
     }
 }

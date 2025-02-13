@@ -5,14 +5,16 @@ import {Chart, ChartConfiguration, Colors, registerables} from "chart.js";
 import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
+import {QuizTypes} from "../../types/Quiz.types.ts";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
+  quizType: QuizTypes;
   record: QuizAttemptRecord;
   distribution: number[];
 }
 
-const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution}) => {
+const QuizResultPage: FC<QuizResultPageProps> = ({quizId, quizType, record, distribution}) => {
 
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
@@ -76,7 +78,12 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
     // 퀴즈 결과 데이터 서버로 전달
     axiosJwtInstance.post(
       '/api/quiz/result',
-      {quizId: quizId, score: calculateScore(), questions: record.questions}
+      {
+        quizId: quizId,
+        score: calculateScore(),
+        questions: record.questions,
+        quizType: quizType
+      }
     )
       .then(() => {
         console.log('통계 등록')

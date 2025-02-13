@@ -16,7 +16,7 @@ public class AudioMcqQuestion extends Question {
     private List<Integer> answers;
 
     @Override
-    public void reflectQuizResult(QuizResultRequest request) {
+    public void reflectQuizResult(QuizResultRequest.QuestionResultRequest request) {
 
     }
 }

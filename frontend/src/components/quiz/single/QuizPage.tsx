@@ -92,12 +92,12 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        return <QuizResultPage quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
+        return <QuizResultPage quizType={quiz.type} quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
         // return <QuizResultPage quizId={quizId} record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
     }
   }
 
-  const submitQuestion = (isSelectAnswer: boolean, userSelect: number) => {
+  const submitMcqQuestion = (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => {
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserSelect(userSelect);
@@ -105,11 +105,19 @@ const QuizPage = () => {
     if (isSelectAnswer) {
       // TODO: 정답 선택 시 로직
       setCorrect(true);
-      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: true })
+      record.current.questions.push({
+          questionId: chosenQuestions[current].questionId,
+          isCorrect: true,
+          choices: [selectedIndex]
+        })
     } else {
       // TODO: 오답 선택 시 로직
       setCorrect(false);
-      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: false })
+      record.current.questions.push({
+        questionId: chosenQuestions[current].questionId,
+        isCorrect: false,
+        choices: [selectedIndex]
+      })
     }
   }
 
@@ -132,7 +140,7 @@ const QuizPage = () => {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqQuestionPage
           question={chosenQuestions[current] as ImageMcqDetailQuestion}
-          afterSubmit={submitQuestion}
+          afterSubmit={submitMcqQuestion}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionPage/>

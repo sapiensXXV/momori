@@ -4,7 +4,7 @@ import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
 
 type ImageMcqQuestionPageProps = {
   question: ImageMcqDetailQuestion;
-  afterSubmit: (isSelectAnswer: boolean, userSelect: number) => void;
+  afterSubmit: (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => void;
 }
 
 const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSubmit}) => {
@@ -30,10 +30,10 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
     // selectedIndex 는 배열 인덱스 0부터 시작하기 때문에 1번 -> 0, 2번 -> 1에 매핑됨
     if (question.choices[selectedIndex].answer) {
       // 정답을 선택한 경우 afterSubmit 메서드에 true 전달
-      afterSubmit(true, selectedIndex);
+      afterSubmit(true, selectedIndex, selectedIndex);
     } else {
       // 오답을 선택한 경우 afterSubmit 메서드에 false 전달
-      afterSubmit(false, selectedIndex);
+      afterSubmit(false, selectedIndex, selectedIndex);
     }
   }
 

@@ -5,9 +5,7 @@ import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.exception.QuizException;
 import com.poolygo.quiz.application.factory.QuizMappingStrategyFactory;
 import com.poolygo.quiz.application.strategy.QuizMappingStrategy;
-import com.poolygo.quiz.domain.Question;
-import com.poolygo.quiz.domain.Quiz;
-import com.poolygo.quiz.domain.QuizType;
+import com.poolygo.quiz.domain.*;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
@@ -166,8 +164,6 @@ public class QuizServiceImpl implements QuizService {
     public void recordResult(QuizResultRequest request) {
         QuizType quizType = QuizType.from(request.getType());
 
-
-
         Quiz findQuiz = quizRepository.findById(request.getQuizId())
             .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
 
@@ -183,13 +179,16 @@ public class QuizServiceImpl implements QuizService {
                 .findFirst()
                 .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTONI_ID));
 
-            // 시도 횟수를 증가시킵니다.
-            matchedQuestion.addTryCount();
-
-            // isCorrect 가 true 인 경우 정답 횟수를 증가시킵니다
-            if (reqQuestion.isCorrect()) {
-                matchedQuestion.addCorrectCount();
+            // 타입에 따라 matchedQuestion 가 다른 타입으로 캐스팅되어야한다.
+            switch (quizType) {
+                case IMAGE_MCQ -> matchedQuestion = (ImageMcqQuestion) matchedQuestion;
+                case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubjectiveQuestion) matchedQuestion;
+                case AUDIO_MCQ -> matchedQuestion = (AudioMcqQuestion) matchedQuestion;
+                case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubjectiveQuestion) matchedQuestion;
+                case BINARY_CHOICE -> matchedQuestion = (BinaryChoiceQuestion) matchedQuestion;
             }
+
+            matchedQuestion.reflectQuizResult(reqQuestion);
         }
 
         findQuiz.addScoreData(request.getScore()); // 점수 분포 반영

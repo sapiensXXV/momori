@@ -15,7 +15,7 @@ public class AudioSubjectiveQuestion extends Question {
     private List<String> answers;
 
     @Override
-    public void reflectQuizResult(QuizResultRequest request) {
+    public void reflectQuizResult(QuizResultRequest.QuestionResultRequest request) {
 
     }
 }

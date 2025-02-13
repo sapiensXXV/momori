@@ -13,7 +13,7 @@ public class BinaryChoiceQuestion extends Question {
     private BinaryChoiceItem second;
 
     @Override
-    public void reflectQuizResult(QuizResultRequest request) {
+    public void reflectQuizResult(QuizResultRequest.QuestionResultRequest request) {
 
     }
 }

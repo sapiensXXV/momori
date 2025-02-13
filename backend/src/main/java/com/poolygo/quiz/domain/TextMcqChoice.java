@@ -14,4 +14,8 @@ public class TextMcqChoice extends McqChoice {
     private String content;
     private boolean answer;
     private int selectedCount;
+
+    public void addSelectedCount() {
+        this.selectedCount++;
+    }
 }

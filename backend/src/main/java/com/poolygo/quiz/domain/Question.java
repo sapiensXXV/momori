@@ -25,5 +25,5 @@ public abstract class Question {
         this.correctCount++;
     }
 
-    public abstract void reflectQuizResult(QuizResultRequest request);
+    public abstract void reflectQuizResult(QuizResultRequest.QuestionResultRequest request);
 }
