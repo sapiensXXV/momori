@@ -34,3 +34,28 @@
     width: 100vw;
     height: 300px;
 }
+
+.afterButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.afterButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 5px;
+    padding: 5px 10px;
+    font-family: Pretendard-Bold, serif;
+    font-size: 0.9rem;
+    background-color: var(--color-main-button-light);
+}
+
+.afterButton > svg {
+    width: 18px;
+    height: 18px;
+}

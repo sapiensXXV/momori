@@ -27,7 +27,6 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
     question.choices.map((choice) => {
       result += choice.selectedCount;
     })
-    console.log(result);
     return result;
   }
 

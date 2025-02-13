@@ -8,7 +8,6 @@ type PercentageBarProps = {
 const PercentageBar: FC<PercentageBarProps> = ({ percentage }) => {
 
   const [animatingPercentage, setAnimatingPercentage] = useState<number>(0);
-  console.log(`percentage=${percentage}`)
 
   useEffect(() => {
     const timer = setTimeout(() => {
