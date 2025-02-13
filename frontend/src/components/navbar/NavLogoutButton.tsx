@@ -2,16 +2,20 @@ import styles from "./NavLogoutButton.module.css"
 import {useAuth} from "../../context/AuthContext.tsx";
 import {deleteCookie} from "../../global/cookie/cookie.ts";
 import {jwtTokenName} from "../../global/constant/jwt.ts";
+import {useNavigate} from "react-router-dom";
 
 export default function NavLogoutButton() {
 
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleLogoutButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    auth.updateAuthContext(null, [], false);
+
+    auth.updateAuthContext(null, [], "", false);
+    localStorage.removeItem("auth"); // 로컬 스토리지에서 인증 정보 삭제
     deleteCookie(jwtTokenName);
-    location.reload();
+    navigate('/', { replace: true });
   }
 
   return (

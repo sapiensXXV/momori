@@ -59,11 +59,9 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
-        console.log(response.data);
         setQuiz(response.data);
         record.current.quizId = response.data.id; // 퀴즈 ID 저장
         record.current.type = response.data.type
-        console.log(record.current);
       })
       .catch((error) => {
         // console.log(error);
