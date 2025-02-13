@@ -24,7 +24,7 @@ const initSearchCondition: SearchCondition = {
   nextPage: 0,
   searchTerm: "",
   size: 20,
-  type: null,
+  type: SearchType.POPULAR,
   isLastPage: false
 }
 
@@ -45,7 +45,6 @@ export default function QuizGrid() {
   }, [searchCondition.type])
 
   const requestSimpleQuiz = useCallback((nextPage: number, size: number, type: SearchType | null, searchTerm: string) => {
-    // console.log(`nextPage=${nextPage}, size=${size}, type=${type}, searchTerm=${searchTerm}`);
     setLoading(true); // 로딩 true
     axiosJwtInstance.get(`/api/quiz/list?page=${nextPage}&size=${size}&type=${type}&searchTerm=${searchTerm}`)
       .then((response) => {
@@ -64,7 +63,6 @@ export default function QuizGrid() {
         }
       })
       .catch((err) => {
-        // console.log(err);
         handleError(err);
       })
   }, [searchCondition])

@@ -33,12 +33,10 @@ const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
           maker: data.maker,
           type: data.type
         };
-        console.log(response.data);
         setFormData(prev => ({...prev, content: ""})); // 컨텐츠 비우기
         setComments(prev => ([newComment, ...prev])); // 새로운 댓글 끼워넣기.
       })
       .catch((error) => {
-        console.log(error);
         handleError(error);
       })
   }

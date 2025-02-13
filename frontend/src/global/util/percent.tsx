@@ -2,6 +2,7 @@ export function percent(total: number, value: number): number {
   if (total === 0) {
     return 0;
   }
+  // console.log(`percent(${total}, ${value}) = ${Math.floor((value / total) * 100)}`);
   return Math.floor((value / total) * 100);
 }
 

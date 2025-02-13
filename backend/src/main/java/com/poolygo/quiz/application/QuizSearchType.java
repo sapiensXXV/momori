@@ -12,7 +12,7 @@ public enum QuizSearchType {
 
     public static QuizSearchType from(String type) {
         log.info("type={}", type);
-        if (type == null || type.equals("null")) return null;
+        if (type == null || type.equalsIgnoreCase("null")) return null;
         return Arrays.stream(QuizSearchType.values())
             .filter(v -> v.name().equalsIgnoreCase(type))
             .findFirst()

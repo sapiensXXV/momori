@@ -30,14 +30,17 @@ enum QuizPageType {
 
 export type QuizAttemptRecord = {
   quizId: string;
+  type: QuizTypes;
   questions: {
     questionId: string;
     isCorrect: boolean;
+    choices: number[]; // 해당 문제에서 선택한 선택지 번호
   }[];
 }
 
 const initAttemptRecord: QuizAttemptRecord = {
   quizId: "quiz_id",
+  type: QuizTypes.IMAGE_MCQ,
   questions: []
 }
 
@@ -56,9 +59,11 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
-        setQuiz(response.data);
         console.log(response.data);
+        setQuiz(response.data);
         record.current.quizId = response.data.id; // 퀴즈 ID 저장
+        record.current.type = response.data.type
+        console.log(record.current);
       })
       .catch((error) => {
         // console.log(error);
@@ -95,7 +100,7 @@ const QuizPage = () => {
     }
   }
 
-  const submitQuestion = (isSelectAnswer: boolean, userSelect: number) => {
+  const submitMcqQuestion = (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => {
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserSelect(userSelect);
@@ -103,11 +108,19 @@ const QuizPage = () => {
     if (isSelectAnswer) {
       // TODO: 정답 선택 시 로직
       setCorrect(true);
-      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: true })
+      record.current.questions.push({
+          questionId: chosenQuestions[current].questionId,
+          isCorrect: true,
+          choices: [selectedIndex]
+        })
     } else {
       // TODO: 오답 선택 시 로직
       setCorrect(false);
-      record.current.questions.push({ questionId: chosenQuestions[current].questionId, isCorrect: false })
+      record.current.questions.push({
+        questionId: chosenQuestions[current].questionId,
+        isCorrect: false,
+        choices: [selectedIndex]
+      })
     }
   }
 
@@ -130,7 +143,7 @@ const QuizPage = () => {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqQuestionPage
           question={chosenQuestions[current] as ImageMcqDetailQuestion}
-          afterSubmit={submitQuestion}
+          afterSubmit={submitMcqQuestion}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
         return <ImageSubjectiveQuestionPage/>

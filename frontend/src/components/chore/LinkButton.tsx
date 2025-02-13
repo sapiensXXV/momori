@@ -6,8 +6,7 @@ export default function LinkButton({link, message}: { link: string, message: str
     e.preventDefault();
     axiosJwtInstance
       .get(`${link}`)
-      .then(res => {
-        console.log(res.data);
+      .then(() => {
       })
       .catch(err =>
         console.log(err)

@@ -15,7 +15,7 @@ const PercentageBar: FC<PercentageBarProps> = ({ percentage }) => {
     }, 200); // ms단위
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [percentage]);
 
   return (
     <>
@@ -24,10 +24,7 @@ const PercentageBar: FC<PercentageBarProps> = ({ percentage }) => {
           className={classes.percentageBar}
           style={{width: `${animatingPercentage}%`}}
         >
-          {/* 원한다면 퍼센티지 텍스트를 표시할 수 있습니다. */}
-
         </div>
-
       </div>
       <span className={classes.percentageText}>{animatingPercentage}%</span>
     </>
