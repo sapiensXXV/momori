@@ -5,6 +5,7 @@ import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.global.exception.QuizException;
 import com.poolygo.quiz.application.factory.QuizMappingStrategyFactory;
 import com.poolygo.quiz.application.strategy.QuizMappingStrategy;
+import com.poolygo.quiz.domain.Question;
 import com.poolygo.quiz.domain.Quiz;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
@@ -150,6 +151,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository.findById(id)
             .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
 
+        quiz.addView();
         QuizMappingStrategy strategy = quizMappingStrategyFactory.getStrategy(quiz.getType());
         return strategy.map(quiz);
     }
@@ -157,5 +159,34 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public void deleteQuiz(String quizId, UserAuthDto auth) {
         quizRepository.deleteById(quizId);
+    }
+
+    @Override
+    public void recordResult(QuizResultRequest request) {
+        Quiz findQuiz = quizRepository.findById(request.getQuizId())
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        findQuiz.addTries(); // 퀴즈 시도 횟수 증가
+
+        List<QuizResultRequest.QuestionResultRequest> requestQuestions = request.getQuestions();
+        List<? extends Question> questions = findQuiz.getQuestions();
+
+        for (QuizResultRequest.QuestionResultRequest reqQuestion : requestQuestions) {
+            // 해당 questionId를 가진 Question 을 찾습니다.
+            Question matchedQuestion = questions.stream()
+                .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTONI_ID));
+
+            // 시도 횟수를 증가시킵니다.
+            matchedQuestion.addTryCount();
+
+            // isCorrect 가 "true" (대소문자 구분 없이)인 경우 정답 횟수를 증가시킵니다.
+            if (reqQuestion.isCorrect()) {
+                matchedQuestion.addCorrectCount();
+            }
+        }
+
+
     }
 }

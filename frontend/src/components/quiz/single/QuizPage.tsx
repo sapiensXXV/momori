@@ -20,7 +20,6 @@ import AudioSubjectiveQuestionResultPage from "./question_result/AudioSubjective
 import ImageBinaryQuestionResultPage from "./question_result/ImageBinaryQuestionResultPage.tsx";
 import Comments from "./comment/Comments.tsx";
 import classes from './QuizPage.module.css';
-import {useAuth} from "../../../context/AuthContext.tsx";
 
 enum QuizPageType {
   INTRODUCTION = "introduction",

@@ -15,6 +15,9 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
   const chartInstance = useRef<Chart | null>(null);
 
   useEffect(() => {
+    console.log('useEffect 호출');
+    console.log(record);
+    // 차트 생성
     if (!chartRef.current) return;
     const ctx = chartRef.current.getContext("2d")
     if (!ctx) return;
@@ -67,8 +70,9 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-    // 새 차트 생성 후 ref에 저장
     chartInstance.current = new Chart(ctx, config);
+
+    // 퀴즈 결과 데이터 서버로 전달
 
     // 컴포넌트 언마운트 시 차트 인스턴스 정리
     return () => {
@@ -91,6 +95,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({record, distribution}) => {
         <div className={classes.resultContentContainer}>
           <span className={classes.resultTitle}>퀴즈 결과</span>
           <div className={classes.resultScore}>{calculateScore()}점 (상위 {calculatePercentile(calculateScore(), distribution)}%)</div>
+
           <canvas className={classes.chart} ref={chartRef}></canvas>
         </div>
       </main>

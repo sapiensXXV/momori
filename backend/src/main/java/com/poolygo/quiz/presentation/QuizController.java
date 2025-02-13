@@ -5,6 +5,7 @@ import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.global.resolver.DomainConfiguration;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
@@ -83,7 +84,12 @@ public class QuizController {
         return null;
     }
 
-
-
-
+    @PostMapping("/result")
+    public ResponseEntity<Void> recordQuizResult(
+        @RequestBody QuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        
+        return ResponseEntity.ok(null);
+    }
 }
