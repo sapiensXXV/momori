@@ -24,7 +24,7 @@ const initSearchCondition: SearchCondition = {
   nextPage: 0,
   searchTerm: "",
   size: 20,
-  type: null,
+  type: SearchType.POPULAR,
   isLastPage: false
 }
 
