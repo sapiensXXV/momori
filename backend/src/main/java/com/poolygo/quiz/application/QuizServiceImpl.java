@@ -181,12 +181,13 @@ public class QuizServiceImpl implements QuizService {
             // 시도 횟수를 증가시킵니다.
             matchedQuestion.addTryCount();
 
-            // isCorrect 가 "true" (대소문자 구분 없이)인 경우 정답 횟수를 증가시킵니다.
+            // isCorrect 가 true 인 경우 정답 횟수를 증가시킵니다
             if (reqQuestion.isCorrect()) {
                 matchedQuestion.addCorrectCount();
             }
         }
 
         findQuiz.addScoreData(request.getScore()); // 점수 분포 반영
+        quizRepository.save(findQuiz);
     }
 }
