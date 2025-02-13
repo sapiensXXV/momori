@@ -89,7 +89,7 @@ public class QuizController {
         @RequestBody QuizResultRequest request
     ) {
         quizService.recordResult(request);
-        
+
         return ResponseEntity.ok(null);
     }
 }

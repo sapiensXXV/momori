@@ -50,4 +50,11 @@ public class Quiz {
     public void addLikes() {
         this.likes++;
     }
+
+    public void addScoreData(int score) {
+        int index = score / 10;
+        if (score == 100) index = 9;
+
+        scoreDistribution.set(index, scoreDistribution.get(index) + 1);
+    }
 }

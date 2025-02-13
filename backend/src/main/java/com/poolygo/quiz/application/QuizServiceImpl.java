@@ -187,6 +187,6 @@ public class QuizServiceImpl implements QuizService {
             }
         }
 
-
+        findQuiz.addScoreData(request.getScore()); // 점수 분포 반영
     }
 }
