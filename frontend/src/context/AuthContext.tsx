@@ -1,4 +1,4 @@
-import React, {createContext, ReactNode, useContext, useState} from "react";
+import React, {createContext, ReactNode, useContext, useEffect, useState} from "react";
 
 type AuthContextType = {
   provider: string | null;
@@ -20,11 +20,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [name, setName] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      const parsedAuth = JSON.parse(storedAuth);
+      setProvider(parsedAuth.provider);
+      setRoles(parsedAuth.roles);
+      setName(parsedAuth.name);
+      setIsAuthenticated(parsedAuth.isAuthenticated);
+    }
+  }, []);
+
   const updateAuthContext = (provider: string | null, roles: string[], name: string, isAuthenticated: boolean) => {
     setProvider(provider);
     setRoles(roles);
     setName(name);
     setIsAuthenticated(isAuthenticated);
+
+    // localStorage에 저장하여 새로고침 후에도 유지
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({ provider, roles, name, isAuthenticated })
+    );
+
   };
 
   return (
