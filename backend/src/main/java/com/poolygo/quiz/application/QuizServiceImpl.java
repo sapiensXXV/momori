@@ -7,6 +7,7 @@ import com.poolygo.quiz.application.factory.QuizMappingStrategyFactory;
 import com.poolygo.quiz.application.strategy.QuizMappingStrategy;
 import com.poolygo.quiz.domain.Question;
 import com.poolygo.quiz.domain.Quiz;
+import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.factory.QuizFactory;
 import com.poolygo.quiz.domain.repository.QuizRepository;
 import com.poolygo.quiz.presentation.dto.request.question.ImageMcqQuestionCreateRequest;
@@ -163,6 +164,10 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void recordResult(QuizResultRequest request) {
+        QuizType quizType = QuizType.from(request.getType());
+
+
+
         Quiz findQuiz = quizRepository.findById(request.getQuizId())
             .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
 

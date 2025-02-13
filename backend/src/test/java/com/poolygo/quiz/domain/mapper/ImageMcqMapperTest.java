@@ -24,7 +24,7 @@ class ImageMcqMapperTest {
 
         UserInfo userInfo = new UserInfo("user_identifier", "oauth2_provider");
 
-        ImageMcqChoice choice = new ImageMcqChoice("choice_content", false, 0);
+        TextMcqChoice choice = new TextMcqChoice("choice_content", false, 0);
         ImageMcqQuestion question = new ImageMcqQuestion("image_url", List.of(choice, choice, choice)); // 문제 당 선택지 3개
         List<ImageMcqQuestion> questions = List.of(question, question, question, question, question); // 질문 5개
 

@@ -1,6 +1,6 @@
 package com.poolygo.quiz.domain.mapper;
 
-import com.poolygo.quiz.domain.ImageMcqChoice;
+import com.poolygo.quiz.domain.TextMcqChoice;
 import com.poolygo.quiz.domain.ImageMcqQuestion;
 import com.poolygo.quiz.presentation.dto.response.detail.ImageMcqQuestionDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.McqChoiceDetail;
@@ -19,7 +19,7 @@ public interface ImageMcqMapper {
     ImageMcqQuestionDetailResponse toImageMcqQuestionDetailResponse(ImageMcqQuestion question);
 
     @Mapping(source = "answer", target = "answer")
-    McqChoiceDetail toImageMcqChoiceDetailResponse(ImageMcqChoice choice);
+    McqChoiceDetail toImageMcqChoiceDetailResponse(TextMcqChoice choice);
 
-    List<McqChoiceDetail> toMcqChoiceDetailList(List<ImageMcqChoice> choices);
+    List<McqChoiceDetail> toMcqChoiceDetailList(List<TextMcqChoice> choices);
 }

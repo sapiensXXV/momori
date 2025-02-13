@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ImageMcqChoice extends McqChoice {
+public class TextMcqChoice extends McqChoice {
     private String content;
     private boolean answer;
     private int selectedCount;

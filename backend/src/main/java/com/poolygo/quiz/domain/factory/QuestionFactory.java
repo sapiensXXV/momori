@@ -16,7 +16,7 @@ public class QuestionFactory {
 
     public ImageMcqQuestion from(final ImageMcqQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
-        List<ImageMcqChoice> choices = request.getChoices().stream()
+        List<TextMcqChoice> choices = request.getChoices().stream()
             .map(choiceFactory::from)
             .toList();
         return ImageMcqQuestion.builder()

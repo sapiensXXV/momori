@@ -1,5 +1,6 @@
 package com.poolygo.quiz.domain;
 
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageMcqQuestion extends Question {
     private String imageUrl;
-    private List<ImageMcqChoice> choices; // DTO 타입으로 부터
+    private List<TextMcqChoice> choices; // DTO 타입으로 부터
+
+    @Override
+    public void reflectQuizResult(QuizResultRequest request) {
+        
+    }
 }

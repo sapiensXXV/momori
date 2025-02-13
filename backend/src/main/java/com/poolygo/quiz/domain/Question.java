@@ -1,6 +1,7 @@
 package com.poolygo.quiz.domain;
 
 
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -23,4 +24,6 @@ public abstract class Question {
     public void addCorrectCount() {
         this.correctCount++;
     }
+
+    public abstract void reflectQuizResult(QuizResultRequest request);
 }
