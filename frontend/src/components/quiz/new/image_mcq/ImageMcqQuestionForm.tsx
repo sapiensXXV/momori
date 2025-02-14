@@ -136,7 +136,6 @@ const ImageMcqQuestionForm = () => {
 
   return (
     <>
-
       <section className={`${classes.questionContainer} common-flex-column`}>
         {questions?.map((question, qi) => (
           <React.Fragment key={`question_${qi}`}>
