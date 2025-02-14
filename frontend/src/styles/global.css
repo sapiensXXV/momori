@@ -34,7 +34,7 @@
 }
 
 .common-input-md:focus {
-    border-color: rgba(255, 230, 166, 0.7);
+    border-color: rgba(255, 230, 166, 0.9);
     box-shadow: none;
 }
 
@@ -45,14 +45,14 @@
     border-radius: 4px;
 
     height: 1.8rem;
-    border: 5px solid transparent;
+    border: 3px solid transparent;
     outline: none; /* 브라우저 기본 포커스 효과 제거 */
     transition: border-color 0.2s ease;
 
 }
 
 .common-input-sm:focus {
-    border-color: rgba(255, 230, 166, 0.7);
+    border-color: rgba(255, 230, 166, 0.9);
     box-shadow: none;
 }
 

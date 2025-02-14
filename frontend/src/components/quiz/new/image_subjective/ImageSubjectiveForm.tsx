@@ -1,7 +1,11 @@
+import ImageSubjectiveMetadataForm from "./ImageSubjectiveMetadataForm.tsx";
+import ImageSubjectiveQuestionForm from "./ImageSubjectiveQuesitonForm.tsx";
+
 const ImageSubjectiveForm = () => {
   return (
     <>
-      이미지-주관식
+      <ImageSubjectiveMetadataForm/>
+      <ImageSubjectiveQuestionForm/>
     </>
   )
 }

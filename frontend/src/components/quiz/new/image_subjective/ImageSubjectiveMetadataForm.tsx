@@ -1,23 +1,24 @@
-import React, {useEffect, useState} from "react";
-import classes from "./ImageMcqForm.module.css";
+import classes from './ImageSubjectiveForm.module.css'
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {NewImageMcqQuestion} from "../../../../types/question.ts";
-import DraftButton from "../common/DraftButton.tsx";
-import QuizCreateButton from "../common/QuizCreateButton.tsx";
+import {NewImageSubjectiveQuestion} from "../../../../types/question.ts";
+import React, {useEffect, useState} from "react";
 import {DraftSimpleInfo} from "../../../../types/draft.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import QuizDraftModal from "../common/modal/QuizDraftModal.tsx";
 import NewQuizThumbnail from "../common/thumbnail/NewQuizThumbnail.tsx";
+import QuizCreateButton from "../common/QuizCreateButton.tsx";
+import DraftButton from "../common/DraftButton.tsx";
 
 
-const ImageMcqMetadataForm = () => {
+const ImageSubjectiveMetadataForm = () => {
 
-  const {metadata, setMetadata, setDraftCount} = useQuizContext<NewImageMcqQuestion>()
+  const { metadata, setMetadata, setDraftCount } = useQuizContext<NewImageSubjectiveQuestion>();
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
+  // 임시저장 목록 불러오기
   useEffect(() => {
     fetchDraftList();
-  }, [])
+  }, []);
 
   const fetchDraftList = async () => {
     const response = await axiosJwtInstance.get('/api/quizzes/draft');
@@ -57,8 +58,7 @@ const ImageMcqMetadataForm = () => {
         />
       </div>
     </>
-
   )
 }
 
-export default ImageMcqMetadataForm;
+export default ImageSubjectiveMetadataForm;

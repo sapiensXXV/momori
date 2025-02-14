@@ -27,8 +27,7 @@ interface ImageMcqDraftChoiceRequest {
 
 const DraftButton = () => {
 
-  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewImageMcqQuestion>()
-
+  const { quizType, questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewImageMcqQuestion>()
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
     const request = makeDraftRequest();
@@ -56,7 +55,7 @@ const DraftButton = () => {
       thumbnailUrl: metadata.thumbnailUrl,
       description: metadata.description ?? "설명 없음",
       formerDraftId: metadata.formerDraftId,
-      type: QuizTypes.IMAGE_MCQ,
+      type: quizType,
       questions: makeDraftQuestionRequest(),
     }
     return request;

@@ -2,7 +2,6 @@ import classes from './SingleComment.module.css'
 import {CommentDetail} from "./Comments.tsx";
 import {FC} from "react";
 import {formatDateTime} from "../../../../global/util/date/date.ts";
-import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 
 type SingleCommentProps = {
   comment: CommentDetail;

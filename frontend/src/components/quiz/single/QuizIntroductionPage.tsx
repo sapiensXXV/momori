@@ -21,8 +21,8 @@ const QuizIntroductionPage: FC<QuizIntroductionPageProps> = (
 
   const possibleCounts = [5, 10, 20, 30, 40, 50];
   // TODO: 나중에 주석을 바꾸기. questionCount 로부터 계산하도록 해야함.
-  // const allowCounts = possibleCounts.filter((count) => count <= questionCount);
-  const allowCounts = [5, 10, 20, 30, 40];
+  const allowCounts = possibleCounts.filter((count) => count <= questionCount);
+  // const allowCounts = [5, 10, 20, 30, 40];
   return (
     <>
       <main className={classes.introContainer}>

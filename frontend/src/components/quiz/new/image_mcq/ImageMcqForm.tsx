@@ -1,4 +1,3 @@
-import React from "react";
 import ImageMcqQuestionForm from "./ImageMcqQuestionForm.tsx";
 import ImageMcqMetadataForm from "./ImageMcqMetadataForm.tsx";
 

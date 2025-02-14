@@ -17,7 +17,7 @@ export default function NewQuiz() {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqForm/>;
       case QuizTypes.IMAGE_SUBJECTIVE:
-        return <ImageSubjectiveForm />;
+        return <ImageSubjectiveForm/>;
       case QuizTypes.AUDIO_MCQ:
         return <AudioMcqForm/>
       case QuizTypes.AUDIO_SUBJECTIVE:

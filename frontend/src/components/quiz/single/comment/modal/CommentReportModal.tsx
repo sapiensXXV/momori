@@ -8,6 +8,12 @@ type CommentReportModalProps = {
 }
 
 const CommentReportModal: FC<CommentReportModalProps> = ({ comment,  setShowModal }) => {
+
+
+  const closeModal = () => {
+    setShowModal(false);
+  }
+
   return (
     <>
       <main className={classes.modalLayer}>

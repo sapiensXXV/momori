@@ -1,11 +1,10 @@
 import classes from '../common/AddQuestionButton.module.css'
-import React from "react";
-import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {ImageUploadStatus, NewImageSubjectiveQuestion} from "../../../../types/question.ts";
+import React from "react";
 
-const AddImageMcqQuestionButton = () => {
-
-  const {setQuestions} = useQuizContext<NewImageMcqQuestion>()
+const AddImageSubjectiveQuestionButton = () => {
+  const { setQuestions } = useQuizContext<NewImageSubjectiveQuestion>()
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -13,7 +12,7 @@ const AddImageMcqQuestionButton = () => {
       return [...prev, {
         imageStatus: ImageUploadStatus.NOT_UPLOADED,
         imageUrl: "",
-        choices: [{content: "", isAnswer: false}]
+        answers: [""]
       }]
     })
   };
@@ -29,4 +28,4 @@ const AddImageMcqQuestionButton = () => {
   )
 }
 
-export default AddImageMcqQuestionButton;
+export default AddImageSubjectiveQuestionButton;
