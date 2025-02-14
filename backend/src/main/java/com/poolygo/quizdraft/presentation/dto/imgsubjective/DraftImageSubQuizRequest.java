@@ -1,7 +1,7 @@
 package com.poolygo.quizdraft.presentation.dto.imgsubjective;
 
 
-import com.poolygo.quizdraft.presentation.dto.CreateDraftRequest;
+import com.poolygo.quizdraft.presentation.dto.DraftRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class DraftImageSubQuizRequest implements CreateDraftRequest {
+public class DraftImageSubQuizRequest implements DraftRequest {
 
     private String title;
     private String thumbnailUrl;

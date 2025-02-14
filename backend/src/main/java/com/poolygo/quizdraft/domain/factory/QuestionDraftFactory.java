@@ -6,8 +6,8 @@ import com.poolygo.quizdraft.domain.ImageMcqQuestionDraft;
 import com.poolygo.quizdraft.domain.ImageSubQuestionDraft;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
-import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqChoiceRequest;
-import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqQuestionRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqChoiceRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuestionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

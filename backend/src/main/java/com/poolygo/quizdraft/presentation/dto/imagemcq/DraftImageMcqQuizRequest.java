@@ -1,6 +1,6 @@
-package com.poolygo.quizdraft.presentation.dto.request;
+package com.poolygo.quizdraft.presentation.dto.imagemcq;
 
-import com.poolygo.quizdraft.presentation.dto.CreateDraftRequest;
+import com.poolygo.quizdraft.presentation.dto.DraftRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @ToString
-public class CreateDraftImageMcqQuizRequest implements CreateDraftRequest {
+public class DraftImageMcqQuizRequest implements DraftRequest {
 
     private String title;
     private String thumbnailUrl;

@@ -8,11 +8,11 @@ import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
 import com.poolygo.quizdraft.domain.factory.QuizDraftFactory;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
-import com.poolygo.quizdraft.presentation.dto.CreateDraftRequest;
-import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse;
-import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse.DraftImageMcqChoiceResponse;
-import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse.DraftImageMcqQuestionResponse;
-import com.poolygo.quizdraft.presentation.dto.response.DraftInfoResponse;
+import com.poolygo.quizdraft.presentation.dto.DraftRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqChoiceResponse;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqQuestionResponse;
+import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class QuizDraftService {
     private final QuizDraftFactory draftFactory;
     private final QuizDraftRepository quizDraftRepository;
 
-    public DraftImageMcqResponse findOneImageMcqDraft(
+    public DraftImageMcqDetailResponse findOneImageMcqDraft(
         final String draftId,
         final String userIdentifier,
         final String userProvider
@@ -41,7 +41,7 @@ public class QuizDraftService {
             .map(Optional::get)
             .toList();
 
-        return DraftImageMcqResponse.of(
+        return DraftImageMcqDetailResponse.of(
             findDraft.getId(),
             findDraft.getType().name(),
             findDraft.getThumbnailUrl(),
@@ -70,39 +70,18 @@ public class QuizDraftService {
         return Optional.of(DraftImageMcqChoiceResponse.of(choice.getContent(), choice.isAnswer()));
     }
 
-    public List<DraftInfoResponse> findSimpleByAuth(
+    public List<DraftSimpleResponse> findSimpleByAuth(
         final String identifier,
         final String provider
     ) {
         List<QuizDraft> findByAuth = quizDraftRepository.findAllByUserInfo(identifier, provider);
         return findByAuth.stream()
-            .map(draft -> DraftInfoResponse.of(draft.getId(), draft.getType().name() ,  draft.getTitle(),  draft.getCreatedAt()))
+            .map(draft -> DraftSimpleResponse.of(draft.getId(), draft.getType().name() ,  draft.getTitle(),  draft.getCreatedAt()))
             .toList();
     }
 
-//    public String createImageMcqDraft(
-//        final CreateDraftRequest request,
-//        final String userIdentifier,
-//        final String userProvider
-//    ) {
-//        QuizDraft saveDraft = draftFactory.from(request, userIdentifier, userProvider);
-//        QuizDraft savedDraft = quizDraftRepository.save(saveDraft);
-//        return savedDraft.getId();
-//    }
-//
-//    public String updateImageMcqDraft(
-//        final String id,
-//        final CreateDraftRequest request,
-//        final String userIdentifier,
-//        final String userProvider
-//    ) {
-//        QuizDraft updatedDraft = draftFactory.from(request, userIdentifier, userProvider);
-//        quizDraftRepository.save(updatedDraft);
-//        return updatedDraft.getId();
-//    }
-
     public String saveOrUpdateDraft(
-        final CreateDraftRequest request,
+        final DraftRequest request,
         final String userIdentifier,
         final String userProvider
     ) {

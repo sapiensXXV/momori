@@ -1,6 +1,6 @@
 package com.poolygo.quizdraft.presentation.dto;
 
-public interface CreateDraftRequest {
+public interface DraftRequest {
 
     String getTitle();
 

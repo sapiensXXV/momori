@@ -2,7 +2,7 @@ package com.poolygo.quizdraft.domain.factory;
 
 
 import com.poolygo.quizdraft.domain.ImageMcqChoiceDraft;
-import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqChoiceRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqChoiceRequest;
 import org.springframework.stereotype.Component;
 
 @Component

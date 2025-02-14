@@ -6,9 +6,9 @@ import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.factory.UserInfoFactory;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
-import com.poolygo.quizdraft.presentation.dto.CreateDraftRequest;
+import com.poolygo.quizdraft.presentation.dto.DraftRequest;
 import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
-import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuizRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -24,7 +24,7 @@ public class QuizDraftFactory {
     private final UserInfoFactory userInfoFactory;
 
     public QuizDraft from(
-        final CreateDraftRequest request,
+        final DraftRequest request,
         final String identifier,
         final String provider
     ) {
@@ -32,7 +32,7 @@ public class QuizDraftFactory {
         QuizType type = QuizType.from(request.getType());
         switch (type) {
             case IMAGE_MCQ -> {
-                return toImageMcqQuizDraft((CreateDraftImageMcqQuizRequest) request, identifier, provider);
+                return toImageMcqQuizDraft((DraftImageMcqQuizRequest) request, identifier, provider);
             }
             case IMAGE_SUBJECTIVE -> {
                 return toImageSubQuizDraft((DraftImageSubQuizRequest) request, identifier, provider);
@@ -53,7 +53,7 @@ public class QuizDraftFactory {
     }
 
     public QuizDraft toImageMcqQuizDraft(
-        final CreateDraftImageMcqQuizRequest request,
+        final DraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {

@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto.response;
+package com.poolygo.quizdraft.presentation.dto.imagemcq;
 
 import lombok.Getter;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @Getter
-public class DraftImageMcqResponse {
+public class DraftImageMcqDetailResponse {
     private final String draftId;
     private final String quizType;
     private final String thumbnailUrl;
@@ -14,7 +14,7 @@ public class DraftImageMcqResponse {
     private final String description;
     private final List<DraftImageMcqQuestionResponse> questions;
 
-    private DraftImageMcqResponse(
+    private DraftImageMcqDetailResponse(
         final String draftId,
         final String quizType,
         final String thumbnailUrl,
@@ -30,7 +30,7 @@ public class DraftImageMcqResponse {
         this.questions = questions;
     }
 
-    public static DraftImageMcqResponse of(
+    public static DraftImageMcqDetailResponse of(
         final String draftId,
         final String quizType,
         final String thumbnailUrl,
@@ -39,7 +39,7 @@ public class DraftImageMcqResponse {
         final List<DraftImageMcqQuestionResponse> questions
     ) {
 
-        return new DraftImageMcqResponse(draftId, quizType, thumbnailUrl, title, description, questions);
+        return new DraftImageMcqDetailResponse(draftId, quizType, thumbnailUrl, title, description, questions);
     }
 
     @Getter
