@@ -34,7 +34,7 @@ const DraftButton = () => {
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
-        `/api/quizzes/draft/image-mcq`,
+        getDraftApi(),
         request
       );
 
@@ -59,6 +59,22 @@ const DraftButton = () => {
       questions: makeDraftQuestionRequest(),
     }
     return request;
+  }
+
+  // 현재 퀴즈 타입에 따라 다른 API 주소를 가져오는 메서드
+  const getDraftApi = () => {
+    switch(quizType) {
+      case QuizTypes.IMAGE_MCQ:
+        return "/api/quizzes/draft/image-mcq"
+      case QuizTypes.IMAGE_SUBJECTIVE:
+        return "/api/quizzes/draft/image-sub"
+      case QuizTypes.AUDIO_MCQ:
+        return "/api/quizzes/draft/audio-mcq"
+      case QuizTypes.AUDIO_SUBJECTIVE:
+        return "/api/quizzes/draft/audio-sub"
+      case QuizTypes.BINARY_CHOICE:
+        return "/api/quizzes/draft/image-binary"
+    }
   }
 
   const makeDraftQuestionRequest = () => {

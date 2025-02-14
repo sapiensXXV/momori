@@ -8,14 +8,13 @@ import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
 import com.poolygo.quizdraft.domain.factory.QuizDraftFactory;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
-import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.CreateDraftRequest;
 import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse.DraftImageMcqChoiceResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse.DraftImageMcqQuestionResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,39 +80,36 @@ public class QuizDraftService {
             .toList();
     }
 
-    public String createImageMcqDraft(
-        final CreateDraftImageMcqQuizRequest request,
-        final String userIdentifier,
-        final String userProvider
-    ) {
-        QuizDraft saveDraft = draftFactory.from(request, userIdentifier, userProvider);
-        QuizDraft savedDraft = quizDraftRepository.save(saveDraft);
-        return savedDraft.getId();
-    }
-
-    public String updateImageMcqDraft(
-        final String id,
-        final CreateDraftImageMcqQuizRequest request,
-        final String userIdentifier,
-        final String userProvider
-    ) {
-        QuizDraft updatedDraft = draftFactory.from(id, request, userIdentifier, userProvider);
-        quizDraftRepository.save(updatedDraft);
-        return updatedDraft.getId();
-    }
+//    public String createImageMcqDraft(
+//        final CreateDraftRequest request,
+//        final String userIdentifier,
+//        final String userProvider
+//    ) {
+//        QuizDraft saveDraft = draftFactory.from(request, userIdentifier, userProvider);
+//        QuizDraft savedDraft = quizDraftRepository.save(saveDraft);
+//        return savedDraft.getId();
+//    }
+//
+//    public String updateImageMcqDraft(
+//        final String id,
+//        final CreateDraftRequest request,
+//        final String userIdentifier,
+//        final String userProvider
+//    ) {
+//        QuizDraft updatedDraft = draftFactory.from(request, userIdentifier, userProvider);
+//        quizDraftRepository.save(updatedDraft);
+//        return updatedDraft.getId();
+//    }
 
     public String saveOrUpdateDraft(
-        final CreateDraftImageMcqQuizRequest request,
+        final CreateDraftRequest request,
         final String userIdentifier,
         final String userProvider
     ) {
-        String formerId = request.getFormerDraftId();
-        if (!StringUtils.hasText(formerId)) {
-            // 기존의 draft_id가 없는 경우 새로운 도큐먼트 생성
-            return createImageMcqDraft(request, userIdentifier, userProvider);
-        } else {
-            return updateImageMcqDraft(formerId, request, userIdentifier, userProvider);
-        }
+        // 기존에는 formerId 여부로 생성 메서드와 업데이트 메서드를 나누어서 호출했다. 하지만
+        // 팩토리 내부에서 직접 ID를 확인하고 저장하면서 그 과정이 필요 없어졌다.
+        QuizDraft savedDraft = draftFactory.from(request, userIdentifier, userProvider);
+        return savedDraft.getId();
     }
 
 

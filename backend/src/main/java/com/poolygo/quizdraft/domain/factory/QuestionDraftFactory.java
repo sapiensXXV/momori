@@ -3,7 +3,9 @@ package com.poolygo.quizdraft.domain.factory;
 
 import com.poolygo.quizdraft.domain.ImageMcqChoiceDraft;
 import com.poolygo.quizdraft.domain.ImageMcqQuestionDraft;
+import com.poolygo.quizdraft.domain.ImageSubQuestionDraft;
 import com.poolygo.quizdraft.domain.QuestionDraft;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
 import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqChoiceRequest;
 import com.poolygo.quizdraft.presentation.dto.request.DraftImageMcqQuestionRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +29,13 @@ public class QuestionDraftFactory {
 
         return ImageMcqQuestionDraft.of(imageUrl, draftChoices);
     }
+
+    public QuestionDraft from(DraftImageSubQuizRequest.DraftImageSubQuestionRequest request) {
+        String imageUrl = request.getImageUrl();
+        List<String> answers = request.getAnswers();
+
+        return ImageSubQuestionDraft.of(imageUrl, answers);
+    }
+
 
 }

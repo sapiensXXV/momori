@@ -8,6 +8,8 @@ import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizReq
 import com.poolygo.quizdraft.presentation.dto.response.CreateDraftResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse;
 import com.poolygo.quizdraft.presentation.dto.response.DraftInfoResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +57,16 @@ public class QuizDraftController {
     }
 
     @PostMapping("/draft/image-sub")
-    public ResponseEntity<CreateDraftResponse> createImageSubDraft() {
+    public ResponseEntity<CreateDraftResponse> createImageSubDraft(
+        @RequestBody DraftImageSubQuizRequest request,
+        @AuthenticateUser UserAuthDto userInfo
+    ) {
+        String id = quizDraftService.saveOrUpdateDraft(request, userInfo.getIdentifier(), userInfo.getProvider());
+        return ResponseEntity.ok(CreateDraftResponse.success(id));
+    }
+
+    @GetMapping("/draft/image-sub")
+    public ResponseEntity<DraftImageSubResponse> imageSubDraft() {
         return null;
     }
 
@@ -69,7 +80,7 @@ public class QuizDraftController {
         return null;
     }
 
-    @PostMapping("/draft/binary")
+    @PostMapping("/draft/image-binary")
     public ResponseEntity<CreateDraftResponse> draftBinary() {
         return null;
     }

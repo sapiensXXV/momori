@@ -177,7 +177,7 @@ public class QuizServiceImpl implements QuizService {
             Question matchedQuestion = questions.stream()
                 .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
                 .findFirst()
-                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTONI_ID));
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
 
             // 타입에 따라 matchedQuestion 가 다른 타입으로 캐스팅되어야한다.
             switch (quizType) {
