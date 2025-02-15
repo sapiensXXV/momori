@@ -9,11 +9,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class BinaryChoiceQuizCreateRequest {
+public class BinaryChoiceQuizCreateRequest extends QuizCreateRequest {
 
-    private String title;
-    private String thumbnailUrl;
-    private String description;
-    private String type;
     private List<BinaryChoiceQuestionCreateRequest> questions;
 }

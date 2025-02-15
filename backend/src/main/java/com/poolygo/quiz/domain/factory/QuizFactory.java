@@ -39,7 +39,7 @@ public class QuizFactory {
     }
 
 
-    public Quiz from(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+    public Quiz from(ImageSubQuizCreateRequest request, UserAuthDto auth) {
         List<ImageSubjectiveQuestion> questions = request.getQuestions().stream()
             .map(questionFactory::from)
             .toList();
@@ -77,7 +77,7 @@ public class QuizFactory {
             .build();
     }
 
-    public Quiz from(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+    public Quiz from(AudioSubQuizCreateRequest request, UserAuthDto auth) {
         List<AudioSubjectiveQuestion> questions = request.getQuestions().stream()
             .map(questionFactory::from)
             .toList();

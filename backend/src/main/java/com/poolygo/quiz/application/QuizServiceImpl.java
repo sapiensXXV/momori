@@ -42,14 +42,37 @@ public class QuizServiceImpl implements QuizService {
     private final S3ImageService s3ImageService;
 
     @Override
-    public QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
+    public QuizCreateResponse createQuiz(QuizCreateRequest request, UserAuthDto auth) {
+        QuizType quizType = QuizType.from(request.getType());
+        switch (quizType) {
+            case IMAGE_MCQ -> {
+                return createImageMcqQuiz((ImageMcqQuizCreateRequest) request, auth);
+            }
+            case IMAGE_SUBJECTIVE -> {
+                return createImageSubQuiz((ImageSubQuizCreateRequest) request, auth);
+            }
+            case AUDIO_MCQ -> {
+                return createAudioMcqQuiz((AudioMcqQuizCreateRequest) request, auth);
+            }
+            case AUDIO_SUBJECTIVE -> {
+                return createAudioSubQuiz((AudioSubQuizCreateRequest) request, auth);
+            }
+            case BINARY_CHOICE -> {
+                return createBinaryChoiceQuiz((BinaryChoiceQuizCreateRequest) request, auth);
+            }
+        }
+
+        // 퀴즈의 타입을 지원하지 않을 때 예외를 던진다.
+        throw new QuizException(ExceptionCode.INVALID_QUIZ_TYPE);
+    }
+
+    private QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {
 
         List<ImageMcqQuestionCreateRequest> questions = request.getQuestions();
         List<ImageMcqQuestionCreateRequest> newQuestions = questions.stream()
             .map(question -> {
                 String permanentUrl = s3ImageService.copyDraftToPermanent(question.getImageUrl());
                 s3ImageService.deleteObject(question.getImageUrl()); // 임시 객체 삭제
-                log.info("새로운 URL=[{}], 기존의 URL=[{}]", permanentUrl, question.getImageUrl());
                 return new ImageMcqQuestionCreateRequest(
                     permanentUrl,
                     question.getChoices()
@@ -60,7 +83,6 @@ public class QuizServiceImpl implements QuizService {
         // 썸네일 복사
         String permanentThumbnailUrl = s3ImageService.copyDraftToPermanent(request.getThumbnailUrl());
         s3ImageService.deleteObject(request.getThumbnailUrl()); // 임시객체 삭제
-        log.info("썸네일 URL=[{}]", permanentThumbnailUrl);
 
         ImageMcqQuizCreateRequest newRequest = new ImageMcqQuizCreateRequest(
             request.getTitle(),
@@ -80,39 +102,34 @@ public class QuizServiceImpl implements QuizService {
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
-    @Override
-    public QuizCreateResponse createImageSubjectiveQuiz(ImageSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+    private QuizCreateResponse createImageSubQuiz(ImageSubQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
-    @Override
-    public QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
+    private QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
-    @Override
-    public QuizCreateResponse createAudioSubjectiveQuiz(AudioSubjectiveQuizCreateRequest request, UserAuthDto auth) {
+    private QuizCreateResponse createAudioSubQuiz(AudioSubQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
-    @Override
-    public QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
+    private QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
 
-    @Override
     public List<QuizSummaryResponse> quizList(int page, int size, String type, String searchTerm) {
 
         QuizSearchType quizType = QuizSearchType.from(type);

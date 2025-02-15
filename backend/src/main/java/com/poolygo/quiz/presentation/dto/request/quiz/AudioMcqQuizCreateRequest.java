@@ -9,10 +9,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class AudioMcqQuizCreateRequest {
-    private String title;
-    private String thumbnailUrl;
-    private String description;
-    private String type;
+public class AudioMcqQuizCreateRequest extends QuizCreateRequest {
     private List<AudioMcqQuestionCreateRequest> questions;
 }

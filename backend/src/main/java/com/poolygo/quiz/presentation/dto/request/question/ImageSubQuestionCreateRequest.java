@@ -7,8 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class AudioSubjectiveQuestionCreateRequest {
-
-    private String audioUrl;
+public class ImageSubQuestionCreateRequest {
+    private String imageUrl;
     private List<String> answers;
 }

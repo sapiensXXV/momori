@@ -8,6 +8,7 @@ import {
 } from "../../../../types/question.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {QuizTypes} from "../../types/Quiz.types.ts";
+import {NewQuestionContextMapping} from "../../../../global/types/quizContextMapping.ts";
 
 interface AddImageMcqQuestionButtonProps<T extends QuizTypes> {
   quizType: T;
@@ -23,17 +24,20 @@ interface QuizContextMapping {
 
 const AddImageMcqQuestionButton = <T extends QuizTypes>({ quizType }: AddImageMcqQuestionButtonProps<T>) => {
 
-  const {setQuestions} = useQuizContext<NewImageMcqQuestion>()
+  const {setQuestions} = useQuizContext<NewQuestionContextMapping[T]>();
 
   const addQuestion = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setQuestions(prev => {
-      return [...prev, {
-        imageStatus: ImageUploadStatus.NOT_UPLOADED,
-        imageUrl: "",
-        choices: [{content: "", isAnswer: false}]
-      }]
-    })
+    // e.preventDefault();
+    // setQuestions(prev => {
+    //   return [...prev, {
+    //     imageStatus: ImageUploadStatus.NOT_UPLOADED,
+    //     imageUrl: "",
+    //     choices: [{content: "", isAnswer: false}]
+    //   }]
+    // })
+    // 현재 quizType 에 따라 다른 questions를 등록한다.
+
+
   };
 
   return (

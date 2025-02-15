@@ -29,7 +29,7 @@ public class QuestionFactory {
     }
 
     // TODO: 다른 타입의 문제 유형도 Question 추상클래스의 필드를 포함하도록 @SuperBuilder 적용
-    public ImageSubjectiveQuestion from(final ImageSubjectiveQuestionCreateRequest request) {
+    public ImageSubjectiveQuestion from(final ImageSubQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
         List<String> answers = request.getAnswers();
 
@@ -43,7 +43,7 @@ public class QuestionFactory {
         return new AudioMcqQuestion(audioUrl, answers);
     }
 
-    public AudioSubjectiveQuestion from(final AudioSubjectiveQuestionCreateRequest request) {
+    public AudioSubjectiveQuestion from(final AudioSubQuestionCreateRequest request) {
         String audioUrl = request.getAudioUrl();
         List<String> answers = request.getAnswers();
 
