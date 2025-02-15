@@ -52,6 +52,7 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     console.log(response);
 
     const data: BaseDraft = response.data as BaseDraft;
+    // 타입별 퀴즈 데이터 업데이트
     switch (getQuizTypeFrom(data.quizType)) {
       case QuizTypes.IMAGE_MCQ: {
         const questions = (data as ImageMcqDraftData).questions;
@@ -64,19 +65,28 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
       }
       case QuizTypes.IMAGE_SUBJECTIVE: {
         const questions = (data as ImageSubjectiveDraftData).questions;
-        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.imageUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
+        const result = questions.map(prev => ({
+          ...prev,
+          imageStatus: isUrlExists(prev.imageUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED
+        }));
         setQuestions(result);
         break;
       }
       case QuizTypes.AUDIO_MCQ: {
         const questions = (data as AudioMcqDraftData).questions;
-        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
+        const result = questions.map(prev => ({
+          ...prev,
+          imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED
+        }));
         setQuestions(result);
         break;
       }
       case QuizTypes.AUDIO_SUBJECTIVE: {
         const questions = (data as AudioSubjectiveDraftData).questions;
-        const result = questions.map(prev => ( {...prev, imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED} ));
+        const result = questions.map(prev => ({
+          ...prev,
+          imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED
+        }));
         setQuestions(result);
         break;
       }
@@ -85,6 +95,7 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
         break;
     }
 
+    // 메타데이터 업데이트
     const draftId = data.draftId;
     const title = data.title;
     const thumbnailUrl = data.thumbnailUrl;
