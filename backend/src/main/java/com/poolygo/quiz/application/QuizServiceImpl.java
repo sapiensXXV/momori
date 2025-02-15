@@ -156,8 +156,7 @@ public class QuizServiceImpl implements QuizService {
                 .toList();
         }
 
-        return quizRepository.findAll(pageable)
-            .stream()
+        return quizRepository.findAll(pageable).stream()
             .map(q -> new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription()))
             .toList();
     }
@@ -199,7 +198,7 @@ public class QuizServiceImpl implements QuizService {
             // 타입에 따라 matchedQuestion 가 다른 타입으로 캐스팅되어야한다.
             switch (quizType) {
                 case IMAGE_MCQ -> matchedQuestion = (ImageMcqQuestion) matchedQuestion;
-                case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubjectiveQuestion) matchedQuestion;
+                case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubQuestion) matchedQuestion;
                 case AUDIO_MCQ -> matchedQuestion = (AudioMcqQuestion) matchedQuestion;
                 case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubjectiveQuestion) matchedQuestion;
                 case BINARY_CHOICE -> matchedQuestion = (BinaryChoiceQuestion) matchedQuestion;

@@ -40,7 +40,7 @@ public class QuizFactory {
 
 
     public Quiz from(ImageSubQuizCreateRequest request, UserAuthDto auth) {
-        List<ImageSubjectiveQuestion> questions = request.getQuestions().stream()
+        List<ImageSubQuestion> questions = request.getQuestions().stream()
             .map(questionFactory::from)
             .toList();
 

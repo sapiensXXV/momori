@@ -104,7 +104,7 @@ const QuizPage = () => {
     setUserSelect(userSelect);
     // 객관식, 주관식, 이미지, 오디오 각각 결결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
-      // TODO: 정답 선택 시 로직
+      // 정답 선택 로직
       setCorrect(true);
       record.current.questions.push({
           questionId: chosenQuestions[current].questionId,
@@ -112,7 +112,7 @@ const QuizPage = () => {
           choices: [selectedIndex]
         })
     } else {
-      // TODO: 오답 선택 시 로직
+      // 오답 선택 로직
       setCorrect(false);
       record.current.questions.push({
         questionId: chosenQuestions[current].questionId,
@@ -124,7 +124,7 @@ const QuizPage = () => {
 
   // 문제 결과 페이지에서 '다음으로' 버튼을 눌렀을 때 호출되는 메서드
   const nextQuestion = () => {
-    // TODO: 마지막 문제일 때를 고려한 로직 필요
+    // 마지막 문제일 때를 고려
     if (chosenQuestions.length <= current+1) {
       setPageType(QuizPageType.RESULT); // 마지막 문제를 해결한 경우 결과 페이지로 이동
       return;

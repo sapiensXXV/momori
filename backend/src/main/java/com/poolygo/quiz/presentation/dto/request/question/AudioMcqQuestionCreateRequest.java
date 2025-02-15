@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class AudioMcqQuestionCreateRequest {
     private String audioUrl;
-    private List<Integer> answers;
+    private List<AudioMcqChoiceCreateRequest> choices;
 }

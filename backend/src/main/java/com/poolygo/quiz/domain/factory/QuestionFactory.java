@@ -29,18 +29,33 @@ public class QuestionFactory {
     }
 
     // TODO: 다른 타입의 문제 유형도 Question 추상클래스의 필드를 포함하도록 @SuperBuilder 적용
-    public ImageSubjectiveQuestion from(final ImageSubQuestionCreateRequest request) {
+    public ImageSubQuestion from(final ImageSubQuestionCreateRequest request) {
         String imageUrl = request.getImageUrl();
         List<String> answers = request.getAnswers();
 
-        return new ImageSubjectiveQuestion(imageUrl, answers);
+        return ImageSubQuestion.builder()
+            .imageUrl(imageUrl)
+            .answers(answers)
+            .questionId(UUID.randomUUID().toString())
+            .tryCount(0)
+            .correctCount(0)
+            .build();
     }
 
     public AudioMcqQuestion from(final AudioMcqQuestionCreateRequest request) {
         String audioUrl = request.getAudioUrl();
-        List<Integer> answers = request.getAnswers();
+        List<TextMcqChoice> choices = request.getChoices().stream()
+            .map(choiceFactory::from)
+            .toList();
 
-        return new AudioMcqQuestion(audioUrl, answers);
+
+        return AudioMcqQuestion.builder()
+            .audioUrl(audioUrl)
+            .choices(choices)
+            .questionId(UUID.randomUUID().toString())
+            .tryCount(0)
+            .correctCount(0)
+            .build();
     }
 
     public AudioSubjectiveQuestion from(final AudioSubQuestionCreateRequest request) {

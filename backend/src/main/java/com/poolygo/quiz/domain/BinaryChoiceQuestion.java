@@ -4,8 +4,10 @@ import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BinaryChoiceQuestion extends Question {
