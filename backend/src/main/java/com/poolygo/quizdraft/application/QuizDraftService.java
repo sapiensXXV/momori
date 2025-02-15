@@ -14,7 +14,7 @@ import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqChoiceResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqQuestionResponse;
-import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubDetailResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +54,7 @@ public class QuizDraftService {
         );
     }
 
-    public DraftImageSubDetailResponse findOneImageSubDraft(
+    public DraftImageSubQuizResponse findOneImageSubDraft(
         final String draftId,
         final String userIdentifier,
         final String provider

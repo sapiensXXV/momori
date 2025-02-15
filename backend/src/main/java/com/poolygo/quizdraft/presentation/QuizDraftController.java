@@ -9,7 +9,7 @@ import com.poolygo.quizdraft.presentation.dto.CreateDraftResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
 import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
 import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
-import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubDetailResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -66,11 +66,11 @@ public class QuizDraftController {
     }
 
     @GetMapping("/draft/image-sub")
-    public ResponseEntity<DraftImageSubDetailResponse> imageSubDraft(
+    public ResponseEntity<DraftImageSubQuizResponse> imageSubDraft(
         @RequestParam("draftId") String draftId,
         @AuthenticateUser UserAuthDto auth
     ) {
-        DraftImageSubDetailResponse findDraft = quizDraftService.findOneImageSubDraft(draftId, auth.getIdentifier(), auth.getProvider());
+        DraftImageSubQuizResponse findDraft = quizDraftService.findOneImageSubDraft(draftId, auth.getIdentifier(), auth.getProvider());
         return ResponseEntity.ok(findDraft);
     }
 

@@ -1,6 +1,7 @@
 package com.poolygo.quizdraft.presentation.dto.imgsubjective;
 
 
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageSubQuestionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class DraftImageSubDetailResponse {
+public class DraftImageSubQuizResponse {
 
     private final String draftId;
     private final String quizType;
@@ -19,11 +20,6 @@ public class DraftImageSubDetailResponse {
     private final String description;
     private final List<DraftImageSubQuestionResponse> questions;
 
-    @Getter
-    @AllArgsConstructor
-    public static class DraftImageSubQuestionResponse {
-        private final String imageUrl;
-        private final List<String> answers;
-    }
+
 
 }
