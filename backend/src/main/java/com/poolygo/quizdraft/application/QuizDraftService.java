@@ -88,6 +88,7 @@ public class QuizDraftService {
         // 기존에는 formerId 여부로 생성 메서드와 업데이트 메서드를 나누어서 호출했다. 하지만
         // 팩토리 내부에서 직접 ID를 확인하고 저장하면서 그 과정이 필요 없어졌다.
         QuizDraft savedDraft = draftFactory.from(request, userIdentifier, userProvider);
+        quizDraftRepository.save(savedDraft);
         return savedDraft.getId();
     }
 

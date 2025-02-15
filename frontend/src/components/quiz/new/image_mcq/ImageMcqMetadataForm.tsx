@@ -12,7 +12,7 @@ import NewQuizThumbnail from "../common/thumbnail/NewQuizThumbnail.tsx";
 
 const ImageMcqMetadataForm = () => {
 
-  const {metadata, setMetadata, setDraftCount} = useQuizContext<NewImageMcqQuestion>()
+  const {quizType, metadata, setMetadata, setDraftCount} = useQuizContext<NewImageMcqQuestion>()
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const ImageMcqMetadataForm = () => {
             onChange={(e) => editTitle(e)}
           />
           <QuizCreateButton/>
-          <DraftButton/>
+          <DraftButton quizType={quizType}/>
         </div>
         <textarea
           className={`common-textarea`}

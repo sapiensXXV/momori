@@ -4,6 +4,7 @@ import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {
+  ImageUploadStatus,
   NewAudioMcqQuestion,
   NewAudioSubjectiveQuestion,
   NewImageBinaryQuestion,
@@ -28,7 +29,12 @@ interface QuizContextMapping {
 }
 
 // 임시저장 문제끼리 공통으로 가지는 프로퍼티가 없기 때문에 Union Type 으로 선언
-type BaseDraftQuestion = ImageMcqDraftQuestion | ImageSubDraftQuestion;
+type BaseDraftQuestion =
+  | ImageMcqDraftQuestion
+  | ImageSubDraftQuestion
+  | AudioMcqDraftQuestion
+  | AudioSubDraftQuestion
+  | ImageBinaryDraftQuestion;
 
 interface ImageMcqDraftQuestion {
   imageUrl: string;
@@ -42,6 +48,32 @@ interface ImageSubDraftQuestion {
   answers: string[];
 }
 
+interface AudioMcqDraftQuestion {
+  audioUrl: string;
+  choices: {
+    content: string;
+    answer: boolean;
+  }[]
+}
+
+interface AudioSubDraftQuestion {
+  audioUrl: string;
+  answers: string[];
+}
+
+interface ImageBinaryDraftQuestion {
+  first: {
+    imageUrl: string;
+    description: string;
+    answer: boolean;
+  };
+  second: {
+    imageUrl: string;
+    description: string;
+    answer: boolean;
+  };
+}
+
 interface BaseDraftRequest {
   title: string;
   description: string;
@@ -51,17 +83,9 @@ interface BaseDraftRequest {
   questions: BaseDraftQuestion[];
 }
 
-interface ImageMcqDraftRequest extends BaseDraftRequest {
-  questions: ImageMcqDraftQuestion[];
-}
-
-interface ImageSubDraftRequest extends BaseDraftRequest {
-  questions: ImageSubDraftQuestion[];
-}
-
 const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => {
 
-  const { quizType, questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<QuizContextMapping[T]>();
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<QuizContextMapping[T]>();
   const pushDraft = async () => {
     console.log('draft quiz button clicked')
     const request = makeDraftRequest();
@@ -92,51 +116,32 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
       description: metadata.description ?? "설명 없음",
       formerDraftId: metadata.formerDraftId,
       type: quizType,
-      questions: makeDraftQuestionRequest(),
+      questions: makeDraftQuestionRequest(), // 오류 없애는 방법? 코딩만 잘했다면 없애지 안아도 되긴 함.
     };
   }
 
-  // 현재 퀴즈 타입에 따라 다른 API 주소를 가져오는 메서드
-
-  // const convertQuestionType = (question: any) => {
-  //   switch (quizType) {
-  //     case QuizTypes.IMAGE_MCQ:
-  //       return question as NewImageMcqQuestion;
-  //     case QuizTypes.IMAGE_SUBJECTIVE:
-  //       return question as NewImageSubjectiveQuestion;
-  //     case QuizTypes.AUDIO_MCQ:
-  //       return question as NewAudioMcqQuestion
-  //     case QuizTypes.AUDIO_SUBJECTIVE:
-  //       return question as NewAudioSubjectiveQuestion
-  //     case QuizTypes.BINARY_CHOICE:
-  //       return question as NewImageBinaryQuestion
-  //   }
-  // }
-
-  const makeDraftQuestionRequest = () => {
-    // TODO: 퀴즈 타입에 따라서 다른 타입의 question을 가지는 요청 객체를 반환해야함. (BaseDraftRequest 의 서브 타입)
-
+  const makeDraftQuestionRequest = (): BaseDraftQuestion[] => {
     if (quizType === QuizTypes.IMAGE_MCQ) {
       return questions
         .map((question) => question as NewImageMcqQuestion)
-        .map((question) => ({
+        .map((question): ImageMcqDraftQuestion => ({
           imageUrl: question.imageUrl,
           choices: question.choices.map((choice) => ({
             content: choice.content,
             answer: choice.answer
           }))
-        }));
+        }))
     } else if (quizType === QuizTypes.IMAGE_SUBJECTIVE) {
       return questions
         .map((question) => question as NewImageSubjectiveQuestion)
-        .map((question) => ({
+        .map((question): ImageSubDraftQuestion => ({
           imageUrl: question.imageUrl,
           answers: question.answers
         }));
     } else if (quizType === QuizTypes.AUDIO_MCQ) {
       return questions
         .map((question) => question as NewAudioMcqQuestion)
-        .map((question) => ({
+        .map((question): AudioMcqDraftQuestion => ({
           audioUrl: question.audioUrl,
           choices: question.choices.map((choice) => ({
             content: choice.content,
@@ -144,18 +149,31 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
           }))
         }));
     } else if (quizType === QuizTypes.AUDIO_SUBJECTIVE) {
-      // TODO: 오디오-주관식 타입 임시저장 요청 데이터 생성
-      return null;
+      return questions
+        .map((question) => question as NewAudioSubjectiveQuestion)
+        .map((question): AudioSubDraftQuestion => ({
+          audioUrl: question.audioUrl,
+          answers: question.answers
+        }))
     } else if (quizType === QuizTypes.BINARY_CHOICE) {
-      // TODO: 이미지-이지선다 타입 임시저장 요청 데이터 생성
-      return null;
+      return questions
+        .map((question) => question as NewImageBinaryQuestion)
+        .map((question): ImageBinaryDraftQuestion => ({
+          first: {
+            imageUrl: question.first.imageUrl,
+            description: question.first.description,
+            answer: question.first.answer
+          },
+          second: {
+            imageUrl: question.second.imageUrl,
+            description: question.second.description,
+            answer: question.second.answer
+          }
+        }))
+    } else {
+      console.log(quizType);
+      throw new Error("지원되지 않는 퀴즈 타입입니다");
     }
-  }
-
-  const makeDraftChoiceRequest = (question: NewImageMcqQuestion) => {
-    return question.choices.map((choice) => {
-      return {content: choice.content, answer: choice.answer}
-    });
   }
 
   return (

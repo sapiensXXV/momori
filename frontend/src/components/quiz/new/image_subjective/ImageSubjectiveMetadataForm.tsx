@@ -12,7 +12,7 @@ import DraftButton from "../common/DraftButton.tsx";
 
 const ImageSubjectiveMetadataForm = () => {
 
-  const { metadata, setMetadata, setDraftCount } = useQuizContext<NewImageSubjectiveQuestion>();
+  const { quizType, metadata, setMetadata, setDraftCount } = useQuizContext<NewImageSubjectiveQuestion>();
   const [drafts, setDrafts] = useState<DraftSimpleInfo[]>([]);
 
   // 임시저장 목록 불러오기
@@ -48,7 +48,7 @@ const ImageSubjectiveMetadataForm = () => {
             onChange={(e) => editTitle(e)}
           />
           <QuizCreateButton/>
-          <DraftButton/>
+          <DraftButton quizType={quizType}/>
         </div>
         <textarea
           className={`common-textarea`}
