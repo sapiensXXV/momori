@@ -38,6 +38,7 @@ public class Quiz {
     private List<Integer> scoreDistribution;
 
     private List<? extends Question> questions;
+//    private List<Question> questions;
 
     public void addView() {
         this.views++;

@@ -2,13 +2,15 @@ package com.poolygo.quiz.domain;
 
 
 import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@NoArgsConstructor
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Question {
     private String questionId;
     private int tryCount;

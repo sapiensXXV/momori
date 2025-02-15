@@ -48,7 +48,6 @@ public class QuestionFactory {
             .map(choiceFactory::from)
             .toList();
 
-
         return AudioMcqQuestion.builder()
             .audioUrl(audioUrl)
             .choices(choices)
@@ -58,6 +57,7 @@ public class QuestionFactory {
             .build();
     }
 
+    // TODO: 오디오-주관식, 이지선다 Question 팩토리 메서드 작성.
     public AudioSubjectiveQuestion from(final AudioSubQuestionCreateRequest request) {
         String audioUrl = request.getAudioUrl();
         List<String> answers = request.getAnswers();
