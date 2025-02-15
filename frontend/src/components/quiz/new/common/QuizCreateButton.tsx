@@ -11,7 +11,7 @@ const QuizCreateButton = () => {
   const navigate = useNavigate();
 
   const createQuiz = async () => {
-    console.log("createQuiz");
+    console.log("퀴즈 등록 요청");
     const request = makeQuizCreateRequest();
     try {
       const response = await axiosJwtInstance.post(

@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto.response;
+package com.poolygo.quizdraft.presentation.dto;
 
 
 import lombok.Getter;

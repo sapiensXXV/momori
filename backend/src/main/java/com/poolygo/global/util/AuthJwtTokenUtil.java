@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 import static com.poolygo.global.config.security.SecurityConstant.*;
@@ -35,6 +36,11 @@ public class AuthJwtTokenUtil {
                 .parseSignedClaims(removeBearer)
                 .getPayload();
 
+            Date expiration = claims.getExpiration();
+            if (expiration == null || expiration.before(new Date())) {
+                throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
+            }
+
             String provider = (String) claims.get(PROVIDER);
             String name = (String) claims.get(NAME);
             String[] roles = ((String) claims.get(ROLE)).split(",");
@@ -55,6 +61,11 @@ public class AuthJwtTokenUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+
+            Date expiration = claims.getExpiration();
+            if (expiration == null || expiration.before(new Date())) {
+                throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
+            }
 
             String identifier = (String) claims.get(IDENTIFIER);
             String provider = (String) claims.get(PROVIDER);

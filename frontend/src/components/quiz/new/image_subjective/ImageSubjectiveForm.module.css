@@ -1,0 +1,204 @@
+/*메타데이터*/
+.metaDataContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
+    background-color: #f6f6f6;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+}
+
+.titleAndDraftButtonContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+}
+
+.quizTitleInput {
+    flex: 1;
+    font-family: Pretendard-Regular, serif;
+    font-size: 14px;
+    height: 25px;
+}
+
+.quizDescriptionInput {
+    font-family: Pretendard-Regular, serif;
+    font-size: 14px;
+}
+
+.deleteButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.quizDeleteButton {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    background-color: #ffd4d4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.quizDeleteButton:hover {
+    background-color: #ff6767;
+    color: white;
+}
+
+/* 파일 선택부 */
+.fileInputContainer {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+}
+
+/* 기본 파일 입력 숨기기 */
+.hiddenInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* 커스텀 업로드 박스 */
+.customUploadBox {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.customUploadBox:active {
+    border: 2px dashed #ccc;
+    background-color: #f8f9fa;
+}
+
+/* 파일 이름 표시 숨기기 */
+input[type="file"]::file-selector-button {
+    display: none;
+}
+
+/* Chrome/Safari에서 파일 이름 숨기기 */
+.hiddenInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+/* Firefox에서 파일 이름 숨기기 */
+.hiddenInput::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*퀴즈 선택부*/
+.question {
+    display: flex;
+    column-gap: 5px;
+    align-items: flex-start;
+}
+
+/* 문제 부분 */
+
+.questionContainer {
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/*선택지 추가*/
+.answerAddButton {
+    border: none;
+    width: 100px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #ffe6a6;
+    cursor: pointer;
+    font-family: Pretendard-Bold, serif;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}
+
+.answerAddButton:hover {
+    transform: scale(1.08);
+}
+
+/*선택지*/
+.answerContainer {
+    display: flex;
+    flex-direction: column;
+    column-gap: 5px;
+    row-gap: 4px;
+
+    width: 100%;
+}
+
+/* 정답 목록 입력 */
+
+.answer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+    width: 100%;
+}
+
+.answerNumber {
+    width: 15px;
+    font-size: 18px;
+    font-family: Pretendard-Regular, serif;
+
+}
+
+.answerInput {
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    /* 기존 스타일 유지 */
+    border-radius: 4px; /* 둥근 모서리 */
+
+    font-size: 15px;
+}
+
+.answerDeleteButton {
+    background-color: var(--color-danger-background);
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+}
+
+.answerDeleteButton:hover {
+    background-color: var(--color-danger-hover);
+}
+
+.answerDeleteButton:hover > svg {
+    stroke: white;
+}
+
+/*선택지 추가*/
+.answerAddButton {
+    border: none;
+    width: 100px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #ffe6a6;
+    cursor: pointer;
+    font-family: Pretendard-Bold, serif;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}

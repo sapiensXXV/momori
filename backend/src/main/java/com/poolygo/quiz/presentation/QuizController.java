@@ -5,6 +5,7 @@ import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.global.resolver.DomainConfiguration;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
@@ -49,18 +50,34 @@ public class QuizController {
 
     @PostMapping("/mcq-img")
     public ResponseEntity<QuizCreateResponse> createImageMcqQuiz(
-        @RequestBody ImageMcqQuizCreateRequest createRequest,
+        @RequestBody ImageMcqQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
-        QuizCreateResponse createResponse = quizService.createImageMcqQuiz(createRequest, auth);
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
         URI quizUri = UriComponentsBuilder
-            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + createResponse.getQuizId())
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
             .build()
             .toUri();
 
         return ResponseEntity
             .created(quizUri)
-            .body(createResponse);
+            .body(response);
+    }
+
+    @PostMapping("/sub-img")
+    public ResponseEntity<QuizCreateResponse> createImageSubjectiveQuiz(
+        @RequestBody ImageSubQuizCreateRequest request,
+        @AuthenticateUser UserAuthDto auth
+    ) {
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
+            .build()
+            .toUri();
+
+        return ResponseEntity
+            .created(quizUri)
+            .body(response);
     }
 
     @PostMapping("/mcq-audio")
@@ -69,10 +86,6 @@ public class QuizController {
         return null;
     }
 
-    @PostMapping("/sub-img")
-    public ResponseEntity<QuizCreateResponse> createImageSubjectiveQuiz() {
-        return null;
-    }
 
     @PostMapping("/sub-audio")
     public ResponseEntity<QuizCreateResponse> createAudioSubjectiveQuiz() {

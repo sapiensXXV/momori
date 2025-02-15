@@ -3,42 +3,40 @@ import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {NewImageMcqQuestion} from "../../../../types/question.ts";
+import {
+  NewAudioMcqQuestion,
+  NewAudioSubjectiveQuestion,
+  NewImageBinaryQuestion,
+  NewImageMcqQuestion,
+  NewImageSubjectiveQuestion,
+} from "../../../../types/question.ts";
 import {PushDraftResponse} from "../../../../types/draft.ts";
+import draftApiMap from "../../../../global/api/draft.ts";
+import {
+  AudioMcqDraftQuestion, AudioSubDraftQuestion,
+  BaseDraftQuestion,
+  BaseDraftRequest, ImageBinaryDraftQuestion,
+  ImageMcqDraftQuestion,
+  ImageSubDraftQuestion
+} from "../../../../global/types/draft.ts";
+import {NewQuestionContextMapping} from "../../../../global/types/quizContextMapping.ts";
 
-interface ImageMcqDraftRequest {
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  type: QuizTypes;
-  formerDraftId: string | null;
-  questions: ImageMcqDraftQuestionRequest[];
+
+interface DraftButtonProps<T extends QuizTypes> {
+  quizType: T;
 }
 
-interface ImageMcqDraftQuestionRequest {
-  imageUrl: string;
-  choices: ImageMcqDraftChoiceRequest[];
-}
+const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => {
 
-interface ImageMcqDraftChoiceRequest {
-  content: string;
-  answer: boolean;
-}
-
-const DraftButton = () => {
-
-  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewImageMcqQuestion>()
-
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewQuestionContextMapping[T]>();
   const pushDraft = async () => {
-    console.log('draft quiz button clicked')
     const request = makeDraftRequest();
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
-        `/api/quizzes/draft/image-mcq`,
+        draftApiMap[quizType],
         request
       );
-
       setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
       alert('임시저장 성공');
     } catch (error) {
@@ -50,31 +48,71 @@ const DraftButton = () => {
     setDraftModal(true);
   }
 
-  const makeDraftRequest = () => {
-    const request: ImageMcqDraftRequest = {
+  const makeDraftRequest = (): BaseDraftRequest => {
+    return {
       title: metadata.title ?? "제목 없음",
       thumbnailUrl: metadata.thumbnailUrl,
       description: metadata.description ?? "설명 없음",
       formerDraftId: metadata.formerDraftId,
-      type: QuizTypes.IMAGE_MCQ,
-      questions: makeDraftQuestionRequest(),
+      type: quizType,
+      questions: makeDraftQuestionRequest(), // 오류 없애는 방법? 코딩만 잘했다면 없애지 안아도 되긴 함.
+    };
+  }
+
+  const makeDraftQuestionRequest = (): BaseDraftQuestion[] => {
+    if (quizType === QuizTypes.IMAGE_MCQ) {
+      return questions
+        .map((question) => question as NewImageMcqQuestion)
+        .map((question): ImageMcqDraftQuestion => ({
+          imageUrl: question.imageUrl,
+          choices: question.choices.map((choice) => ({
+            content: choice.content,
+            answer: choice.answer
+          }))
+        }))
+    } else if (quizType === QuizTypes.IMAGE_SUBJECTIVE) {
+      return questions
+        .map((question) => question as NewImageSubjectiveQuestion)
+        .map((question): ImageSubDraftQuestion => ({
+          imageUrl: question.imageUrl,
+          answers: question.answers
+        }));
+    } else if (quizType === QuizTypes.AUDIO_MCQ) {
+      return questions
+        .map((question) => question as NewAudioMcqQuestion)
+        .map((question): AudioMcqDraftQuestion => ({
+          audioUrl: question.audioUrl,
+          choices: question.choices.map((choice) => ({
+            content: choice.content,
+            answer: choice.answer
+          }))
+        }));
+    } else if (quizType === QuizTypes.AUDIO_SUBJECTIVE) {
+      return questions
+        .map((question) => question as NewAudioSubjectiveQuestion)
+        .map((question): AudioSubDraftQuestion => ({
+          audioUrl: question.audioUrl,
+          answers: question.answers
+        }))
+    } else if (quizType === QuizTypes.BINARY_CHOICE) {
+      return questions
+        .map((question) => question as NewImageBinaryQuestion)
+        .map((question): ImageBinaryDraftQuestion => ({
+          first: {
+            imageUrl: question.first.imageUrl,
+            description: question.first.description,
+            answer: question.first.answer
+          },
+          second: {
+            imageUrl: question.second.imageUrl,
+            description: question.second.description,
+            answer: question.second.answer
+          }
+        }))
+    } else {
+      console.log(quizType);
+      throw new Error("지원되지 않는 퀴즈 타입입니다");
     }
-    return request;
-  }
-
-  const makeDraftQuestionRequest = () => {
-    return questions.map((question) => {
-      return {
-        imageUrl: question.imageUrl,
-        choices: makeDraftChoiceRequest(question),
-      }
-    })
-  }
-
-  const makeDraftChoiceRequest = (question: NewImageMcqQuestion) => {
-    return question.choices.map((choice) => {
-      return {content: choice.content, answer: choice.answer}
-    });
   }
 
   return (

@@ -4,10 +4,12 @@ package com.poolygo.quizdraft.presentation;
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.quizdraft.application.QuizDraftService;
-import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
-import com.poolygo.quizdraft.presentation.dto.response.CreateDraftResponse;
-import com.poolygo.quizdraft.presentation.dto.response.DraftImageMcqResponse;
-import com.poolygo.quizdraft.presentation.dto.response.DraftInfoResponse;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.CreateDraftResponse;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
+import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +26,16 @@ public class QuizDraftController {
     private final QuizDraftService quizDraftService;
 
     @GetMapping("/draft")
-    public ResponseEntity<List<DraftInfoResponse>> simpleDraftInfo(
+    public ResponseEntity<List<DraftSimpleResponse>> simpleDraftInfo(
         @AuthenticateUser UserAuthDto auth
     ) {
-        List<DraftInfoResponse> findList = quizDraftService.findSimpleByAuth(auth.getIdentifier(), auth.getProvider());
+        List<DraftSimpleResponse> findList = quizDraftService.findSimpleByAuth(auth.getIdentifier(), auth.getProvider());
         return ResponseEntity.ok(findList);
     }
 
     @PostMapping("/draft/image-mcq")
     public ResponseEntity<CreateDraftResponse> createImageMcqDraft(
-        @RequestBody CreateDraftImageMcqQuizRequest request,
+        @RequestBody DraftImageMcqQuizRequest request,
         @AuthenticateUser UserAuthDto userInfo
         ) {
         String id = quizDraftService.saveOrUpdateDraft(request, userInfo.getIdentifier(), userInfo.getProvider());
@@ -41,11 +43,11 @@ public class QuizDraftController {
     }
 
     @GetMapping("/draft/image-mcq")
-    public ResponseEntity<DraftImageMcqResponse> imageMcqDraft(
+    public ResponseEntity<DraftImageMcqDetailResponse> imageMcqDraft(
         @RequestParam("draftId") String draftId,
         @AuthenticateUser UserAuthDto userInfo
     ) {
-        DraftImageMcqResponse findDraft = quizDraftService.findOneImageMcqDraft(
+        DraftImageMcqDetailResponse findDraft = quizDraftService.findOneImageMcqDraft(
             draftId,
             userInfo.getIdentifier(),
             userInfo.getProvider()
@@ -55,8 +57,21 @@ public class QuizDraftController {
     }
 
     @PostMapping("/draft/image-sub")
-    public ResponseEntity<CreateDraftResponse> createImageSubDraft() {
-        return null;
+    public ResponseEntity<CreateDraftResponse> createImageSubDraft(
+        @RequestBody DraftImageSubQuizRequest request,
+        @AuthenticateUser UserAuthDto userInfo
+    ) {
+        String id = quizDraftService.saveOrUpdateDraft(request, userInfo.getIdentifier(), userInfo.getProvider());
+        return ResponseEntity.ok(CreateDraftResponse.success(id));
+    }
+
+    @GetMapping("/draft/image-sub")
+    public ResponseEntity<DraftImageSubQuizResponse> imageSubDraft(
+        @RequestParam("draftId") String draftId,
+        @AuthenticateUser UserAuthDto auth
+    ) {
+        DraftImageSubQuizResponse findDraft = quizDraftService.findOneImageSubDraft(draftId, auth.getIdentifier(), auth.getProvider());
+        return ResponseEntity.ok(findDraft);
     }
 
     @PostMapping("/draft/audio-mcq")
@@ -69,7 +84,7 @@ public class QuizDraftController {
         return null;
     }
 
-    @PostMapping("/draft/binary")
+    @PostMapping("/draft/image-binary")
     public ResponseEntity<CreateDraftResponse> draftBinary() {
         return null;
     }

@@ -39,11 +39,13 @@ public class TestController {
         return "this is for everyone";
     }
 
+
+    // TODO: 테스트 엔드 포인트 막을 것.
     @PostMapping("/quiz")
     public ResponseEntity<String> createQuizTestEndpoint(
         @RequestBody ImageMcqQuizCreateRequest createRequest
     ) {
-        QuizCreateResponse createdQuiz = quizService.createImageMcqQuiz(createRequest, null);
+        QuizCreateResponse createdQuiz = quizService.createQuiz(createRequest, null);
         URI createdUri = UriComponentsBuilder
             .fromUriString("http://localhost:8080/quiz/" + createdQuiz.getQuizId())
             .build()

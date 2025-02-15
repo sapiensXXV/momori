@@ -1,12 +1,17 @@
 package com.poolygo.quizdraft.domain.factory;
 
+import com.poolygo.global.exception.DraftException;
+import com.poolygo.global.exception.ExceptionCode;
 import com.poolygo.quiz.domain.QuizType;
 import com.poolygo.quiz.domain.factory.UserInfoFactory;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
-import com.poolygo.quizdraft.presentation.dto.request.CreateDraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.DraftRequest;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuizRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -19,16 +24,45 @@ public class QuizDraftFactory {
     private final UserInfoFactory userInfoFactory;
 
     public QuizDraft from(
-        final CreateDraftImageMcqQuizRequest request,
+        final DraftRequest request,
+        final String identifier,
+        final String provider
+    ) {
+
+        QuizType type = QuizType.from(request.getType());
+        switch (type) {
+            case IMAGE_MCQ -> {
+                return fromImageMcqQuizDraft((DraftImageMcqQuizRequest) request, identifier, provider);
+            }
+            case IMAGE_SUBJECTIVE -> {
+                return fromImageSubQuizDraft((DraftImageSubQuizRequest) request, identifier, provider);
+            }
+            // TODO: 나머지 퀴즈 타입 구현
+            case AUDIO_MCQ -> {
+
+            }
+            case AUDIO_SUBJECTIVE -> {
+
+            }
+            case BINARY_CHOICE -> {
+
+            }
+        }
+
+        throw new DraftException(ExceptionCode.DRAFT_SAVE_FAIL);
+    }
+
+    public QuizDraft fromImageMcqQuizDraft(
+        final DraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {
-
         List<QuestionDraft> questions = request.getQuestions().stream()
             .map(questionDraftFactory::from)
             .toList();
 
         return QuizDraft.builder()
+            .id(StringUtils.hasText(request.getFormerDraftId()) ? request.getFormerDraftId() : null)
             .title(request.getTitle())
             .thumbnailUrl(request.getThumbnailUrl())
             .description(request.getDescription())
@@ -38,9 +72,8 @@ public class QuizDraftFactory {
             .build();
     }
 
-    public QuizDraft from(
-        final String id,
-        final CreateDraftImageMcqQuizRequest request,
+    public QuizDraft fromImageSubQuizDraft(
+        final DraftImageSubQuizRequest request,
         final String userIdentifier,
         final String userProvider
     ) {
@@ -49,7 +82,7 @@ public class QuizDraftFactory {
             .toList();
 
         return QuizDraft.builder()
-            .id(id)
+            .id(StringUtils.hasText(request.getFormerDraftId()) ? request.getFormerDraftId() : null)
             .title(request.getTitle())
             .thumbnailUrl(request.getThumbnailUrl())
             .description(request.getDescription())

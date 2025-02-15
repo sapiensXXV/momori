@@ -6,7 +6,7 @@ export enum QuizTypes {
   BINARY_CHOICE = "BINARY_CHOICE",
 }
 
-export const getQuizTypeFrom = (name: string) => {
+export const getQuizTypeFrom = (name: string): QuizTypes => {
   switch (name.toUpperCase()) {
     case "IMAGE_MCQ":
       return QuizTypes.IMAGE_MCQ;
@@ -19,4 +19,5 @@ export const getQuizTypeFrom = (name: string) => {
     case "BINARY_CHOICE":
       return QuizTypes.BINARY_CHOICE;
   }
+  return QuizTypes.IMAGE_MCQ;
 }

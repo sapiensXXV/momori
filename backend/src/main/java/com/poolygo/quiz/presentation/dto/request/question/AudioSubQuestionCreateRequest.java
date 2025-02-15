@@ -1,11 +1,14 @@
 package com.poolygo.quiz.presentation.dto.request.question;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-public class ImageSubjectiveQuestionCreateRequest {
-    private String imageUrl;
+@AllArgsConstructor
+public class AudioSubQuestionCreateRequest {
+
+    private String audioUrl;
     private List<String> answers;
 }

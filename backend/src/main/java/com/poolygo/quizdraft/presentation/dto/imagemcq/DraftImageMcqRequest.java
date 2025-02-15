@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto.request;
+package com.poolygo.quizdraft.presentation.dto.imagemcq;
 
 
 import lombok.AllArgsConstructor;
