@@ -4,16 +4,21 @@ import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {
-  ImageUploadStatus,
   NewAudioMcqQuestion,
   NewAudioSubjectiveQuestion,
   NewImageBinaryQuestion,
   NewImageMcqQuestion,
   NewImageSubjectiveQuestion,
-  NewQuestionTypes
 } from "../../../../types/question.ts";
 import {PushDraftResponse} from "../../../../types/draft.ts";
 import draftApiMap from "../../../../global/api/draft.ts";
+import {
+  AudioMcqDraftQuestion, AudioSubDraftQuestion,
+  BaseDraftQuestion,
+  BaseDraftRequest, ImageBinaryDraftQuestion,
+  ImageMcqDraftQuestion,
+  ImageSubDraftQuestion
+} from "../../../../global/types/draft.ts";
 
 
 interface DraftButtonProps<T extends QuizTypes> {
@@ -28,76 +33,17 @@ interface QuizContextMapping {
   [QuizTypes.BINARY_CHOICE]: NewImageBinaryQuestion;
 }
 
-// 임시저장 문제끼리 공통으로 가지는 프로퍼티가 없기 때문에 Union Type 으로 선언
-type BaseDraftQuestion =
-  | ImageMcqDraftQuestion
-  | ImageSubDraftQuestion
-  | AudioMcqDraftQuestion
-  | AudioSubDraftQuestion
-  | ImageBinaryDraftQuestion;
-
-interface ImageMcqDraftQuestion {
-  imageUrl: string;
-  choices: {
-    content: string;
-    answer: boolean;
-  }[]
-}
-interface ImageSubDraftQuestion {
-  imageUrl: string;
-  answers: string[];
-}
-
-interface AudioMcqDraftQuestion {
-  audioUrl: string;
-  choices: {
-    content: string;
-    answer: boolean;
-  }[]
-}
-
-interface AudioSubDraftQuestion {
-  audioUrl: string;
-  answers: string[];
-}
-
-interface ImageBinaryDraftQuestion {
-  first: {
-    imageUrl: string;
-    description: string;
-    answer: boolean;
-  };
-  second: {
-    imageUrl: string;
-    description: string;
-    answer: boolean;
-  };
-}
-
-interface BaseDraftRequest {
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  type: QuizTypes;
-  formerDraftId: string | null;
-  questions: BaseDraftQuestion[];
-}
-
 const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => {
 
   const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<QuizContextMapping[T]>();
   const pushDraft = async () => {
-    console.log('draft quiz button clicked')
     const request = makeDraftRequest();
-    console.log(request);
-    console.log(draftApiMap[quizType]);
     try {
       // 이미지 임시 저장 요청
       const response = await axiosJwtInstance.post<PushDraftResponse>(
         draftApiMap[quizType],
         request
       );
-
       setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
       alert('임시저장 성공');
     } catch (error) {
