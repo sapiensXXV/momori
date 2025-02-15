@@ -16,7 +16,7 @@ type SearchCondition = {
   nextPage: number;
   searchTerm: string;
   size: number;
-  type: SearchType | null;
+  type: SearchType;
   isLastPage: boolean
 }
 
@@ -75,7 +75,8 @@ export default function QuizGrid() {
 
   const typeChange = (selectType: SearchType) => {
     if (selectType === searchCondition.type) {
-      setSearchCondition(prev => ({...prev, type: null}));
+      // 아무것도 선택된 것이 없으면 '인기순'으로 검색
+      setSearchCondition(prev => ({...prev, type: SearchType.POPULAR}));
     } else {
       setSearchCondition(prev => ({...prev, type: selectType}));
     }

@@ -37,7 +37,7 @@ public class AuthJwtTokenUtil {
                 .getPayload();
 
             Date expiration = claims.getExpiration();
-            if (expiration == null || expiration.after(new Date())) {
+            if (expiration == null || expiration.before(new Date())) {
                 throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
             }
 
@@ -63,7 +63,7 @@ public class AuthJwtTokenUtil {
                 .getPayload();
 
             Date expiration = claims.getExpiration();
-            if (expiration == null || expiration.after(new Date())) {
+            if (expiration == null || expiration.before(new Date())) {
                 throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
             }
 

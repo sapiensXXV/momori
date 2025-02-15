@@ -1,14 +1,24 @@
 package com.poolygo.quiz.presentation.dto.request.quiz;
 
 import com.poolygo.quiz.presentation.dto.request.question.AudioSubQuestionCreateRequest;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 
 @Getter
-@AllArgsConstructor
 public class AudioSubQuizCreateRequest extends QuizCreateRequest {
     List<AudioSubQuestionCreateRequest> questions;
+
+    public AudioSubQuizCreateRequest(
+        final String title,
+        final String draftId,
+        final String thumbnailUrl,
+        final String description,
+        final String type,
+        final List<AudioSubQuestionCreateRequest> questions
+    ) {
+        super(title, draftId, thumbnailUrl, description, type);
+        this.questions = questions;
+    }
 }

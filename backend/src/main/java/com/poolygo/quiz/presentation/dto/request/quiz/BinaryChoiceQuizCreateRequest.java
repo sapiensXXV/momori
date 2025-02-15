@@ -1,15 +1,25 @@
 package com.poolygo.quiz.presentation.dto.request.quiz;
 
 import com.poolygo.quiz.presentation.dto.request.question.BinaryChoiceQuestionCreateRequest;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 
 @Getter
-@AllArgsConstructor
 public class BinaryChoiceQuizCreateRequest extends QuizCreateRequest {
 
     private List<BinaryChoiceQuestionCreateRequest> questions;
+
+    public BinaryChoiceQuizCreateRequest(
+        final String title,
+        final String draftId,
+        final String thumbnailUrl,
+        final String description,
+        final String type,
+        final List<BinaryChoiceQuestionCreateRequest> questions
+    ) {
+        super(title, draftId, thumbnailUrl, description, type);
+        this.questions = questions;
+    }
 }

@@ -27,6 +27,7 @@ const AddImageMcqQuestionButton = <T extends QuizTypes>({ quizType }: AddImageMc
   const {setQuestions} = useQuizContext<NewQuestionContextMapping[T]>();
 
   const addQuestion = (e: React.MouseEvent) => {
+    // TODO: 퀴즈 타입별로 Questions 데이터 설정
     // e.preventDefault();
     // setQuestions(prev => {
     //   return [...prev, {

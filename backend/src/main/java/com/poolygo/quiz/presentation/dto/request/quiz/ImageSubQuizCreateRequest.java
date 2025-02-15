@@ -8,9 +8,19 @@ import java.util.List;
 
 
 @Getter
-@AllArgsConstructor
 public class ImageSubQuizCreateRequest extends QuizCreateRequest {
 
-    private List<ImageSubQuestionCreateRequest> questions;
+    private final List<ImageSubQuestionCreateRequest> questions;
 
+    public ImageSubQuizCreateRequest(
+        final String title,
+        final String draftId,
+        final String thumbnailUrl,
+        final String description,
+        final String type,
+        final List<ImageSubQuestionCreateRequest> questions
+    ) {
+        super(title, draftId, thumbnailUrl, description, type);
+        this.questions = questions;
+    }
 }

@@ -20,7 +20,7 @@ const QuizCreateButton = () => {
       )
 
       console.log(response);
-      // navigate('/') // 성공 시 홈화면으로 이동
+      navigate('/') // 성공 시 홈화면으로 이동
     } catch (error) {
       handleError(error);
     }
