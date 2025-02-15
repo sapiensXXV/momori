@@ -32,10 +32,10 @@ public class QuizDraftFactory {
         QuizType type = QuizType.from(request.getType());
         switch (type) {
             case IMAGE_MCQ -> {
-                return toImageMcqQuizDraft((DraftImageMcqQuizRequest) request, identifier, provider);
+                return fromImageMcqQuizDraft((DraftImageMcqQuizRequest) request, identifier, provider);
             }
             case IMAGE_SUBJECTIVE -> {
-                return toImageSubQuizDraft((DraftImageSubQuizRequest) request, identifier, provider);
+                return fromImageSubQuizDraft((DraftImageSubQuizRequest) request, identifier, provider);
             }
             // TODO: 나머지 퀴즈 타입 구현
             case AUDIO_MCQ -> {
@@ -52,7 +52,7 @@ public class QuizDraftFactory {
         throw new DraftException(ExceptionCode.DRAFT_SAVE_FAIL);
     }
 
-    public QuizDraft toImageMcqQuizDraft(
+    public QuizDraft fromImageMcqQuizDraft(
         final DraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
@@ -72,7 +72,7 @@ public class QuizDraftFactory {
             .build();
     }
 
-    public QuizDraft toImageSubQuizDraft(
+    public QuizDraft fromImageSubQuizDraft(
         final DraftImageSubQuizRequest request,
         final String userIdentifier,
         final String userProvider

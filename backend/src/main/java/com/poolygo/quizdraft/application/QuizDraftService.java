@@ -6,13 +6,15 @@ import com.poolygo.quizdraft.domain.ImageMcqChoiceDraft;
 import com.poolygo.quizdraft.domain.ImageMcqQuestionDraft;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
+import com.poolygo.quizdraft.domain.factory.QuizDraftDtoFactory;
 import com.poolygo.quizdraft.domain.factory.QuizDraftFactory;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.quizdraft.presentation.dto.DraftRequest;
+import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqChoiceResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqQuestionResponse;
-import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class QuizDraftService {
 
     private final QuizDraftFactory draftFactory;
     private final QuizDraftRepository quizDraftRepository;
+    private final QuizDraftDtoFactory quizDraftDtoFactory;
 
     public DraftImageMcqDetailResponse findOneImageMcqDraft(
         final String draftId,
@@ -51,6 +54,17 @@ public class QuizDraftService {
         );
     }
 
+    public DraftImageSubDetailResponse findOneImageSubDraft(
+        final String draftId,
+        final String userIdentifier,
+        final String provider
+    ) {
+        QuizDraft findDraft = quizDraftRepository.findByIdAndUserInfo(draftId, userIdentifier, provider)
+            .orElseThrow(() -> new DraftException(ExceptionCode.INVALID_DRAFT_ID));
+
+        return quizDraftDtoFactory.toDraftImageSubDetailResponse(findDraft);
+    }
+
     private Optional<DraftImageMcqQuestionResponse> convertToQuestionResponse(QuestionDraft d) {
         if (d instanceof ImageMcqQuestionDraft draft) {
             List<DraftImageMcqChoiceResponse> choices = draft.getChoices().stream()
@@ -63,8 +77,6 @@ public class QuizDraftService {
         }
         return Optional.empty();
     }
-
-
 
     private Optional<DraftImageMcqChoiceResponse> convertToChoiceResponse(ImageMcqChoiceDraft choice) {
         return Optional.of(DraftImageMcqChoiceResponse.of(choice.getContent(), choice.isAnswer()));
@@ -91,6 +103,7 @@ public class QuizDraftService {
         quizDraftRepository.save(savedDraft);
         return savedDraft.getId();
     }
+
 
 
 }
