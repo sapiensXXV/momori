@@ -1,9 +1,27 @@
 import classes from '../common/AddQuestionButton.module.css'
 import React from "react";
-import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
+import {
+  NewImageMcqQuestion,
+  ImageUploadStatus,
+  NewImageSubjectiveQuestion,
+  NewAudioMcqQuestion, NewAudioSubjectiveQuestion, NewImageBinaryQuestion
+} from "../../../../types/question.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
+import {QuizTypes} from "../../types/Quiz.types.ts";
 
-const AddImageMcqQuestionButton = () => {
+interface AddImageMcqQuestionButtonProps<T extends QuizTypes> {
+  quizType: T;
+}
+
+interface QuizContextMapping {
+  [QuizTypes.IMAGE_MCQ]: NewImageMcqQuestion;
+  [QuizTypes.IMAGE_SUBJECTIVE]: NewImageSubjectiveQuestion;
+  [QuizTypes.AUDIO_MCQ]: NewAudioMcqQuestion;
+  [QuizTypes.AUDIO_SUBJECTIVE]: NewAudioSubjectiveQuestion;
+  [QuizTypes.BINARY_CHOICE]: NewImageBinaryQuestion;
+}
+
+const AddImageMcqQuestionButton = <T extends QuizTypes>({ quizType }: AddImageMcqQuestionButtonProps<T>) => {
 
   const {setQuestions} = useQuizContext<NewImageMcqQuestion>()
 

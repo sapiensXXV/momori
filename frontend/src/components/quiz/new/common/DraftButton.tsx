@@ -19,23 +19,16 @@ import {
   ImageMcqDraftQuestion,
   ImageSubDraftQuestion
 } from "../../../../global/types/draft.ts";
+import {NewQuestionContextMapping} from "../../../../global/types/quizContextMapping.ts";
 
 
 interface DraftButtonProps<T extends QuizTypes> {
   quizType: T;
 }
 
-interface QuizContextMapping {
-  [QuizTypes.IMAGE_MCQ]: NewImageMcqQuestion;
-  [QuizTypes.IMAGE_SUBJECTIVE]: NewImageSubjectiveQuestion;
-  [QuizTypes.AUDIO_MCQ]: NewAudioMcqQuestion;
-  [QuizTypes.AUDIO_SUBJECTIVE]: NewAudioSubjectiveQuestion;
-  [QuizTypes.BINARY_CHOICE]: NewImageBinaryQuestion;
-}
-
 const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => {
 
-  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<QuizContextMapping[T]>();
+  const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewQuestionContextMapping[T]>();
   const pushDraft = async () => {
     const request = makeDraftRequest();
     try {
