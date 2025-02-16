@@ -29,6 +29,7 @@ public class ImageSubQuizMappingStrategy implements QuizMappingStrategy {
         return QuizDetailResponse.builder()
             .id(quiz.getId())
             .title(quiz.getTitle())
+            .thumbnailUrl(quiz.getThumbnailUrl())
             .description(quiz.getDescription())
             .type(quiz.getType().name())
             .questions(questions)

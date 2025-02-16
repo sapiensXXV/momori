@@ -58,11 +58,11 @@ public class QuestionFactory {
     }
 
     // TODO: 오디오-주관식, 이지선다 Question 팩토리 메서드 작성.
-    public AudioSubjectiveQuestion from(final AudioSubQuestionCreateRequest request) {
+    public AudioSubQuestion from(final AudioSubQuestionCreateRequest request) {
         String audioUrl = request.getAudioUrl();
         List<String> answers = request.getAnswers();
 
-        return new AudioSubjectiveQuestion(audioUrl, answers);
+        return new AudioSubQuestion(audioUrl, answers);
     }
 
     public BinaryChoiceQuestion from(final BinaryChoiceQuestionCreateRequest request) {

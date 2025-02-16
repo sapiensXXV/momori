@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.TypeAlias;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AudioSubjectiveQuestion extends Question {
+@TypeAlias("audioSubQuestion")
+public class AudioSubQuestion extends Question {
     private String audioUrl;
     private List<String> answers;
 

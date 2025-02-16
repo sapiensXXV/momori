@@ -1,5 +1,5 @@
 import classes from './QuizResultPage.module.css'
-import {QuizAttemptRecord} from "../QuizPage.tsx";
+import {McqQuizAttemptRecord, SubQuizAttemptRecord} from "../QuizPage.tsx";
 import {FC, useEffect, useRef} from "react";
 import {Chart, ChartConfiguration, Colors, registerables} from "chart.js";
 import {calculatePercentile} from "../../../../global/util/percent.tsx";
@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
-  record: QuizAttemptRecord;
+  record: McqQuizAttemptRecord | SubQuizAttemptRecord;
   distribution: number[];
 }
 
@@ -20,6 +20,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(record);
     // 차트 생성
     if (!chartRef.current) return;
     const ctx = chartRef.current.getContext("2d")

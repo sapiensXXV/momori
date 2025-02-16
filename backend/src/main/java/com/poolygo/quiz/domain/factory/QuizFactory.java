@@ -78,7 +78,7 @@ public class QuizFactory {
     }
 
     public Quiz from(AudioSubQuizCreateRequest request, UserAuthDto auth) {
-        List<AudioSubjectiveQuestion> questions = request.getQuestions().stream()
+        List<AudioSubQuestion> questions = request.getQuestions().stream()
             .map(questionFactory::from)
             .toList();
 

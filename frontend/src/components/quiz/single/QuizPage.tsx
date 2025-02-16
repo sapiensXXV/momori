@@ -5,7 +5,12 @@ import {handleError} from "../../../global/error/error.ts";
 import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
-import {DetailQuestion, ImageMcqDetailQuestion} from "../../../types/question.ts";
+import {
+  DetailQuestion,
+  ImageMcqDetailQuestion,
+  ImageSubjectiveDetailQuestion,
+  ImageSubjectiveQuestion
+} from "../../../types/question.ts";
 import {getRandomElements} from "../../../global/util/random.ts";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqQuestionPage from "./question/ImageMcqQuestionPage.tsx";
@@ -28,7 +33,7 @@ enum QuizPageType {
   RESULT = "result",
 }
 
-export type QuizAttemptRecord = {
+export type McqQuizAttemptRecord = {
   quizId: string;
   type: QuizTypes;
   questions: {
@@ -38,7 +43,23 @@ export type QuizAttemptRecord = {
   }[];
 }
 
-const initAttemptRecord: QuizAttemptRecord = {
+export type SubQuizAttemptRecord = {
+  quizId: string;
+  type: QuizTypes;
+  questions: {
+    questionId: string;
+    isCorrect: boolean;
+    userInput: string; // 사용자가 입력한 정답.
+  }[];
+}
+
+const mcqInitAttemptRecord: McqQuizAttemptRecord = {
+  quizId: "quiz_id",
+  type: QuizTypes.IMAGE_MCQ,
+  questions: []
+}
+
+const subInitAttemptRecord: SubQuizAttemptRecord = {
   quizId: "quiz_id",
   type: QuizTypes.IMAGE_MCQ,
   questions: []
@@ -51,17 +72,24 @@ const QuizPage = () => {
   const [chosenQuestions, setChosenQuestions] = useState<DetailQuestion[]>([]);
   const [current, setCurrent] = useState(0); // 현재 퀴즈 번호
   const [correct, setCorrect] = useState<boolean>(false)
-  const [userSelect, setUserSelect] = useState<number>(0);
-  const record = useRef<QuizAttemptRecord>(initAttemptRecord); // 퀴즈가 끝난후 서버에 전달. 통계용으로 사용
+  const [userSelect, setUserSelect] = useState<number>(0); // 사용자가 선택한 객관식 답안 번호
+  const [userInput, setUserInput] = useState<string>(""); // 사용자가 입력한 주관식 답안
+
+  const mcqRecord = useRef<McqQuizAttemptRecord>(mcqInitAttemptRecord); // 객관식 퀴즈가 끝난 후 결과를 표시하고 통계용으로 서버에 전달하는 데 사용
+  const subRecord = useRef<SubQuizAttemptRecord>(subInitAttemptRecord); // 주관식 퀴즈가 끝난 후 결과를 표시하고 통계용으로 서버에 전달하는 데 사용
+
 
   const {quizId} = useParams();
 
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
+        console.log(response.data);
         setQuiz(response.data);
-        record.current.quizId = response.data.id; // 퀴즈 ID 저장
-        record.current.type = response.data.type
+        mcqRecord.current.quizId = response.data.id; // 퀴즈 ID 저장
+        mcqRecord.current.type = response.data.type
+        subRecord.current.quizId = response.data.id; // 퀴즈 ID 저장
+        subRecord.current.type = response.data.type
       })
       .catch((error) => {
         // console.log(error);
@@ -76,6 +104,16 @@ const QuizPage = () => {
     setChosenQuestions(randomQuestions);
     // 2. pageType 을 QUESTION 으로 전환
     setPageType(QuizPageType.QUESTION);
+  }
+
+  const getQuizRecord = () => {
+    if (quiz.type === QuizTypes.IMAGE_MCQ || quiz.type === QuizTypes.AUDIO_MCQ) {
+      return mcqRecord.current;
+    } else if (quiz.type === QuizTypes.AUDIO_SUBJECTIVE || quiz.type === QuizTypes.IMAGE_SUBJECTIVE) {
+      return subRecord.current;
+    }
+    // TODO: 이지선다 퀴즈기록 반환 (이지선다 퀴즈 용 새로운 useRef 를 정의해야함.)
+    return mcqRecord.current;
   }
 
   const selectComponent = () => {
@@ -93,8 +131,7 @@ const QuizPage = () => {
       case QuizPageType.QUESTION_RESULT:
         return selectQuestionResultComponent();
       case QuizPageType.RESULT:
-        return <QuizResultPage quizId={quizId} record={record.current} distribution={quiz.scoreDistribution} />;
-        // return <QuizResultPage quizId={quizId} record={record.current} distribution={[10, 23, 44, 56, 102, 177, 150, 100, 30, 10]} />;
+        return <QuizResultPage quizId={quizId} record={getQuizRecord()} distribution={quiz.scoreDistribution} />;
     }
   }
 
@@ -102,11 +139,11 @@ const QuizPage = () => {
     // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserSelect(userSelect);
-    // 객관식, 주관식, 이미지, 오디오 각각 결결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
+    // 객관식, 주관식, 이미지, 오디오 각각 결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
       // 정답 선택 로직
       setCorrect(true);
-      record.current.questions.push({
+      mcqRecord.current.questions.push({
           questionId: chosenQuestions[current].questionId,
           isCorrect: true,
           choices: [selectedIndex]
@@ -114,10 +151,36 @@ const QuizPage = () => {
     } else {
       // 오답 선택 로직
       setCorrect(false);
-      record.current.questions.push({
+      mcqRecord.current.questions.push({
         questionId: chosenQuestions[current].questionId,
         isCorrect: false,
         choices: [selectedIndex]
+      })
+    }
+  }
+
+  // 주관식 문제를 제출하고, 사용자의 입력과 결과를 받아오는 메서드
+  // - 문제 결과 페이지에서 표시될 상태 데이터를 설정한다.
+  // - 퀴즈 결과 페이지에서 사용될 기록(record)를 기록한다.
+  const submitSubQuestion = (isCorrect: boolean, userInput: string) => {
+    console.log('submitSubQuestion');
+    setPageType(QuizPageType.QUESTION_RESULT);
+    setUserInput(userInput);
+    if (isCorrect) {
+      // 정답을 맞추었을 경우
+      setCorrect(true);
+      subRecord.current.questions.push({
+        questionId: chosenQuestions[current].questionId,
+        isCorrect: true,
+        userInput: userInput
+      })
+    } else {
+      // 오답일 경우
+      setCorrect(false);
+      subRecord.current.questions.push({
+        questionId: chosenQuestions[current].questionId,
+        isCorrect: false,
+        userInput: userInput
       })
     }
   }
@@ -144,7 +207,10 @@ const QuizPage = () => {
           afterSubmit={submitMcqQuestion}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
-        return <ImageSubjectiveQuestionPage/>
+        return <ImageSubjectiveQuestionPage
+          question={chosenQuestions[current] as ImageSubjectiveDetailQuestion}
+          afterSubmit={submitSubQuestion}
+        />
       case QuizTypes.AUDIO_MCQ:
         return <AudioMcqQuestionPage/>
       case QuizTypes.AUDIO_SUBJECTIVE:
@@ -165,7 +231,12 @@ const QuizPage = () => {
           userSelect={userSelect}
         />
       case QuizTypes.IMAGE_SUBJECTIVE:
-        return <ImageSubjectiveQuestionResultPage/>
+        return <ImageSubjectiveQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as ImageSubjectiveDetailQuestion}
+          nextQuestion={nextQuestion}
+          userInput={userInput}
+        />
       case QuizTypes.AUDIO_MCQ:
         return <AudioMcqQuestionResultPage/>
       case QuizTypes.AUDIO_SUBJECTIVE:

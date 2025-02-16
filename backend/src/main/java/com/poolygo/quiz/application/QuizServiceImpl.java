@@ -200,7 +200,7 @@ public class QuizServiceImpl implements QuizService {
                 case IMAGE_MCQ -> matchedQuestion = (ImageMcqQuestion) matchedQuestion;
                 case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubQuestion) matchedQuestion;
                 case AUDIO_MCQ -> matchedQuestion = (AudioMcqQuestion) matchedQuestion;
-                case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubjectiveQuestion) matchedQuestion;
+                case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubQuestion) matchedQuestion;
                 case BINARY_CHOICE -> matchedQuestion = (BinaryChoiceQuestion) matchedQuestion;
             }
 
