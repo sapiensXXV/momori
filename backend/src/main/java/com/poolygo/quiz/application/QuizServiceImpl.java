@@ -233,14 +233,14 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private void recordAudioMcqQuizResult(AudioMcqQuizResultRequest request) {
-
+        // TODO: 오디오-객관식 결과 저장
     }
 
     private void recordAudioSubQuizResult(AudioSubQuizResultRequest request) {
-
+        // TODO: 오디오-주관식 결과 저장
     }
 
     private void recordImageBinaryQuizResult(ImageBinaryQuizResultRequest request) {
-
+        // TODO: 이미지-이지선다 결과 저장
     }
 }

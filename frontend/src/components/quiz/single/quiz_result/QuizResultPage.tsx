@@ -6,6 +6,8 @@ import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useNavigate} from "react-router-dom";
+import quizResult from "../../../../global/api/quizResult.ts";
+import quizResultApiMap from "../../../../global/api/quizResult.ts";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
@@ -78,7 +80,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
     console.log(record);
     // 퀴즈 결과 데이터 서버로 전달
     axiosJwtInstance.post(
-      '/api/quiz/result',
+      quizResultApiMap[record.type],
       {
         quizId: quizId,
         score: calculateScore(),
