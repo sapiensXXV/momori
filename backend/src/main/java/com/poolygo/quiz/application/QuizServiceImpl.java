@@ -13,9 +13,7 @@ import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
-import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
-import com.poolygo.quiz.presentation.dto.result.ImageSubQuizResultRequest;
-import com.poolygo.quiz.presentation.dto.result.QuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.*;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
@@ -186,9 +184,9 @@ public class QuizServiceImpl implements QuizService {
         switch (type) {
             case IMAGE_MCQ -> recordImageMcqQuizResult((ImageMcqQuizResultRequest) request);
             case IMAGE_SUBJECTIVE -> recordImageSubQuizResult((ImageSubQuizResultRequest) request);
-            case AUDIO_MCQ ->
-            case AUDIO_SUBJECTIVE ->
-            case BINARY_CHOICE ->
+            case AUDIO_MCQ -> recordAudioMcqQuizResult((AudioMcqQuizResultRequest) request);
+            case AUDIO_SUBJECTIVE -> recordAudioSubQuizResult((AudioSubQuizResultRequest) request);
+            case BINARY_CHOICE -> recordImageBinaryQuizResult((ImageBinaryQuizResultRequest) request);
         }
     }
 
@@ -230,11 +228,19 @@ public class QuizServiceImpl implements QuizService {
                 .findFirst()
                 .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
 
-            matchedQuestion.reflectQuizResult();
+            matchedQuestion.reflectQuizResult(reqQuestion);
         }
     }
 
-//    private void recordAudioMcqQuizResult(ImageAudioMcqQuizResult request) {
-//
-//    }
+    private void recordAudioMcqQuizResult(AudioMcqQuizResultRequest request) {
+
+    }
+
+    private void recordAudioSubQuizResult(AudioSubQuizResultRequest request) {
+
+    }
+
+    private void recordImageBinaryQuizResult(ImageBinaryQuizResultRequest request) {
+
+    }
 }
