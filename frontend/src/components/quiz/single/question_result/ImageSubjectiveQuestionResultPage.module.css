@@ -61,7 +61,8 @@
 .percentageText {
     font-size: 0.9rem;
     font-family: Pretendard-Bold, serif;
-    width: 100px;
+    white-space: nowrap;
+    /*width: 80px;*/
 }
 
 .nextButton {

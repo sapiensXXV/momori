@@ -80,6 +80,9 @@ const QuizPage = () => {
 
 
   const {quizId} = useParams();
+  console.log(mcqRecord);
+  console.log(subRecord);
+
 
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)

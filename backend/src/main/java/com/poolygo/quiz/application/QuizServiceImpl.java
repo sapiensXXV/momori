@@ -13,6 +13,9 @@ import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.ImageSubQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.QuizResultRequest;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
@@ -178,31 +181,32 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void recordResult(QuizResultRequest request) {
-        QuizType quizType = QuizType.from(request.getType());
+        QuizType type = QuizType.from(request.getType());
 
+        switch (type) {
+            case IMAGE_MCQ -> recordImageMcqQuizResult((ImageMcqQuizResultRequest) request);
+            case IMAGE_SUBJECTIVE -> recordImageSubQuizResult((ImageSubQuizResultRequest) request);
+            case AUDIO_MCQ ->
+            case AUDIO_SUBJECTIVE ->
+            case BINARY_CHOICE ->
+        }
+    }
+
+    private void recordImageMcqQuizResult(ImageMcqQuizResultRequest request) {
         Quiz findQuiz = quizRepository.findById(request.getQuizId())
             .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
 
         findQuiz.addTries(); // 퀴즈 시도 횟수 증가
 
-        List<QuizResultRequest.QuestionResultRequest> requestQuestions = request.getQuestions();
+        List<ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest> requestQuestions = request.getQuestions();
         List<? extends Question> questions = findQuiz.getQuestions();
 
-        for (QuizResultRequest.QuestionResultRequest reqQuestion : requestQuestions) {
+        for (ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest reqQuestion : requestQuestions) {
             // 해당 questionId를 가진 Question 을 찾습니다.
-            Question matchedQuestion = questions.stream()
+            ImageMcqQuestion matchedQuestion = (ImageMcqQuestion) questions.stream()
                 .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
                 .findFirst()
                 .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
-
-            // 타입에 따라 matchedQuestion 가 다른 타입으로 캐스팅되어야한다.
-            switch (quizType) {
-                case IMAGE_MCQ -> matchedQuestion = (ImageMcqQuestion) matchedQuestion;
-                case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubQuestion) matchedQuestion;
-                case AUDIO_MCQ -> matchedQuestion = (AudioMcqQuestion) matchedQuestion;
-                case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubQuestion) matchedQuestion;
-                case BINARY_CHOICE -> matchedQuestion = (BinaryChoiceQuestion) matchedQuestion;
-            }
 
             matchedQuestion.reflectQuizResult(reqQuestion);
         }
@@ -210,4 +214,27 @@ public class QuizServiceImpl implements QuizService {
         findQuiz.addScoreData(request.getScore()); // 점수 분포 반영
         quizRepository.save(findQuiz);
     }
+
+    private void recordImageSubQuizResult(ImageSubQuizResultRequest request) {
+        Quiz findQuiz = quizRepository.findById(request.getQuizId())
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        findQuiz.addTries(); // 퀴즈 시도 횟수 증가
+
+        List<ImageSubQuizResultRequest.ImageSubQuestionResultRequest> requestQuestions = request.getQuestions();
+        List<? extends Question> questions = findQuiz.getQuestions();
+
+        for (ImageSubQuizResultRequest.ImageSubQuestionResultRequest reqQuestion : requestQuestions) {
+            ImageSubQuestion matchedQuestion = (ImageSubQuestion) questions.stream()
+                .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
+
+            matchedQuestion.reflectQuizResult();
+        }
+    }
+
+//    private void recordAudioMcqQuizResult(ImageAudioMcqQuizResult request) {
+//
+//    }
 }

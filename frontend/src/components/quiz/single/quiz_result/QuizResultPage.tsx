@@ -75,7 +75,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
       chartInstance.current.destroy();
     }
     chartInstance.current = new Chart(ctx, config);
-
+    console.log(record);
     // 퀴즈 결과 데이터 서버로 전달
     axiosJwtInstance.post(
       '/api/quiz/result',

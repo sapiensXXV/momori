@@ -6,10 +6,11 @@ import com.poolygo.global.resolver.DomainConfiguration;
 import com.poolygo.quiz.application.QuizService;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubQuizCreateRequest;
-import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.ImageSubQuizResultRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -97,9 +98,17 @@ public class QuizController {
         return null;
     }
 
-    @PostMapping("/result")
-    public ResponseEntity<Void> recordQuizResult(
-        @RequestBody QuizResultRequest request
+    @PostMapping("/result/img-mcq")
+    public ResponseEntity<Void> recordImageMcqQuizResult(
+        @RequestBody ImageMcqQuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/result/img-sub")
+    public ResponseEntity<Void> recordImageSubQuizResult(
+        @RequestBody ImageSubQuizResultRequest request
     ) {
         quizService.recordResult(request);
         return ResponseEntity.ok(null);

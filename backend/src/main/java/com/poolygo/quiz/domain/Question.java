@@ -1,7 +1,7 @@
 package com.poolygo.quiz.domain;
 
 
-import com.poolygo.quiz.presentation.dto.request.quiz.QuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,5 +38,5 @@ public abstract class Question {
      * 주관식 문제에서는 해당 문제의 정답 횟수({@code correctCount})만 증가시키면 됩니다.
      * @param request 퀴즈의 결과를 담은 요청 데이터
      */
-    public abstract void reflectQuizResult(QuizResultRequest.QuestionResultRequest request);
+    public abstract void reflectQuizResult(QuestionResultRequest request);
 }
