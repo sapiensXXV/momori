@@ -181,6 +181,8 @@ public class QuizServiceImpl implements QuizService {
     public void recordResult(QuizResultRequest request) {
         QuizType type = QuizType.from(request.getType());
 
+        // TODO: type 값이 없을 때 예외 throw
+
         switch (type) {
             case IMAGE_MCQ -> recordImageMcqQuizResult((ImageMcqQuizResultRequest) request);
             case IMAGE_SUBJECTIVE -> recordImageSubQuizResult((ImageSubQuizResultRequest) request);
@@ -188,6 +190,7 @@ public class QuizServiceImpl implements QuizService {
             case AUDIO_SUBJECTIVE -> recordAudioSubQuizResult((AudioSubQuizResultRequest) request);
             case BINARY_CHOICE -> recordImageBinaryQuizResult((ImageBinaryQuizResultRequest) request);
         }
+        // TODO: 어떠한 type 에도 속하지 않을 때 예외 throw
     }
 
     private void recordImageMcqQuizResult(ImageMcqQuizResultRequest request) {
