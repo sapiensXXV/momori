@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-//@TypeAlias("question")
 public abstract class Question {
     private String questionId;
     private int tryCount;

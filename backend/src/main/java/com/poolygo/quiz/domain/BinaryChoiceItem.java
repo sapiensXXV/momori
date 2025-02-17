@@ -1,8 +1,12 @@
 package com.poolygo.quiz.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
+@Builder
 public class BinaryChoiceItem {
     private final String imageUrl;
     private final String description;
