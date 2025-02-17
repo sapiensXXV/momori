@@ -1,7 +1,7 @@
 package com.poolygo.quiz.domain;
 
 
-import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +19,9 @@ public class AudioMcqQuestion extends Question {
     private String audioUrl;
     private List<TextMcqChoice> choices;
 
-    @Override
-    public void reflectQuizResult(ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest request) {
 
+    @Override
+    public void reflectQuizResult(QuestionResultRequest request) {
+        // TODO: 오디오-객관식 퀴즈 결과 반영 메서드
     }
 }

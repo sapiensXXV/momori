@@ -1,6 +1,6 @@
 package com.poolygo.quiz.domain;
 
-import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ public class BinaryChoiceQuestion extends Question {
     private BinaryChoiceItem second;
 
     @Override
-    public void reflectQuizResult(ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest request) {
-
+    public void reflectQuizResult(QuestionResultRequest request) {
+        // TODO: 이지선다 퀴즈 결과 반영 메서드
     }
 }
