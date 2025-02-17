@@ -13,6 +13,7 @@ import com.poolygo.quiz.presentation.dto.request.quiz.*;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.*;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.s3.S3ImageService;
 import lombok.RequiredArgsConstructor;
@@ -156,8 +157,7 @@ public class QuizServiceImpl implements QuizService {
                 .toList();
         }
 
-        return quizRepository.findAll(pageable)
-            .stream()
+        return quizRepository.findAll(pageable).stream()
             .map(q -> new QuizSummaryResponse(q.getId(), q.getThumbnailUrl(), q.getTitle(), q.getDescription()))
             .toList();
     }
@@ -179,36 +179,71 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public void recordResult(QuizResultRequest request) {
-        QuizType quizType = QuizType.from(request.getType());
+        QuizType type = QuizType.from(request.getType());
 
+        // TODO: type 값이 없을 때 예외 throw
+
+        switch (type) {
+            case IMAGE_MCQ -> recordImageMcqQuizResult((ImageMcqQuizResultRequest) request);
+            case IMAGE_SUBJECTIVE -> recordImageSubQuizResult((ImageSubQuizResultRequest) request);
+            case AUDIO_MCQ -> recordAudioMcqQuizResult((AudioMcqQuizResultRequest) request);
+            case AUDIO_SUBJECTIVE -> recordAudioSubQuizResult((AudioSubQuizResultRequest) request);
+            case BINARY_CHOICE -> recordImageBinaryQuizResult((ImageBinaryQuizResultRequest) request);
+        }
+        // TODO: 어떠한 type 에도 속하지 않을 때 예외 throw
+    }
+
+    private void recordImageMcqQuizResult(ImageMcqQuizResultRequest request) {
         Quiz findQuiz = quizRepository.findById(request.getQuizId())
             .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
 
         findQuiz.addTries(); // 퀴즈 시도 횟수 증가
 
-        List<QuizResultRequest.QuestionResultRequest> requestQuestions = request.getQuestions();
+        List<ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest> requestQuestions = request.getQuestions();
         List<? extends Question> questions = findQuiz.getQuestions();
 
-        for (QuizResultRequest.QuestionResultRequest reqQuestion : requestQuestions) {
+        for (ImageMcqQuizResultRequest.ImageMcqQuestionResultRequest reqQuestion : requestQuestions) {
             // 해당 questionId를 가진 Question 을 찾습니다.
-            Question matchedQuestion = questions.stream()
+            ImageMcqQuestion matchedQuestion = (ImageMcqQuestion) questions.stream()
                 .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
                 .findFirst()
                 .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
-
-            // 타입에 따라 matchedQuestion 가 다른 타입으로 캐스팅되어야한다.
-            switch (quizType) {
-                case IMAGE_MCQ -> matchedQuestion = (ImageMcqQuestion) matchedQuestion;
-                case IMAGE_SUBJECTIVE -> matchedQuestion = (ImageSubjectiveQuestion) matchedQuestion;
-                case AUDIO_MCQ -> matchedQuestion = (AudioMcqQuestion) matchedQuestion;
-                case AUDIO_SUBJECTIVE -> matchedQuestion = (AudioSubjectiveQuestion) matchedQuestion;
-                case BINARY_CHOICE -> matchedQuestion = (BinaryChoiceQuestion) matchedQuestion;
-            }
 
             matchedQuestion.reflectQuizResult(reqQuestion);
         }
 
         findQuiz.addScoreData(request.getScore()); // 점수 분포 반영
         quizRepository.save(findQuiz);
+    }
+
+    private void recordImageSubQuizResult(ImageSubQuizResultRequest request) {
+        Quiz findQuiz = quizRepository.findById(request.getQuizId())
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        findQuiz.addTries(); // 퀴즈 시도 횟수 증가
+
+        List<ImageSubQuizResultRequest.ImageSubQuestionResultRequest> requestQuestions = request.getQuestions();
+        List<? extends Question> questions = findQuiz.getQuestions();
+
+        for (ImageSubQuizResultRequest.ImageSubQuestionResultRequest reqQuestion : requestQuestions) {
+            ImageSubQuestion matchedQuestion = (ImageSubQuestion) questions.stream()
+                .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
+
+            matchedQuestion.reflectQuizResult(reqQuestion);
+        }
+    }
+
+    private void recordAudioMcqQuizResult(AudioMcqQuizResultRequest request) {
+        // TODO: 오디오-객관식 결과 저장
+    }
+
+    private void recordAudioSubQuizResult(AudioSubQuizResultRequest request) {
+        // TODO: 오디오-주관식 결과 저장
+    }
+
+    private void recordImageBinaryQuizResult(ImageBinaryQuizResultRequest request) {
+        // TODO: 이미지-이지선다 결과 저장
     }
 }

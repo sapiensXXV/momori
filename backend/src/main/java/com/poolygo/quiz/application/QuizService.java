@@ -2,10 +2,11 @@ package com.poolygo.quiz.application;
 
 
 import com.poolygo.auth.dto.UserAuthDto;
-import com.poolygo.quiz.presentation.dto.request.quiz.*;
+import com.poolygo.quiz.presentation.dto.request.quiz.QuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.QuizResultRequest;
 
 import java.util.List;
 

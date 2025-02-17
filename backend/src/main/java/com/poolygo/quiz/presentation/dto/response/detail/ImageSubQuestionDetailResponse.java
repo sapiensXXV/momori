@@ -3,16 +3,14 @@ package com.poolygo.quiz.presentation.dto.response.detail;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 @SuperBuilder
-public class ImageMcqQuestionDetailResponse extends QuestionDetailResponse {
+public class ImageSubQuestionDetailResponse extends QuestionDetailResponse {
     private String imageUrl;
-    private List<McqChoiceDetail> choices;
+    private List<String> answers;
 }

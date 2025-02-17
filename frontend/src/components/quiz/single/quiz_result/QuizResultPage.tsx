@@ -1,15 +1,17 @@
 import classes from './QuizResultPage.module.css'
-import {QuizAttemptRecord} from "../QuizPage.tsx";
+import {McqQuizAttemptRecord, SubQuizAttemptRecord} from "../QuizPage.tsx";
 import {FC, useEffect, useRef} from "react";
 import {Chart, ChartConfiguration, Colors, registerables} from "chart.js";
 import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useNavigate} from "react-router-dom";
+import quizResult from "../../../../global/api/quizResult.ts";
+import quizResultApiMap from "../../../../global/api/quizResult.ts";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
-  record: QuizAttemptRecord;
+  record: McqQuizAttemptRecord | SubQuizAttemptRecord;
   distribution: number[];
 }
 
@@ -20,6 +22,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(record);
     // 차트 생성
     if (!chartRef.current) return;
     const ctx = chartRef.current.getContext("2d")
@@ -74,10 +77,10 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
       chartInstance.current.destroy();
     }
     chartInstance.current = new Chart(ctx, config);
-
+    console.log(record);
     // 퀴즈 결과 데이터 서버로 전달
     axiosJwtInstance.post(
-      '/api/quiz/result',
+      quizResultApiMap[record.type],
       {
         quizId: quizId,
         score: calculateScore(),

@@ -18,8 +18,6 @@ const QuizDraftModal: FC<QuizDraftModalProps> = ({drafts}) => {
     draftModal ?
       <>
         <section className={classes.modalLayer}>
-          {/*  임시 저장 UI 작성*/}
-          {/*  TODO: Draft 출력*/}
           <div className={classes.modalContainer}>
             <QuizDraftModalCloseButton />
             <QuizDraftModalHeader />

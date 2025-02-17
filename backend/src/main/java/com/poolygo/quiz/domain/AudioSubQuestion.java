@@ -1,6 +1,5 @@
 package com.poolygo.quiz.domain;
 
-
 import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,14 +13,13 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TypeAlias("audioMcqQuestion")
-public class AudioMcqQuestion extends Question {
+@TypeAlias("audioSubQuestion")
+public class AudioSubQuestion extends Question {
     private String audioUrl;
-    private List<TextMcqChoice> choices;
-
+    private List<String> answers;
 
     @Override
     public void reflectQuizResult(QuestionResultRequest request) {
-        // TODO: 오디오-객관식 퀴즈 결과 반영 메서드
+        // TODO: 오디오-주관식 퀴즈 결과 반영 메서드
     }
 }
