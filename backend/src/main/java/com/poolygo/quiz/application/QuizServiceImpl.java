@@ -233,6 +233,8 @@ public class QuizServiceImpl implements QuizService {
 
             matchedQuestion.reflectQuizResult(reqQuestion);
         }
+
+        quizRepository.save(findQuiz);
     }
 
     private void recordAudioMcqQuizResult(AudioMcqQuizResultRequest request) {
