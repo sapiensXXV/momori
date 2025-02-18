@@ -234,6 +234,7 @@ public class QuizServiceImpl implements QuizService {
             matchedQuestion.reflectQuizResult(reqQuestion);
         }
 
+        findQuiz.addScoreData(request.getScore());
         quizRepository.save(findQuiz);
     }
 
