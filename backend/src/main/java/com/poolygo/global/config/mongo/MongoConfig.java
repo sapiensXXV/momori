@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.poolygo.quiz.domain.converter.QuizReadConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -13,14 +14,20 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 @RequiredArgsConstructor
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoUri;
+
+    @Value("${spring.data.mongodb.database}")
+    private String databaseName;
+
     @Override
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb+srv://jh:jh980101^^@poolygo-cluster.g7kmw.mongodb.net/?retryWrites=true&w=majority&appName=poolygo-cluster");
+        return MongoClients.create(mongoUri);
     }
 
     @Override
     protected String getDatabaseName() {
-        return "poolygo";
+        return databaseName;
     }
 
     @Override
