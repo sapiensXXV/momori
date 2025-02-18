@@ -5,7 +5,7 @@ export interface NewImageMcqChoice {
   answer: boolean;
 }
 
-export interface NewVideoMcqChoice {
+export interface NewAudioMcqChoice {
   content: string;
   answer: boolean;
 }

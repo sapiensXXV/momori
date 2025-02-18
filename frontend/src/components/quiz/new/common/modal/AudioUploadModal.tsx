@@ -1,15 +1,25 @@
 import classes from './AudioUploadModal.module.css'
 import AudioUploadModalHeader from "./AudioUploadModalHeader.tsx";
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {getYoutubeVideoUrl} from "../../../../../global/util/videoUtil.ts";
 import YouTube from "react-youtube";
 import {checkIsNumber} from "../../../../../global/util/number.ts";
+import {useQuizContext} from "../../../../../context/QuizContext.tsx";
+import {QuizTypes} from "../../../types/Quiz.types.ts";
+import {NewQuestionContextMapping} from "../../../../../global/types/quizContextMapping.ts";
+import {handleError} from "../../../../../global/error/error.ts";
+import {NewAudioMcqQuestion, NewAudioSubjectiveQuestion} from "../../../../../types/question.ts";
 
-type AudioUploadModalProps = {
+type AudioUploadModalProps<T extends QuizTypes> = {
+  quizType: T;
+  submitAudio: (audioId: string, startTime: number, playDuration: number | undefined, questionId: number) => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  questionIndex: number;
 }
 
-const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
+const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowModal , questionIndex}: AudioUploadModalProps<T>) => {
+
+  const { questions } = useQuizContext<NewQuestionContextMapping[T]>();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -18,9 +28,54 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
   const [startMinutes, setStartMinutes] = useState<number>(0);
   const [playDuration, setPlayDuration] = useState<number | undefined>(undefined);
 
+  // console.log(`selected index: ${questionIndex}`);
+  // console.log(`quizType: ${quizType}`);
+
   useEffect(() => {
     inputRef.current?.focus();
+
+    switch (quizType) {
+      case QuizTypes.AUDIO_MCQ:
+        mappingAudioMcqQuestion();
+        break;
+      case QuizTypes.AUDIO_SUBJECTIVE:
+        mappingAudioSubQuestion();
+        break;
+      default:
+        handleError(new Error("올바르지 않은 퀴즈 타입 처리입니다."));
+        break;
+    }
+
   }, []);
+
+  const mappingAudioMcqQuestion = () => {
+    const question = questions[questionIndex] as NewAudioMcqQuestion;
+    console.log(question);
+    //TODO: 비디오 URL 설정? (videoURL)
+    setVideoId(question.audioId);
+    setStartSeconds(question.startTime % 60);
+    setStartMinutes(question.startTime / 60);
+    setPlayDuration(question.playDuration);
+    setVideoUrl(`https://www.youtube.com/watch?v=${question.audioId}`)
+  }
+
+  const mappingAudioSubQuestion = () => {
+    const question = questions[questionIndex] as NewAudioSubjectiveQuestion;
+    //TODO: 비디오 URL 설정? (videoURL)
+    console.log(question);
+    setVideoId(question.audioId);
+    setStartSeconds(question.startTime % 60);
+    setStartMinutes(question.startTime / 60);
+    setPlayDuration(question.playDuration);
+  }
+
+  const handleVideoUrlInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoUrl(e.target.value);
+    const videoId = getYoutubeVideoUrl(e.target.value);
+    if (videoId) {
+      setVideoId(videoId);
+    }
+  }
 
   const submitUrl = () => {
     const videoId = getYoutubeVideoUrl(videoUrl);
@@ -32,9 +87,11 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
   }
 
   const videoOK = () => {
-    console.log('videook');
+    console.log('video ok');
     // TODO: 부모 컴포넌트에 전달해야하는 내용은 무엇인가?
-    // 비디오 ID, 시작시간(초, startSeconds + startsMinutes * 60), 지속시간(playDuration)
+    // 비디오 ID, 시작시간(초, startSeconds + startsMinutes * 60), 지속시간(playDuration), 문제 인덱스
+    submitAudio(videoId, calculateStartTime(), playDuration, questionIndex);
+    setShowModal(false);
   }
 
   // 시작시간 메서드
@@ -88,10 +145,10 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
             <input
               className={`common-input-sm ${classes.linkInput}`}
               type={"text"}
-              placeholder={"링크를 입력하세요"}
+              placeholder={"유튜브 링크 삽입"}
               ref={inputRef}
               value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
+              onChange={(e) => handleVideoUrlInput(e)}
             />
             <div
               className={`common-button ${classes.linkButton}`}
@@ -109,7 +166,6 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
                   playerVars: {
                     autoplay: 0, // 1: 자동재생, 0: 자동재생 하지 않음.
                     rel: 0, //관련 동영상 표시하지 않음
-                    // modestbranding: 1, // 컨트롤 바에 youtube 로고를 표시하지 않음
                     start: calculateStartTime(), // 시작 시간
                     ...(playDuration !== undefined && { end: calculateStartTime() + playDuration }) // 종료 시간
                   },
@@ -143,6 +199,7 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
                 className={`common-input-sm ${classes.timeInput}`}
                 type={"text"}
                 onChange={(e) => changePlayDuration(e)}
+                value={playDuration}
               />
               <span className={classes.timeText}>초</span>
             </div>
@@ -152,6 +209,7 @@ const AudioUploadModal: FC<AudioUploadModalProps> = ({ setShowModal }) => {
             onClick={videoOK}
           >확인</div>
         </div>
+
       </main>
     </>
   )

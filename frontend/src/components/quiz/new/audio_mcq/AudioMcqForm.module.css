@@ -1,3 +1,5 @@
+/* 메타데이터 */
+
 .metaDataContainer {
     display: flex;
     flex-direction: column;
@@ -20,3 +22,129 @@
     font-size: 14px;
     height: 25px;
 }
+
+/* 등록 문제 목록 */
+
+.questionContainer {
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.question {
+    display: flex;
+    column-gap: 5px;
+    align-items: flex-start;
+}
+
+.deleteButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.quizDeleteButton {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    background-color: #ffd4d4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.quizDeleteButton:hover {
+    background-color: #ff6767;
+    color: white;
+}
+
+.audioContentContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.audioApplyButton {
+    width: 80px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.audioApplyButton > svg {
+    width: 25px;
+    height: 25px;
+}
+
+.audioButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    column-gap: 5px;
+    width: 100%;
+}
+
+.audioButton {
+    background-color: var(--color-main-button-light);
+    /*width: 18px;*/
+    width: 100%;
+    height: 18px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.audioButton > svg {
+    height: 20px;
+}
+
+/* 문제 추가 버튼 */
+.questionAddButton {
+    display: flex;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    height: 35px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    background-color: #ffe6a6;
+    border-radius: 3px;
+}
+
+.questionAddButton:hover {
+    transform: scale(1.01); /* 5% 확대 */
+}
+
+.questionAddButton img {
+    height: 100%;
+}
+
+.questionAddButton span {
+    font-family: Pretendard-Bold, serif;
+    font-size: 14px;
+}
+
+.hiddenYoutubeContainer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    left: -9999px;
+    overflow: hidden;
+}
+
+
