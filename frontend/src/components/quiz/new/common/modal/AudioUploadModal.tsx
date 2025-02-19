@@ -28,8 +28,6 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
   const [startMinutes, setStartMinutes] = useState<number>(0);
   const [playDuration, setPlayDuration] = useState<number | undefined>(undefined);
 
-  // console.log(`selected index: ${questionIndex}`);
-  // console.log(`quizType: ${quizType}`);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -67,6 +65,7 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
     setStartSeconds(question.startTime % 60);
     setStartMinutes(question.startTime / 60);
     setPlayDuration(question.playDuration);
+    setVideoUrl(`https://www.youtube.com/watch?v=${question.audioId}`)
   }
 
   const handleVideoUrlInput = (e: React.ChangeEvent<HTMLInputElement>) => {
