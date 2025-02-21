@@ -45,7 +45,7 @@ export interface NewAudioSubjectiveQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
   audioId: string; // youtube video id
   startTime: number; // 시작 시간이 초로 주어진다.
-  playDuration: number; // 재생 시간
+  playDuration: number | undefined; // 재생 시간
   answers: string[];
 }
 
