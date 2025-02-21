@@ -77,10 +77,14 @@ const AudioMcqQuestionForm = () => {
   }, []);
 
   // 재생/정지 처리
-  const handlePlayPause = useCallback((index: number) => {
+  const handlePlayPause = (index: number) => {
+
+    console.log('handlePlayPause');
+
     if (!playerRef.current) return;
     const player = playerRef.current;
     const currentQuestion = questions[index];
+    console.log(currentQuestion);
 
     // 다른 문제의 오디오를 선택한 경우
     if (selectQuestionIndex !== index) {
@@ -89,17 +93,18 @@ const AudioMcqQuestionForm = () => {
 
       // 현재 재생 중인 오디오가 있다면 정지
       if (isPlay) {
-        player.stopVideo();
+        player.pauseVideo();
       }
 
       // 새로운 시작 시간으로 이동
+      console.log(player);
       player.seekTo(currentQuestion.startTime, true);
       player.playVideo();
     }
     // 같은 문제의 오디오를 선택한 경우
     else {
       if (isPlay) {
-        player.stopVideo();
+        player.pauseVideo();
         setIsPlay(false);
       } else {
         player.seekTo(currentQuestion.startTime, true);
@@ -107,7 +112,8 @@ const AudioMcqQuestionForm = () => {
         setIsPlay(true);
       }
     }
-  }, [selectQuestionIndex, questions, isPlay]);
+  };
+
 
   const isHaveAudioId = (index: number) => {
     const audioId = questions[index].audioId;
