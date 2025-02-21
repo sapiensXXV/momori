@@ -46,26 +46,32 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
 
   }, []);
 
+  const getVideoUrl = (audioId: string) => {
+    console.log(`audioId=${audioId}`)
+    if (audioId !== null && audioId !== undefined && audioId === '') {
+      return '';
+    }
+      return `https://www.youtube.com/watch?v=${audioId}`;
+  }
+  console.log(videoUrl)
   const mappingAudioMcqQuestion = () => {
     const question = questions[questionIndex] as NewAudioMcqQuestion;
-    console.log(question);
     //TODO: 비디오 URL 설정? (videoURL)
     setVideoId(question.audioId);
     setStartSeconds(question.startTime % 60);
     setStartMinutes(question.startTime / 60);
-    setPlayDuration(question.playDuration);
-    setVideoUrl(`https://www.youtube.com/watch?v=${question.audioId}`)
+    setPlayDuration(question.playDuration === undefined ? 10 : question.playDuration);
+    setVideoUrl(getVideoUrl(question.audioId));
   }
 
   const mappingAudioSubQuestion = () => {
     const question = questions[questionIndex] as NewAudioSubjectiveQuestion;
     //TODO: 비디오 URL 설정? (videoURL)
-    console.log(question);
     setVideoId(question.audioId);
     setStartSeconds(question.startTime % 60);
     setStartMinutes(question.startTime / 60);
-    setPlayDuration(question.playDuration);
-    setVideoUrl(`https://www.youtube.com/watch?v=${question.audioId}`)
+    setPlayDuration(question.playDuration === undefined ? 10 : question.playDuration);
+    setVideoUrl(getVideoUrl(question.audioId));
   }
 
   const handleVideoUrlInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +150,7 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
             <input
               className={`common-input-sm ${classes.linkInput}`}
               type={"text"}
-              placeholder={"유튜브 링크 삽입"}
+              placeholder={"유튜브 링크"}
               ref={inputRef}
               value={videoUrl}
               onChange={(e) => handleVideoUrlInput(e)}

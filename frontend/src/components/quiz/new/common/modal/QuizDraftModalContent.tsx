@@ -9,8 +9,6 @@ type QuizDraftModalContentProps = {
 
 const QuizDraftModalContent: FC<QuizDraftModalContentProps> = ({ drafts }) => {
 
-  console.log(drafts);
-
   return (
     <>
       <div className={classes.contentLayer}>

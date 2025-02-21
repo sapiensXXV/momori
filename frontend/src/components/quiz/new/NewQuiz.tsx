@@ -38,7 +38,6 @@ export default function NewQuiz() {
   }
 
   const initQuestions = () => {
-    // console.log('initQuestion');
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         // console.log("이미지-객관식 으로 문제를 수정합니다.")
