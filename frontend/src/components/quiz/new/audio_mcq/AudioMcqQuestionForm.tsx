@@ -1,7 +1,7 @@
 import classes from './AudioMcqForm.module.css'
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {AudioUploadStatus, NewAudioMcqQuestion} from "../../../../types/question.ts";
-import React, {useCallback, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import AudioUploadModal from "../common/modal/AudioUploadModal.tsx";
 import AddAudioMcqQuestionButton from "./AddAudioMcqQuestionButton.tsx";
 import YouTube, {YouTubePlayer} from "react-youtube";
@@ -10,6 +10,7 @@ import {PlayerState} from "../../../../global/player/player.ts";
 import audioPlayAnimation from "../../../../../public/animation/audio_playing.json";
 import Lottie, {LottieRef} from "lottie-react";
 import LottieComponent from "../../../lottie/LottieComponent.tsx";
+import {NewImageMcqChoice} from "../../../../types/choice.ts";
 
 const AudioMcqQuestionForm = () => {
   const {questions, setQuestions} = useQuizContext<NewAudioMcqQuestion>();
@@ -19,9 +20,7 @@ const AudioMcqQuestionForm = () => {
   // YouTube 플레이어 관련 상태
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [isPlay, setIsPlay] = useState<boolean>(false);
-
-  // Lottie
-  const lottieRef = useRef<LottieRef>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   const deleteQuestion = (qi: number) => {
     setQuestions(prev =>
@@ -29,9 +28,6 @@ const AudioMcqQuestionForm = () => {
     );
   };
 
-  const addChoice = (index: number) => {
-    console.log('add choice');
-  };
 
   const handleShowAudioUploadModal = (index: number) => {
     setSelectedQuestionIndex(index);
@@ -60,6 +56,7 @@ const AudioMcqQuestionForm = () => {
   // YouTube 이벤트 핸들러들
   const onReady = useCallback((event: any) => {
     playerRef.current = event.target;
+    setIsReady(true);
   }, []);
 
   const onStateChange = useCallback((event: any) => {
@@ -77,29 +74,24 @@ const AudioMcqQuestionForm = () => {
   }, []);
 
   // 재생/정지 처리
-  const handlePlayPause = (index: number) => {
-
-    console.log('handlePlayPause');
-
+  const handlePlayPause = useCallback((index: number) => {
     if (!playerRef.current) return;
     const player = playerRef.current;
     const currentQuestion = questions[index];
-    console.log(currentQuestion);
 
     // 다른 문제의 오디오를 선택한 경우
     if (selectQuestionIndex !== index) {
-      setSelectedQuestionIndex(index);
-      setIsPlay(false);
-
-      // 현재 재생 중인 오디오가 있다면 정지
+      // 1. 현재 재생 중인 오디오가 있다면 정지
       if (isPlay) {
         player.pauseVideo();
       }
 
-      // 새로운 시작 시간으로 이동
-      console.log(player);
-      player.seekTo(currentQuestion.startTime, true);
-      player.playVideo();
+      // 2. 상태 업데이트
+      setIsReady(false); // 영상이 바뀌면 당장 준비되진 않음.
+      setSelectedQuestionIndex(index);
+      setIsPlay(true);  // 새로운 영상은 재생할 것이므로 true로 설정
+
+      // 3. useEffect에서 처리하도록 이동
     }
     // 같은 문제의 오디오를 선택한 경우
     else {
@@ -112,8 +104,21 @@ const AudioMcqQuestionForm = () => {
         setIsPlay(true);
       }
     }
-  };
+  }, [selectQuestionIndex, questions, isPlay]);
 
+
+  useEffect(() => {
+    console.log('useEffect 호출')
+    const player = playerRef.current;
+    const currentQuestion = questions[selectQuestionIndex];
+    console.log(currentQuestion);
+    if (player && currentQuestion) {
+      player.seekTo(currentQuestion.startTime, true);
+      if (isPlay) {  // isPlay 상태에 따라 자동 재생
+        player.playVideo();
+      }
+    }
+  }, [selectQuestionIndex, questions, isPlay, isReady])
 
   const isHaveAudioId = (index: number) => {
     const audioId = questions[index].audioId;
@@ -126,18 +131,27 @@ const AudioMcqQuestionForm = () => {
   console.log(questions);
   console.log(isHaveAudioId(0));
 
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: audioPlayAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
+  // 선택지
+  // 선택지 정답 체크
+  const choiceAnswerCheck = (qi: number, ci: number) => {
+
+  }
+
+  // 선택지 삽입
+  const addChoice = (index: number) => {
+    console.log('add choice');
   };
 
-  const stopAnimation = () => {
-    lottieRef.current?.goToAndStop(0, true);
+  // 선택지 입력 변화
+  const choiceInputChange = (e: React.ChangeEvent<HTMLInputElement>, qi: number, ci: number) => {
+
   }
+
+  // 선택지 삭제
+  const deleteChoice = (qi: number, ci: number) => {
+
+  }
+
   return (
     <>
       {showAudioUploadModal && (
@@ -172,7 +186,6 @@ const AudioMcqQuestionForm = () => {
                 >
                   {
                     isHaveAudioId(qi) ?
-                      // <Lottie animationData={audioPlayAnimation} />
                       <LottieComponent
                         animationData={audioPlayAnimation}
                         loop={true}
@@ -202,7 +215,39 @@ const AudioMcqQuestionForm = () => {
                   </div>
                 </div>
               </div>
-              <div>{/* 선택지 */}</div>
+              {/* 문제별 선택지 목록 */}
+              <div className={classes.choiceContainer}>
+                {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
+                  <div className={classes.choice} key={`${qi}_${ci}_choice`}>
+                    {/* 체크박스 레이블 */}
+                    <label className={classes.checkboxContainer}>
+                      <input
+                        type="checkbox"
+                        checked={choice.answer}
+                        onChange={() => choiceAnswerCheck(qi, ci)}
+                        className={classes.hiddenCheckbox}
+                      />
+                      <span className={classes.customCheckbox}></span>
+                    </label>
+                    <span className={classes.choiceNumber}>{ci + 1}. </span>
+                    <input
+                      className={`${classes.choiceInput} common-input-sm`}
+                      type="text"
+                      placeholder="선택지를 입력하세요"
+                      value={choice.content}
+                      onChange={(e) => choiceInputChange(e, qi, ci)}
+                    />
+                    <button className={`${classes.choiceDeleteButton} common-button`}
+                            onClick={() => deleteChoice(qi, ci)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                           stroke="currentColor" className="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </React.Fragment>
         ))}
@@ -210,6 +255,7 @@ const AudioMcqQuestionForm = () => {
 
         <div className={classes.hiddenYoutubeContainer}>
           <YouTube
+            key={questions[selectQuestionIndex]?.audioId}
             videoId={questions[selectQuestionIndex]?.audioId}
             opts={{
               width: "100%",
