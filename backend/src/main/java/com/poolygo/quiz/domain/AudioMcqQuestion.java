@@ -16,9 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 @TypeAlias("audioMcqQuestion")
 public class AudioMcqQuestion extends Question {
-    private String audioUrl;
+    private String audioId;
+    private int startTime;
+    private int playDuration;
     private List<TextMcqChoice> choices;
-
 
     @Override
     public void reflectQuizResult(QuestionResultRequest request) {

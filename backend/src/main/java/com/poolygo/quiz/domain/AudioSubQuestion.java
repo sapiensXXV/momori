@@ -15,7 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @TypeAlias("audioSubQuestion")
 public class AudioSubQuestion extends Question {
-    private String audioUrl;
+    private String audioId;
+    private int startTime;
+    private int playDuration;
     private List<String> answers;
 
     @Override
