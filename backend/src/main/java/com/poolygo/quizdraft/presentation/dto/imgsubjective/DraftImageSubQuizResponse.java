@@ -1,7 +1,6 @@
 package com.poolygo.quizdraft.presentation.dto.imgsubjective;
 
 
-import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageSubQuestionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +18,5 @@ public class DraftImageSubQuizResponse {
     private final String title;
     private final String description;
     private final List<DraftImageSubQuestionResponse> questions;
-
-
 
 }
