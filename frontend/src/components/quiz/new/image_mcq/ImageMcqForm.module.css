@@ -161,7 +161,7 @@ input[type="file"]::file-selector-button {
 }
 
 .choiceAddButton:hover {
-    transform: scale(1.08);
+    transform: scale(1.05);
 }
 
 /*선택지*/

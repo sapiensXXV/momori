@@ -11,6 +11,8 @@ import audioPlayAnimation from "../../../../../public/animation/audio_playing.js
 import Lottie, {LottieRef} from "lottie-react";
 import LottieComponent from "../../../lottie/LottieComponent.tsx";
 import {NewImageMcqChoice} from "../../../../types/choice.ts";
+import {CHOICE_MAX_LIMIT_MSG, CHOICE_MIN_LIMIT_MSG} from "../../../../global/message/quiz_message.ts";
+import {MAX_CHOICE_COUNT, MIN_CHOICE_COUNT} from "../../../../global/constant/question.ts";
 
 const AudioMcqQuestionForm = () => {
   const {questions, setQuestions} = useQuizContext<NewAudioMcqQuestion>();
@@ -134,22 +136,64 @@ const AudioMcqQuestionForm = () => {
   // 선택지
   // 선택지 정답 체크
   const choiceAnswerCheck = (qi: number, ci: number) => {
-
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : {...choice, answer: !choice.answer}
+          )
+        }
+      })
+    )
   }
 
   // 선택지 삽입
   const addChoice = (index: number) => {
-    console.log('add choice');
+    setQuestions((prev) => (
+      prev.map((question, qi) => {
+        if (index !== qi) return question;
+        if (question.choices.length >= MAX_CHOICE_COUNT) {
+          alert(CHOICE_MAX_LIMIT_MSG);
+          return question;
+        }
+        return {
+          ...question,
+          choices: [ ...question.choices, { content: "", answer: false} ]
+        };
+      })
+    ))
   };
 
   // 선택지 입력 변화
   const choiceInputChange = (e: React.ChangeEvent<HTMLInputElement>, qi: number, ci: number) => {
-
+    setQuestions(prev =>
+      prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.map((choice, cIdx) =>
+            cIdx !== ci ? choice : { content: e.target.value, answer: choice.answer }
+          )
+        }
+      })
+    )
   }
 
   // 선택지 삭제
   const deleteChoice = (qi: number, ci: number) => {
+    if (questions[qi].choices.length <= MIN_CHOICE_COUNT) {
+      alert(CHOICE_MIN_LIMIT_MSG);
+      return;
+    }
 
+    setQuestions(prev => {
+      return prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          choices: question.choices.filter((_, cIdx) => cIdx !== ci),
+        }
+      })
+    })
   }
 
   return (
@@ -215,6 +259,9 @@ const AudioMcqQuestionForm = () => {
                   </div>
                 </div>
               </div>
+              <button className={classes.choiceAddButton} onClick={() => addChoice(qi)}>
+                <span>선택지 추가</span>
+              </button>
               {/* 문제별 선택지 목록 */}
               <div className={classes.choiceContainer}>
                 {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
