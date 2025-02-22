@@ -9,6 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AudioSubQuestionCreateRequest {
 
-    private String audioUrl;
+    private String audioId;
+    private int startTime;
+    private int playDuration;
     private List<String> answers;
 }

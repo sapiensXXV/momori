@@ -4,6 +4,8 @@ import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.global.resolver.DomainConfiguration;
 import com.poolygo.quiz.application.QuizService;
+import com.poolygo.quiz.presentation.dto.request.quiz.AudioMcqQuizCreateRequest;
+import com.poolygo.quiz.presentation.dto.request.quiz.AudioSubQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageMcqQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
@@ -82,14 +84,20 @@ public class QuizController {
     }
 
     @PostMapping("/mcq-audio")
-    public ResponseEntity<QuizCreateResponse> createAudioMcqQuiz() {
+    public ResponseEntity<QuizCreateResponse> createAudioMcqQuiz(
+        @RequestBody AudioMcqQuizCreateRequest request,
+        @AuthenticateUser UserAuthDto auth
+    ) {
 
         return null;
     }
 
 
     @PostMapping("/sub-audio")
-    public ResponseEntity<QuizCreateResponse> createAudioSubjectiveQuiz() {
+    public ResponseEntity<QuizCreateResponse> createAudioSubjectiveQuiz(
+        @RequestBody AudioSubQuizCreateRequest request,
+        @AuthenticateUser UserAuthDto auth
+    ) {
         return null;
     }
 
