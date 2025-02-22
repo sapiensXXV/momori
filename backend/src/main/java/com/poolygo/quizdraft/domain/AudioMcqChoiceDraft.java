@@ -13,7 +13,7 @@ public class AudioMcqChoiceDraft extends McqChoiceDraft {
         this.answer = answer;
     }
 
-    public AudioMcqChoiceDraft of(String content, boolean answer) {
+    public static AudioMcqChoiceDraft of(String content, boolean answer) {
         return new AudioMcqChoiceDraft(content, answer);
     }
 }

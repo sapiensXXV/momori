@@ -1,7 +1,9 @@
 package com.poolygo.quizdraft.domain.factory;
 
 
+import com.poolygo.quizdraft.domain.AudioMcqChoiceDraft;
 import com.poolygo.quizdraft.domain.ImageMcqChoiceDraft;
+import com.poolygo.quizdraft.presentation.dto.audiomcq.DraftAudioMcqChoiceRequest;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqChoiceRequest;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,13 @@ public class ChoiceDraftFactory {
         boolean isAnswer = request.isAnswer();
 
         return ImageMcqChoiceDraft.of(content, isAnswer);
+    }
+
+    public AudioMcqChoiceDraft from(DraftAudioMcqChoiceRequest request) {
+        String content = request.getContent();
+        boolean answer = request.isAnswer();
+
+        return AudioMcqChoiceDraft.of(content, answer);
     }
 
 }
