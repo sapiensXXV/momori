@@ -4,7 +4,7 @@ package com.poolygo.quizdraft.domain.factory;
 import com.poolygo.quizdraft.domain.ImageSubQuestionDraft;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
-import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageSubQuestionResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuestionResponse;
 import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizResponse;
 import org.springframework.stereotype.Component;
 

@@ -8,6 +8,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class AudioMcqQuestionCreateRequest {
-    private String audioUrl;
+    private String audioId;
+    private int startTime;
+    private int playDuration;
     private List<AudioMcqChoiceCreateRequest> choices;
 }

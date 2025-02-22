@@ -2,7 +2,7 @@ import {
   NewImageBinaryChoice,
   NewImageMcqChoice,
   NewAudioBinaryChoice,
-  NewVideoMcqChoice,
+  NewAudioMcqChoice,
   ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice, ImageMcqChoiceDetail, ImageMcqDetailChoice
 } from "./choice.ts";
 
@@ -35,13 +35,17 @@ export interface NewImageSubjectiveQuestion extends BaseQuestion {
 
 export interface NewAudioMcqQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
-  audioUrl: string;
-  choices: NewVideoMcqChoice[];
+  audioId: string; // youtube video id
+  startTime: number; // 시작 시간이 초로 주어진다.
+  playDuration: number | undefined; // 재생 시간
+  choices: NewAudioMcqChoice[];
 }
 
 export interface NewAudioSubjectiveQuestion extends BaseQuestion {
   audioStatus: AudioUploadStatus;
-  audioUrl: string;
+  audioId: string; // youtube video id
+  startTime: number; // 시작 시간이 초로 주어진다.
+  playDuration: number | undefined; // 재생 시간
   answers: string[];
 }
 

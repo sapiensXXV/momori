@@ -43,7 +43,7 @@ public class QuestionFactory {
     }
 
     public AudioMcqQuestion from(final AudioMcqQuestionCreateRequest request) {
-        String audioUrl = request.getAudioUrl();
+        String audioUrl = request.getAudioId();
         List<TextMcqChoice> choices = request.getChoices().stream()
             .map(choiceFactory::from)
             .toList();

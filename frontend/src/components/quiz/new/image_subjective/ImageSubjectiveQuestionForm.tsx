@@ -10,6 +10,7 @@ import AddImageSubjectiveQuestionButton from "./AddImageSubjectiveQuestionButton
 const ImageSubjectiveQuestionForm = () => {
 
   const {questions, setQuestions} = useQuizContext<NewImageSubjectiveQuestion>();
+  console.log(questions);
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
     if (!e.target.value) return;
@@ -132,7 +133,6 @@ const ImageSubjectiveQuestionForm = () => {
                   {
                     question.answers.map((answer: string, ai: number) => (
                       <div className={classes.answer} key={`${qi}_${ai}_answer`}>
-                        {/*<span className={classes.answerNumber}>{ai + 1}. </span>*/}
                         <input
                           className={`${classes.answerInput} common-input-sm`}
                           type="text"

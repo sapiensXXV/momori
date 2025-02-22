@@ -1,0 +1,150 @@
+.modalLayer {
+    z-index: 1200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(213, 213, 213, 0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    max-width: 558px;
+    /*height: 100vw;*/
+    /*max-height: 543px;*/
+    background-color: var(--color-google);
+    overflow: hidden;
+    border-radius: 15px;
+    position: relative;
+    padding: 1rem;
+    row-gap: 10px;
+}
+
+.headerLayer {
+    font-family: Pretendard-Bold, serif;
+    width: 100%;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+/* 오디오 등록 모달 */
+
+.modalCloseButton {
+    position: absolute; /* 문서 흐름에서 벗어나 절대 위치 지정 */
+    right: 20px;      /* 컨테이너의 오른쪽 패딩 값과 동일하게 */
+    width: 30px;
+    height: 30px;
+    cursor: pointer
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-shallow-gray);
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);*/
+}
+
+.linkContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    align-items: center;
+}
+
+.linkInput {
+    flex: 1;
+    background-color: var(--color-light-background);
+}
+
+.linkButton {
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+    background-color: var(--color-main-button-light);
+    padding: 8.5px 15px;
+}
+
+.videoContainer {
+    width: 100%;
+    box-sizing: border-box;
+    /*height: 300px;*/
+    /*background-color: blue;*/
+}
+
+.videoContainer > iframe {
+    border: none;
+}
+
+.verticalDivider {
+    height: 20px;
+    width: 1px;
+    background-color: var(--color-shallow-gray);
+}
+
+.timeEditorContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.startTimeContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.timeInput {
+    background-color: var(--color-light-background);
+    height: 1.3rem;
+    width: 1.7rem;
+    font-size: 0.9rem;
+    font-family: Pretendard-Regular, serif;
+    text-align: center;
+}
+
+.timeText {
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+}
+
+.playDurationContainer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.okButton {
+    width: 100%;
+    font-size: 0.9rem;
+    font-family: Pretendard-Bold, serif;
+    background-color: var(--color-main-button-light);
+    padding: 8.5px 15px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: 0.2s ease;
+}
+
+.okButton:hover {
+    transform: scale(1.01);
+}
+
+.okButton:active {
+    transform: scale(0.99);
+}

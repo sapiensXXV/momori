@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto.imagemcq;
+package com.poolygo.quizdraft.presentation.dto.imgsubjective;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

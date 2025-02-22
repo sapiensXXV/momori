@@ -49,7 +49,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const response = await axiosJwtInstance.get(
       `${loadDraftApi(draft.quizType)}?draftId=${draft.draftId}`
       );
-    console.log(response);
 
     const data: BaseDraft = response.data as BaseDraft;
     // 타입별 퀴즈 데이터 업데이트

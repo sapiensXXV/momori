@@ -11,7 +11,6 @@ const NewQuizThumbnail = () => {
 
   const {metadata, setMetadata} = useQuizContext()
   const thumbnailUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('thumbnail uploader 호출')
     if (!e.target.value) return;
     if (!e.target.files || e.target.files.length === 0) {
       alert('썸네일이 선택되지 않았습니다.');
@@ -31,7 +30,6 @@ const NewQuizThumbnail = () => {
         {headers: {'Content-Type': 'multipart/form-data'}}
       );
 
-      console.log(response);
 
       const data: ImageUrlResponse = response.data;
       setMetadata(prev => {

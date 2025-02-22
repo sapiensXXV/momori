@@ -1,5 +1,5 @@
 import ImageSubjectiveMetadataForm from "./ImageSubjectiveMetadataForm.tsx";
-import ImageSubjectiveQuestionForm from "./ImageSubjectiveQuesitonForm.tsx";
+import ImageSubjectiveQuestionForm from "./ImageSubjectiveQuestionForm.tsx";
 
 const ImageSubjectiveForm = () => {
   return (

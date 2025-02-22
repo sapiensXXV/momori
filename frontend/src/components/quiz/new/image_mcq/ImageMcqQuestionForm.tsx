@@ -9,6 +9,8 @@ import {NewImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
 import QuestionImage from "../common/QuestionImage.tsx";
 import {compressImage} from "../../../../global/util/image/ImageCompress.tsx";
+import {CHOICE_MAX_LIMIT_MSG, CHOICE_MIN_LIMIT_MSG} from "../../../../global/message/quiz_message.ts";
+import {MAX_CHOICE_COUNT, MIN_CHOICE_COUNT} from "../../../../global/constant/question.ts";
 
 const ImageMcqQuestionForm = () => {
 
@@ -73,8 +75,8 @@ const ImageMcqQuestionForm = () => {
     setQuestions(prev =>
       prev.map((question, qi) => {
         if (index !== qi) return question;
-        if (question.choices.length >= 7) {
-          alert("선택지는 최대 7개까지 만들 수 있습니다");
+        if (question.choices.length >= MAX_CHOICE_COUNT) {
+          alert(CHOICE_MAX_LIMIT_MSG);
           return question;
         }
         return {
@@ -120,8 +122,8 @@ const ImageMcqQuestionForm = () => {
   }
 
   const deleteChoice = (qi: number, ci: number) => {
-    if (questions[qi].choices.length <= 1) {
-      alert('선택지는 최소 하나 이상 있어야합니다')
+    if (questions[qi].choices.length <= MIN_CHOICE_COUNT) {
+      alert(CHOICE_MIN_LIMIT_MSG);
       return;
     }
     setQuestions(prev => {
