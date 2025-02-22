@@ -7,14 +7,14 @@ import lombok.Getter;
 public class ImageMcqChoiceDraft extends McqChoiceDraft {
 
     private String content;
-    private boolean isAnswer;
+    private boolean answer;
 
     private ImageMcqChoiceDraft(
         final String content,
-        final boolean isAnswer
+        final boolean answer
     ) {
         this.content = content;
-        this.isAnswer = isAnswer;
+        this.answer = answer;
     }
 
     public static ImageMcqChoiceDraft of(String content, boolean isAnswer) {
