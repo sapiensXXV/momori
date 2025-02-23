@@ -1,4 +1,4 @@
-package com.poolygo.quizdraft.presentation.dto.audiomcq;
+package com.poolygo.quizdraft.presentation.dto.audiosubjective;
 
 
 import lombok.AllArgsConstructor;
@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class DraftAudioMcqQuestionResponse {
+public class DraftAudioSubQuestionResponse {
 
     private final String audioId;
     private final int startTime;
     private final int playDuration;
-    private final List<DraftAudioMcqChoiceResponse> choices;
+    private final List<String> answers;
 
 }

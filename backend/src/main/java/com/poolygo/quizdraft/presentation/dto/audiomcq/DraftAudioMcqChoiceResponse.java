@@ -1,2 +1,14 @@
-package com.poolygo.quizdraft.presentation.dto.audiomcq;public class DraftAudioMcqChoiceResponse {
+package com.poolygo.quizdraft.presentation.dto.audiomcq;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class DraftAudioMcqChoiceResponse {
+
+    private final String content;
+    private final boolean answer;
+
 }

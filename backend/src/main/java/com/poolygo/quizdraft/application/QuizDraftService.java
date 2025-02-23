@@ -11,10 +11,12 @@ import com.poolygo.quizdraft.domain.factory.QuizDraftFactory;
 import com.poolygo.quizdraft.infrastructure.QuizDraftRepository;
 import com.poolygo.quizdraft.presentation.dto.DraftRequest;
 import com.poolygo.quizdraft.presentation.dto.DraftSimpleResponse;
+import com.poolygo.quizdraft.presentation.dto.audiomcq.DraftAudioMcqDetailResponse;
+import com.poolygo.quizdraft.presentation.dto.audiosubjective.DraftAudioSubDetailResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqChoiceResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse.DraftImageMcqQuestionResponse;
-import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizResponse;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class QuizDraftService {
     private final QuizDraftRepository quizDraftRepository;
     private final QuizDraftDtoFactory quizDraftDtoFactory;
 
-    public DraftImageMcqDetailResponse findOneImageMcqDraft(
+    public DraftImageMcqDetailResponse findImageMcqDraft(
         final String draftId,
         final String userIdentifier,
         final String userProvider
@@ -54,7 +56,7 @@ public class QuizDraftService {
         );
     }
 
-    public DraftImageSubQuizResponse findOneImageSubDraft(
+    public DraftImageSubQuizDetailResponse findImageSubDraft(
         final String draftId,
         final String userIdentifier,
         final String provider
@@ -82,6 +84,30 @@ public class QuizDraftService {
         return Optional.of(DraftImageMcqChoiceResponse.of(choice.getContent(), choice.isAnswer()));
     }
 
+    public DraftAudioMcqDetailResponse findAudioMcqDraft(
+        final String draftId,
+        final String userIdentifier,
+        final String userProvider
+    ) {
+        QuizDraft findDraft = quizDraftRepository
+            .findByIdAndUserInfo(draftId, userIdentifier, userProvider)
+            .orElseThrow(() -> new DraftException(ExceptionCode.INVALID_DRAFT_ID));
+
+        return quizDraftDtoFactory.toDraftAudioMcqDetailResponse(findDraft);
+    }
+
+    public DraftAudioSubDetailResponse findAudioSubDraft(
+        final String draftId,
+        final String userIdentifier,
+        final String userProvider
+    ) {
+        QuizDraft findDraft = quizDraftRepository
+            .findByIdAndUserInfo(draftId, userIdentifier, userProvider)
+            .orElseThrow(() -> new DraftException(ExceptionCode.INVALID_DRAFT_ID));
+
+        return quizDraftDtoFactory.toDraftAudioSubDetailResponse(findDraft);
+    }
+
     public List<DraftSimpleResponse> findSimpleByAuth(
         final String identifier,
         final String provider
@@ -103,6 +129,7 @@ public class QuizDraftService {
         quizDraftRepository.save(savedDraft);
         return savedDraft.getId();
     }
+
 
 
 
