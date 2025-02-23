@@ -21,7 +21,7 @@ type QuizDraftModalContentItem = {
 
 const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => {
 
-  const { setIsDraftLoading, setMetadata, setQuizType, setQuestions, setDraftModal } = useQuizContext();
+  const { setHasDraft, setMetadata, setQuizType, setQuestions, setDraftModal } = useQuizContext();
 
   const loadDraftApi = (draftType: string) => {
     switch (draftType) {
@@ -53,7 +53,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
   }
 
   const loadDraftItem = async () => {
-    setIsDraftLoading(true); // 임시 데이터 로딩 중
 
     const response = await axiosJwtInstance.get(
       `${loadDraftApi(draft.quizType)}?draftId=${draft.draftId}`
@@ -131,7 +130,7 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
 
     setQuizType(quizType);
     setDraftModal(false);
-    setIsDraftLoading(false); // 임시 데이터 로딩 완료
+    setHasDraft(true); // 임시 데이터 로딩 완료
   }
   return (
     <>

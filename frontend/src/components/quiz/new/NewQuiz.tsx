@@ -1,5 +1,5 @@
 import styles from "./NewQuiz.module.css"
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqForm from "./image_mcq/ImageMcqForm.tsx";
 import ImageSubjectiveForm from "./image_subjective/ImageSubjectiveForm.tsx";
@@ -11,17 +11,9 @@ import {AudioUploadStatus, ImageUploadStatus} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { isDraftLoading, setQuestions, quizType, setQuizType } = useQuizContext();
+  const { setQuestions, quizType, setQuizType } = useQuizContext();
 
-  // 퀴즈 타입이 변할 때마다 Question을 초기화한다.
-  useEffect(() => {
-    // 임시 퀴즈를 로딩 중일때는 퀴즈 목록을 초기화해서는 안된다.
-    if (!isDraftLoading) {
-      initQuestions();
-    }
-  }, [quizType]);
-
-  const getQuizForm = () => {
+  const getQuizForm = useCallback(() => {
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqForm/>;
@@ -34,14 +26,15 @@ export default function NewQuiz() {
       case QuizTypes.BINARY_CHOICE:
         return <BinaryChoiceForm/>;
     }
-  };
+  }, [quizType]);
 
   const changeQuizType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuizType(e.target.value as QuizTypes);
+    initQuestions(e.target.value as QuizTypes);
   }
 
-  const initQuestions = () => {
-    console.log('initQuestions')
+  const initQuestions = (quizType: QuizTypes) => {
+    console.log('initQuestions');
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [{ content: "", answer: false }] }]);
