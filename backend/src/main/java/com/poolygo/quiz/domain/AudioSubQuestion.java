@@ -1,5 +1,6 @@
 package com.poolygo.quiz.domain;
 
+import com.poolygo.quiz.presentation.dto.result.AudioSubQuizResultRequest.AudioSubQuestionResultRequest;
 import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,11 @@ public class AudioSubQuestion extends Question {
 
     @Override
     public void reflectQuizResult(QuestionResultRequest request) {
-        // TODO: 오디오-주관식 퀴즈 결과 반영 메서드
+        AudioSubQuestionResultRequest result = (AudioSubQuestionResultRequest) request;
+
+        this.addTryCount();
+        if (result.isCorrect()) {
+            this.addCorrectCount();
+        }
     }
 }

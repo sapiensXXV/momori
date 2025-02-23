@@ -1,6 +1,7 @@
 package com.poolygo.quiz.domain;
 
 
+import com.poolygo.quiz.presentation.dto.result.AudioMcqQuizResultRequest.AudioMcqQuestionResultRequest;
 import com.poolygo.quiz.presentation.dto.result.QuestionResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,19 @@ public class AudioMcqQuestion extends Question {
 
     @Override
     public void reflectQuizResult(QuestionResultRequest request) {
-        // TODO: 오디오-객관식 퀴즈 결과 반영 메서드
+        AudioMcqQuestionResultRequest result = (AudioMcqQuestionResultRequest) request;
+
+        this.addTryCount();
+        if (result.isCorrect()) {
+            this.addCorrectCount();
+        }
+
+        List<Integer> selectedChoices = result.getChoices();
+        try {
+            selectedChoices.forEach((index) -> choices.get(index).addSelectedCount());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("결과를 반영하던 중 문제가 발생하였습니다.");
+        }
+
     }
 }

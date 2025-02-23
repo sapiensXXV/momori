@@ -239,11 +239,41 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private void recordAudioMcqQuizResult(AudioMcqQuizResultRequest request) {
-        // TODO: 오디오-객관식 결과 저장
+        Quiz findQuiz = quizRepository.findById(request.getQuizId())
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        findQuiz.addTries();
+
+        List<AudioMcqQuizResultRequest.AudioMcqQuestionResultRequest> requestQuestions = request.getQuestions();
+        List<? extends Question> questions = findQuiz.getQuestions();
+
+        for (AudioMcqQuizResultRequest.AudioMcqQuestionResultRequest reqQuestion : requestQuestions) {
+            AudioMcqQuestion matchedQuestion = (AudioMcqQuestion) questions.stream()
+                .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
+
+            matchedQuestion.reflectQuizResult(reqQuestion);
+        }
     }
 
     private void recordAudioSubQuizResult(AudioSubQuizResultRequest request) {
-        // TODO: 오디오-주관식 결과 저장
+        Quiz findQuiz = quizRepository.findById(request.getQuizId())
+            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_ID));
+
+        findQuiz.addTries();
+
+        List<AudioSubQuizResultRequest.AudioSubQuestionResultRequest> requestQuestions = request.getQuestions();
+        List<? extends Question> questions = findQuiz.getQuestions();
+
+        for (AudioSubQuizResultRequest.AudioSubQuestionResultRequest reqQuestion : requestQuestions) {
+            AudioSubQuestion matchedQuestion = (AudioSubQuestion) questions.stream()
+                .filter(q -> q.getQuestionId().equals(reqQuestion.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUESTION_ID));
+
+            matchedQuestion.reflectQuizResult(reqQuestion);
+        }
     }
 
     private void recordImageBinaryQuizResult(ImageBinaryQuizResultRequest request) {

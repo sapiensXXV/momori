@@ -21,15 +21,12 @@ public class ImageSubQuestion extends Question {
 
     @Override
     public void reflectQuizResult(QuestionResultRequest request) {
-
         ImageSubQuestionResultRequest result = (ImageSubQuestionResultRequest) request;
 
         this.addTryCount();
         if (result.isCorrect()) {
             this.addCorrectCount();
-        }
 
-        this.addTryCount();
-        if (request.isCorrect()) this.addCorrectCount();
+        }
     }
 }

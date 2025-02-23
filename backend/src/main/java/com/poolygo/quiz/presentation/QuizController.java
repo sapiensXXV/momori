@@ -11,6 +11,8 @@ import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.AudioMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.AudioSubQuizResultRequest;
 import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
 import com.poolygo.quiz.presentation.dto.result.ImageSubQuizResultRequest;
 import lombok.RequiredArgsConstructor;
@@ -139,5 +141,21 @@ public class QuizController {
     ) {
         quizService.recordResult(request);
         return ResponseEntity.ok(null);
-    }   
+    }
+
+    @PostMapping("/result/audio-mcq")
+    public ResponseEntity<Void> recordAudioMcqQuizResult(
+        @RequestBody AudioMcqQuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/result/audio-sub")
+    public ResponseEntity<Void> recordAudioSubQuizResult(
+        @RequestBody AudioSubQuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        return ResponseEntity.ok(null);
+    }
 }
