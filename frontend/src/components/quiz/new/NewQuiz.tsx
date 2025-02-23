@@ -1,5 +1,5 @@
 import styles from "./NewQuiz.module.css"
-import React, {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqForm from "./image_mcq/ImageMcqForm.tsx";
 import ImageSubjectiveForm from "./image_subjective/ImageSubjectiveForm.tsx";
@@ -11,7 +11,7 @@ import {AudioUploadStatus, ImageUploadStatus} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { questions, setQuestions, quizType, setQuizType } = useQuizContext();
+  const { setQuestions, quizType, setQuizType } = useQuizContext();
 
   // 퀴즈 타입이 변할 때마다 Question을 초기화한다.
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function NewQuiz() {
 
   return (
     <section className={styles.main}>
-      <select className={styles.quizSelect} onChange={(e) => changeQuizType(e)}>
+      <select className={styles.quizSelect} onChange={(e) => changeQuizType(e)} value={quizType}>
         <option value={QuizTypes.IMAGE_MCQ.valueOf()} >퀴즈 유형: 이미지 객관식</option>
         <option value={QuizTypes.IMAGE_SUBJECTIVE.valueOf()} >퀴즈 유형: 이미지 주관식</option>
         <option value={QuizTypes.AUDIO_MCQ.valueOf()} >퀴즈 유형: 오디오 객관식</option>
