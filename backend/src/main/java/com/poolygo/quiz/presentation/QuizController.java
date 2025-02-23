@@ -11,6 +11,8 @@ import com.poolygo.quiz.presentation.dto.request.quiz.ImageSubQuizCreateRequest;
 import com.poolygo.quiz.presentation.dto.response.QuizCreateResponse;
 import com.poolygo.quiz.presentation.dto.response.detail.QuizDetailResponse;
 import com.poolygo.quiz.presentation.dto.response.summary.QuizSummaryResponse;
+import com.poolygo.quiz.presentation.dto.result.AudioMcqQuizResultRequest;
+import com.poolygo.quiz.presentation.dto.result.AudioSubQuizResultRequest;
 import com.poolygo.quiz.presentation.dto.result.ImageMcqQuizResultRequest;
 import com.poolygo.quiz.presentation.dto.result.ImageSubQuizResultRequest;
 import lombok.RequiredArgsConstructor;
@@ -88,8 +90,16 @@ public class QuizController {
         @RequestBody AudioMcqQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
+        log.info("request={}", request);
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
+            .build()
+            .toUri();
 
-        return null;
+        return ResponseEntity
+            .created(quizUri)
+            .body(response);
     }
 
 
@@ -98,11 +108,23 @@ public class QuizController {
         @RequestBody AudioSubQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
-        return null;
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
+            .build()
+            .toUri();
+
+        return ResponseEntity
+            .created(quizUri)
+            .body(response);
     }
 
     @PostMapping("/bin-img")
-    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
+    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz(
+
+
+    ) {
+        // TODO: 월드컵 퀴즈 생성 로직
         return null;
     }
 
@@ -117,6 +139,22 @@ public class QuizController {
     @PostMapping("/result/img-sub")
     public ResponseEntity<Void> recordImageSubQuizResult(
         @RequestBody ImageSubQuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/result/audio-mcq")
+    public ResponseEntity<Void> recordAudioMcqQuizResult(
+        @RequestBody AudioMcqQuizResultRequest request
+    ) {
+        quizService.recordResult(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/result/audio-sub")
+    public ResponseEntity<Void> recordAudioSubQuizResult(
+        @RequestBody AudioSubQuizResultRequest request
     ) {
         quizService.recordResult(request);
         return ResponseEntity.ok(null);

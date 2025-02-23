@@ -11,14 +11,9 @@ import {AudioUploadStatus, ImageUploadStatus} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { questions, setQuestions, quizType, setQuizType } = useQuizContext();
+  const { setQuestions, quizType, setQuizType } = useQuizContext();
 
-  // 퀴즈 타입이 변할 때마다 Question을 초기화한다.
-  useEffect(() => {
-    initQuestions();
-  }, [quizType]);
-
-  const getQuizForm = () => {
+  const getQuizForm = useCallback(() => {
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         return <ImageMcqForm/>;
@@ -31,14 +26,15 @@ export default function NewQuiz() {
       case QuizTypes.BINARY_CHOICE:
         return <BinaryChoiceForm/>;
     }
-  };
+  }, [quizType]);
 
   const changeQuizType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // 새로운 퀴즈 유형 추가시 기존의 문제 삭제
     setQuizType(e.target.value as QuizTypes);
+    initQuestions(e.target.value as QuizTypes);
   }
 
-  const initQuestions = () => {
+  const initQuestions = (quizType: QuizTypes) => {
+    console.log('initQuestions');
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [{ content: "", answer: false }] }]);
@@ -63,7 +59,7 @@ export default function NewQuiz() {
 
   return (
     <section className={styles.main}>
-      <select className={styles.quizSelect} onChange={(e) => changeQuizType(e)}>
+      <select className={styles.quizSelect} onChange={(e) => changeQuizType(e)} value={quizType}>
         <option value={QuizTypes.IMAGE_MCQ.valueOf()} >퀴즈 유형: 이미지 객관식</option>
         <option value={QuizTypes.IMAGE_SUBJECTIVE.valueOf()} >퀴즈 유형: 이미지 주관식</option>
         <option value={QuizTypes.AUDIO_MCQ.valueOf()} >퀴즈 유형: 오디오 객관식</option>

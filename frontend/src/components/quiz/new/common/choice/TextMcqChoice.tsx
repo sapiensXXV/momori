@@ -1,6 +1,5 @@
 import classes from './TextMcqChoiceList.module.css'
 import React, {FC} from "react";
-import {QuizTypes} from "../../../types/Quiz.types.ts";
 
 
 type TextMcqChoiceProps = {

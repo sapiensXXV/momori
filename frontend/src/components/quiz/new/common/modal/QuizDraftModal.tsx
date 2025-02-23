@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import {FC} from "react";
 import {DraftSimpleInfo} from "../../../../../types/draft.ts";
 import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 import classes from "./QuizDraftModal.module.css";
@@ -12,7 +12,7 @@ type QuizDraftModalProps = {
 
 const QuizDraftModal: FC<QuizDraftModalProps> = ({drafts}) => {
 
-  const {draftModal, setDraftModal} = useQuizContext();
+  const { draftModal } = useQuizContext();
 
   return (
     draftModal ?

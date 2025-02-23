@@ -33,7 +33,7 @@ public class ImageMcqQuestion extends Question {
             // 선택지 선택 카운트 증가.
             selectedChoices.forEach((index) -> choices.get(index).addSelectedCount());
         } catch (Exception e) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("결과를 반영하던 중 문제가 발생하였습니다.");
         }
     }
 }

@@ -13,7 +13,7 @@ import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 import {formatDateTime} from "../../../../../global/util/date/date.ts";
 import {axiosJwtInstance} from "../../../../../global/configuration/axios.ts";
 import {getQuizTypeFrom, QuizTypes} from "../../../types/Quiz.types.ts";
-import {ImageUploadStatus} from "../../../../../types/question.ts";
+import {AudioUploadStatus, ImageUploadStatus} from "../../../../../types/question.ts";
 
 type QuizDraftModalContentItem = {
   draft: DraftSimpleInfo;
@@ -21,7 +21,7 @@ type QuizDraftModalContentItem = {
 
 const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => {
 
-  const { setMetadata, setQuizType, setQuestions, setDraftModal } = useQuizContext();
+  const { setHasDraft, setMetadata, setQuizType, setQuestions, setDraftModal } = useQuizContext();
 
   const loadDraftApi = (draftType: string) => {
     switch (draftType) {
@@ -45,12 +45,21 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     return false;
   }
 
+  const isEmpty = (id: string) => {
+    if (id !== null && id !== undefined && id !== '') {
+      return true;
+    }
+    return false;
+  }
+
   const loadDraftItem = async () => {
+
     const response = await axiosJwtInstance.get(
       `${loadDraftApi(draft.quizType)}?draftId=${draft.draftId}`
       );
 
     const data: BaseDraft = response.data as BaseDraft;
+
     // 타입별 퀴즈 데이터 업데이트
     switch (getQuizTypeFrom(data.quizType)) {
       case QuizTypes.IMAGE_MCQ: {
@@ -75,8 +84,9 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
         const questions = (data as AudioMcqDraftData).questions;
         const result = questions.map(prev => ({
           ...prev,
-          imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED
-        }));
+          audioStatus: isEmpty(prev.audioId) ? AudioUploadStatus.NOT_UPLOADED : AudioUploadStatus.UPLOADED
+        }))
+        console.log(result);
         setQuestions(result);
         break;
       }
@@ -84,8 +94,9 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
         const questions = (data as AudioSubjectiveDraftData).questions;
         const result = questions.map(prev => ({
           ...prev,
-          imageStatus: isUrlExists(prev.audioUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED
-        }));
+          audioStatus: isEmpty(prev.audioId) ? AudioUploadStatus.NOT_UPLOADED : AudioUploadStatus.UPLOADED
+        }))
+        console.log(result);
         setQuestions(result);
         break;
       }
@@ -101,6 +112,14 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const description = data.description
     const quizType = getQuizTypeFrom(data.quizType);
 
+    console.log({
+      title: title,
+      thumbnailUrl: thumbnailUrl,
+      thumbnailImageUploadStatus: isUrlExists(data.thumbnailUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED,
+      description: description,
+      formerDraftId: draftId
+    });
+
     setMetadata({
       title: title,
       thumbnailUrl: thumbnailUrl,
@@ -111,6 +130,7 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
 
     setQuizType(quizType);
     setDraftModal(false);
+    setHasDraft(true); // 임시 데이터 로딩 완료
   }
   return (
     <>

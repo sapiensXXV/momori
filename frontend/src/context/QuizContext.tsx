@@ -14,6 +14,8 @@ interface QuizContextType<T extends NewQuestionTypes = NewQuestionTypes> {
   setMetadata: React.Dispatch<React.SetStateAction<NewQuizMetadata>>;
   questions: T[];
   setQuestions: React.Dispatch<React.SetStateAction<T[]>>;
+  hasDraft: boolean;
+  setHasDraft: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const QuizContext = createContext<QuizContextType<NewQuestionTypes> | undefined>(undefined);
@@ -24,6 +26,7 @@ export const QuizProvider = <T extends NewQuestionTypes = NewQuestionTypes>({ ch
   const [draftModal, setDraftModal] = useState(false);
   const [metadata, setMetadata] = useState<NewQuizMetadata>(initNewQuizMetadata);
   const [questions, setQuestions] = useState<T[]>([]);
+  const [hasDraft, setHasDraft] = useState<boolean>(false);
 
   return (
     <QuizContext.Provider value={{
@@ -36,6 +39,8 @@ export const QuizProvider = <T extends NewQuestionTypes = NewQuestionTypes>({ ch
       metadata,
       setMetadata,
       questions,
+      hasDraft,
+      setHasDraft,
       setQuestions: setQuestions as React.Dispatch<React.SetStateAction<NewQuestionTypes[]>>
     }}>
       {children}

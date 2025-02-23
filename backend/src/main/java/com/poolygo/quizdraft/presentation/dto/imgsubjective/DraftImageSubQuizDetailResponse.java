@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class DraftImageSubQuizResponse {
+public class DraftImageSubQuizDetailResponse {
 
     private final String draftId;
     private final String quizType;

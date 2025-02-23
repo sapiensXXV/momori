@@ -8,20 +8,24 @@ import java.util.List;
 @Getter
 public class AudioMcqQuizResultRequest extends QuizResultRequest {
 
-    private final List<AudioMcqQuestionResult> questions;
+    private final List<AudioMcqQuestionResultRequest> questions;
 
-    public AudioMcqQuizResultRequest(String quizId, String type, int score, List<AudioMcqQuestionResult> questions) {
+    public AudioMcqQuizResultRequest(String quizId, String type, int score, List<AudioMcqQuestionResultRequest> questions) {
         super(quizId, type, score);
         this.questions = questions;
     }
 
     @Getter
-    public static class AudioMcqQuestionResult extends QuestionResultRequest {
+    public static class AudioMcqQuestionResultRequest extends QuestionResultRequest {
+        private final List<Integer> choices;
 
-        // TODO: 추후 필요한 필드를 다시 정의하고 생성자도 다시 만들기
-
-        public AudioMcqQuestionResult(String questionId, boolean isCorrect) {
+        public AudioMcqQuestionResultRequest(
+            final String questionId,
+            final boolean isCorrect,
+            final List<Integer> choices
+        ) {
             super(questionId, isCorrect);
+            this.choices = choices;
         }
     }
 }
