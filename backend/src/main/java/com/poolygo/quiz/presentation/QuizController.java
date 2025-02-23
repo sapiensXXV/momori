@@ -90,6 +90,7 @@ public class QuizController {
         @RequestBody AudioMcqQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
+        log.info("request={}", request);
         QuizCreateResponse response = quizService.createQuiz(request, auth);
         URI quizUri = UriComponentsBuilder
             .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())

@@ -64,7 +64,7 @@ public class QuizServiceImpl implements QuizService {
         }
 
         // 퀴즈의 타입을 지원하지 않을 때 예외를 던진다.
-        throw new QuizException(ExceptionCode.INVALID_QUIZ_TYPE);
+        throw new QuizException(ExceptionCode.QUIZ_TYPE_NOT_FOUND);
     }
 
     private QuizCreateResponse createImageMcqQuiz(ImageMcqQuizCreateRequest request, UserAuthDto auth) {

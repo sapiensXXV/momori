@@ -18,6 +18,6 @@ public enum QuizType {
         return Arrays.stream(QuizType.values())
             .filter(type -> type.name().equalsIgnoreCase(find))
             .findFirst()
-            .orElseThrow(() -> new QuizException(ExceptionCode.INVALID_QUIZ_TYPE));
+            .orElseThrow(() -> new QuizException(ExceptionCode.QUIZ_TYPE_NOT_FOUND));
     }
 }
