@@ -84,6 +84,7 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
+        console.log(response.data);
         setQuiz(response.data);
         mcqRecord.current.quizId = response.data.id; // 퀴즈 ID 저장
         mcqRecord.current.type = response.data.type

@@ -73,7 +73,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
-            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(10, 0)))
             .build();
     }
 
@@ -92,7 +92,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
-            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(10, 0)))
             .build();
     }
 
@@ -110,7 +110,7 @@ public class QuizFactory {
             .tries(0)
             .likes(0)
             .questions(questions)
-            .scoreDistribution(new ArrayList<>(Collections.nCopies(0, 10)))
+            .scoreDistribution(new ArrayList<>(Collections.nCopies(10, 0)))
             .build();
     }
 
