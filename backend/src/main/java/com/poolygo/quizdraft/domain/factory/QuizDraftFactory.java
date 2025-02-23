@@ -7,8 +7,10 @@ import com.poolygo.quiz.domain.factory.UserInfoFactory;
 import com.poolygo.quizdraft.domain.QuestionDraft;
 import com.poolygo.quizdraft.domain.QuizDraft;
 import com.poolygo.quizdraft.presentation.dto.DraftRequest;
-import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.audiomcq.DraftAudioMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.audiosubjective.DraftAudioSubQuizRequest;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuizRequest;
+import com.poolygo.quizdraft.presentation.dto.imgsubjective.DraftImageSubQuizRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -39,10 +41,10 @@ public class QuizDraftFactory {
             }
             // TODO: 나머지 퀴즈 타입 구현
             case AUDIO_MCQ -> {
-
+                return fromAudioMcqQuizDraft((DraftAudioMcqQuizRequest) request, identifier, provider);
             }
             case AUDIO_SUBJECTIVE -> {
-
+                return fromAudioSubQuizDraft((DraftAudioSubQuizRequest) request, identifier, provider);
             }
             case BINARY_CHOICE -> {
 
@@ -52,7 +54,7 @@ public class QuizDraftFactory {
         throw new DraftException(ExceptionCode.DRAFT_SAVE_FAIL);
     }
 
-    public QuizDraft fromImageMcqQuizDraft(
+    private QuizDraft fromImageMcqQuizDraft(
         final DraftImageMcqQuizRequest request,
         final String userIdentifier,
         final String userProvider
@@ -72,7 +74,7 @@ public class QuizDraftFactory {
             .build();
     }
 
-    public QuizDraft fromImageSubQuizDraft(
+    private QuizDraft fromImageSubQuizDraft(
         final DraftImageSubQuizRequest request,
         final String userIdentifier,
         final String userProvider
@@ -91,5 +93,47 @@ public class QuizDraftFactory {
             .questions(questions)
             .build();
     }
+    private QuizDraft fromAudioMcqQuizDraft(
+        final DraftAudioMcqQuizRequest request,
+        final String identifier,
+        final String provider
+    ) {
+        List<QuestionDraft> questions = request.getQuestions().stream()
+            .map(questionDraftFactory::from)
+            .toList();
+
+        return QuizDraft.builder()
+            .id(StringUtils.hasText(request.getFormerDraftId()) ? request.getFormerDraftId() : null)
+            .title(request.getTitle())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .description(request.getDescription())
+            .userInfo(userInfoFactory.from(identifier, provider))
+            .type(QuizType.from(request.getType()))
+            .questions(questions)
+            .build();
+
+    }
+
+    private QuizDraft fromAudioSubQuizDraft(
+        final DraftAudioSubQuizRequest request,
+        final String identifier,
+        final String provider
+    ) {
+        List<QuestionDraft> questions = request.getQuestions().stream()
+            .map(questionDraftFactory::from)
+            .toList();
+
+        return QuizDraft.builder()
+            .id(StringUtils.hasText(request.getFormerDraftId()) ? request.getFormerDraftId() : null)
+            .title(request.getTitle())
+            .thumbnailUrl(request.getThumbnailUrl())
+            .description(request.getDescription())
+            .userInfo(userInfoFactory.from(identifier, provider))
+            .type(QuizType.from(request.getType()))
+            .questions(questions)
+            .build();
+
+    }
+
 
 }

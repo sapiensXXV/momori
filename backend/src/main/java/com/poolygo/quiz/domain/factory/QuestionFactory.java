@@ -43,13 +43,18 @@ public class QuestionFactory {
     }
 
     public AudioMcqQuestion from(final AudioMcqQuestionCreateRequest request) {
-        String audioUrl = request.getAudioId();
+        String audioId = request.getAudioId();
+        int startTime = request.getStartTime();
+        int playDuration = request.getPlayDuration();
+
         List<TextMcqChoice> choices = request.getChoices().stream()
             .map(choiceFactory::from)
             .toList();
 
         return AudioMcqQuestion.builder()
-            .audioUrl(audioUrl)
+            .audioId(audioId)
+            .startTime(startTime)
+            .playDuration(playDuration)
             .choices(choices)
             .questionId(UUID.randomUUID().toString())
             .tryCount(0)
@@ -59,10 +64,12 @@ public class QuestionFactory {
 
     // TODO: 오디오-주관식, 이지선다 Question 팩토리 메서드 작성.
     public AudioSubQuestion from(final AudioSubQuestionCreateRequest request) {
-        String audioUrl = request.getAudioUrl();
+        String audioId = request.getAudioId();
+        int startTime = request.getStartTime();
+        int playDuration = request.getPlayDuration();
         List<String> answers = request.getAnswers();
 
-        return new AudioSubQuestion(audioUrl, answers);
+        return new AudioSubQuestion(audioId, startTime, playDuration, answers);
     }
 
     public BinaryChoiceQuestion from(final BinaryChoiceQuestionCreateRequest request) {

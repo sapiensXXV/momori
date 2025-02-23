@@ -1,5 +1,5 @@
 import styles from "./NewQuiz.module.css"
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqForm from "./image_mcq/ImageMcqForm.tsx";
 import ImageSubjectiveForm from "./image_subjective/ImageSubjectiveForm.tsx";
@@ -11,8 +11,9 @@ import {AudioUploadStatus, ImageUploadStatus} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { setQuestions, quizType, setQuizType } = useQuizContext();
+  const { questions, setQuestions, quizType, setQuizType } = useQuizContext();
 
+  // 퀴즈 타입이 변할 때마다 Question을 초기화한다.
   useEffect(() => {
     initQuestions();
   }, [quizType]);
@@ -30,7 +31,7 @@ export default function NewQuiz() {
       case QuizTypes.BINARY_CHOICE:
         return <BinaryChoiceForm/>;
     }
-  }
+  };
 
   const changeQuizType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // 새로운 퀴즈 유형 추가시 기존의 문제 삭제
@@ -40,23 +41,18 @@ export default function NewQuiz() {
   const initQuestions = () => {
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
-        // console.log("이미지-객관식 으로 문제를 수정합니다.")
-        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [] }]);
+        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [{ content: "", answer: false }] }]);
         break;
       case QuizTypes.IMAGE_SUBJECTIVE:
-        // console.log("이미지-주관식으로 문제를 수정합니다.")
-        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", answers: [] }]);
+        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", answers: [ "" ] }]);
         break;
       case QuizTypes.AUDIO_MCQ:
-        // console.log("오디오-객관식으로 문제를 수정합니다.")
-        setQuestions([{ audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, choices: []}])
+        setQuestions([{ audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, choices: [ { content: "", answer: false } ] }])
         break;
       case QuizTypes.AUDIO_SUBJECTIVE:
-        // console.log("오디오-주관식으로 문제를 수정합니다.")
-        setQuestions([{  audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, answers: [] }])
+        setQuestions([{  audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, answers: [ "" ] }])
         break;
       case QuizTypes.BINARY_CHOICE:
-        // console.log("이지선다 유형으로 문제를 수정합니다.")
         setQuestions([{
           first: { description: "", imageUrl: "", imageStatus: ImageUploadStatus.NOT_UPLOADED, answer: false },
           second: { description: "", imageUrl: "", imageStatus: ImageUploadStatus.NOT_UPLOADED, answer: false },

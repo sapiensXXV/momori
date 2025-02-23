@@ -1,0 +1,7 @@
+.hiddenYoutubeContainer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    left: -9999px;
+    overflow: hidden;
+}

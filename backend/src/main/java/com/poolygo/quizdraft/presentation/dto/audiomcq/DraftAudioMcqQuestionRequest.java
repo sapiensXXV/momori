@@ -11,8 +11,8 @@ import java.util.List;
 public class DraftAudioMcqQuestionRequest {
 
     private String audioId;
-    private String startTime;
-    private String playDuration;
+    private int startTime;
+    private int playDuration;
 
     private List<DraftAudioMcqChoiceRequest> choices;
 }

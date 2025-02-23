@@ -132,16 +132,17 @@ public class QuizReadConverter implements Converter<Document, Quiz> {
 
     private AudioMcqQuestion convertAudioMcqQuestion(Document doc) {
         String questionId = doc.getString("questionId");
+        String audioId = doc.getString("audioId");
+        int startTime = doc.getInteger("startTime");
+        int playDuration = doc.getInteger("playDuration");
         int tryCount = doc.getInteger("tryCount");
         int correctCount = doc.getInteger("correctCount");
-        String audioUrl = doc.getString("audioUrl");
-        String content = doc.getString("content");
-        boolean answer = doc.getBoolean("answer");
         List<Document> choicesDocs = (List<Document>) doc.get("choices");
         List<TextMcqChoice> choices = new ArrayList<>();
         if (choicesDocs != null) {
             for (Document choiceDoc : choicesDocs) {
-                String text = choiceDoc.getString("text");
+                String content = choiceDoc.getString("content");
+                Boolean answer = choiceDoc.getBoolean("answer");
                 int selectedCount = choiceDoc.getInteger("selectedCount", 0);
                 TextMcqChoice choice = TextMcqChoice.builder()
                     .content(content)
@@ -155,13 +156,18 @@ public class QuizReadConverter implements Converter<Document, Quiz> {
             .questionId(questionId)
             .tryCount(tryCount)
             .correctCount(correctCount)
-            .audioUrl(audioUrl)
+            .audioId(audioId)
+            .startTime(startTime)
+            .playDuration(playDuration)
             .choices(choices)
             .build();
     }
 
     private AudioSubQuestion convertAudioSubQuestion(Document doc) {
         String questionId = doc.getString("questionId");
+        String audioId = doc.getString("audioId");
+        int startTime = doc.getInteger("startTime");
+        int playDuration = doc.getInteger("playDuration");
         int tryCount = doc.getInteger("tryCount");
         int correctCount = doc.getInteger("correctCount");
         String audioUrl = doc.getString("audioUrl");
@@ -170,7 +176,9 @@ public class QuizReadConverter implements Converter<Document, Quiz> {
             .questionId(questionId)
             .tryCount(tryCount)
             .correctCount(correctCount)
-            .audioUrl(audioUrl)
+            .audioId(audioId)
+            .startTime(startTime)
+            .playDuration(playDuration)
             .answers(answers)
             .build();
     }

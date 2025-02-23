@@ -16,6 +16,8 @@ const ImageMcqQuestionForm = () => {
 
   const { questions, setQuestions } = useQuizContext<NewImageMcqQuestion>();
 
+  console.log(questions);
+
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
     if (!e.target.value) return;
@@ -171,7 +173,7 @@ const ImageMcqQuestionForm = () => {
 
               {/* 선택지 */}
               <div className={classes.choiceContainer}>
-                {question.choices.map((choice: NewImageMcqChoice, ci: number) => (
+                {question?.choices?.map((choice: NewImageMcqChoice, ci: number) => (
                   <div className={classes.choice} key={`${qi}_${ci}_choice`}>
                     {/* 체크박스 레이블 */}
                     <label className={classes.checkboxContainer}>

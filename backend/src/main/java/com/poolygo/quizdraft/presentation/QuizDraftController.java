@@ -4,6 +4,7 @@ package com.poolygo.quizdraft.presentation;
 import com.poolygo.auth.dto.UserAuthDto;
 import com.poolygo.global.resolver.AuthenticateUser;
 import com.poolygo.quizdraft.application.QuizDraftService;
+import com.poolygo.quizdraft.presentation.dto.audiomcq.DraftAudioMcqQuizRequest;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqQuizRequest;
 import com.poolygo.quizdraft.presentation.dto.CreateDraftResponse;
 import com.poolygo.quizdraft.presentation.dto.imagemcq.DraftImageMcqDetailResponse;
@@ -75,8 +76,12 @@ public class QuizDraftController {
     }
 
     @PostMapping("/draft/audio-mcq")
-    public ResponseEntity<CreateDraftResponse> draftAudioMcq() {
-        return null;
+    public ResponseEntity<CreateDraftResponse> draftAudioMcq(
+        @RequestBody DraftAudioMcqQuizRequest request,
+        @AuthenticateUser UserAuthDto userInfo
+    ) {
+        String id = quizDraftService.saveOrUpdateDraft(request, userInfo.getIdentifier(), userInfo.getProvider());
+        return ResponseEntity.ok(CreateDraftResponse.success(id));
     }
 
     @PostMapping("/draft/audio-sub")
