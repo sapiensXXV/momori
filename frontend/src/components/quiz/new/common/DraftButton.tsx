@@ -4,6 +4,7 @@ import {handleError} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {
+  AudioUploadStatus,
   NewAudioMcqQuestion,
   NewAudioSubjectiveQuestion,
   NewImageBinaryQuestion,
@@ -20,6 +21,7 @@ import {
   ImageSubDraftQuestion
 } from "../../../../global/types/draft.ts";
 import {NewQuestionContextMapping} from "../../../../global/types/quizContextMapping.ts";
+import {NewAudioMcqChoice} from "../../../../types/choice.ts";
 
 
 interface DraftButtonProps<T extends QuizTypes> {
@@ -81,7 +83,9 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
       return questions
         .map((question) => question as NewAudioMcqQuestion)
         .map((question): AudioMcqDraftQuestion => ({
-          audioUrl: question.audioUrl,
+          audioId: question.audioId,
+          startTime: question.startTime,
+          playDuration: question.playDuration,
           choices: question.choices.map((choice) => ({
             content: choice.content,
             answer: choice.answer
@@ -91,7 +95,9 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
       return questions
         .map((question) => question as NewAudioSubjectiveQuestion)
         .map((question): AudioSubDraftQuestion => ({
-          audioUrl: question.audioUrl,
+          audioId: question.audioId,
+          startTime: question.startTime,
+          playDuration: question.playDuration,
           answers: question.answers
         }))
     } else if (quizType === QuizTypes.BINARY_CHOICE) {

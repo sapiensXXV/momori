@@ -14,7 +14,7 @@ const AddAudioMcqQuestionButton = () => {
         audioStatus: AudioUploadStatus.NOT_UPLOADED,
         audioId: "",
         startTime: 0,
-        playDuration: undefined,
+        playDuration: 10,
         choices: [{ content: "", answer: false }]
       }]
     })

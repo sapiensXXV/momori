@@ -1,0 +1,123 @@
+/*선택지*/
+.choiceContainer {
+    display: flex;
+    flex-direction: column;
+    column-gap: 5px;
+    row-gap: 4px;
+    width: 100%;
+}
+
+/*선택지 추가*/
+.choiceAddButton {
+    border: none;
+    width: 95px;
+    height: 117px;
+    border-radius: 5px;
+    background-color: #ffe6a6;
+    cursor: pointer;
+    font-family: Pretendard-Bold, serif;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* 트랜지션 추가 */
+}
+
+.choiceAddButton:hover {
+    transform: scale(1.05);
+}
+
+.choice {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+    width: 100%;
+}
+
+.choiceNumber {
+    width: 15px;
+    font-size: 18px;
+    font-family: Pretendard-Regular, serif;
+
+}
+
+/*체크박스*/
+.hiddenCheckbox {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.customCheckbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+    border: none; /* 테두리 제거 */
+}
+
+/* 체크 상태 스타일 */
+.hiddenCheckbox:checked + .customCheckbox {
+    background: #ffc935; /* 푸른색 배경 */
+    animation: scaleUp 0.2s ease;
+}
+
+/* 체크 마크 스타일 */
+.hiddenCheckbox:checked + .customCheckbox::after {
+    content: "✓";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    animation: fadeIn 0.2s ease;
+}
+
+/* 애니메이션 효과 */
+@keyframes scaleUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.choiceInput {
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    /* 기존 스타일 유지 */
+    border-radius: 4px; /* 둥근 모서리 */
+
+    font-size: 15px;
+}
+
+.choiceDeleteButton {
+    background-color: var(--color-danger-background);
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+}
+
+.choiceDeleteButton:hover {
+    background-color: var(--color-danger-hover);
+}
+
+.choiceDeleteButton:hover > svg {
+    stroke: white;
+}

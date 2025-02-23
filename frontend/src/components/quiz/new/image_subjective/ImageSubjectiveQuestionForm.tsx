@@ -131,7 +131,7 @@ const ImageSubjectiveQuestionForm = () => {
                 {/*  선택지 */}
                 <div className={classes.answerContainer}>
                   {
-                    question.answers.map((answer: string, ai: number) => (
+                    question?.answers?.map((answer: string, ai: number) => (
                       <div className={classes.answer} key={`${qi}_${ai}_answer`}>
                         <input
                           className={`${classes.answerInput} common-input-sm`}

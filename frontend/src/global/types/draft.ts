@@ -22,7 +22,9 @@ export interface ImageSubDraftQuestion {
 }
 
 export interface AudioMcqDraftQuestion {
-  audioUrl: string;
+  audioId: string;
+  startTime: number;
+  playDuration: number | undefined;
   choices: {
     content: string;
     answer: boolean;
@@ -30,7 +32,9 @@ export interface AudioMcqDraftQuestion {
 }
 
 export interface AudioSubDraftQuestion {
-  audioUrl: string;
+  audioId: string;
+  startTime: number;
+  playDuration: number | undefined;
   answers: string[];
 }
 
