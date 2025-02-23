@@ -88,8 +88,15 @@ public class QuizController {
         @RequestBody AudioMcqQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
+            .build()
+            .toUri();
 
-        return null;
+        return ResponseEntity
+            .created(quizUri)
+            .body(response);
     }
 
 
@@ -98,11 +105,23 @@ public class QuizController {
         @RequestBody AudioSubQuizCreateRequest request,
         @AuthenticateUser UserAuthDto auth
     ) {
-        return null;
+        QuizCreateResponse response = quizService.createQuiz(request, auth);
+        URI quizUri = UriComponentsBuilder
+            .fromUriString(domainConfiguration.baseUrl() + "/quiz/" + response.getQuizId())
+            .build()
+            .toUri();
+
+        return ResponseEntity
+            .created(quizUri)
+            .body(response);
     }
 
     @PostMapping("/bin-img")
-    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
+    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz(
+
+
+    ) {
+        // TODO: 월드컵 퀴즈 생성 로직
         return null;
     }
 
@@ -120,5 +139,5 @@ public class QuizController {
     ) {
         quizService.recordResult(request);
         return ResponseEntity.ok(null);
-    }
+    }   
 }

@@ -11,11 +11,14 @@ import {AudioUploadStatus, ImageUploadStatus} from "../../../types/question.ts";
 
 export default function NewQuiz() {
 
-  const { setQuestions, quizType, setQuizType } = useQuizContext();
+  const { isDraftLoading, setQuestions, quizType, setQuizType } = useQuizContext();
 
   // 퀴즈 타입이 변할 때마다 Question을 초기화한다.
   useEffect(() => {
-    initQuestions();
+    // 임시 퀴즈를 로딩 중일때는 퀴즈 목록을 초기화해서는 안된다.
+    if (!isDraftLoading) {
+      initQuestions();
+    }
   }, [quizType]);
 
   const getQuizForm = () => {
@@ -34,11 +37,11 @@ export default function NewQuiz() {
   };
 
   const changeQuizType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // 새로운 퀴즈 유형 추가시 기존의 문제 삭제
     setQuizType(e.target.value as QuizTypes);
   }
 
   const initQuestions = () => {
+    console.log('initQuestions')
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [{ content: "", answer: false }] }]);

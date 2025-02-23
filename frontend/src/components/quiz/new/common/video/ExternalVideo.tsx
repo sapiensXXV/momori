@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import {FC} from "react";
 import YouTube, {YouTubeEvent} from "react-youtube";
 import classes from "./ExternalVideo.module.css";
 
@@ -6,7 +6,7 @@ type ExternalVideoProps = {
   videoId: string;
   startTime: number;
   playDuration: number;
-  onReady?: (event: any) => void;
+  onReady?: (event: YouTubeEvent) => void;
   onStateChange?: (event: YouTubeEvent<number>) => void;
 }
 
@@ -17,9 +17,6 @@ const ExternalVideo: FC<ExternalVideoProps> = ({
   onReady,
   onStateChange
 }) => {
-  console.log(videoId);
-  console.log(startTime);
-  console.log(playDuration);
   return (
     <div className={classes.hiddenYoutubeContainer}>
       <YouTube

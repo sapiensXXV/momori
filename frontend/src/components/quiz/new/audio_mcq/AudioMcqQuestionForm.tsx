@@ -4,13 +4,9 @@ import {AudioUploadStatus, NewAudioMcqQuestion} from "../../../../types/question
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import AudioUploadModal from "../common/modal/AudioUploadModal.tsx";
 import AddAudioMcqQuestionButton from "./AddAudioMcqQuestionButton.tsx";
-import YouTube, {YouTubePlayer} from "react-youtube";
+import {YouTubePlayer} from "react-youtube";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {PlayerState} from "../../../../global/player/player.ts";
-import audioPlayAnimation from "../../../../../public/animation/audio_playing.json";
-import Lottie, {LottieRef} from "lottie-react";
-import LottieComponent from "../../../lottie/LottieComponent.tsx";
-import {NewAudioMcqChoice, NewImageMcqChoice} from "../../../../types/choice.ts";
 import {
   CHOICE_MAX_LIMIT_MSG,
   CHOICE_MIN_LIMIT_MSG,
@@ -27,6 +23,7 @@ const AudioMcqQuestionForm = () => {
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
+  console.log(questions);
   // YouTube 플레이어 관련 상태
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [isPlay, setIsPlay] = useState<boolean>(false);
@@ -68,8 +65,6 @@ const AudioMcqQuestionForm = () => {
 
   // YouTube 이벤트 핸들러들
   const onReady = (event: any) => {
-    console.log('call onReady')
-    console.log(playerRef.current);
     playerRef.current = event.target;
     setIsReady(true);
   };
@@ -90,8 +85,6 @@ const AudioMcqQuestionForm = () => {
 
   // 재생/정지 처리
   const handlePlayPause = useCallback((index: number) => {
-    // console.log(`handlePlayPause(${index})`);
-    // console.log(playerRef.current);
     if (!playerRef.current) return;
     const player = playerRef.current;
     const currentQuestion = questions[index];
@@ -204,8 +197,7 @@ const AudioMcqQuestionForm = () => {
       })
     })
   }
-  console.log(questions);
-  console.log(questions[selectedQuestionIndex]);
+
   return (
     <>
       {showAudioUploadModal && (
