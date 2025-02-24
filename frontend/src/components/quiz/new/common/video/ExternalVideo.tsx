@@ -24,14 +24,14 @@ const ExternalVideo: FC<ExternalVideoProps> = ({
         opts={{
           width: "100%",
           playerVars: {
-            autoplay: 0,
+            autoplay: 1, // 자동 재생
             rel: 0,
             start: startTime,
             ...(playDuration !== undefined && {
               end: startTime + playDuration
             })
           },
-          volume: 0.5
+          volume: 1
         }}
         onReady={onReady}
         onStateChange={onStateChange}

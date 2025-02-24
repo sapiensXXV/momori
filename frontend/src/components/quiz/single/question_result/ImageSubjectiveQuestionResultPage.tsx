@@ -1,4 +1,4 @@
-import classes from './ImageSubjectiveQuestionResultPage.module.css'
+import classes from './SubjectiveQuestionResult.module.css'
 import {ImageSubjectiveDetailQuestion} from "../../../../types/question.ts";
 import { FC } from "react";
 import PercentageBar from "./PercentageBar.tsx";
@@ -8,10 +8,9 @@ type ImageSubjectiveQuestionResultPageProps = {
   isCorrect: boolean;
   question: ImageSubjectiveDetailQuestion;
   nextQuestion: () => void; // 다음 문제를 호출하는 함수
-  userInput: string; // 사용자가 입력한 내용
 }
 
-const ImageSubjectiveQuestionResultPage: FC<ImageSubjectiveQuestionResultPageProps> = ({ isCorrect, question, nextQuestion, userInput}) => {
+const ImageSubjectiveQuestionResultPage: FC<ImageSubjectiveQuestionResultPageProps> = ({ isCorrect, question, nextQuestion}) => {
 
   return (
     <>

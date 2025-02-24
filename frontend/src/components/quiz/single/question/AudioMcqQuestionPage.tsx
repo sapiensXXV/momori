@@ -22,6 +22,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   useEffect(() => {
     return (() => {
       setIsVideoReady(false);
+      setIsVideoPlaying(false);
     });
   }, []);
 
@@ -103,7 +104,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
           {/* ExternalVideo 재생버튼  */}
           <div className={classes.audioButtonContainer} onClick={audioButtonClicked}>
             {
-              // 비디오가 준비되었을 때 로딩화면을 보여준다.
+              // 비디오가 준비되기 전에는 로딩 화면을 보여준다.
               isVideoReady
                 ? <LottieComponent
                   animationData={audioPlayingAnimation}
@@ -134,10 +135,8 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
           <div className={`${classes.submitButton} common-button`} onClick={() => answerSubmit(selected)}>
             <div className={classes.submitButtonContentContainer}>
               <span>제출 </span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
-                   stroke="currentColor" className="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499"/>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" className="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499"/>
               </svg>
             </div>
           </div>

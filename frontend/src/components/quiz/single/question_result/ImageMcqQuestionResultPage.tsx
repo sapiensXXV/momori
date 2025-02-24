@@ -1,4 +1,4 @@
-import classes from './ImageMcqQuestionResult.module.css'
+import classes from './McqQuestionResult.module.css';
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
 import {FC, useEffect, useState} from "react";
 import {percent} from "../../../../global/util/percent.tsx";

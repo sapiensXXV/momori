@@ -137,18 +137,20 @@ const QuizPage = () => {
   }
 
   const submitMcqQuestion = (isSelectAnswer: boolean, selectedIndex: number) => {
+    // userSelect, correct 변수는 사용자가 현재 푼 문제에 대한 정보이다.
+    // userSelect 는 사용자가 선택한 선택지의 번호, correct 는 정답(true), 오답(false) 여부이다.
     setUserSelect(selectedIndex);
     // 객관식, 주관식, 이미지, 오디오 각각 결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
-      // 정답 선택 로직
+      // 사용자가 정답을 맞추었을 때
       setCorrect(true);
       mcqRecord.current.questions.push({
           questionId: chosenQuestions[current].questionId,
           isCorrect: true,
-          choices: [selectedIndex]
+          choices: [selectedIndex] // 미래에 복수정답 퀴즈가 나올 수 있어 배열로 데이터를 전달한다.
         })
     } else {
-      // 오답 선택 로직
+      // 사용자가 오답을 선택했을 때
       setCorrect(false);
       mcqRecord.current.questions.push({
         questionId: chosenQuestions[current].questionId,
@@ -239,10 +241,14 @@ const QuizPage = () => {
           isCorrect={correct}
           question={chosenQuestions[current] as ImageSubjectiveDetailQuestion}
           nextQuestion={nextQuestion}
-          userInput={userInput}
         />
       case QuizTypes.AUDIO_MCQ:
-        return <AudioMcqQuestionResultPage/>
+        return <AudioMcqQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as AudioMcqDetailQuestion}
+          nextQuestion={nextQuestion}
+          userSelect={userSelect}
+        />
       case QuizTypes.AUDIO_SUBJECTIVE:
         return <AudioSubjectiveQuestionResultPage/>
       case QuizTypes.BINARY_CHOICE:
