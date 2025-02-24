@@ -134,7 +134,7 @@ export interface AudioMcqDetailQuestion extends DetailQuestion {
     content: string;
     answer: boolean;
     selectedCount: number;
-  },
+  }[],
 }
 
 export interface AudioSubDetailQuestion extends DetailQuestion {

@@ -6,6 +6,7 @@ import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {
+  AudioMcqDetailQuestion,
   DetailQuestion,
   ImageMcqDetailQuestion,
   ImageSubjectiveDetailQuestion,
@@ -135,10 +136,8 @@ const QuizPage = () => {
     }
   }
 
-  const submitMcqQuestion = (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => {
-    // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
-    setPageType(QuizPageType.QUESTION_RESULT);
-    setUserSelect(userSelect);
+  const submitMcqQuestion = (isSelectAnswer: boolean, selectedIndex: number) => {
+    setUserSelect(selectedIndex);
     // 객관식, 주관식, 이미지, 오디오 각각 결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
       // 정답 선택 로직
@@ -157,6 +156,8 @@ const QuizPage = () => {
         choices: [selectedIndex]
       })
     }
+    // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
+    setPageType(QuizPageType.QUESTION_RESULT);
   }
 
   // 주관식 문제를 제출하고, 사용자의 입력과 결과를 받아오는 메서드
@@ -212,7 +213,10 @@ const QuizPage = () => {
           afterSubmit={submitSubQuestion}
         />
       case QuizTypes.AUDIO_MCQ:
-        return <AudioMcqQuestionPage/>
+        return <AudioMcqQuestionPage
+          question={chosenQuestions[current] as AudioMcqDetailQuestion}
+          afterSubmit={submitMcqQuestion}
+        />
       case QuizTypes.AUDIO_SUBJECTIVE:
         return <AudioSubjectiveQuestionPage/>
       case QuizTypes.BINARY_CHOICE:
