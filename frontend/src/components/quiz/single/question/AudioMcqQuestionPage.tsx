@@ -6,6 +6,7 @@ import {YouTubeEvent, YouTubePlayer} from "react-youtube";
 import LottieComponent from "../../../lottie/LottieComponent.tsx";
 import audioPlayingAnimation from "../../../../../public/animation/audio_playing.json";
 import {PlayerState} from "../../../../global/player/player.ts";
+import CircularProgressBar from "../../../common/CircularProgressBar.tsx";
 
 type AudioMcqQuestionPageProps = {
   question: AudioMcqDetailQuestion;
@@ -18,15 +19,23 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   const [isVideoReady, setIsVideoReady] = useState<boolean>(false);
   const youtubePlayerRef = useRef<YouTubePlayer | null>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+
+// 타이머 관련 ref
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerStartTimeRef = useRef<number>(0);
 
   useEffect(() => {
     return (() => {
       setIsVideoReady(false);
       setIsVideoPlaying(false);
+      // 타이머가 남아있다면 해제
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     });
   }, []);
-
-  console.log(`isVideoReady=${isVideoReady}`);
 
   const choiceSelect = (index: number) => {
     setSelected(index);
@@ -61,17 +70,46 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
 
   const onStateChange = useCallback((event: any) => {
     const playerState = event.target.getPlayerState();
-
+    console.log(playerState);
     switch (playerState) {
       case PlayerState.ENDED:
       case PlayerState.PAUSED:
         setIsVideoPlaying(false);
+        stopCalculateProgress();
         break;
       case PlayerState.PLAYING:
         setIsVideoPlaying(true);
+        startCalculateProgress();
         break;
     }
   }, []);
+
+  const startCalculateProgress = () => {
+    timerStartTimeRef.current = Date.now();
+    timerRef.current = setInterval(() => {
+      const elapsed = Date.now() - timerStartTimeRef.current; // ms 단위
+      const newProgress = ((elapsed / 1000) / question.playDuration) * 100;
+      if (newProgress >= 100) {
+        setProgress(100);
+        if (timerRef.current) {
+          // 타이머를 삭제
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+      } else {
+        setProgress(newProgress);
+      }
+    }, 30); // 100ms 간격으로 실행
+  }
+
+  const stopCalculateProgress = () => {
+    if (timerRef.current) {
+      // 타이머를 삭제
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setProgress(0); // 영상이 종료되거나 정지되면 진행 상태를 0으로 초기화
+  }
 
   const audioButtonClicked = () => {
     console.log('audioButton 이 클릭되었습니다.')
@@ -83,13 +121,12 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
       player.pauseVideo(); // 영상 정지
       setIsVideoPlaying(false);
     } else {
+
       player.seekTo(question.startTime, true); // 시작 시간으로 돌아간다.
       player.playVideo(); // 영상 재생
       setIsVideoPlaying(true);
     }
-
   }
-
   return (
     <>
       <main className={classes.questionContainer}>
@@ -99,24 +136,31 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
           playDuration={question.playDuration}
           onReady={videoReady}
           onStateChange={onStateChange}
+          autoPlay={1} // 자동재생
         />
         <div className={classes.questionContentContainer}>
-          {/* ExternalVideo 재생버튼  */}
-          <div className={classes.audioButtonContainer} onClick={audioButtonClicked}>
-            {
-              // 비디오가 준비되기 전에는 로딩 화면을 보여준다.
-              isVideoReady
-                ? <LottieComponent
-                  animationData={audioPlayingAnimation}
-                  loop={true}
-                  autoplay={true}
-                  speed={1}
-                  isPaused={false}
-                  isStopped={!isVideoPlaying}
-                />
-                : <img src={"/img/icon/loading.gif"}/>
-            }
-          </div>
+          <CircularProgressBar progress={progress} circleWidth={200}>
+            <div
+              className={`${classes.audioButtonContainer}`}
+              onClick={audioButtonClicked}
+            >
+              {
+                // 비디오가 준비되기 전에는 로딩 화면을 보여준다.
+                isVideoReady
+                  ? <LottieComponent
+                    animationData={audioPlayingAnimation}
+                    loop={true}
+                    autoplay={true}
+                    speed={1}
+                    isPaused={false}
+                    isStopped={!isVideoPlaying}
+                  />
+                  : <img src={"/img/icon/loading.gif"}/>
+              }
+            </div>
+          </CircularProgressBar>
+
+
           <div className={classes.choiceContainer}>
             {
               question.choices.map((choice, index) => {
@@ -135,15 +179,17 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
           <div className={`${classes.submitButton} common-button`} onClick={() => answerSubmit(selected)}>
             <div className={classes.submitButtonContentContainer}>
               <span>제출 </span>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" className="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499"/>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                   stroke="currentColor" className="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m7.49 12-3.75 3.75m0 0 3.75 3.75m-3.75-3.75h16.5V4.499"/>
               </svg>
             </div>
           </div>
         </div>
       </main>
     </>
-  )
+  );
 }
 
 export default AudioMcqQuestionPage;

@@ -251,6 +251,7 @@ const AudioMcqQuestionForm = () => {
           playDuration={questions[selectedQuestionIndex].playDuration}
           onReady={onReady}
           onStateChange={onStateChange}
+          autoPlay={0} // 자동 재생하지 않음.
         />
       }
     </>

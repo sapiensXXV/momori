@@ -6,7 +6,6 @@ import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useNavigate} from "react-router-dom";
-import quizResult from "../../../../global/api/quizResult.ts";
 import quizResultApiMap from "../../../../global/api/quizResult.ts";
 
 type QuizResultPageProps = {
@@ -20,6 +19,8 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
   const navigate = useNavigate();
+
+  console.log(record);
 
   useEffect(() => {
     // 차트 생성
