@@ -1,5 +1,5 @@
 import styles from "./NewQuiz.module.css"
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import {QuizTypes} from "../types/Quiz.types.ts";
 import ImageMcqForm from "./image_mcq/ImageMcqForm.tsx";
 import ImageSubjectiveForm from "./image_subjective/ImageSubjectiveForm.tsx";
@@ -34,19 +34,18 @@ export default function NewQuiz() {
   }
 
   const initQuestions = (quizType: QuizTypes) => {
-    console.log('initQuestions');
     switch (quizType) {
       case QuizTypes.IMAGE_MCQ:
         setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", choices: [{ content: "", answer: false }] }]);
         break;
       case QuizTypes.IMAGE_SUBJECTIVE:
-        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", answers: [ "" ] }]);
+        setQuestions([{ imageStatus: ImageUploadStatus.NOT_UPLOADED, imageUrl: "", answers: [] }]);
         break;
       case QuizTypes.AUDIO_MCQ:
         setQuestions([{ audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, choices: [ { content: "", answer: false } ] }])
         break;
       case QuizTypes.AUDIO_SUBJECTIVE:
-        setQuestions([{  audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, answers: [ "" ] }])
+        setQuestions([{  audioStatus: AudioUploadStatus.NOT_UPLOADED, audioId: "", startTime: 0, playDuration: undefined, answers: [] }])
         break;
       case QuizTypes.BINARY_CHOICE:
         setQuestions([{

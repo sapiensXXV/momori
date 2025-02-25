@@ -81,6 +81,9 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
         setIsVideoPlaying(true);
         startCalculateProgress();
         break;
+      default:
+        setIsVideoPlaying(false);
+        stopCalculateProgress();
     }
   }, []);
 

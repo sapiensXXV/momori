@@ -1,0 +1,30 @@
+.subAnswerTagContainer {
+    /* 백그라운드 색상은 유저의 입력에 따라 tsx 코드에서 동적으로 결정한다. */
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 6px;
+    border: 1px solid;
+
+    font-family: Pretendard-Regular, serif;
+    font-size: 0.85rem;
+}
+
+.tagDeleteButton {
+    width: 15px;
+    height: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+
+    cursor: pointer;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
