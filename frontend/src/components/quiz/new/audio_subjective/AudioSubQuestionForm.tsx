@@ -7,6 +7,7 @@ import {
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {YouTubePlayer} from "react-youtube";
 import {
+  ANSWER_MAX_LIMIT_MSG,
   QUESTION_MIN_LIMIT_MST
 } from "../../../../global/message/quiz_message.ts";
 import {PlayerState} from "../../../../global/player/player.ts";
@@ -14,25 +15,15 @@ import AudioUploadModal from "../common/modal/AudioUploadModal.tsx";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import AudioMcqQuestionDeleteButton from "../audio_mcq/AudioMcqQuestionDeleteButton.tsx";
 import VideoQuestionController from "../common/video/VideoQuestionController.tsx";
-import AddAudioMcqQuestionButton from "../audio_mcq/AddAudioMcqQuestionButton.tsx";
 import ExternalVideo from "../common/video/ExternalVideo.tsx";
 import AudioSubAnswerController from "./AudioSubAnswerController.tsx";
-
-
-// export interface NewAudioSubjectiveQuestion extends BaseQuestion {
-//   audioStatus: AudioUploadStatus;
-//   audioId: string; // youtube video id
-//   startTime: number; // 시작 시간이 초로 주어진다.
-//   playDuration: number | undefined; // 재생 시간
-//   answers: string[];
-// }
+import AddAudioSubQuestionButton from "./AddAudioSubQuestionButton.tsx";
 
 const AudioSubQuestionForm = () => {
   const {quizType, questions, setQuestions} = useQuizContext<NewAudioSubjectiveQuestion>();
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
-  console.log(questions);
   // YouTube 플레이어 관련 상태
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [isPlay, setIsPlay] = useState<boolean>(false);
@@ -149,14 +140,26 @@ const AudioSubQuestionForm = () => {
     setQuestions(prev => {
       return prev.map((question, index) => {
         if (index !== qi) return question;
+        if (question.answers.length >= 10) {
+          alert(ANSWER_MAX_LIMIT_MSG);
+          return question;
+        }
         question.answers.push(value);
         return question;
       })
     })
   }
 
-  const deleteAnswer = (qi: number, index: number) => {
-    console.log(`${qi} 번째 문제의 ${index}번째 정답 삭제`);
+  // qi 번째 문제의 ai번째 정답 삭제
+  const deleteAnswer = (qi: number, ai: number) => {
+    setQuestions(prev => {
+      return prev.map((question, qIdx) => {
+        return qIdx !== qi ? question : {
+          ...question,
+          answers: question.answers.filter((_, aIdx) => aIdx !== ai)
+        }
+      });
+    })
   }
 
   return (
@@ -195,7 +198,7 @@ const AudioSubQuestionForm = () => {
         ))}
 
         {/* 문제 추가 버튼 */}
-        <AddAudioMcqQuestionButton/>
+        <AddAudioSubQuestionButton/>
       </main>
       {/* 사용자에게는 보이지 않는 유튜브 화면 컴포넌트 */}
       {

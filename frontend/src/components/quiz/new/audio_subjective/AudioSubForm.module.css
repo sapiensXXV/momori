@@ -52,6 +52,33 @@
     color: white;
 }
 
+/* 문제 추가 버튼 */
+.questionAddButton {
+    display: flex;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    height: 35px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    background-color: #ffe6a6;
+    border-radius: 3px;
+}
+
+.questionAddButton:hover {
+    transform: scale(1.01); /* 5% 확대 */
+}
+
+.questionAddButton img {
+    height: 100%;
+}
+
+.questionAddButton span {
+    font-family: Pretendard-Bold, serif;
+    font-size: 14px;
+}
+
 /* 파일 선택부 */
 .fileInputContainer {
     display: flex;
