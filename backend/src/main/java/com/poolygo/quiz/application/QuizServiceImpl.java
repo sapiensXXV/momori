@@ -106,6 +106,9 @@ public class QuizServiceImpl implements QuizService {
     private QuizCreateResponse createImageSubQuiz(ImageSubQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
+        if (StringUtils.hasText(request.getDraftId())) {
+            draftRepository.deleteById(request.getDraftId());
+        }
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
@@ -113,6 +116,9 @@ public class QuizServiceImpl implements QuizService {
     private QuizCreateResponse createAudioMcqQuiz(AudioMcqQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
+        if (StringUtils.hasText(request.getDraftId())) {
+            draftRepository.deleteById(request.getDraftId());
+        }
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
@@ -120,6 +126,9 @@ public class QuizServiceImpl implements QuizService {
     private QuizCreateResponse createAudioSubQuiz(AudioSubQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
+        if (StringUtils.hasText(request.getDraftId())) {
+            draftRepository.deleteById(request.getDraftId());
+        }
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
@@ -127,6 +136,9 @@ public class QuizServiceImpl implements QuizService {
     private QuizCreateResponse createBinaryChoiceQuiz(BinaryChoiceQuizCreateRequest request, UserAuthDto auth) {
         Quiz newQuiz = quizFactory.from(request, auth);
         Quiz createdQuiz = quizRepository.save(newQuiz);
+        if (StringUtils.hasText(request.getDraftId())) {
+            draftRepository.deleteById(request.getDraftId());
+        }
 
         return new QuizCreateResponse(createdQuiz.getId(), createdQuiz.getTitle());
     }
