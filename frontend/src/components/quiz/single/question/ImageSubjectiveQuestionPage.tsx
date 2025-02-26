@@ -11,17 +11,27 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
 
   const [userInput, setUserInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isComposing, setIsComposing] = useState<boolean>(false);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   const answerKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isComposing) {
+      e.preventDefault()
+      e.stopPropagation()
       answerSubmit();
     }
   }
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = () => {
+    setIsComposing(false);
+  };
 
   const answerSubmit = () => {
     if (userInput == null || userInput === undefined || userInput.length === 0) {
@@ -37,6 +47,9 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
     } else {
       afterSubmit(false, userInput);
     }
+
+    // 포커스 해제
+    inputRef.current?.blur();
   }
   return (
     <>
@@ -51,7 +64,10 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
             onChange={(e) => setUserInput(e.target.value)}
             type={"text"}
             placeholder={"정답을 입력하세요"}
+            value={userInput}
             onKeyDown={(e) => answerKeyDown(e)}
+            onCompositionStart={handleCompositionStart} // IME 입력 시작
+            onCompositionEnd={handleCompositionEnd}     // IME 입력 종료
           />
 
           <div className={`${classes.submitButton} common-button`} onClick={answerSubmit}>

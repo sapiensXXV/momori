@@ -21,9 +21,12 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
 
-// 타이머 관련 ref
+  // 타이머 관련 ref
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const timerStartTimeRef = useRef<number>(0);
+
+  // 사용자 입력 IME 관련
+  const [isComposing, setIsComposing] = useState<boolean>(false);
 
   useEffect(() => {
     return (() => {
@@ -36,6 +39,31 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
       }
     });
   }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        answerSubmit(selected);
+      }
+      e.preventDefault();
+      const number = Number(e.key);
+      if (!isNaN(number) && number <= question.choices.length+1 && number >= 1) {
+        choiceSelect(number-1); // 인덱스는 0부터 시작하기 때문
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('compositionstart', () => setIsComposing(true));
+    window.addEventListener('compositionend', () => setIsComposing(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('compositionstart', () => setIsComposing(true));
+      window.removeEventListener('compositionend', () => setIsComposing(false));
+    };
+  }, [selected, isComposing]);
 
   const choiceSelect = (index: number) => {
     setSelected(index);
@@ -70,7 +98,6 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
 
   const onStateChange = useCallback((event: any) => {
     const playerState = event.target.getPlayerState();
-    console.log(playerState);
     switch (playerState) {
       case PlayerState.ENDED:
       case PlayerState.PAUSED:

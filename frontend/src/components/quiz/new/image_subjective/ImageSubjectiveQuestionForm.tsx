@@ -17,7 +17,6 @@ import {MAX_SUB_ANSWER_COUNT} from "../../../../global/constant/question.ts";
 const ImageSubjectiveQuestionForm = () => {
 
   const {questions, setQuestions} = useQuizContext<NewImageSubjectiveQuestion>();
-  console.log(questions);
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
     if (!e.target.value) return;

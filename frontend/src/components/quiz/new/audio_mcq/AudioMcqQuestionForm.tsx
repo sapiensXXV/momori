@@ -23,7 +23,6 @@ const AudioMcqQuestionForm = () => {
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
-  console.log(questions);
   // YouTube 플레이어 관련 상태
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [isPlay, setIsPlay] = useState<boolean>(false);

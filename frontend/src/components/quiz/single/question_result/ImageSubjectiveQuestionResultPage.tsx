@@ -1,6 +1,6 @@
 import classes from './SubjectiveQuestionResult.module.css'
 import {ImageSubjectiveDetailQuestion} from "../../../../types/question.ts";
-import { FC } from "react";
+import React, {FC, useEffect, useState} from "react";
 import PercentageBar from "./PercentageBar.tsx";
 import {percent} from "../../../../global/util/percent.tsx";
 
@@ -11,6 +11,28 @@ type ImageSubjectiveQuestionResultPageProps = {
 }
 
 const ImageSubjectiveQuestionResultPage: FC<ImageSubjectiveQuestionResultPageProps> = ({ isCorrect, question, nextQuestion}) => {
+
+  const [isComposing, setIsComposing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextQuestion();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('compositionstart', () => setIsComposing(true));
+    window.addEventListener('compositionend', () => setIsComposing(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('compositionstart', () => setIsComposing(true));
+      window.removeEventListener('compositionend', () => setIsComposing(false));
+    };
+  }, []);
 
   return (
     <>

@@ -165,7 +165,6 @@ const QuizPage = () => {
   // - 문제 결과 페이지에서 표시될 상태 데이터를 설정한다.
   // - 퀴즈 결과 페이지에서 사용될 기록(record)를 기록한다.
   const submitSubQuestion = (isCorrect: boolean, userInput: string) => {
-    console.log('submitSubQuestion');
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserInput(userInput);
     if (isCorrect) {

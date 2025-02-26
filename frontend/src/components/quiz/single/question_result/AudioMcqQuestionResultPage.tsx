@@ -1,6 +1,6 @@
 import classes from './McqQuestionResult.module.css'
 import {AudioMcqDetailQuestion} from "../../../../types/question.ts";
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import PercentageBar from "./PercentageBar.tsx";
 import {percent} from "../../../../global/util/percent.tsx";
 import YouTube from "react-youtube";
@@ -21,9 +21,28 @@ const AudioMcqQuestionResultPage: FC<AudioMcqQuestionResultPageProps> = ({
 }) => {
 
   const [sumOfChoices, setSumOfChoices] = useState<number>(0);
+  const [isComposing, setIsComposing] = useState<boolean>(false);
 
   useEffect(() => {
     setSumOfChoices(calculateSelectSum);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextQuestion();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('compositionstart', () => setIsComposing(true));
+    window.addEventListener('compositionend', () => setIsComposing(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('compositionstart', () => setIsComposing(true));
+      window.removeEventListener('compositionend', () => setIsComposing(false));
+    };
   }, []);
 
   const calculateSelectSum = () => {

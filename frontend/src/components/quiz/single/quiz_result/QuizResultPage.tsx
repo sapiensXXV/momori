@@ -20,8 +20,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const chartInstance = useRef<Chart | null>(null);
   const navigate = useNavigate();
 
-  console.log(record);
-
   useEffect(() => {
     // 차트 생성
     if (!chartRef.current) return;
@@ -88,7 +86,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
       }
     )
       .then(() => {
-        console.log('통계 등록')
       })
       .catch((error) => {
         handleError(error);

@@ -15,7 +15,6 @@ const ImageSubAnswerController: FC<ImageSubAnswerControllerProps> = ({ questionI
   const [isComposing, setIsComposing] = useState<boolean>(false); // IME 입력 중 여부
 
   const submitAnswer = (value: string) => {
-    console.log('submitAnswer called with:', value);
     if (contents.includes(value)) {
       alert('이미 포함된 내용은 중복해서 작성할 수 없습니다.');
       return;
