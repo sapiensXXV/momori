@@ -1,5 +1,5 @@
 import {AudioMcqDetailQuestion} from "../../../../types/question.ts";
-import {FC, useCallback, useEffect, useRef, useState} from "react";
+import React, {FC, useCallback, useEffect, useRef, useState} from "react";
 import classes from "./McqQuestion.module.css";
 import ExternalVideo from "../../new/common/video/ExternalVideo.tsx";
 import {YouTubeEvent, YouTubePlayer} from "react-youtube";
@@ -142,7 +142,6 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   }
 
   const audioButtonClicked = () => {
-    console.log('audioButton 이 클릭되었습니다.')
     if (!isVideoReady) return;
 
     const player = youtubePlayerRef.current;
@@ -189,8 +188,6 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
               }
             </div>
           </CircularProgressBar>
-
-
           <div className={classes.choiceContainer}>
             {
               question.choices.map((choice, index) => {

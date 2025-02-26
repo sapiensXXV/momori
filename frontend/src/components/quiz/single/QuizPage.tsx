@@ -6,10 +6,9 @@ import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {
-  AudioMcqDetailQuestion,
+  AudioMcqDetailQuestion, AudioSubDetailQuestion, AudioSubjectiveQuestion,
   DetailQuestion,
-  ImageMcqDetailQuestion,
-  ImageSubjectiveDetailQuestion,
+  ImageMcqDetailQuestion, ImageSubjectiveDetailQuestion,
   ImageSubjectiveQuestion
 } from "../../../types/question.ts";
 import {getRandomElements} from "../../../global/util/random.ts";
@@ -218,7 +217,10 @@ const QuizPage = () => {
           afterSubmit={submitMcqQuestion}
         />
       case QuizTypes.AUDIO_SUBJECTIVE:
-        return <AudioSubjectiveQuestionPage/>
+        return <AudioSubjectiveQuestionPage
+          question={chosenQuestions[current] as AudioSubDetailQuestion}
+          afterSubmit={submitSubQuestion}
+        />
       case QuizTypes.BINARY_CHOICE:
         return <ImageBinaryQuestionPage/>
     }
@@ -248,7 +250,11 @@ const QuizPage = () => {
           userSelect={userSelect}
         />
       case QuizTypes.AUDIO_SUBJECTIVE:
-        return <AudioSubjectiveQuestionResultPage/>
+        return <AudioSubjectiveQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as AudioSubDetailQuestion}
+          nextQuestion={nextQuestion}
+        />
       case QuizTypes.BINARY_CHOICE:
         return <ImageBinaryQuestionResultPage/>
     }

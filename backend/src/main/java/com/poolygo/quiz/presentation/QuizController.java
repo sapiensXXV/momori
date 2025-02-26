@@ -120,10 +120,7 @@ public class QuizController {
     }
 
     @PostMapping("/bin-img")
-    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz(
-
-
-    ) {
+    public ResponseEntity<QuizCreateResponse> createImageBinaryQuiz() {
         // TODO: 월드컵 퀴즈 생성 로직
         return null;
     }
