@@ -86,3 +86,41 @@
     object-fit: cover;
     filter: brightness(70%);
 }
+
+/* 진행 막대 */
+
+[role="progressBar"] {
+
+    --size: 132px;
+    --bar-width: 20px;
+
+    width: var(--size);
+    aspect-ratio: 1 / 1;
+
+    font-size: 2rem;
+    background: blue;
+    margin: 2rem auto;
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    &::after {
+        content: attr(aria-valuenow) "%";
+        background: white;
+        border-radius: inherit;
+        width: calc(100% - var(--bar-width));
+        aspect-ratio: 1 / 1;
+
+        display: grid;
+        place-items: center;
+    }
+
+    span {
+        display: none;
+    }
+}
+
+.progressBar:not([role="progressBar"]) {
+    color: red;
+}

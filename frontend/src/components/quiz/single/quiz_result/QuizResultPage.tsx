@@ -6,7 +6,6 @@ import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {handleError} from "../../../../global/error/error.ts";
 import {useNavigate} from "react-router-dom";
-import quizResult from "../../../../global/api/quizResult.ts";
 import quizResultApiMap from "../../../../global/api/quizResult.ts";
 
 type QuizResultPageProps = {
@@ -87,7 +86,6 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
       }
     )
       .then(() => {
-        console.log('통계 등록')
       })
       .catch((error) => {
         handleError(error);

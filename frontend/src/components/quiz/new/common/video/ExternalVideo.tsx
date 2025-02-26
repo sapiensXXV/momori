@@ -8,6 +8,7 @@ type ExternalVideoProps = {
   playDuration: number;
   onReady?: (event: YouTubeEvent) => void;
   onStateChange?: (event: YouTubeEvent<number>) => void;
+  autoPlay: number;
 }
 
 const ExternalVideo: FC<ExternalVideoProps> = ({
@@ -15,7 +16,8 @@ const ExternalVideo: FC<ExternalVideoProps> = ({
   startTime,
   playDuration,
   onReady,
-  onStateChange
+  onStateChange,
+  autoPlay
 }) => {
   return (
     <div className={classes.hiddenYoutubeContainer}>
@@ -24,14 +26,14 @@ const ExternalVideo: FC<ExternalVideoProps> = ({
         opts={{
           width: "100%",
           playerVars: {
-            autoplay: 0,
+            autoplay: autoPlay, // 자동 재생
             rel: 0,
             start: startTime,
             ...(playDuration !== undefined && {
               end: startTime + playDuration
             })
           },
-          volume: 0.5
+          volume: 1
         }}
         onReady={onReady}
         onStateChange={onStateChange}

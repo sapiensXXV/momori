@@ -1,7 +1,11 @@
+import AudioSubMetadataForm from "./AudioSubMetadataForm.tsx";
+import AudioSubQuestionForm from "./AudioSubQuestionForm.tsx";
+
 export default function AudioSubjectiveForm() {
   return (
     <>
-      오디오-주관식
+      <AudioSubMetadataForm/>
+      <AudioSubQuestionForm/>
     </>
   )
 }

@@ -10,7 +10,7 @@ import NavCreateQuizButton from "./NavCreateQuizButton.tsx";
 export default function Navbar() {
 
   const auth = useAuth();
-  console.log(auth);
+
   return (
     <>
       <nav className={styles.main}>

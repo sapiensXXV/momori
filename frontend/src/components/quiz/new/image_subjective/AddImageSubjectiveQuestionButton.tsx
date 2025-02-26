@@ -12,7 +12,7 @@ const AddImageSubjectiveQuestionButton = () => {
       return [...prev, {
         imageStatus: ImageUploadStatus.NOT_UPLOADED,
         imageUrl: "",
-        answers: [""]
+        answers: []
       }]
     })
   };

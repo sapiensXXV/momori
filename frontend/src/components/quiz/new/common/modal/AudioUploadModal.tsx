@@ -47,13 +47,12 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
   }, []);
 
   const getVideoUrl = (audioId: string) => {
-    console.log(`audioId=${audioId}`)
     if (audioId !== null && audioId !== undefined && audioId === '') {
       return '';
     }
       return `https://www.youtube.com/watch?v=${audioId}`;
   }
-  console.log(videoUrl)
+
   const mappingAudioMcqQuestion = () => {
     const question = questions[questionIndex] as NewAudioMcqQuestion;
     //TODO: 비디오 URL 설정? (videoURL)
@@ -92,7 +91,6 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
   }
 
   const videoOK = () => {
-    console.log('video ok');
     // TODO: 부모 컴포넌트에 전달해야하는 내용은 무엇인가?
     // 비디오 ID, 시작시간(초, startSeconds + startsMinutes * 60), 지속시간(playDuration), 문제 인덱스
     submitAudio(videoId, calculateStartTime(), playDuration, questionIndex);

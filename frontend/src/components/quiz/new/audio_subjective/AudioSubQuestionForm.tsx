@@ -1,25 +1,27 @@
-import classes from './AudioMcqForm.module.css'
+import classes from './AudioSubForm.module.css'
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {AudioUploadStatus, NewAudioMcqQuestion} from "../../../../types/question.ts";
-import React, {useCallback, useEffect, useRef, useState} from "react";
-import AudioUploadModal from "../common/modal/AudioUploadModal.tsx";
-import AddAudioMcqQuestionButton from "./AddAudioMcqQuestionButton.tsx";
-import {YouTubePlayer} from "react-youtube";
-import {QuizTypes} from "../../types/Quiz.types.ts";
-import {PlayerState} from "../../../../global/player/player.ts";
 import {
-  CHOICE_MAX_LIMIT_MSG,
-  CHOICE_MIN_LIMIT_MSG,
+  AudioUploadStatus,
+  NewAudioSubjectiveQuestion,
+} from "../../../../types/question.ts";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import {YouTubePlayer} from "react-youtube";
+import {
+  ANSWER_MAX_LIMIT_MSG,
   QUESTION_MIN_LIMIT_MST
 } from "../../../../global/message/quiz_message.ts";
-import {MAX_CHOICE_COUNT, MIN_CHOICE_COUNT} from "../../../../global/constant/question.ts";
-import ExternalVideo from "../common/video/ExternalVideo.tsx";
-import AudioMcqQuestionDeleteButton from "./AudioMcqQuestionDeleteButton.tsx";
-import TextMcqChoiceList from "../common/choice/TextMcqChoiceList.tsx";
+import {PlayerState} from "../../../../global/player/player.ts";
+import AudioUploadModal from "../common/modal/AudioUploadModal.tsx";
+import {QuizTypes} from "../../types/Quiz.types.ts";
+import AudioMcqQuestionDeleteButton from "../audio_mcq/AudioMcqQuestionDeleteButton.tsx";
 import VideoQuestionController from "../common/video/VideoQuestionController.tsx";
+import ExternalVideo from "../common/video/ExternalVideo.tsx";
+import AudioSubAnswerController from "./AudioSubAnswerController.tsx";
+import AddAudioSubQuestionButton from "./AddAudioSubQuestionButton.tsx";
+import {MAX_SUB_ANSWER_COUNT} from "../../../../global/constant/question.ts";
 
-const AudioMcqQuestionForm = () => {
-  const {quizType, questions, setQuestions} = useQuizContext<NewAudioMcqQuestion>();
+const AudioSubQuestionForm = () => {
+  const { questions, setQuestions } = useQuizContext<NewAudioSubjectiveQuestion>();
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
@@ -56,7 +58,7 @@ const AudioMcqQuestionForm = () => {
           audioId: audioId,
           startTime: startTime,
           playDuration: playDuration,
-          choices: question.choices
+          answers: question.answers
         }
       ))
     ));
@@ -135,65 +137,30 @@ const AudioMcqQuestionForm = () => {
     return false;
   }
 
-  // 선택지
-  // 선택지 정답 체크
-  const choiceAnswerCheck = (qi: number, ci: number) => {
-    setQuestions(prev =>
-      prev.map((question, qIdx) => {
-        return qIdx !== qi ? question : {
-          ...question,
-          choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : {...choice, answer: !choice.answer}
-          )
-        }
-      })
-    )
-  }
-  // 선택지 삽입
-  const addChoice = (index: number) => {
-    setQuestions((prev) => (
-      prev.map((question, qi) => {
+  const addAnswer = (qi: number, value: string) => {
+    setQuestions(prev => {
+      return prev.map((question, index) => {
         if (index !== qi) return question;
-        if (question.choices.length >= MAX_CHOICE_COUNT) {
-          alert(CHOICE_MAX_LIMIT_MSG);
+        if (question.answers.length >= MAX_SUB_ANSWER_COUNT) {
+          // TODO: 기본 alert 함수가 아닌 커스텀 alert 만들기
+          alert(ANSWER_MAX_LIMIT_MSG);
           return question;
         }
-        return {
-          ...question,
-          choices: [ ...question.choices, { content: "", answer: false} ]
-        };
+        question.answers.push(value);
+        return question;
       })
-    ))
-  };
-
-  // 선택지 입력 변화
-  const choiceInputChange = (e: React.ChangeEvent<HTMLInputElement>, qi: number, ci: number) => {
-    setQuestions(prev =>
-      prev.map((question, qIdx) => {
-        return qIdx !== qi ? question : {
-          ...question,
-          choices: question.choices.map((choice, cIdx) =>
-            cIdx !== ci ? choice : { content: e.target.value, answer: choice.answer }
-          )
-        }
-      })
-    )
+    })
   }
 
-  // 선택지 삭제
-  const deleteChoice = (qi: number, ci: number) => {
-    if (questions[qi].choices.length <= MIN_CHOICE_COUNT) {
-      alert(CHOICE_MIN_LIMIT_MSG);
-      return;
-    }
-
+  // qi 번째 문제의 ai번째 정답 삭제
+  const deleteAnswer = (qi: number, ai: number) => {
     setQuestions(prev => {
       return prev.map((question, qIdx) => {
         return qIdx !== qi ? question : {
           ...question,
-          choices: question.choices.filter((_, cIdx) => cIdx !== ci),
+          answers: question.answers.filter((_, aIdx) => aIdx !== ai)
         }
-      })
+      });
     })
   }
 
@@ -212,7 +179,7 @@ const AudioMcqQuestionForm = () => {
           <React.Fragment key={qi}>
             <hr className="common-hr"/>
             <div className={classes.question}>
-              <AudioMcqQuestionDeleteButton deleteQuestion={deleteQuestion} questionIndex={qi} />
+              <AudioMcqQuestionDeleteButton deleteQuestion={deleteQuestion} questionIndex={qi}/>
               <VideoQuestionController
                 questionIndex={qi}
                 selectedQuestionIndex={selectedQuestionIndex}
@@ -221,23 +188,19 @@ const AudioMcqQuestionForm = () => {
                 isHaveAudioId={isHaveAudioId}
                 isPlay={isPlay}
               />
-              <button className={classes.choiceAddButton} onClick={() => addChoice(qi)}>
-                <span>선택지 추가</span>
-              </button>
-              <TextMcqChoiceList
-                choices={question?.choices}
+              <AudioSubAnswerController
                 questionIndex={qi}
-                quizType={quizType}
-                choiceAnswerCheck={choiceAnswerCheck}
-                choiceInputChange={choiceInputChange}
-                deleteChoice={deleteChoice}
+                contents={question.answers}
+                addAnswer={addAnswer}
+                deleteAnswer={deleteAnswer}
               />
             </div>
+
           </React.Fragment>
         ))}
 
         {/* 문제 추가 버튼 */}
-        <AddAudioMcqQuestionButton/>
+        <AddAudioSubQuestionButton/>
       </main>
       {/* 사용자에게는 보이지 않는 유튜브 화면 컴포넌트 */}
       {
@@ -255,6 +218,6 @@ const AudioMcqQuestionForm = () => {
       }
     </>
   );
-};
+}
 
-export default AudioMcqQuestionForm;
+export default AudioSubQuestionForm;

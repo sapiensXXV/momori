@@ -126,4 +126,23 @@ export interface ImageSubjectiveDetailQuestion extends DetailQuestion {
   answers: string[];
 }
 
+export interface AudioMcqDetailQuestion extends DetailQuestion {
+  audioId: string;
+  startTime: number;
+  playDuration: number;
+  choices: {
+    content: string;
+    answer: boolean;
+    selectedCount: number;
+  }[],
+}
+
+export interface AudioSubDetailQuestion extends DetailQuestion {
+  audioId: string;
+  startTime: number;
+  playDuration: number;
+  answers: string[]
+}
+
+
 //TODO: 다른 퀴즈 타입의 문제 타입 정의

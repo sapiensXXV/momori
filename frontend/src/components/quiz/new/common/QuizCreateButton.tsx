@@ -11,7 +11,6 @@ const QuizCreateButton = () => {
   const navigate = useNavigate();
 
   const createQuiz = async () => {
-    console.log("퀴즈 등록 요청");
     const request = makeQuizCreateRequest();
     try {
       const response = await axiosJwtInstance.post(
@@ -19,7 +18,6 @@ const QuizCreateButton = () => {
         request
       )
 
-      console.log(response);
       navigate('/') // 성공 시 홈화면으로 이동
     } catch (error) {
       handleError(error);

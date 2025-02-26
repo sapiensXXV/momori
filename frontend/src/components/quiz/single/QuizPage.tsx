@@ -6,9 +6,9 @@ import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {
+  AudioMcqDetailQuestion, AudioSubDetailQuestion, AudioSubjectiveQuestion,
   DetailQuestion,
-  ImageMcqDetailQuestion,
-  ImageSubjectiveDetailQuestion,
+  ImageMcqDetailQuestion, ImageSubjectiveDetailQuestion,
   ImageSubjectiveQuestion
 } from "../../../types/question.ts";
 import {getRandomElements} from "../../../global/util/random.ts";
@@ -84,7 +84,6 @@ const QuizPage = () => {
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
-        console.log(response.data);
         setQuiz(response.data);
         mcqRecord.current.quizId = response.data.id; // 퀴즈 ID 저장
         mcqRecord.current.type = response.data.type
@@ -135,21 +134,21 @@ const QuizPage = () => {
     }
   }
 
-  const submitMcqQuestion = (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => {
-    // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
-    setPageType(QuizPageType.QUESTION_RESULT);
-    setUserSelect(userSelect);
+  const submitMcqQuestion = (isSelectAnswer: boolean, selectedIndex: number) => {
+    // userSelect, correct 변수는 사용자가 현재 푼 문제에 대한 정보이다.
+    // userSelect 는 사용자가 선택한 선택지의 번호, correct 는 정답(true), 오답(false) 여부이다.
+    setUserSelect(selectedIndex);
     // 객관식, 주관식, 이미지, 오디오 각각 결과화면도 다르게 보여주어야하기 때문에 다른 컴포넌트의 정의가 필요하다.
     if (isSelectAnswer) {
-      // 정답 선택 로직
+      // 사용자가 정답을 맞추었을 때
       setCorrect(true);
       mcqRecord.current.questions.push({
           questionId: chosenQuestions[current].questionId,
           isCorrect: true,
-          choices: [selectedIndex]
+          choices: [selectedIndex] // 미래에 복수정답 퀴즈가 나올 수 있어 배열로 데이터를 전달한다.
         })
     } else {
-      // 오답 선택 로직
+      // 사용자가 오답을 선택했을 때
       setCorrect(false);
       mcqRecord.current.questions.push({
         questionId: chosenQuestions[current].questionId,
@@ -157,13 +156,14 @@ const QuizPage = () => {
         choices: [selectedIndex]
       })
     }
+    // 어떠한 상태이든 문제 결과 화면으로 넘어가야함.
+    setPageType(QuizPageType.QUESTION_RESULT);
   }
 
   // 주관식 문제를 제출하고, 사용자의 입력과 결과를 받아오는 메서드
   // - 문제 결과 페이지에서 표시될 상태 데이터를 설정한다.
   // - 퀴즈 결과 페이지에서 사용될 기록(record)를 기록한다.
   const submitSubQuestion = (isCorrect: boolean, userInput: string) => {
-    console.log('submitSubQuestion');
     setPageType(QuizPageType.QUESTION_RESULT);
     setUserInput(userInput);
     if (isCorrect) {
@@ -212,9 +212,15 @@ const QuizPage = () => {
           afterSubmit={submitSubQuestion}
         />
       case QuizTypes.AUDIO_MCQ:
-        return <AudioMcqQuestionPage/>
+        return <AudioMcqQuestionPage
+          question={chosenQuestions[current] as AudioMcqDetailQuestion}
+          afterSubmit={submitMcqQuestion}
+        />
       case QuizTypes.AUDIO_SUBJECTIVE:
-        return <AudioSubjectiveQuestionPage/>
+        return <AudioSubjectiveQuestionPage
+          question={chosenQuestions[current] as AudioSubDetailQuestion}
+          afterSubmit={submitSubQuestion}
+        />
       case QuizTypes.BINARY_CHOICE:
         return <ImageBinaryQuestionPage/>
     }
@@ -235,12 +241,20 @@ const QuizPage = () => {
           isCorrect={correct}
           question={chosenQuestions[current] as ImageSubjectiveDetailQuestion}
           nextQuestion={nextQuestion}
-          userInput={userInput}
         />
       case QuizTypes.AUDIO_MCQ:
-        return <AudioMcqQuestionResultPage/>
+        return <AudioMcqQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as AudioMcqDetailQuestion}
+          nextQuestion={nextQuestion}
+          userSelect={userSelect}
+        />
       case QuizTypes.AUDIO_SUBJECTIVE:
-        return <AudioSubjectiveQuestionResultPage/>
+        return <AudioSubjectiveQuestionResultPage
+          isCorrect={correct}
+          question={chosenQuestions[current] as AudioSubDetailQuestion}
+          nextQuestion={nextQuestion}
+        />
       case QuizTypes.BINARY_CHOICE:
         return <ImageBinaryQuestionResultPage/>
     }

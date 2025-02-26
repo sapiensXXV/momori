@@ -5,3 +5,8 @@
     flex-direction: column;
     justify-content: center;
 }
+
+/* 동적으로 설정되는 애니메이션을 위한 CSS 변수 */
+:root {
+    --animation-duration: 10s; /* 기본값 - JavaScript에서 동적으로 업데이트됨 */
+}

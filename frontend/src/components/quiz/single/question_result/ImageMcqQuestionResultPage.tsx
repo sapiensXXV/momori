@@ -1,6 +1,6 @@
-import classes from './ImageMcqQuestionResult.module.css'
+import classes from './McqQuestionResult.module.css';
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {percent} from "../../../../global/util/percent.tsx";
 import PercentageBar from "./PercentageBar.tsx";
 
@@ -17,9 +17,27 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
   userSelect
 }) => {
   const [sumOfChoices, setSumOfChoices] = useState<number>(0);
+  const [isComposing, setIsComposing] = useState<boolean>(false);
 
   useEffect(() => {
     setSumOfChoices(calculateSelectSum);
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextQuestion();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('compositionstart', () => setIsComposing(true));
+    window.addEventListener('compositionend', () => setIsComposing(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('compositionstart', () => setIsComposing(true));
+      window.removeEventListener('compositionend', () => setIsComposing(false));
+    };
   }, []);
 
   const calculateSelectSum = () => {

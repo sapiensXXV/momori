@@ -113,7 +113,6 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
           }
         }))
     } else {
-      console.log(quizType);
       throw new Error("지원되지 않는 퀴즈 타입입니다");
     }
   }

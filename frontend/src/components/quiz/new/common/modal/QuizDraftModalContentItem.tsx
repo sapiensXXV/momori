@@ -86,7 +86,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
           ...prev,
           audioStatus: isEmpty(prev.audioId) ? AudioUploadStatus.NOT_UPLOADED : AudioUploadStatus.UPLOADED
         }))
-        console.log(result);
         setQuestions(result);
         break;
       }
@@ -96,7 +95,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
           ...prev,
           audioStatus: isEmpty(prev.audioId) ? AudioUploadStatus.NOT_UPLOADED : AudioUploadStatus.UPLOADED
         }))
-        console.log(result);
         setQuestions(result);
         break;
       }

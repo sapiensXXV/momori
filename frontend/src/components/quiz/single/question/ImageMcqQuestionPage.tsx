@@ -1,15 +1,42 @@
 import classes from './McqQuestion.module.css'
-import {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
 
 type ImageMcqQuestionPageProps = {
   question: ImageMcqDetailQuestion;
-  afterSubmit: (isSelectAnswer: boolean, userSelect: number, selectedIndex: number) => void;
+  afterSubmit: (isSelectAnswer: boolean, selectedIndex: number) => void;
 }
 
 const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSubmit}) => {
 
   const [selected, setSelected] = useState<number | null>(null);
+  const [isComposing, setIsComposing] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter' && !isComposing) {
+        e.preventDefault();
+        e.stopPropagation();
+        answerSubmit(selected);
+      }
+      e.preventDefault();
+      const number = Number(e.key);
+      if (!isNaN(number) && number <= question.choices.length+1 && number >= 1) {
+        choiceSelect(number-1); // 인덱스는 0부터 시작하기 때문
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('compositionstart', () => setIsComposing(true));
+    window.addEventListener('compositionend', () => setIsComposing(false));
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('compositionstart', () => setIsComposing(true));
+      window.removeEventListener('compositionend', () => setIsComposing(false));
+    };
+  }, [selected, isComposing]);
+
 
   const choiceSelect = (index: number) => {
     setSelected(index);
@@ -22,6 +49,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
     return false;
   }
 
+  // console.log(selected);
   const answerSubmit = (selectedIndex: number | null) => {
     if (selectedIndex == null) {
       alert('선택지 중 하나를 선택해야합니다.')
@@ -30,10 +58,10 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
     // selectedIndex 는 배열 인덱스 0부터 시작하기 때문에 1번 -> 0, 2번 -> 1에 매핑됨
     if (question.choices[selectedIndex].answer) {
       // 정답을 선택한 경우 afterSubmit 메서드에 true 전달
-      afterSubmit(true, selectedIndex, selectedIndex);
+      afterSubmit(true, selectedIndex);
     } else {
       // 오답을 선택한 경우 afterSubmit 메서드에 false 전달
-      afterSubmit(false, selectedIndex, selectedIndex);
+      afterSubmit(false, selectedIndex);
     }
   }
 

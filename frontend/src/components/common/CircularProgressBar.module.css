@@ -1,0 +1,18 @@
+.circleBackground {
+    fill: none;
+    stroke: #ddd;
+
+}
+
+.circleProgress {
+    fill: none;
+    stroke: var(--timer-color1);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.circleText {
+    font-size: 3rem;
+    font-family: Pretendard-Bold, serif;
+
+}
