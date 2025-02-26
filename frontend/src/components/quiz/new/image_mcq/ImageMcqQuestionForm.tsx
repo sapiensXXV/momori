@@ -16,8 +16,6 @@ const ImageMcqQuestionForm = () => {
 
   const { questions, setQuestions } = useQuizContext<NewImageMcqQuestion>();
 
-  console.log(questions);
-
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
     if (!e.target.value) return;

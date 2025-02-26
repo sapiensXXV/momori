@@ -109,7 +109,7 @@ input[type="file"]::file-selector-button {
 /*퀴즈 선택부*/
 .question {
     display: flex;
-    column-gap: 5px;
+    column-gap: 15px;
     align-items: flex-start;
 }
 

@@ -18,9 +18,10 @@ import VideoQuestionController from "../common/video/VideoQuestionController.tsx
 import ExternalVideo from "../common/video/ExternalVideo.tsx";
 import AudioSubAnswerController from "./AudioSubAnswerController.tsx";
 import AddAudioSubQuestionButton from "./AddAudioSubQuestionButton.tsx";
+import {MAX_SUB_ANSWER_COUNT} from "../../../../global/constant/question.ts";
 
 const AudioSubQuestionForm = () => {
-  const {quizType, questions, setQuestions} = useQuizContext<NewAudioSubjectiveQuestion>();
+  const { questions, setQuestions } = useQuizContext<NewAudioSubjectiveQuestion>();
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
@@ -140,7 +141,8 @@ const AudioSubQuestionForm = () => {
     setQuestions(prev => {
       return prev.map((question, index) => {
         if (index !== qi) return question;
-        if (question.answers.length >= 10) {
+        if (question.answers.length >= MAX_SUB_ANSWER_COUNT) {
+          // TODO: 기본 alert 함수가 아닌 커스텀 alert 만들기
           alert(ANSWER_MAX_LIMIT_MSG);
           return question;
         }
