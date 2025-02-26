@@ -16,6 +16,13 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
     inputRef.current?.focus();
   }, []);
 
+  const answerKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    if (e.key === 'Enter') {
+      answerSubmit();
+    }
+  }
+
   const answerSubmit = () => {
     if (userInput == null || userInput === undefined || userInput.length === 0) {
       alert('정답을 입력해주세요');
@@ -44,6 +51,7 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
             onChange={(e) => setUserInput(e.target.value)}
             type={"text"}
             placeholder={"정답을 입력하세요"}
+            onKeyDown={(e) => answerKeyDown(e)}
           />
 
           <div className={`${classes.submitButton} common-button`} onClick={answerSubmit}>
