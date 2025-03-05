@@ -1,4 +1,8 @@
 :root {
+
+    --dark-background: #2e2e2e;
+    --light-background: #f3f3f3;
+
     --color-google: #FFFFFF;
     --color-naver: #2DB400;
     --color-kakao: #FEE500;

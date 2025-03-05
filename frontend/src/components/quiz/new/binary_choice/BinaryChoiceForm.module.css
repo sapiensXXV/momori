@@ -1,0 +1,12 @@
+.prepareContainer {
+    width: 100vw;
+    max-width: 1200px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-family: Pretendard-ExtraBold, serif;
+    font-size: 3rem;
+    color: #3a3a3a;
+}

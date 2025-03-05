@@ -4,7 +4,7 @@
     flex-direction: column;
     row-gap: 5px;
 
-    background-color: #f6f6f6;
+    background-color: var(--light-background);
     padding: 10px 10px 10px 10px;
     border-radius: 5px;
 }
@@ -116,7 +116,7 @@ input[type="file"]::file-selector-button {
 /* 문제 부분 */
 
 .questionContainer {
-    background-color: #f6f6f6;
+    background-color: var(--light-background);
     border-radius: 5px;
     padding: 10px;
 }

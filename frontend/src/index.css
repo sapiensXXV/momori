@@ -56,7 +56,8 @@
 body {
 
   font-family: Pretendard-Regular, serif;
-  background-image: url("/img/background-light.webp");
+  /*background-image: url("/img/background-light.webp");*/
+  background-color: var(--dark-background);
   background-size: cover;
   background-position: center;
   height: 100vh;

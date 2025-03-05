@@ -5,8 +5,8 @@ export default function NavbarTitle() {
   return (
     <>
       <Link className={styles.link} to="/">
-        <img className={styles.logo} src="/logo5.svg" />
-        <span className={styles.title}>풀리고</span>
+        <img className={styles.logo} src="/logo7.svg" />
+        <span className={styles.title}>모모리</span>
       </Link>
     </>
   )
