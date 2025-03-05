@@ -13,8 +13,11 @@ spring:
     mongodb:
       uri: ${MONGODB_HOST}
       database: ${MONGODB_DATABASE}
-#      uri: mongodb+srv://jh:jh980101^^@poolygo-cluster.g7kmw.mongodb.net/?retryWrites=true&w=majority&appName=poolygo-cluster
-#      database: poolygo
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
 
 
 #logging:
