@@ -63,7 +63,7 @@ export default function NewQuiz() {
         <option value={QuizTypes.IMAGE_SUBJECTIVE.valueOf()} >퀴즈 유형: 이미지 주관식</option>
         <option value={QuizTypes.AUDIO_MCQ.valueOf()} >퀴즈 유형: 오디오 객관식</option>
         <option value={QuizTypes.AUDIO_SUBJECTIVE.valueOf()} >퀴즈 유형: 오디오 주관식</option>
-        <option value={QuizTypes.BINARY_CHOICE.valueOf()} >퀴즈 유형: 갈드컵</option>
+        <option value={QuizTypes.BINARY_CHOICE.valueOf()} >퀴즈 유형: 월드컵</option>
       </select>
       { getQuizForm() }
     </section>

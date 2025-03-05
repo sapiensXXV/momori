@@ -6,7 +6,7 @@
 
     row-gap: 8px;
 
-    background-color: #f6f6f6;
+    background-color: var(--light-background);
     padding: 20px;
     width: 260px;
     height: 300px;

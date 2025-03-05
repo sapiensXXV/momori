@@ -1,7 +1,11 @@
+import classes from './BinaryChoiceForm.module.css'
+
 export default function BinaryChoiceForm() {
   return (
     <>
-      이지선다
+      <main className={classes.prepareContainer}>
+        준비 중 입니다
+      </main>
     </>
   )
 }
