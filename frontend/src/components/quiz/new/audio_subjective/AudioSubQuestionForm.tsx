@@ -19,6 +19,7 @@ import ExternalVideo from "../common/video/ExternalVideo.tsx";
 import AudioSubAnswerController from "./AudioSubAnswerController.tsx";
 import AddAudioSubQuestionButton from "./AddAudioSubQuestionButton.tsx";
 import {MAX_SUB_ANSWER_COUNT} from "../../../../global/constant/question.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 const AudioSubQuestionForm = () => {
   const { questions, setQuestions } = useQuizContext<NewAudioSubjectiveQuestion>();
@@ -30,9 +31,12 @@ const AudioSubQuestionForm = () => {
   const [isPlay, setIsPlay] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
 
+  // Alert Hooks
+  const {showAlert, AlertContainer} = useAlertManager();
+
   const deleteQuestion = (qi: number) => {
     if (questions.length <= 1) {
-      alert(QUESTION_MIN_LIMIT_MST);
+      showAlert(QUESTION_MIN_LIMIT_MST);
       return;
     }
     setQuestions(prev =>
@@ -143,7 +147,7 @@ const AudioSubQuestionForm = () => {
         if (index !== qi) return question;
         if (question.answers.length >= MAX_SUB_ANSWER_COUNT) {
           // TODO: 기본 alert 함수가 아닌 커스텀 alert 만들기
-          alert(ANSWER_MAX_LIMIT_MSG);
+          showAlert(ANSWER_MAX_LIMIT_MSG);
           return question;
         }
         question.answers.push(value);
@@ -166,6 +170,7 @@ const AudioSubQuestionForm = () => {
 
   return (
     <>
+      <AlertContainer/>
       {showAudioUploadModal && (
         <AudioUploadModal
           quizType={QuizTypes.AUDIO_MCQ}

@@ -17,11 +17,14 @@ import ExternalVideo from "../common/video/ExternalVideo.tsx";
 import AudioMcqQuestionDeleteButton from "./AudioMcqQuestionDeleteButton.tsx";
 import TextMcqChoiceList from "../common/choice/TextMcqChoiceList.tsx";
 import VideoQuestionController from "../common/video/VideoQuestionController.tsx";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
+import {alertShowMilliSeconds} from "../../../../global/constant/alert.constant.ts";
 
 const AudioMcqQuestionForm = () => {
   const {quizType, questions, setQuestions} = useQuizContext<NewAudioMcqQuestion>();
   const [showAudioUploadModal, setShowAudioUploadModal] = useState<boolean>(false);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+  const { showAlert, AlertContainer } = useAlertManager();
 
   // YouTube 플레이어 관련 상태
   const playerRef = useRef<YouTubePlayer | null>(null);
@@ -30,7 +33,7 @@ const AudioMcqQuestionForm = () => {
 
   const deleteQuestion = (qi: number) => {
     if (questions.length <= 1) {
-      alert(QUESTION_MIN_LIMIT_MST);
+      showAlert(QUESTION_MIN_LIMIT_MST, alertShowMilliSeconds);
       return;
     }
     setQuestions(prev =>
@@ -155,7 +158,7 @@ const AudioMcqQuestionForm = () => {
       prev.map((question, qi) => {
         if (index !== qi) return question;
         if (question.choices.length >= MAX_CHOICE_COUNT) {
-          alert(CHOICE_MAX_LIMIT_MSG);
+          showAlert(CHOICE_MAX_LIMIT_MSG);
           return question;
         }
         return {
@@ -183,7 +186,7 @@ const AudioMcqQuestionForm = () => {
   // 선택지 삭제
   const deleteChoice = (qi: number, ci: number) => {
     if (questions[qi].choices.length <= MIN_CHOICE_COUNT) {
-      alert(CHOICE_MIN_LIMIT_MSG);
+      showAlert(CHOICE_MIN_LIMIT_MSG);
       return;
     }
 
@@ -199,6 +202,7 @@ const AudioMcqQuestionForm = () => {
 
   return (
     <>
+      <AlertContainer/>
       {showAudioUploadModal && (
         <AudioUploadModal
           quizType={QuizTypes.AUDIO_MCQ}

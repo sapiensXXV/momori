@@ -9,6 +9,7 @@ import CircularProgressBar from "../../../common/CircularProgressBar.tsx";
 import ExternalVideo from "../../new/common/video/ExternalVideo.tsx";
 import {YouTubeEvent, YouTubePlayer} from "react-youtube";
 import {PlayerState} from "../../../../global/player/player.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 type AudioSubjectiveQuestionPageProps = {
   question: AudioSubDetailQuestion;
@@ -30,6 +31,7 @@ const AudioSubjectiveQuestionPage: FC<AudioSubjectiveQuestionPageProps> = ({ que
   const timerStartTimeRef = useRef<number>(0);
 
   const [isComposing, setIsComposing] = useState<boolean>(false);
+  const {showAlert, AlertContainer} = useAlertManager();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -53,7 +55,7 @@ const AudioSubjectiveQuestionPage: FC<AudioSubjectiveQuestionPageProps> = ({ que
 
   const answerSubmit = useCallback(() => {
     if (userInput == null || userInput === undefined || userInput.length === 0) {
-      alert('정답을 입력해주세요');
+      showAlert('정답을 입력해주세요');
       return;
     }
     const target = userInput.toLowerCase();
@@ -139,6 +141,7 @@ const AudioSubjectiveQuestionPage: FC<AudioSubjectiveQuestionPageProps> = ({ que
 
   return (
     <>
+      <AlertContainer/>
       <main className={classes.questionContainer}>
         <ExternalVideo
           videoId={question.audioId}

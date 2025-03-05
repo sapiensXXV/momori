@@ -6,14 +6,17 @@ import {compressImage} from "../../../../../global/util/image/ImageCompress.tsx"
 import {axiosJwtInstance} from "../../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../../types/ImageUrlResponse.ts";
 import {handleError} from "../../../../../global/error/error.ts";
+import {useAlertManager} from "../../../../alert/useAlertManager.hook.tsx";
 
 const NewQuizThumbnail = () => {
 
   const {metadata, setMetadata} = useQuizContext()
+  const {showAlert, AlertContainer} = useAlertManager();
+
   const thumbnailUploader = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value) return;
     if (!e.target.files || e.target.files.length === 0) {
-      alert('썸네일이 선택되지 않았습니다.');
+      showAlert('썸네일이 선택되지 않았습니다.');
       return;
     }
 
@@ -62,6 +65,7 @@ const NewQuizThumbnail = () => {
 
   return (
     <>
+      <AlertContainer/>
       <div className={classes.thumbnailContainer}>
         <input
           type={"file"}

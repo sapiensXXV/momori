@@ -15,7 +15,7 @@ interface AlertManagerReturn {
 export const useAlertManager = (): AlertManagerReturn => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const showAlert = (message: string, duration: number = 3000): number => {
+  const showAlert = (message: string, duration: number = 4000): number => {
     const id = Date.now();
     setAlerts(prevAlerts => [...prevAlerts, { id, message, duration }]);
     return id;

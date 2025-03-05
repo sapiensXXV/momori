@@ -20,6 +20,7 @@ import {
   ImageSubDraftQuestion
 } from "../../../../global/types/draft.ts";
 import {NewQuestionContextMapping} from "../../../../global/types/quizContextMapping.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 interface DraftButtonProps<T extends QuizTypes> {
   quizType: T;
@@ -28,6 +29,8 @@ interface DraftButtonProps<T extends QuizTypes> {
 const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => {
 
   const { questions, metadata, setMetadata, draftCount, setDraftModal } = useQuizContext<NewQuestionContextMapping[T]>();
+  const {showAlert, AlertContainer} = useAlertManager();
+
   const pushDraft = async () => {
     const request = makeDraftRequest();
     try {
@@ -37,7 +40,7 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
         request
       );
       setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
-      alert('임시저장 성공');
+      showAlert('임시저장 성공');
     } catch (error) {
       handleError(error);
     }
@@ -119,6 +122,7 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
 
   return (
     <>
+      <AlertContainer/>
       <div className={classes.draftButtonContainer}>
         <div className={classes.draftPushButton} onClick={() => pushDraft()}>임시저장</div>
         <div className={classes.draftButtonDivider}></div>

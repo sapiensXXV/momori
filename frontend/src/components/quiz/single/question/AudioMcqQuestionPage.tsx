@@ -7,6 +7,7 @@ import LottieComponent from "../../../lottie/LottieComponent.tsx";
 import audioPlayingAnimation from "../../../../../public/animation/audio_playing.json";
 import {PlayerState} from "../../../../global/player/player.ts";
 import CircularProgressBar from "../../../common/CircularProgressBar.tsx";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 type AudioMcqQuestionPageProps = {
   question: AudioMcqDetailQuestion;
@@ -24,6 +25,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   // 타이머 관련 ref
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const timerStartTimeRef = useRef<number>(0);
+  const {showAlert, AlertContainer} = useAlertManager();
 
   // 사용자 입력 IME 관련
   const [isComposing, setIsComposing] = useState<boolean>(false);
@@ -78,7 +80,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
 
   const answerSubmit = (selectedIndex: number | null) => {
     if (selectedIndex == null) {
-      alert('선택지 중 하나를 선택해야합니다.')
+      showAlert('선택지 중 하나를 선택해야합니다.')
       return;
     }
     // selectedIndex 는 배열 인덱스 0부터 시작하기 때문에 1번 -> 0, 2번 -> 1에 매핑됨
@@ -158,6 +160,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   }
   return (
     <>
+      <AlertContainer/>
       <main className={classes.questionContainer}>
         <ExternalVideo
           videoId={question.audioId}

@@ -1,6 +1,7 @@
 import imageCompression from 'browser-image-compression';
 import classes from "../../../components/quiz/new/common/QuestionImage.module.css";
 import {ImageUploadStatus} from "../../../types/question.ts";
+import {useAlertManager} from "../../../components/alert/useAlertManager.hook.tsx";
 
 export interface CompressionOptions {
   maxSizeMB?: number;    // 최대 파일 크기 (MB)
@@ -13,6 +14,7 @@ export const compressImage = async (
   file: File,
   options?: CompressionOptions
 ): Promise<File> => {
+  const {showAlert} = useAlertManager();
   const defaultOptions: CompressionOptions = {
     maxSizeMB: 1,
     maxWidthOrHeight: 1920,
@@ -29,12 +31,12 @@ export const compressImage = async (
 
     // 압축 후 크기 검증
     if (compressedFile.size > (options?.maxSizeMB ?? 1) * 1024 * 1024) {
-      alert('파일을 충분히 압축하지 못했습니다.')
+      showAlert('파일을 충분히 압축하지 못했습니다.')
       throw new Error('파일을 충분히 압축하지 못했습니다');
     }
     return compressedFile;
   } catch (error) {
-    alert('이미지 압축 실패')
+    showAlert('이미지 압축 실패')
     throw new Error(`이미지 압축 실패: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
