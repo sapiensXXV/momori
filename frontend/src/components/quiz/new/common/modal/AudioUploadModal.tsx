@@ -9,6 +9,7 @@ import {QuizTypes} from "../../../types/Quiz.types.ts";
 import {NewQuestionContextMapping} from "../../../../../global/types/quizContextMapping.ts";
 import {handleError} from "../../../../../global/error/error.ts";
 import {NewAudioMcqQuestion, NewAudioSubjectiveQuestion} from "../../../../../types/question.ts";
+import {useAlertManager} from "../../../../alert/useAlertManager.hook.tsx";
 
 type AudioUploadModalProps<T extends QuizTypes> = {
   quizType: T;
@@ -27,7 +28,7 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
   const [startSeconds, setStartSeconds] = useState<number>(0);
   const [startMinutes, setStartMinutes] = useState<number>(0);
   const [playDuration, setPlayDuration] = useState<number | undefined>(undefined);
-
+  const {showAlert, AlertContainer} = useAlertManager();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -86,7 +87,7 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
     if (videoId) {
       setVideoId(videoId);
     } else {
-      alert('유튜브 링크가 유효하지 않습니다.')
+      showAlert('유튜브 링크가 유효하지 않습니다.')
     }
   }
 
@@ -140,6 +141,7 @@ const AudioUploadModal= <T extends QuizTypes> ({ quizType, submitAudio, setShowM
 
   return (
     <>
+      <AlertContainer/>
       <main className={classes.modalLayer}>
         <div className={classes.modalContainer}>
           <AudioUploadModalHeader setShowModal={setShowModal}/>

@@ -1,6 +1,8 @@
 import classes from './McqQuestion.module.css'
 import React, {FC, useEffect, useState} from "react";
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
+import {CHOICE_SELECT_NEED_MSG} from "../../../../global/message/quiz_message.ts";
 
 type ImageMcqQuestionPageProps = {
   question: ImageMcqDetailQuestion;
@@ -11,6 +13,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
 
   const [selected, setSelected] = useState<number | null>(null);
   const [isComposing, setIsComposing] = useState<boolean>(false);
+  const { showAlert, AlertContainer } = useAlertManager();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -52,7 +55,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
   // console.log(selected);
   const answerSubmit = (selectedIndex: number | null) => {
     if (selectedIndex == null) {
-      alert('선택지 중 하나를 선택해야합니다.')
+      showAlert(CHOICE_SELECT_NEED_MSG, 5000);
       return;
     }
     // selectedIndex 는 배열 인덱스 0부터 시작하기 때문에 1번 -> 0, 2번 -> 1에 매핑됨
@@ -67,6 +70,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
 
   return (
     <>
+      <AlertContainer/>
       <main className={classes.questionContainer}>
         <div className={classes.questionContentContainer}>
           <div className={classes.imageContainer}>

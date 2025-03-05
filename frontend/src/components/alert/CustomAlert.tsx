@@ -24,9 +24,9 @@ const CustomAlert: FC<CustomAlertProps> = ({ message, duration=3000, isVisible, 
           timeoutId = setTimeout(() => {
             onClose();
             setAnimationState(AnimationState.HIDDEN);
-          }, 500) // 퇴장 애니메이션 시간
+          }, 300) // 퇴장 애니메이션 시간
         }, duration)
-      }, 500) // 등장 애니메이션 시간
+      }, 100) // 등장 애니메이션 시간
     }
 
     return (() => {
@@ -71,8 +71,10 @@ const CustomAlert: FC<CustomAlertProps> = ({ message, duration=3000, isVisible, 
                 style={alertStyles.closeButton}
                 aria-label="Close"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                     strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
             </div>

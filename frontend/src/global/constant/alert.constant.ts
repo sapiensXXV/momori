@@ -1,0 +1,1 @@
+export const alertShowMilliSeconds = 4000; // 4000ms

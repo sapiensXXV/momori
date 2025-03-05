@@ -10,13 +10,16 @@ import ImageSubAnswerController from "./ImageSubAnswerController.tsx";
 import {
   ANSWER_MAX_LIMIT_MSG,
   ANSWER_MIN_LIMIT_MSG,
-  QUESTION_MIN_LIMIT_MST
 } from "../../../../global/message/quiz_message.ts";
 import {MAX_SUB_ANSWER_COUNT} from "../../../../global/constant/question.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 const ImageSubjectiveQuestionForm = () => {
 
   const {questions, setQuestions} = useQuizContext<NewImageSubjectiveQuestion>();
+  const {showAlert, AlertContainer} = useAlertManager();
+
+
   const imageUploader = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
     if (!e.target.value) return;
@@ -39,7 +42,7 @@ const ImageSubjectiveQuestionForm = () => {
     } catch (error) {
       handleError(error);
       changeImageUploadStatus(ImageUploadStatus.NOT_UPLOADED, index);
-      alert('이미지 업로드에 실패하였습니다.');
+      showAlert('이미지 업로드에 실패하였습니다.');
     }
   }
 
@@ -63,7 +66,7 @@ const ImageSubjectiveQuestionForm = () => {
         if (index !== qi) return question;
         if (question.answers.length >= MAX_SUB_ANSWER_COUNT) {
           // TODO: 기본 alert 함수가 아닌 커스텀 alert 만들기
-          alert(ANSWER_MAX_LIMIT_MSG);
+          showAlert(ANSWER_MAX_LIMIT_MSG);
           return question;
         }
         question.answers.push(value);
@@ -74,7 +77,7 @@ const ImageSubjectiveQuestionForm = () => {
 
   const deleteAnswer = (qi: number, ai: number) => {
     if (questions[qi].answers.length <= 1) {
-      alert(ANSWER_MIN_LIMIT_MSG);
+      showAlert(ANSWER_MIN_LIMIT_MSG);
       return;
     }
 
@@ -90,6 +93,7 @@ const ImageSubjectiveQuestionForm = () => {
 
   return (
     <>
+      <AlertContainer/>
       <main className={`${classes.questionContainer} common-flex-column`}>
         {
           questions?.map((question: NewImageSubjectiveQuestion, qi: number) => (

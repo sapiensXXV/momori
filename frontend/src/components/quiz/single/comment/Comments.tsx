@@ -7,6 +7,7 @@ import CommentForm from "./CommentForm.tsx";
 import SingleComment from "./SingleComment.tsx";
 import CommentDeleteModal from "./modal/CommentDeleteModal.tsx";
 import CommentReportModal from "./modal/CommentReportModal.tsx";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 type CommentsProps = {
   quizId: string | undefined;
@@ -47,6 +48,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectComment, setSelectComment] = useState<CommentDetail>(initCommentDetail);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
+  const {showAlert, AlertContainer} = useAlertManager();
 
   useEffect(() => {
     if (isLoading || searchCondition.isLastPage) return; // 로딩 중이거나 마지막 페이지라면 로직을 수행하지 않는다.
@@ -86,7 +88,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
     // console.log(`Trigger Delete Comment Modal, comment_id=${commentId}`);
     const selected = comments.find(comment => (comment.id === commentId));
     if (selected == null) {
-      alert('댓글을 삭제하는데 문제가 발생하였습니다.');
+      showAlert('댓글을 삭제하는데 문제가 발생하였습니다.');
       return;
     }
     setSelectComment(selected);
@@ -120,6 +122,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
 
   return (
     <>
+      <AlertContainer/>
       { showDeleteModal ? <CommentDeleteModal comment={selectComment} setShowModal={setShowDeleteModal} deleteComment={deleteComment} /> : null }
       { showReportModal ? <CommentReportModal comment={selectComment} setShowModal={setShowReportModal}  /> : null }
       <main className={classes.commentContainer}>

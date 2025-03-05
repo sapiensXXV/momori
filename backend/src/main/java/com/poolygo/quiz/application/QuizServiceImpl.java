@@ -144,7 +144,6 @@ public class QuizServiceImpl implements QuizService {
     }
 
     public List<QuizSummaryResponse> quizList(int page, int size, String type, String searchTerm) {
-
         QuizSearchType quizType = QuizSearchType.from(type);
         Sort sort;
         if (POPULAR.equals(quizType)) {

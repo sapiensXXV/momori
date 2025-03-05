@@ -1,6 +1,7 @@
 import classes from './SubjectiveQuestion.module.css';
 import {ImageSubjectiveDetailQuestion} from "../../../../types/question.ts";
 import {FC, useEffect, useRef, useState} from "react";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 type ImageSubjectiveQuestionPageProps = {
   question: ImageSubjectiveDetailQuestion;
@@ -12,6 +13,7 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
   const [userInput, setUserInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [isComposing, setIsComposing] = useState<boolean>(false);
+  const {showAlert, AlertContainer} = useAlertManager();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -35,7 +37,7 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
 
   const answerSubmit = () => {
     if (userInput == null || userInput === undefined || userInput.length === 0) {
-      alert('정답을 입력해주세요');
+      showAlert('정답을 입력해주세요');
       return;
     }
     const target = userInput.toLowerCase();
@@ -53,6 +55,7 @@ const ImageSubjectiveQuestionPage: FC<ImageSubjectiveQuestionPageProps> = ({ que
   }
   return (
     <>
+      <AlertContainer/>
       <main className={classes.questionContainer}>
         <div className={classes.questionContentContainer}>
           <div className={classes.imageContainer}>
