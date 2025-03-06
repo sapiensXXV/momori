@@ -66,6 +66,8 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String jwtToken = createJwtToken(user);
         response.setHeader(SecurityConstant.AUTHORIZATION_HEADER, SecurityConstant.BEARER + jwtToken);
 
+        // TODO: 리프레시 토큰 생성
+
         // 쿠키 생성 및 HttpOnly 설정
         Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
 //        jwtCookie.setHttpOnly(true); // HttpOnly 속성 설정
