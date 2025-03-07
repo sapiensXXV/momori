@@ -7,6 +7,7 @@ import com.momori.auth.presentation.dto.AuthInfoDto;
 import com.momori.global.config.security.SecurityConstant;
 import com.momori.global.exception.AuthException;
 import com.momori.global.exception.ExceptionCode;
+import com.momori.global.resolver.AuthenticateUser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +38,15 @@ public class AuthController {
 
         return ResponseEntity.ok(authInfoDto);
     }
+
+    @GetMapping("/auth/auth-only-request")
+    public ResponseEntity<String> authTestRequest(
+        @AuthenticateUser UserAuthDto auth
+    ) {
+        log.info("this user is authenticated");
+        log.info("identifier={}, provier={}, role={}", auth.getIdentifier(), auth.getProvider());
+        return ResponseEntity.ok("this is auth user");
+    }
+
 
 }

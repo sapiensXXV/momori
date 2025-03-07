@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
@@ -24,6 +25,10 @@ public class RefreshTokenService {
         this.refreshTokenUtil = refreshTokenUtil;
     }
 
+    public String createRefreshToken() {
+        return UUID.randomUUID().toString();
+    }
+
     public void saveRefreshToken(
         final String identifier,
         final String provider,
@@ -40,6 +45,14 @@ public class RefreshTokenService {
     ) {
         String key = refreshTokenUtil.createRefreshTokenKey(identifier, provider);
         return redisTemplate.opsForValue().get(key);
+    }
+
+    public void deleteRefreshToken(
+        final String identifier,
+        final String provider
+    ) {
+        String key = refreshTokenUtil.createRefreshTokenKey(identifier, provider);
+        redisTemplate.delete(key);
     }
 
 }

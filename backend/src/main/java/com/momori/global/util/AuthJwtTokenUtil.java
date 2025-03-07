@@ -6,12 +6,14 @@ import com.momori.global.exception.AuthException;
 import com.momori.global.exception.ExceptionCode;
 import com.momori.global.token.JwtConfiguration;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
@@ -38,7 +40,7 @@ public class AuthJwtTokenUtil {
 
             Date expiration = claims.getExpiration();
             if (expiration == null || expiration.before(new Date())) {
-                throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
+                throw new AuthException(ExceptionCode.TOKEN_EXPIRED);
             }
 
             String provider = (String) claims.get(PROVIDER);
@@ -64,7 +66,7 @@ public class AuthJwtTokenUtil {
 
             Date expiration = claims.getExpiration();
             if (expiration == null || expiration.before(new Date())) {
-                throw new AuthException(ExceptionCode.TOKEN_EXPIRATION_END);
+                throw new AuthException(ExceptionCode.TOKEN_EXPIRED);
             }
 
             String identifier = (String) claims.get(IDENTIFIER);
@@ -73,9 +75,33 @@ public class AuthJwtTokenUtil {
             String[] roles = ((String) claims.get(ROLE)).split(",");
 
             return Optional.of(new UserAuthDto(identifier, provider, name, Arrays.asList(roles)));
+        } catch (ExpiredJwtException e) {
+            throw new AuthException(ExceptionCode.TOKEN_EXPIRED);
         } catch (Exception e) {
             throw new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL);
         }
+    }
+
+    public String createAuthToken(
+        final String identifier,
+        final String name,
+        final String provider,
+        final String role,
+        final Date issuedAt,
+        final Date expiredAt
+    ) {
+        SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes(StandardCharsets.UTF_8));
+        return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
+            .claim("identifier", identifier)
+            .claim("name", name)
+            .claim("provider", provider)
+            .claim("role", role)
+            .issuedAt(issuedAt)
+            // TODO: 만료시간 테스트용
+//            .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+            .expiration(expiredAt)
+            .signWith(key)
+            .compact();
     }
 
 }

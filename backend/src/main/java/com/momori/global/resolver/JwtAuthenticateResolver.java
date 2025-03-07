@@ -36,6 +36,7 @@ public class JwtAuthenticateResolver implements HandlerMethodArgumentResolver {
         String token = extractToken(request);
         if (token == null) return null;
 
+        // TODO: 토큰이 만료된 경우 리프레시 토큰을 확인. 리프레시 토큰이 존재한다면 새로운 만료시간을 가지는 jwt 토큰 발급
         UserAuthDto auth = jwtTokenUtil.decode(token)
             .orElseThrow(() -> new AuthException(ExceptionCode.TOKEN_AUTHENTICATION_FAIL));
 

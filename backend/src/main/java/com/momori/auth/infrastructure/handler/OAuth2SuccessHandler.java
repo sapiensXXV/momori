@@ -1,15 +1,12 @@
 package com.momori.auth.infrastructure.handler;
 
 import com.momori.auth.application.RefreshTokenService;
-import com.momori.auth.domain.repository.RefreshTokenRepository;
 import com.momori.global.config.security.SecurityConstant;
 import com.momori.global.token.JwtConfiguration;
-import com.momori.global.util.RandomNameGenerator;
+import com.momori.global.util.AuthJwtTokenUtil;
 import com.momori.user.domain.Role;
 import com.momori.user.domain.User;
 import com.momori.user.repository.UserRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,25 +19,20 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.UUID;
 
 @Component
 @Slf4j
 public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final String SIGNUP_URL;
-    private final String AUTH_URL;
     private final UserRepository userRepository;
     private final JwtConfiguration jwtConfiguration;
-    private final RandomNameGenerator randomNameGenerator;
     private final RefreshTokenService refreshTokenService;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final AuthJwtTokenUtil authJwtTokenUtil;
 
     public OAuth2SuccessHandler(
         @Value("${url.base.dev}") String BASE_URL,
@@ -48,17 +40,14 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         @Value("${url.path.auth}") String AUTH_URL,
         UserRepository userRepository,
         JwtConfiguration jwtConfiguration,
-        RefreshTokenRepository refreshTokenRepository,
-        RandomNameGenerator randomNameGenerator,
-        RefreshTokenService refreshTokenService
-        ) {
+        RefreshTokenService refreshTokenService,
+        AuthJwtTokenUtil authJwtTokenUtil
+    ) {
         this.userRepository = userRepository;
         this.SIGNUP_URL = BASE_URL + SIGNUP_URL;
-        this.AUTH_URL = BASE_URL + AUTH_URL;
         this.jwtConfiguration = jwtConfiguration;
-        this.randomNameGenerator = randomNameGenerator;
         this.refreshTokenService = refreshTokenService;
-        this.refreshTokenRepository = refreshTokenRepository;
+        this.authJwtTokenUtil = authJwtTokenUtil;
     }
 
     @Override
@@ -76,29 +65,43 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         String redirectUri = getRedirectUriByRole(user.getRole(), identifier);
         log.info("[{}]로 리다이렉트", redirectUri);
-        String jwtToken = createJwtToken(user);
+//        String jwtToken = createJwtToken(user);
+        String jwtToken = authJwtTokenUtil.createAuthToken(
+            user.getIdentifier(),
+            user.getName(),
+            user.getProvider().name(),
+            user.getRole().name(),
+            new Date(),
+            Date.from(Instant.now().plus(5, ChronoUnit.SECONDS))
+        );
         response.setHeader(SecurityConstant.AUTHORIZATION_HEADER, SecurityConstant.BEARER + jwtToken);
 
-        // TODO: 리프레시 토큰 생성
-        String refreshToken = createRefreshToken();
+        // 리프레시 토큰 생성
+        String refreshToken = refreshTokenService.createRefreshToken();
         refreshTokenService.saveRefreshToken(identifier, user.getProvider().name(), refreshToken, 3600L);
 
-        // 쿠키 생성 및 HttpOnly 설정
-        Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+        // 쿠키 추가
+        addJwtTokenCookie(response, jwtToken);
+        addRefreshTokenCookie(response, refreshToken);
+
+        getRedirectStrategy().sendRedirect(request, response, redirectUri);
+    }
+
+    private void addRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(60 * 60);
+        response.addCookie(refreshTokenCookie);
+    }
+
+    private void addJwtTokenCookie(HttpServletResponse response, String jwtToken) {
+        Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
 //        jwtCookie.setHttpOnly(true); // HttpOnly 속성 설정
         jwtCookie.setSecure(false); // HTTPS 환경에서만 전송 (개발 환경에서 HTTPS가 아니라면 false로 설정)
         jwtCookie.setPath("/"); // 쿠키가 유효한 경로 설정
         jwtCookie.setMaxAge(60 * 60); // 쿠키 만료 시간 설정 (단위: 초)
-        refreshTokenCookie.setSecure(false);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(60 * 60);
-
-        // 쿠키 추가
         response.addCookie(jwtCookie);
-        response.addCookie(refreshTokenCookie);
-
-        getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
 
     private String getRedirectUriByRole(Role role, String identifier) {
@@ -113,22 +116,8 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return "http://localhost:5173/auth/callback";
     }
 
-    private String createJwtToken(User user) {
-        SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes(StandardCharsets.UTF_8));
-
-        return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
-            .claim("identifier", user.getIdentifier())
-            .claim("name", user.getName())
-            .claim("provider", user.getProvider())
-            .claim("role", user.getRole())
-            .issuedAt(new Date())
-            .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
-            .signWith(key)
-            .compact();
-    }
-
-    private String createRefreshToken() {
-        return UUID.randomUUID().toString();
-    }
+//    private String createRefreshToken() {
+//        return UUID.randomUUID().toString();
+//    }
 
 }
