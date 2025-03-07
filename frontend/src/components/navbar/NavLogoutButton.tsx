@@ -1,7 +1,7 @@
 import styles from "./NavLogoutButton.module.css"
 import {useAuth} from "../../context/AuthContext.tsx";
 import {deleteCookie} from "../../global/cookie/cookie.ts";
-import {jwtTokenName} from "../../global/constant/jwt.ts";
+import {jwtTokenName, refreshTokenName} from "../../global/constant/jwt.ts";
 import {useNavigate} from "react-router-dom";
 
 export default function NavLogoutButton() {
@@ -15,6 +15,7 @@ export default function NavLogoutButton() {
     auth.updateAuthContext(null, [], "", false);
     localStorage.removeItem("auth"); // 로컬 스토리지에서 인증 정보 삭제
     deleteCookie(jwtTokenName);
+    deleteCookie(refreshTokenName);
     navigate('/', { replace: true });
   }
 
