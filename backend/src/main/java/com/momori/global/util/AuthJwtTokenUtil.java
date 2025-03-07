@@ -97,8 +97,6 @@ public class AuthJwtTokenUtil {
             .claim("provider", provider)
             .claim("role", role)
             .issuedAt(issuedAt)
-            // TODO: 만료시간 테스트용
-//            .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
             .expiration(expiredAt)
             .signWith(key)
             .compact();

@@ -65,14 +65,13 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         String redirectUri = getRedirectUriByRole(user.getRole(), identifier);
         log.info("[{}]로 리다이렉트", redirectUri);
-//        String jwtToken = createJwtToken(user);
         String jwtToken = authJwtTokenUtil.createAuthToken(
             user.getIdentifier(),
             user.getName(),
             user.getProvider().name(),
             user.getRole().name(),
             new Date(),
-            Date.from(Instant.now().plus(5, ChronoUnit.SECONDS))
+            Date.from(Instant.now().plus(1, ChronoUnit.HOURS))
         );
         response.setHeader(SecurityConstant.AUTHORIZATION_HEADER, SecurityConstant.BEARER + jwtToken);
 
