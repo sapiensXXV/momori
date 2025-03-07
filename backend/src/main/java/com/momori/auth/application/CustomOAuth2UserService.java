@@ -1,6 +1,7 @@
 package com.momori.auth.application;
 
 import com.momori.auth.UserPrincipal;
+import com.momori.auth.domain.repository.RefreshTokenRepository;
 import com.momori.auth.userinfo.OAuth2UserInfo;
 import com.momori.auth.userinfo.OAuth2UserInfoFactory;
 import com.momori.global.util.RandomNameGenerator;
@@ -27,6 +28,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final RandomNameGenerator randomNameGenerator;
 
     @Override

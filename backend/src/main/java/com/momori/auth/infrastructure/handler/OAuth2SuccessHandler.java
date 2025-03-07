@@ -1,7 +1,10 @@
 package com.momori.auth.infrastructure.handler;
 
+import com.momori.auth.application.RefreshTokenService;
+import com.momori.auth.domain.repository.RefreshTokenRepository;
 import com.momori.global.config.security.SecurityConstant;
 import com.momori.global.token.JwtConfiguration;
+import com.momori.global.util.RandomNameGenerator;
 import com.momori.user.domain.Role;
 import com.momori.user.domain.User;
 import com.momori.user.repository.UserRepository;
@@ -25,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -34,18 +38,27 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private final String AUTH_URL;
     private final UserRepository userRepository;
     private final JwtConfiguration jwtConfiguration;
+    private final RandomNameGenerator randomNameGenerator;
+    private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public OAuth2SuccessHandler(
         @Value("${url.base.dev}") String BASE_URL,
         @Value("${url.path.signup}") String SIGNUP_URL,
         @Value("${url.path.auth}") String AUTH_URL,
         UserRepository userRepository,
-        JwtConfiguration jwtConfiguration
-    ) {
+        JwtConfiguration jwtConfiguration,
+        RefreshTokenRepository refreshTokenRepository,
+        RandomNameGenerator randomNameGenerator,
+        RefreshTokenService refreshTokenService
+        ) {
         this.userRepository = userRepository;
         this.SIGNUP_URL = BASE_URL + SIGNUP_URL;
         this.AUTH_URL = BASE_URL + AUTH_URL;
         this.jwtConfiguration = jwtConfiguration;
+        this.randomNameGenerator = randomNameGenerator;
+        this.refreshTokenService = refreshTokenService;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -67,16 +80,23 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.setHeader(SecurityConstant.AUTHORIZATION_HEADER, SecurityConstant.BEARER + jwtToken);
 
         // TODO: 리프레시 토큰 생성
+        String refreshToken = createRefreshToken();
+        refreshTokenService.saveRefreshToken(identifier, user.getProvider().name(), refreshToken, 3600L);
 
         // 쿠키 생성 및 HttpOnly 설정
         Cookie jwtCookie = new Cookie("jwtToken", jwtToken);
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 //        jwtCookie.setHttpOnly(true); // HttpOnly 속성 설정
         jwtCookie.setSecure(false); // HTTPS 환경에서만 전송 (개발 환경에서 HTTPS가 아니라면 false로 설정)
         jwtCookie.setPath("/"); // 쿠키가 유효한 경로 설정
         jwtCookie.setMaxAge(60 * 60); // 쿠키 만료 시간 설정 (단위: 초)
+        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(60 * 60);
 
         // 쿠키 추가
         response.addCookie(jwtCookie);
+        response.addCookie(refreshTokenCookie);
 
         getRedirectStrategy().sendRedirect(request, response, redirectUri);
     }
@@ -105,6 +125,10 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
             .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
             .signWith(key)
             .compact();
+    }
+
+    private String createRefreshToken() {
+        return UUID.randomUUID().toString();
     }
 
 }
