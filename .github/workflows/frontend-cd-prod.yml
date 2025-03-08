@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - frontend/**
+      - /frontend/**
 
 env:
   ARTIFACT_DIRECTORY: ./frontend/dist
@@ -43,7 +43,7 @@ jobs:
         with:
           host: ${{ secrets.PROD_SERVER_HOST }}
           username: ${{ secrets.PROD_SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVKEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             whoami
