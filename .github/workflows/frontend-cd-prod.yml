@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: build docker image
-        run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose-prod.yml build --no-cache
+        run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml build --no-cache
       - name: push docker image
         run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml
   deploy:
