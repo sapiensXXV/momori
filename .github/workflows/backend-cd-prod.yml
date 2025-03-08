@@ -46,6 +46,9 @@ jobs:
         with:
           name: ${{ env.JAR_NAME }}
           path: ${{ env.JAR_PATH }}/${{ env.JAR_NAME }}.jar
+      - name: 파일 목록 출력
+        run: |
+          ls -alrth
 
   docker-image-build:
     needs: build
