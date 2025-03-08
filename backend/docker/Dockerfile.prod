@@ -9,5 +9,4 @@ ARG AWS_IAM_SECRET_KEY
 ENV AWS_IAM_ACCESS_KEY=${AWS_IAM_ACCESS_KEY}
 ENV AWS_IAM_SECRET_KEY=${AWS_IAM_SECRET_KEY}
 
-
 ENTRYPOINT [ "java", "-jar", "-Dspring.profiles.active=prod", "app.jar" ]

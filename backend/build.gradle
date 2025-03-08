@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com'
-version = '0.1-SNAPSHOT'
+version = 'momori-application'
 
 java {
     toolchain {
