@@ -1,5 +1,5 @@
 import classes from "./ImageMcqForm.module.css";
-import React, {useEffect} from "react";
+import React from "react";
 import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";

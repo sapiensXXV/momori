@@ -1,6 +1,0 @@
-
-type ImageSubQuestionDeleteButtonProps = {
-
-}
-
-const ImageSubQuestionDeleteButton = ()
