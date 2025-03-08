@@ -1,0 +1,16 @@
+.quizDeleteButton {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    background-color: #ffd4d4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.quizDeleteButton:hover {
+    background-color: #ff6767;
+    color: white;
+}
