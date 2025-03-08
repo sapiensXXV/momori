@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### configurations ###
-*.properties
+#*.properties
 
 ### environments ###
 *.env
