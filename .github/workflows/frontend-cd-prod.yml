@@ -1,0 +1,16 @@
+name: momori 프론트엔드 운영서버 배포
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/**
+
+env:
+  ARTIFACT_DIRECTORY: ./frontend/dist
+  DOCKER_DIRECTORY: ./frontend/docker
+  SSL_FULLCHAIN: ${{ secrets.SSL_FULLCHAIN }}
+  SSL_PRIVKEY: ${{ secrets.SSL_PRIVKEY }}
+  OPTIONS_SSL_NGINX: ${{ secrets.OPTIONS_SSL_NGINX }}

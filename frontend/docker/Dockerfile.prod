@@ -1,7 +1,7 @@
 FROM node:20.11.0-bullseye as builder
 WORKDIR /frontend
 
-ENV VITE_REQUEST_API_URL=https://momori.co.kr
+ENV VITE_BASE_URI=https://momori.co.kr
 
 COPY . .
 RUN npm install
