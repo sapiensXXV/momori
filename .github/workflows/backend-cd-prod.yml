@@ -12,7 +12,7 @@ env:
   AWS_IAM_ACCESS_KEY: ${{ secrets.AWS_IAM_ACCESS_KEY }}
   AWS_IAM_SECRET_KEY: ${{ secrets.AWS_IAM_SECRET_KEY }}
   DOCKER_DIRECTORY: './backend/docker'
-  # JAR_PATH: './backend/build/libs'
+  JAR_PATH: './backend/build/libs'
   JAR_NAME: 'momori-0.1-SNAPSHOT'
 
 jobs:
@@ -45,10 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.JAR_NAME }}
-          path: ./backend/${{ env.JAR_NAME }}.jar
-      - name: 파일 목록 출력
-        run: |
-          ls -alrth
+          path: ${{ env.JAR_PATH }}/${{ env.JAR_NAME }}.jar
 
   docker-image-build:
     needs: build
@@ -65,6 +62,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.JAR_NAME }}
+      - name: 파일 목록 출력
+        run: |
+          ls -alrth
       - name: Build Docker Image
         run: |
           docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml build --no-cache
