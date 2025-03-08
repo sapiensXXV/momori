@@ -16,6 +16,17 @@ env:
   OPTIONS_SSL_NGINX: ${{ secrets.OPTIONS_SSL_NGINX }}
 
 jobs:
+  env-debug:
+    name: debug environment variable
+    runs-on: ubuntu-latest
+    steps:
+      - name: output
+        run: |
+          echo "ARTIFACT_DIRECTORY  is exists: ${{ env.ARTIFACT_DIRECTORY != '' }}"
+          echo "DOCKER_DIRECTORY    is exists: ${{ env.DOCKER_DIRECTORY != '' }}"
+          echo "SSL_FULLCHAIN       is exists: ${{ env.SSL_FULLCHAIN != '' }}"
+          echo "SSL_PRIVKEY         is exists: ${{ env.SSL_PRIVKEY != '' }}"
+          echo "OPTIONS_SSL_NGINX   is exists: ${{ env.OPTIONS_SSL_NGINX != '' }}"
   docker-image-build-push:
     name: docker image build & push
     runs-on: ubuntu-latest
