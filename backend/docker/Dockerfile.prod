@@ -3,7 +3,7 @@ WORKDIR /backend
 
 RUN pwd
 
-ARG JAR_PATH=../momori-0.1-SNAPSHOT.jar
+ARG JAR_PATH=momori-0.1-SNAPSHOT.jar
 COPY ${JAR_PATH} app.jar
 
 ARG AWS_IAM_ACCESS_KEY
