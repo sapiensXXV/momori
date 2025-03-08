@@ -1,6 +1,6 @@
 services:
   backend:
-    platform: linux/arm64
+    platform: linux/amd64
     build:
       context: ../..
       dockerfile: ./backend/docker/Dockerfile.prod
