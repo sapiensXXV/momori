@@ -1,4 +1,3 @@
-import {FunctionComponent} from "react";
 import classes from './QuizDraftModal.module.css'
 
 const QuizDraftModalHeader = () => {
@@ -7,7 +6,6 @@ const QuizDraftModalHeader = () => {
       <div className={classes.headerLayer}>
         <span>임시저장 퀴즈</span>
       </div>
-
     </>
   )
 }

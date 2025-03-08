@@ -17,7 +17,7 @@ const QuizCreateButton = () => {
         getQuizCreateApi(),
         request
       )
-
+      console.log(`퀴즈 생성 완료! location:${response.headers['Location']}`)
       navigate('/') // 성공 시 홈화면으로 이동
     } catch (error) {
       handleError(error);

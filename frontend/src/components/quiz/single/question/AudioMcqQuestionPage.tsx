@@ -1,5 +1,5 @@
 import {AudioMcqDetailQuestion} from "../../../../types/question.ts";
-import React, {FC, useCallback, useEffect, useRef, useState} from "react";
+import {FC, useCallback, useEffect, useRef, useState} from "react";
 import classes from "./McqQuestion.module.css";
 import ExternalVideo from "../../new/common/video/ExternalVideo.tsx";
 import {YouTubeEvent, YouTubePlayer} from "react-youtube";
@@ -43,7 +43,7 @@ const AudioMcqQuestionPage: FC<AudioMcqQuestionPageProps> = ({question, afterSub
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {
         e.preventDefault();
         e.stopPropagation();

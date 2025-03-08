@@ -1,6 +1,6 @@
 import classes from './McqQuestionResult.module.css';
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
-import React, {FC, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {percent} from "../../../../global/util/percent.tsx";
 import PercentageBar from "./PercentageBar.tsx";
 
@@ -21,7 +21,7 @@ const ImageMcqQuestionResultPage: FC<ImageMcqQuestionResultPageProps> = ({
 
   useEffect(() => {
     setSumOfChoices(calculateSelectSum);
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {
         e.preventDefault();
         e.stopPropagation();

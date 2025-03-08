@@ -6,10 +6,9 @@ import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
 import {
-  AudioMcqDetailQuestion, AudioSubDetailQuestion, AudioSubjectiveQuestion,
+  AudioMcqDetailQuestion, AudioSubDetailQuestion,
   DetailQuestion,
   ImageMcqDetailQuestion, ImageSubjectiveDetailQuestion,
-  ImageSubjectiveQuestion
 } from "../../../types/question.ts";
 import {getRandomElements} from "../../../global/util/random.ts";
 import {QuizTypes} from "../types/Quiz.types.ts";
@@ -73,11 +72,10 @@ const QuizPage = () => {
   const [current, setCurrent] = useState(0); // 현재 퀴즈 번호
   const [correct, setCorrect] = useState<boolean>(false)
   const [userSelect, setUserSelect] = useState<number>(0); // 사용자가 선택한 객관식 답안 번호
-  const [userInput, setUserInput] = useState<string>(""); // 사용자가 입력한 주관식 답안
+  const [_, setUserInput] = useState<string>(""); // 사용자가 입력한 주관식 답안
 
   const mcqRecord = useRef<McqQuizAttemptRecord>(mcqInitAttemptRecord); // 객관식 퀴즈가 끝난 후 결과를 표시하고 통계용으로 서버에 전달하는 데 사용
   const subRecord = useRef<SubQuizAttemptRecord>(subInitAttemptRecord); // 주관식 퀴즈가 끝난 후 결과를 표시하고 통계용으로 서버에 전달하는 데 사용
-
 
   const {quizId} = useParams();
 

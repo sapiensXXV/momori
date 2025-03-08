@@ -1,4 +1,3 @@
-import {FunctionComponent} from "react";
 import classes from "./QuizDraftModal.module.css";
 import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 

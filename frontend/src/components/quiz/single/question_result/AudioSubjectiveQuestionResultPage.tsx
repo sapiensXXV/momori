@@ -1,5 +1,5 @@
 import {AudioSubDetailQuestion} from "../../../../types/question.ts";
-import React, {FC, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import classes from "./SubjectiveQuestionResult.module.css";
 import PercentageBar from "./PercentageBar.tsx";
 import {percent} from "../../../../global/util/percent.tsx";
@@ -16,7 +16,7 @@ const AudioSubjectiveQuestionResultPage: FC<AudioSubjectiveQuestionResultPagePro
   const [isComposing, setIsComposing] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {
         e.preventDefault();
         e.stopPropagation();

@@ -96,7 +96,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
   }
 
   const triggerReportComment = (commentId: number) => {
-    // console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
+    console.log(`Trigger Report Comment Modal, comment_id=${commentId}`);
   }
 
   const removeCommentFromList = (commentId: number) => {
@@ -116,9 +116,9 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
 
   }
 
-  const reportComment = (commentId: number) => {
-
-  }
+  // const reportComment = (commentId: number) => {
+  //
+  // }
 
   return (
     <>
@@ -126,7 +126,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
       { showDeleteModal ? <CommentDeleteModal comment={selectComment} setShowModal={setShowDeleteModal} deleteComment={deleteComment} /> : null }
       { showReportModal ? <CommentReportModal comment={selectComment} setShowModal={setShowReportModal}  /> : null }
       <main className={classes.commentContainer}>
-        <CommentForm setComments={setComments} quizId={quizId}/>
+        <CommentForm setComments={setComments} quizId={quizId === undefined ? "" : quizId}/>
         <div className={classes.divider}></div>
         {
           comments.map((comment) => (

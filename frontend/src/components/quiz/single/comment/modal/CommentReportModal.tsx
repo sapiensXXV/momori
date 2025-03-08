@@ -17,6 +17,7 @@ const CommentReportModal: FC<CommentReportModalProps> = ({ comment,  setShowModa
   return (
     <>
       <main className={classes.modalLayer}>
+        <div onClick={closeModal}>{comment.content}</div>
         <div className={classes.modalContainer}>
           <header className={classes.headerLayer}>
             <span>댓글 신고</span>

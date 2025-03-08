@@ -1,6 +1,6 @@
 import classes from './McqQuestionResult.module.css'
 import {AudioMcqDetailQuestion} from "../../../../types/question.ts";
-import React, {FC, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import PercentageBar from "./PercentageBar.tsx";
 import {percent} from "../../../../global/util/percent.tsx";
 import YouTube from "react-youtube";
@@ -26,7 +26,7 @@ const AudioMcqQuestionResultPage: FC<AudioMcqQuestionResultPageProps> = ({
   useEffect(() => {
     setSumOfChoices(calculateSelectSum);
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {
         e.preventDefault();
         e.stopPropagation();

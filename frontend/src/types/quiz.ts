@@ -1,4 +1,4 @@
-import {ImageUploadStatus, ImageMcqQuestion, ImageMcqDetailQuestion, DetailQuestion} from "./question.ts";
+import {ImageUploadStatus, ImageMcqQuestion, DetailQuestion} from "./question.ts";
 import {QuizTypes} from "../components/quiz/types/Quiz.types.ts";
 
 export interface NewQuizMetadata {

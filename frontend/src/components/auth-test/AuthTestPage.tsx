@@ -9,6 +9,7 @@ const AuthTestPage = () => {
 
   const authTestRequest = async () => {
     const response = await axiosJwtInstance.get('/api/auth/auth-only-requet')
+    console.log(response);
   }
 
   return (

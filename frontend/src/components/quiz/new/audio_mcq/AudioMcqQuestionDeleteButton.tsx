@@ -1,5 +1,5 @@
 import classes from "./AudioMcqForm.module.css";
-import React, {FC} from "react";
+import {FC} from "react";
 
 type AudioMcqQuestionDeleteButtonProps = {
   deleteQuestion: (index: number) => void;

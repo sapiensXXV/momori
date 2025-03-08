@@ -12,11 +12,12 @@ const AddImageMcqQuestionButton = () => {
 
   const addQuestion = (e: React.MouseEvent) => {
     e.preventDefault();
+
     setQuestions(prev => {
       return [...prev, {
         imageStatus: ImageUploadStatus.NOT_UPLOADED,
         imageUrl: "",
-        choices: [{content: "", isAnswer: false}]
+        choices: [{content: "", answer: false}]
       }]
     })
   };

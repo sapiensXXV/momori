@@ -1,8 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
-import Lottie from "lottie-web";
+import {useState, useRef, useEffect, FC} from "react";
+import Lottie, { AnimationItem, AnimationConfigWithData } from "lottie-web";
+
+interface LottieComponentProps {
+  animationData?: any;
+  loop?: boolean;
+  autoplay?: boolean;
+  speed?: number;
+  isPaused?: boolean;
+  isStopped?: boolean;
+  [key: string]: any;
+}
 
 // Lottie 컴포넌트 정의
-const LottieComponent = ({
+const LottieComponent: FC<LottieComponentProps> = ({
   animationData,
   loop,
   autoplay,
@@ -12,15 +22,17 @@ const LottieComponent = ({
   ...restProps
 }) => {
   // Lottie 애니메이션 컨테이너에 대한 ref
-  const animationContainer = useRef(null);
-  const [animationInstance, setAnimationInstance] = useState(null);
+  const animationContainer = useRef<HTMLDivElement | null>(null);
+  const [animationInstance, setAnimationInstance] = useState<AnimationItem | null>(null);
 
   // Lottie 애니메이션 로드 및 초기화
   useEffect(() => {
+    if (!animationContainer.current) return;
+
     // Lottie 애니메이션 옵션 설정
-    const animationOptions = {
+    const animationOptions: AnimationConfigWithData = {
       container: animationContainer.current,
-      renderer: "svg",
+      renderer: "svg" as const,
       loop: loop !== undefined ? loop : true,
       autoplay: autoplay !== undefined ? autoplay : true,
       animationData: animationData,
@@ -28,7 +40,6 @@ const LottieComponent = ({
         preserveAspectRatio: "xMidYMid slice",
       },
     };
-
     // Lottie 애니메이션 로드
     const animation = Lottie.loadAnimation(animationOptions);
     // Lottie 애니메이션 상태 업데이트

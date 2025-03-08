@@ -3,7 +3,7 @@ import {
   NewImageMcqChoice,
   NewAudioBinaryChoice,
   NewAudioMcqChoice,
-  ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice, ImageMcqChoiceDetail, ImageMcqDetailChoice
+  ImageMcqChoice, AudioBinaryChoice, ImageBinaryChoice, AudioMcqChoice, ImageMcqDetailChoice
 } from "./choice.ts";
 
 export enum ImageUploadStatus {

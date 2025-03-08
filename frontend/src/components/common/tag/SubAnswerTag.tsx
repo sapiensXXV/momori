@@ -1,6 +1,5 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import classes from './SubAnswerTag.module.css';
-import _default from "chart.js/dist/plugins/plugin.tooltip";
 import {getRandomTagColor} from "./tag_color.ts";
 
 type SubAnswerTagProps = {

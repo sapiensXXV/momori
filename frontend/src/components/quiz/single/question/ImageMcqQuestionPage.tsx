@@ -1,5 +1,5 @@
 import classes from './McqQuestion.module.css'
-import React, {FC, useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {ImageMcqDetailQuestion} from "../../../../types/question.ts";
 import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 import {CHOICE_SELECT_NEED_MSG} from "../../../../global/message/quiz_message.ts";
@@ -16,7 +16,7 @@ const ImageMcqQuestionPage: FC<ImageMcqQuestionPageProps> = ({question, afterSub
   const { showAlert, AlertContainer } = useAlertManager();
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {
         e.preventDefault();
         e.stopPropagation();

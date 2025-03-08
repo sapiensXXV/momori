@@ -29,7 +29,8 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
     Chart.register(...registerables);
     Chart.register(Colors)
 
-    const config: ChartConfiguration<"bar", number[], string> = {
+    const config: ChartConfiguration<"line" | "bar", number[], string> = {
+      type: "bar",
       data: {
         labels: ["0~9", "10~19", "20~29", "30~39", "40~49", "50~59", "60~69", "70~79", "80~89", "90~100"],
         datasets: [
