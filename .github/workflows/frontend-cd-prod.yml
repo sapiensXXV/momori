@@ -41,7 +41,7 @@ jobs:
       - name: connect with SSH & deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST_PROD_SERVER }}
+          host: ${{ secrets.PROD_SERVER_HOST }}
           username: ${{ secrets.PROD_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
