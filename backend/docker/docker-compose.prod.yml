@@ -5,8 +5,6 @@ services:
       context: ../
       dockerfile: ./docker/Dockerfile.prod
       args:
-        - S3_REGION=${S3_REGION}
-        - S3_BUCKET_NAME=${S3_BUCKET_NAME}
         - AWS_IAM_ACCESS_KEY=${AWS_IAM_ACCESS_KEY}
         - AWS_IAM_SECRET_KEY=${AWS_IAM_SECRET_KEY}
     image: sjhn/momori-backend:prod-latest

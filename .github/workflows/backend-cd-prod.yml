@@ -13,7 +13,7 @@ env:
   AWS_IAM_SECRET_KEY: ${{ secrets.AWS_IAM_SECRET_KEY }}
   DOCKER_DIRECTORY: './backend/docker'
   JAR_PATH: './backend/build/libs'
-  JAR_NAME: 'momori-application'
+  JAR_NAME: 'momori-0.1-SNAPSHOT'
 
 jobs:
   debug: 
