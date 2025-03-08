@@ -1,0 +1,15 @@
+services:
+  momori-frontend:
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.prod
+      args:
+        - SSL_FULLCHAIN=${SSL_FULLCHAIN}
+        - SSL_PRIVKEY=${SSL_PRIVKEY}
+        - OPTIONS_SSL_NGINX=${OPTIONS_SSL_NGINX}
+    image: sjhn/momori-frontend:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
