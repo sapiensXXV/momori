@@ -15,8 +15,6 @@ const AudioSubjectiveQuestionResultPage: FC<AudioSubjectiveQuestionResultPagePro
 
   const [isComposing, setIsComposing] = useState<boolean>(false);
 
-  console.log(question);
-
   useEffect(() => {
     const handleKeyDown = (e: React.KeyboardEvent) => {
       if (e.key === 'Enter' && !isComposing) {

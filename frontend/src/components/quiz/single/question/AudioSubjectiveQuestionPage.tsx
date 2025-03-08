@@ -123,7 +123,6 @@ const AudioSubjectiveQuestionPage: FC<AudioSubjectiveQuestionPageProps> = ({ que
   }
 
   const audioButtonClicked = () => {
-    console.log('audioButton 이 클릭되었습니다.')
     if (!isVideoReady) return;
 
     const player = youtubePlayerRef.current;

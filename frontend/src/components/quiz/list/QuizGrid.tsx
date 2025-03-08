@@ -51,7 +51,6 @@ export default function QuizGrid() {
         if (nextPage === 0) {
           // 새로운 페이지가 0페이지 라면 새 검색이므로 기존 데이터를 무시하고 교체한다.
           setQuizList(response.data);
-          console.log(response.data);
         } else {
           setQuizList(prev => [...prev, ...response.data])
         }

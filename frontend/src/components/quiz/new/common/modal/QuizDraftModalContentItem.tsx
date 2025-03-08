@@ -110,14 +110,6 @@ const QuizDraftModalContentItem: FC<QuizDraftModalContentItem> = ({ draft }) => 
     const description = data.description
     const quizType = getQuizTypeFrom(data.quizType);
 
-    console.log({
-      title: title,
-      thumbnailUrl: thumbnailUrl,
-      thumbnailImageUploadStatus: isUrlExists(data.thumbnailUrl) ? ImageUploadStatus.UPLOADED : ImageUploadStatus.NOT_UPLOADED,
-      description: description,
-      formerDraftId: draftId
-    });
-
     setMetadata({
       title: title,
       thumbnailUrl: thumbnailUrl,

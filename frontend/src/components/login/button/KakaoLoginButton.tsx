@@ -5,7 +5,6 @@ import {BASE_URI} from "../../../uri.ts";
 export default function KakaoLoginButton() {
 
   function handleLoginClick() {
-    console.log(`${BASE_URI}/oauth2/authorization/kakao redirect`)
     window.location.href = BASE_URI + "/oauth2/authorization/kakao";
   }
 
