@@ -23,11 +23,10 @@ ENV FULLCHAIN=${SSL_FULLCHAIN}
 ENV PRIVKEY=${SSL_PRIVKEY}
 ENV OPTIONS_SSL_NGINX=${OPTIONS_SSL_NGINX}
 
-RUN echo -n "${FULLCHAIN}" > /etc/secret/fullchain-prod.pem
-RUN echo -n "${PRIVKEY}" > /etc/secret/privkey-prod.pem
+RUN echo -n "${FULLCHAIN}" > /etc/secret/fullchain.pem
+RUN echo -n "${PRIVKEY}" > /etc/secret/privkey.pem
 RUN echo -n "${OPTIONS_SSL_NGINX}" > /etc/secret/options-ssl-nginx.conf
 
 COPY --from=builder /frontend/dist /usr/share/nginx/html
 EXPOSE 80 443
 ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
-
