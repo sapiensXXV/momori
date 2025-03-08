@@ -1,7 +1,7 @@
 FROM openjdk:21-jdk as builder
 WORKDIR /backend
 
-ARG JAR_PATH=./backend/build/libs/momori-0.1-SNAPSHOT.jar
+ARG JAR_PATH=momori-0.1-SNAPSHOT.jar
 COPY ${JAR_PATH} app.jar
 
 ARG AWS_IAM_ACCESS_KEY
