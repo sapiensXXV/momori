@@ -2,7 +2,7 @@ services:
   backend:
     platform: linux/arm64
     build:
-      context: ..
+      context: ../..
       dockerfile: ./docker/Dockerfile.prod
       args:
         - AWS_IAM_ACCESS_KEY=${AWS_IAM_ACCESS_KEY}
