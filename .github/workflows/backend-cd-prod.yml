@@ -22,8 +22,8 @@ jobs:
     steps:
       - name: env existency logs
         run: |
-          echo "AWS_IAM_ACCESS_KEY is exists: ${{ env.AWS_IAM_ACCESS_KEY }}"
-          echo "AWS_IAM_SECRET_KEY si exists: ${{ env.AWS_IAM_SECRET_KEY }}"
+          echo "AWS_IAM_ACCESS_KEY is exists: ${{ env.AWS_IAM_ACCESS_KEY != '' }}"
+          echo "AWS_IAM_SECRET_KEY is exists: ${{ env.AWS_IAM_SECRET_KEY != '' }}"
 
   build:
     name: build gradle
