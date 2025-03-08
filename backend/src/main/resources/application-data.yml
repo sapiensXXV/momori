@@ -1,23 +1,25 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import:
+      - optional:file:.env[.properties]
+#      - aws-parameterstore:/config/
   jpa:
     hibernate:
       ddl-auto: update
   datasource:
-    url: ${MYSQL_MASTER_DB_HOST}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    url: ${momori.mysql.master-db-host}
+    username: ${momori.mysql.username}
+    password: ${momori.mysql.password}
 
   data:
     mongodb:
-      uri: ${MONGODB_HOST}
-      database: ${MONGODB_DATABASE}
+      uri: ${momori.mongodb.host}
+      database: ${momori.mongodb.database}
     redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+      host: ${momori.redis.host}
+      port: ${momori.redis.port}
+      username: ${momori.redis.username}
+      password: ${momori.redis.password}
 
 
 #logging:

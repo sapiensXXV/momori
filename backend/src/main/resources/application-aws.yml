@@ -5,9 +5,10 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: ${S3_BUCKET_NAME}
+      bucket: ${momori.s3.bucket-name}
     credentials:
       access-key: ${AWS_IAM_ACCESS_KEY}
       secret-key: ${AWS_IAM_SECRET_KEY}
     region:
-      static: ${S3_REGION}
+      static: ${momori.s3.region}
+

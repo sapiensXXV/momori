@@ -50,6 +50,12 @@ dependencies {
     // Spring Cloud AWS (옵션: S3 리소스 로딩 등에 사용)
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+//     AWS Parameter Store
+    implementation(platform('io.awspring.cloud:spring-cloud-aws-dependencies:3.3.0'))
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-parameter-store'
+
+
     // Querydsl
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"

@@ -1,6 +1,8 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import:
+      - optional:file:.env[.properties]
+      - aws-parameterstore:/config/
   application:
     name: poolygo
   profiles:
@@ -8,6 +10,13 @@ spring:
       - oauth
       - data
       - aws
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: ${AWS_IAM_ACCESS_KEY}
+        secret-key: ${AWS_IAM_SECRET_KEY}
 
 url:
   base:

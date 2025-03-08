@@ -7,25 +7,25 @@ spring:
         registration:
           github:
             client-name: Github
-            client-id: ${OAUTH2_GITHUB_CLIENT_ID}
-            client-secret: ${OAUTH2_GITHUB_CLIENT_SECRET_ID}
+            client-id: ${momori.oauth2.github.client-id}
+            client-secret: ${momori.oauth2.github.client-secret-id}
           naver:
             client-name: Naver
-            client-id: ${OAUTH2_NAVER_CLIENT_ID}
-            client-secret: ${OAUTH2_NAVER_CLIENT_SECRET_ID}
+            client-id: ${momori.oauth2.naver.client-id}
+            client-secret: ${momori.oauth2.naver.client-secret-id}
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/naver
           kakao:
             client-name: Kakao
-            client-id: ${OAUTH2_KAKAO_CLIENT_ID}
-            client-secret: ${OAUTH2_KAKAO_CLIENT_SECRET_ID}
+            client-id: ${momori.oauth2.kakao.client-id}
+            client-secret: ${momori.oauth2.kakao.client-secret-id}
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: client_secret_post
           discord:
             client-name: Discord
-            client-id: ${OAUTH2_DISCORD_CLIENT_ID}
-            client-secret: ${OAUTH2_DISCORD_CLIENT_SECRET_ID}
+            client-id: ${momori.oauth2.discord.client-id}
+            client-secret: ${momori.oauth2.discord.client-secret-id}
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/discord
             scope: identify,email
@@ -47,4 +47,4 @@ spring:
             user-name-attribute: id
 
 jwt:
-  secret-key: ${OAUTH2_JWT_SECRET_KEY}
+  secret-key: ${momori.oauth2.jwt.secret-key}
