@@ -41,7 +41,7 @@ jobs:
       - name: build docker image
         run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml build --no-cache
       - name: push docker image
-        run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml
+        run: docker compose -f ${{ env.DOCKER_DIRECTORY }}/docker-compose.prod.yml push
   deploy:
     name: deploy 
     needs: docker-image-build-push
