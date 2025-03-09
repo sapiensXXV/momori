@@ -25,3 +25,9 @@ logging:
 #    com.poolygo.auth: DEBUG
 #    org.mongodb.driver: DEBUG
 #    org.mongodb.driver.protocol.command: DEBUG
+
+url:
+  base: http://localhost:5173
+  path:
+    signup: /register
+    auth: /auth

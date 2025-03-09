@@ -1,2 +1,8 @@
 domain:
   base-url: http://localhost:5173
+  
+url:
+  base: http://localhost:5173
+  path:
+    signup: /register
+    auth: /auth
