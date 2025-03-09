@@ -4,9 +4,10 @@ import {FC, useEffect, useRef} from "react";
 import {Chart, ChartConfiguration, Colors, registerables} from "chart.js";
 import {calculatePercentile} from "../../../../global/util/percent.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
-import {handleError} from "../../../../global/error/error.ts";
 import {useNavigate} from "react-router-dom";
 import quizResultApiMap from "../../../../global/api/quizResult.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
+import {handleErrorWithCustomAlert} from "../../../../global/error/error.ts";
 
 type QuizResultPageProps = {
   quizId: string | undefined;
@@ -19,6 +20,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
   const navigate = useNavigate();
+  const { showAlert, AlertContainer } = useAlertManager();
 
   useEffect(() => {
     // 차트 생성
@@ -89,7 +91,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
       .then(() => {
       })
       .catch((error) => {
-        handleError(error);
+        handleErrorWithCustomAlert(error, showAlert);
       })
 
 
@@ -114,6 +116,7 @@ const QuizResultPage: FC<QuizResultPageProps> = ({quizId, record, distribution})
 
   return (
     <>
+      <AlertContainer/>
       <main className={classes.resultContainer}>
         <div className={classes.resultContentContainer}>
           <span className={classes.resultTitle}>퀴즈 결과</span>

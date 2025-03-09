@@ -2,7 +2,7 @@ import classes from './Comments.module.css';
 import {FC, useEffect, useState} from "react";
 import {useInView} from "react-intersection-observer";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
-import {handleError} from "../../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../../global/error/error.ts";
 import CommentForm from "./CommentForm.tsx";
 import SingleComment from "./SingleComment.tsx";
 import CommentDeleteModal from "./modal/CommentDeleteModal.tsx";
@@ -77,7 +77,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
         }
       })
       .catch((error) => {
-        handleError(error);
+        handleErrorWithCustomAlert(error, showAlert);
       })
       .finally(() => {
         setIsLoading(false); // 로딩 상태 해제
@@ -111,7 +111,7 @@ const Comments: FC<CommentsProps> = ({quizId}) => {
         removeCommentFromList(commentId);
       })
       .catch((error) => {
-        handleError(error);
+        handleErrorWithCustomAlert(error, showAlert);
       })
 
   }

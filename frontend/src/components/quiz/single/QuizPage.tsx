@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
-import {handleError} from "../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../global/error/error.ts";
 import QuizIntroductionPage from "./QuizIntroductionPage.tsx";
 import QuizResultPage from "./quiz_result/QuizResultPage.tsx";
 import {initQuizDetail, QuizDetail} from "../../../types/quiz.ts";
@@ -24,6 +24,7 @@ import AudioSubjectiveQuestionResultPage from "./question_result/AudioSubjective
 import ImageBinaryQuestionResultPage from "./question_result/ImageBinaryQuestionResultPage.tsx";
 import Comments from "./comment/Comments.tsx";
 import classes from './QuizPage.module.css';
+import {useAlertManager} from "../../alert/useAlertManager.hook.tsx";
 
 enum QuizPageType {
   INTRODUCTION = "introduction",
@@ -79,6 +80,8 @@ const QuizPage = () => {
 
   const {quizId} = useParams();
 
+  const { showAlert, AlertContainer } = useAlertManager();
+
   useEffect(() => {
     axiosJwtInstance.get(`/api/quiz/${quizId}`)
       .then((response) => {
@@ -89,8 +92,7 @@ const QuizPage = () => {
         subRecord.current.type = response.data.type
       })
       .catch((error) => {
-        // console.log(error);
-        handleError(error);
+        handleErrorWithCustomAlert(error, showAlert);
       })
   }, [quizId]);
 
@@ -260,6 +262,7 @@ const QuizPage = () => {
 
   return (
     <>
+      <AlertContainer/>
       <div className={classes.quizPageMain}>
         { selectComponent() }
         <Comments quizId={quizId}/>

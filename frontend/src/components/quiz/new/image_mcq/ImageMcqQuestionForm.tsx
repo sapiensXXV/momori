@@ -3,7 +3,6 @@ import React from "react";
 import {NewImageMcqQuestion, ImageUploadStatus} from "../../../../types/question.ts";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../types/ImageUrlResponse.ts";
-import {handleError} from "../../../../global/error/error.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {NewImageMcqChoice} from "../../../../types/choice.ts";
 import AddImageMcqQuestionButton from "./AddImageMcqQuestionButton.tsx";
@@ -52,8 +51,7 @@ const ImageMcqQuestionForm = () => {
       setQuestions(copy);
 
       changeImageUploadStatus(ImageUploadStatus.UPLOADED, index);
-    } catch (error) {
-      handleError(error);
+    } catch (_) {
       changeImageUploadStatus(ImageUploadStatus.NOT_UPLOADED, index);
       showAlert("이미지 업로드에 실패하였습니다.")
     }

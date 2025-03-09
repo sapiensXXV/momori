@@ -3,7 +3,6 @@ import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import React from "react";
 import {ImageUploadStatus, NewImageSubjectiveQuestion} from "../../../../types/question.ts";
 import {uploadQuizImage} from "../../../../global/image/imageUploadService.ts";
-import {handleError} from "../../../../global/error/error.ts";
 import QuestionImage from "../common/QuestionImage.tsx";
 import AddImageSubjectiveQuestionButton from "./AddImageSubjectiveQuestionButton.tsx";
 import ImageSubAnswerController from "./ImageSubAnswerController.tsx";
@@ -40,8 +39,7 @@ const ImageSubjectiveQuestionForm = () => {
 
       // 업로드 완료 상태 업데이트
       changeImageUploadStatus(ImageUploadStatus.UPLOADED, index);
-    } catch (error) {
-      handleError(error);
+    } catch (_) {
       changeImageUploadStatus(ImageUploadStatus.NOT_UPLOADED, index);
       showAlert('이미지 업로드에 실패하였습니다.');
     }

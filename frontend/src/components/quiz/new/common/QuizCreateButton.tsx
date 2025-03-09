@@ -1,13 +1,15 @@
 import classes from './QuizCreateButton.module.css'
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
-import {handleError} from "../../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useNavigate} from "react-router-dom";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 const QuizCreateButton = () => {
 
   const { quizType, metadata, questions } = useQuizContext();
+  const {showAlert, AlertContainer} = useAlertManager();
   const navigate = useNavigate();
 
   const createQuiz = async () => {
@@ -20,7 +22,7 @@ const QuizCreateButton = () => {
       console.log(`퀴즈 생성 완료! location:${response.headers['Location']}`)
       navigate('/') // 성공 시 홈화면으로 이동
     } catch (error) {
-      handleError(error);
+      handleErrorWithCustomAlert(error, showAlert);
     }
   }
 
@@ -52,6 +54,7 @@ const QuizCreateButton = () => {
 
   return (
     <>
+      <AlertContainer/>
       <button className={`common-button ${classes.quizCreateButton}`} onClick={createQuiz}>
         등록
       </button>

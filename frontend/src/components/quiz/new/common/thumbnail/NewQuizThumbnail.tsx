@@ -5,7 +5,7 @@ import {useQuizContext} from "../../../../../context/QuizContext.tsx";
 import {compressImage} from "../../../../../global/util/image/ImageCompress.tsx";
 import {axiosJwtInstance} from "../../../../../global/configuration/axios.ts";
 import {ImageUrlResponse} from "../../../types/ImageUrlResponse.ts";
-import {handleError} from "../../../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../../../global/error/error.ts";
 import {useAlertManager} from "../../../../alert/useAlertManager.hook.tsx";
 
 const NewQuizThumbnail = () => {
@@ -39,7 +39,7 @@ const NewQuizThumbnail = () => {
         return {...prev, thumbnailUrl: data.imageUrl, thumbnailImageUploadStatus: ImageUploadStatus.UPLOADED }
       })
     } catch (error) {
-      handleError(error);
+      handleErrorWithCustomAlert(error, showAlert);
       setMetadata(prev => { return {...prev, thumbnailImageUploadStatus: ImageUploadStatus.NOT_UPLOADED} })
     }
   }

@@ -5,7 +5,8 @@ import {SimpleQuizItem} from "../../../types/quiz.ts";
 import {axiosJwtInstance} from "../../../global/configuration/axios.ts";
 import {useInView} from "react-intersection-observer";
 import QuizSearchBar from "./QuizSearchBar.tsx";
-import {handleError} from "../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../global/error/error.ts";
+import {useAlertManager} from "../../alert/useAlertManager.hook.tsx";
 
 export enum SearchType {
   LATEST = "latest",
@@ -34,6 +35,7 @@ export default function QuizGrid() {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchCondition, setSearchCondition] = useState<SearchCondition>(initSearchCondition);
   const [observeTrigger, inView] = useInView();
+  const { showAlert, AlertContainer } = useAlertManager();
 
   useEffect(() => {
     if (loading || searchCondition.isLastPage) return; // 로딩 중이거나 마지막 페이지라면 로직을 수행하지 않는다.
@@ -62,8 +64,8 @@ export default function QuizGrid() {
           setSearchCondition(prev => ({...prev, isLastPage: true}));
         }
       })
-      .catch((err) => {
-        handleError(err);
+      .catch((error) => {
+        handleErrorWithCustomAlert(error, showAlert);
       })
   }, [searchCondition])
 
@@ -93,6 +95,7 @@ export default function QuizGrid() {
 
   return (
     <>
+      <AlertContainer/>
       <QuizSearchBar
         type={searchCondition.type}
         typeChange={typeChange}

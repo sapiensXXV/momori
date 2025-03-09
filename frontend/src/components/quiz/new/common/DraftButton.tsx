@@ -1,6 +1,6 @@
 import classes from "./DraftButton.module.css"
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
-import {handleError} from "../../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../../global/error/error.ts";
 import {QuizTypes} from "../../types/Quiz.types.ts";
 import {useQuizContext} from "../../../../context/QuizContext.tsx";
 import {
@@ -42,7 +42,7 @@ const DraftButton = <T extends QuizTypes>({ quizType }: DraftButtonProps<T>) => 
       setMetadata(prev => ({ ...prev, formerDraftId: response.data.draftId }));
       showAlert('임시저장 성공');
     } catch (error) {
-      handleError(error);
+      handleErrorWithCustomAlert(error, showAlert);
     }
   }
 

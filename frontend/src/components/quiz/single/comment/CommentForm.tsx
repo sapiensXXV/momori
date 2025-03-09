@@ -2,8 +2,9 @@ import classes from './CommentForm.module.css'
 import {FC, useState} from "react";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {axiosJwtInstance} from "../../../../global/configuration/axios.ts";
-import {handleError} from "../../../../global/error/error.ts";
+import {handleErrorWithCustomAlert} from "../../../../global/error/error.ts";
 import {CommentDetail} from "./Comments.tsx";
+import {useAlertManager} from "../../../alert/useAlertManager.hook.tsx";
 
 type CommentFormProps = {
   quizId: string;
@@ -19,6 +20,8 @@ type CommentFormData = {
 const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
 
   const [formData, setFormData] = useState<CommentFormData>({content: "", name: "", password: ""});
+  const { showAlert, AlertContainer } = useAlertManager();
+
   const auth = useAuth();
   // console.log(formData);
   const postComment = () => {
@@ -37,12 +40,13 @@ const CommentForm: FC<CommentFormProps> = ({ quizId, setComments}) => {
         setComments(prev => ([newComment, ...prev])); // 새로운 댓글 끼워넣기.
       })
       .catch((error) => {
-        handleError(error);
+        handleErrorWithCustomAlert(error, showAlert);
       })
   }
 
   return (
     <>
+      <AlertContainer/>
       <main className={classes.commentFormContainer}>
         <div className={classes.commentContentContainer}>
           <textarea
