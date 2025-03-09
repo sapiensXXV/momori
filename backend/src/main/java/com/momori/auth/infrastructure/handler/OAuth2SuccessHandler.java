@@ -2,7 +2,6 @@ package com.momori.auth.infrastructure.handler;
 
 import com.momori.auth.application.RefreshTokenService;
 import com.momori.global.config.security.SecurityConstant;
-import com.momori.global.token.JwtConfiguration;
 import com.momori.global.util.AuthJwtTokenUtil;
 import com.momori.user.domain.Role;
 import com.momori.user.domain.User;
@@ -28,24 +27,23 @@ import java.util.Date;
 @Slf4j
 public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final String SIGNUP_URL;
+//    private final String SIGNUP_URL;
     private final UserRepository userRepository;
-    private final JwtConfiguration jwtConfiguration;
     private final RefreshTokenService refreshTokenService;
     private final AuthJwtTokenUtil authJwtTokenUtil;
 
+    @Value("${url.base}") 
+    private String BASE_URL;
+
+    @Value("${url.path.signup}") 
+    private String SIGNUP_PATH;
+
     public OAuth2SuccessHandler(
-        @Value("${url.base.dev}") String BASE_URL,
-        @Value("${url.path.signup}") String SIGNUP_URL,
-        @Value("${url.path.auth}") String AUTH_URL,
         UserRepository userRepository,
-        JwtConfiguration jwtConfiguration,
         RefreshTokenService refreshTokenService,
         AuthJwtTokenUtil authJwtTokenUtil
     ) {
         this.userRepository = userRepository;
-        this.SIGNUP_URL = BASE_URL + SIGNUP_URL;
-        this.jwtConfiguration = jwtConfiguration;
         this.refreshTokenService = refreshTokenService;
         this.authJwtTokenUtil = authJwtTokenUtil;
     }
@@ -105,18 +103,13 @@ public final class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     private String getRedirectUriByRole(Role role, String identifier) {
         if (role == Role.ROLE_GUEST) {
-            return UriComponentsBuilder.fromUriString(SIGNUP_URL)
+            return UriComponentsBuilder.fromUriString(BASE_URL + SIGNUP_PATH)
                 .queryParam("identifier", identifier)
                 .build()
                 .toUriString();
         }
 
         // 그 외 로그인을 완료한 유저는 콜백으로 리다이렉션
-        return "http://localhost:5173/auth/callback";
+        return BASE_URL + "/auth/callback";
     }
-
-//    private String createRefreshToken() {
-//        return UUID.randomUUID().toString();
-//    }
-
 }

@@ -18,14 +18,6 @@ spring:
         access-key: ${AWS_IAM_ACCESS_KEY}
         secret-key: ${AWS_IAM_SECRET_KEY}
 
-url:
-  base:
-    prod: https://momori.co.kr
-    dev: http://localhost:5173
-  path:
-    signup: /register
-    auth: /auth
-
 logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG

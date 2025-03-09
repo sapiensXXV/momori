@@ -1,2 +1,8 @@
 domain:
-  base-url: https://34.47.88.103
+  base-url: https://momori.co.kr
+  
+url:
+  base: http://momori.co.kr
+  path:
+    signup: /register
+    auth: /auth
