@@ -20,7 +20,7 @@ spring:
 
 url:
   base:
-    prod: https://poolygo.com
+    prod: https://momori.co.kr
     dev: http://localhost:5173
   path:
     signup: /register
