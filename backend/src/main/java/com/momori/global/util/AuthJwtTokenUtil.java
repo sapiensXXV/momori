@@ -91,7 +91,7 @@ public class AuthJwtTokenUtil {
         final Date expiredAt
     ) {
         SecretKey key = Keys.hmacShaKeyFor(jwtConfiguration.secretKey().getBytes(StandardCharsets.UTF_8));
-        return Jwts.builder().issuer("poolygo").subject("OAuth2 LOGIN TOKEN")
+        return Jwts.builder().issuer("momori-authenticate").subject("OAuth2 LOGIN TOKEN")
             .claim("identifier", identifier)
             .claim("name", name)
             .claim("provider", provider)

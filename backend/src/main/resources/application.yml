@@ -4,7 +4,7 @@ spring:
       - optional:file:.env[.properties]
       - aws-parameterstore:/config/
   application:
-    name: poolygo
+    name: momori
   profiles:
     include:
       - oauth
